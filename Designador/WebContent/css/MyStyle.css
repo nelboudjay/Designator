@@ -1,0 +1,73 @@
+
+body{
+	margin-left: 20px;
+}
+
+.errors {
+	background-color:#FFCCCC;
+	border:1px solid #CC0000;
+	width:400px;
+	margin-bottom:8px;
+}
+
+.errorMessage li{ 
+	list-style-type: none; 
+	margin-left: -25px;
+	
+}
+.boxMessage {
+	background-color:#DDFFDD;
+	border:1px solid #009900;
+	width:400px;
+	margin-bottom:8px;
+}
+
+.actionMessage li{
+	list-style-type: none; 
+	margin-left: -25px;
+}
+
+.utility {
+	right: 20px;
+	position: absolute;
+}
+
+.dojoTabContainer{
+	margin-left: 20px;
+	margin-right: 253px;
+}
+
+table.calendar {
+	width:94%;
+	margin-left:3%;
+	margin-right:3%;
+	border: 1px solid black;
+}
+
+
+table.calendar td{
+	height: 3.5em;
+	vertical-align: top;
+	text-align: right;
+	width: 14%;
+	border: 1px solid black;
+	
+}
+
+td.active {
+  background-color:yellow  ;
+}
+
+label {
+	font-weight:bold;
+}
+
+.tr{
+	margin-left: 20%;
+}
+
+a.passwordReset{
+	font-size:22px; 
+	font-weight: bold;
+	color:DodgerBlue;
+}

@@ -1,0 +1,143 @@
+package com.myproject.user.interceptor;
+
+import java.net.URLDecoder;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.struts2.StrutsStatics;
+
+import com.myproject.action.DesEncrypter;
+import com.myproject.model.Comment;
+import com.myproject.model.User;
+import com.myproject.model.UserCookie;
+import com.myproject.user.service.UserService;
+import com.opensymphony.xwork2.ActionInvocation;
+import com.opensymphony.xwork2.ActionSupport;
+import com.opensymphony.xwork2.ValidationAware;
+import com.opensymphony.xwork2.interceptor.Interceptor;
+
+public class AuthenticationInterceptor implements Interceptor {
+
+	private static final long serialVersionUID = 5686161301032864561L;
+
+	Map<String, Object> session;
+	private UserService userService;
+
+	private User user;
+	private UserCookie userCookie;
+    private List<?> comments;
+    
+	@Override
+	public void destroy() {
+	}
+
+	@Override
+	public void init() {
+	}
+
+	@Override
+	public String intercept(ActionInvocation actionInvocation) throws Exception {
+		
+		Map<String, Object> session = actionInvocation.getInvocationContext()
+				.getSession();
+		HttpServletRequest request = (HttpServletRequest) actionInvocation
+				.getInvocationContext().get(StrutsStatics.HTTP_REQUEST);
+
+		user = (User) session.get("user");
+
+		if (user == null) {
+			Cookie[] cookies = request.getCookies();
+			if (cookies != null) {
+				for (Cookie cookie : cookies) {
+					if (cookie.getName().equals("MYJSESSIONID")) {
+						String encryptedCookieValue = cookie.getValue();
+
+						Map<String, Object> eqRestrictions = new HashMap<String, Object>();
+						eqRestrictions
+								.put("idUserCookie", encryptedCookieValue);
+
+						userCookie = (UserCookie) userService
+								.GetUniqueModelData(UserCookie.class,
+										eqRestrictions);
+
+						if (userCookie != null) {
+							user = userCookie.getUser();
+							DesEncrypter decrypter = new DesEncrypter(
+									((ActionSupport) actionInvocation
+											.getAction()).getText("cookiePass"));
+							String cookieValue = decrypter.decrypt(URLDecoder
+									.decode(encryptedCookieValue, "UTF-8"));
+							userService.AlterEvent("DELETE_USER_COOKIE_"
+									+ cookieValue, "WEEK");
+							session.put("user", user);
+							String userFullName = user.getUserFullName();
+							session.put("userFullName", userFullName);
+							
+							eqRestrictions.clear();
+			    			comments = userService.GetModelDataList(Comment.class, eqRestrictions);
+			    			session.put("comments",comments);
+							return ActionSupport.SUCCESS;
+						}
+					}
+				}
+			}
+			
+			if(!actionInvocation.getInvocationContext().getName().equals("login"))
+				addActionError(actionInvocation ,"Por favor, inicia sesión para continuar");
+			return ActionSupport.LOGIN;
+		}
+		
+		return ActionSupport.SUCCESS;
+	}
+
+	void addActionError(ActionInvocation invocation, String message) {
+		Object action = invocation.getAction();
+		if(action instanceof ValidationAware) {
+			((ValidationAware) action).addActionError(message);
+		}
+	}
+	
+	/*public void AddSessionVariables(Map<String, Object> session) {
+
+		switch (getActionName()) {
+		case "login":
+			session.put("user", user);
+			String userFullName = user.getUserFullName();
+			session.put("userFullName", userFullName);
+			//eqRestrictions.clear();
+			//comments = userService.GetModelDataList(Comment.class, eqRestrictions);
+			//session.put("comments",comments);
+			break;
+		case "homePage":
+			break;
+		default:
+			break;
+		}
+
+	}*/
+
+	public User getUser() {
+		return user;
+	}
+	public UserService getUserService() {
+		return userService;
+	}
+
+	public void setUserService(UserService userService) {
+		this.userService = userService;
+	}
+	
+	public List<?> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<?> comments) {
+		this.comments = comments;
+	}
+
+
+}

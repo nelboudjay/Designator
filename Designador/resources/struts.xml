@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+
+	<constant name="struts.enable.DynamicMethodInvocation" value="false" />
+
+	<!-- Removing .action extention -->
+	<constant name="struts.action.extension" value="," />
+
+	<constant name="struts.custom.i18n.resources" value="MyConstants" />
+
+	<!-- Enabling Developer mode -->
+	<constant name="struts.devMode" value="true" />
+
+	<package name="default" extends="struts-default">
+
+		<interceptors>
+			<interceptor
+				class="com.myproject.user.interceptor.AuthenticationInterceptor"
+				name="AuthenticationInterceptor"></interceptor>
+			<interceptor-stack name="secureStack">
+				<interceptor-ref name="defaultStack" />
+				<interceptor-ref name="AuthenticationInterceptor" />
+			</interceptor-stack>
+
+			<interceptor class="com.myproject.user.interceptor.PermissionInterceptor"
+				name="PermissionInterceptor"></interceptor>
+			<interceptor-stack name="permissionStack">
+				<interceptor-ref name="PermissionInterceptor" />
+				<interceptor-ref name="defaultStack" />
+			</interceptor-stack>
+			
+			<interceptor class="com.myproject.user.interceptor.UserLoginActionInterceptor"
+				name="UserLoginActionInterceptor"></interceptor>
+			<interceptor-stack name="UserLoginActionStack">
+				<interceptor-ref name="UserLoginActionInterceptor" />
+				<interceptor-ref name="defaultStack" />
+			</interceptor-stack>
+		</interceptors>
+
+		<action name="/*">
+			<result>404Error.jsp</result>
+		</action>
+
+		<action name="passwordForgot">
+			<result>passwordForgot.jsp</result>
+		</action>
+
+		<action name="index.html">
+			<result type="redirectAction">login</result>
+		</action>
+
+		<action name="login">
+			<interceptor-ref name="secureStack" />
+			<result name="success" type="redirectAction">homePage</result>
+			<result name="login">login.jsp</result>
+		</action>
+
+		<action name="loginAction" class="com.myproject.action.UserLoginAction">
+			<result name="success" type="redirectAction">homePage</result>
+			<result name="input">login.jsp</result>
+		</action>
+
+		<action name="logout" class="com.myproject.action.UserLogoutAction">
+			<result name="success">login.jsp</result>
+		</action>
+
+		<!-- home link action -->
+		<action name="homePage">
+			<interceptor-ref name="secureStack" />
+			<result name="success">homePage.jsp</result>
+			<result name="login">login.jsp</result>
+		</action>
+
+		<action name="resetPasswordAction" class="com.myproject.action.ResetPasswordAction">
+			<result name="success">login.jsp</result>
+			<result name="input">passwordForgot.jsp</result>
+		</action>
+
+		<action name="changePassword" class="com.myproject.action.CheckIdRequest">
+			<result name="success">changePassword.jsp</result>
+		</action>
+
+		<action name="changePasswordAction" class="com.myproject.action.ChangePasswordAction">
+			<result name="success" type="redirectAction">homePage</result>
+			<result name="input">changePassword.jsp</result>
+		</action>
+
+		<action name="addComment">
+			<interceptor-ref name="permissionStack" />
+			<result>addComment.jsp</result>
+			<result name="error">homePage.jsp</result>
+			<result name="login">login.jsp</result>
+		</action>
+
+		<action name="addCommentAction" class="com.myproject.action.AddCommentAction">
+			<interceptor-ref name="permissionStack" />
+			<result name="success">homePage.jsp</result>
+			<result name="error">homePage.jsp</result>
+			<result name="login">login.jsp</result>
+			<result name="input">addComment.jsp</result>
+		</action>
+
+
+	</package>
+</struts>
