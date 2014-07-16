@@ -1,7 +1,6 @@
 package com.myproject.action;
 
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
@@ -9,6 +8,7 @@ import org.apache.struts2.interceptor.SessionAware;
 
 import com.myproject.model.Comment;
 import com.myproject.model.User;
+import com.myproject.user.service.UserService;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class AddCommentAction extends ActionSupport implements SessionAware {
@@ -25,11 +25,11 @@ public class AddCommentAction extends ActionSupport implements SessionAware {
 
 	private String commentBody;
 
+	private UserService userService;
+
 	@Override
 	public String execute() {
 		
-		System.out.println("hello");
-
 		clearFieldErrors();
 		
 		Date date = new Date();
@@ -39,10 +39,7 @@ public class AddCommentAction extends ActionSupport implements SessionAware {
 		user = ((User) session.get("user"));
 		
 		comment = new Comment(commentBody,timeStampComment,user);
-		
-		System.out.println(comment.getCommentBody());
-		
-		
+		userService.SaveOrUpdateModelData(comment);;
 
 		return SUCCESS;
 
@@ -72,4 +69,13 @@ public class AddCommentAction extends ActionSupport implements SessionAware {
 	public Map<String, Object> getSession() {
 		return session;
 	}
+	
+	public UserService getUserService() {
+		return userService;
+	}
+
+	public void setUserService(UserService userService) {
+		this.userService = userService;
+	}
+
 }

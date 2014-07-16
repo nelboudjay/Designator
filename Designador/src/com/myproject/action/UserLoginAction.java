@@ -17,7 +17,6 @@ import com.myproject.model.Comment;
 import com.myproject.model.User;
 import com.myproject.model.UserCookie;
 import com.myproject.user.service.UserService;
-
 import com.opensymphony.xwork2.ActionSupport;
 
 public class UserLoginAction extends ActionSupport implements SessionAware,
@@ -100,7 +99,7 @@ public class UserLoginAction extends ActionSupport implements SessionAware,
 	
 				eqRestrictions.clear();
 				comments = userService.GetModelDataList(Comment.class,
-						eqRestrictions);
+						eqRestrictions);			
 				session.put("comments", comments);
 				
 				return SUCCESS;
@@ -174,5 +173,7 @@ public class UserLoginAction extends ActionSupport implements SessionAware,
 	public void setComments(List<?> comments) {
 		this.comments = comments;
 	}
+
+
 
 }

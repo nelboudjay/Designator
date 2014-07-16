@@ -77,9 +77,11 @@
 			</table>
 			<h2>Comentarios</h2>
 			<ol>
-				<s:iterator value="#attr.comments" var="comment">
-					<li><s:property value="#comment.commentBody" /> <s:property
-							value="#comment.commentDate" /> <s:property
+			
+				<s:iterator value="#session.comments" var="comment">
+					<li><s:property value="#comment.commentBody" escape="false"/> 
+					<s:date name="#comment.commentDate" format="dd/MM/yyyy hh:mm:ss" />
+					 <s:property
 							value="#comment.user.userFullName" /> <s:if
 							test="#session.user.idUser == #comment.user.idUser">
 							<a href="editComment">Modificar comentario</a>

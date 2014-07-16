@@ -49,6 +49,8 @@ public class AuthenticationInterceptor implements Interceptor {
 
 		user = (User) session.get("user");
 
+		Map<String, Object> eqRestrictions = new HashMap<String, Object>();
+
 		if (user == null) {
 			Cookie[] cookies = request.getCookies();
 			if (cookies != null) {
@@ -56,7 +58,6 @@ public class AuthenticationInterceptor implements Interceptor {
 					if (cookie.getName().equals("MYJSESSIONID")) {
 						String encryptedCookieValue = cookie.getValue();
 
-						Map<String, Object> eqRestrictions = new HashMap<String, Object>();
 						eqRestrictions
 								.put("idUserCookie", encryptedCookieValue);
 
@@ -90,8 +91,13 @@ public class AuthenticationInterceptor implements Interceptor {
 				addActionError(actionInvocation ,"Por favor, inicia sesión para continuar");
 			return ActionSupport.LOGIN;
 		}
-		
-		return ActionSupport.SUCCESS;
+		else{
+			
+			eqRestrictions.clear();
+			comments = userService.GetModelDataList(Comment.class, eqRestrictions);
+			session.put("comments",comments);
+			return ActionSupport.SUCCESS;
+		}
 	}
 
 	void addActionError(ActionInvocation invocation, String message) {
