@@ -38,6 +38,7 @@ public class AddCommentAction extends ActionSupport implements SessionAware {
 		
 		user = ((User) session.get("user"));
 		
+		
 		comment = new Comment(commentBody,timeStampComment,user);
 		userService.SaveOrUpdateModelData(comment);;
 

@@ -3,6 +3,9 @@
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ taglib prefix="sx" uri="/struts-dojo-tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page import="java.util.Date" %>
+
 
 
 <html>
@@ -49,7 +52,7 @@
 				</thead>
 				<tbody>
 					<jsp:useBean id="currentCalendar"
-						class="com.myproject.calendar.CurrentCalendar">
+						class="com.myproject.calendar.CurrentCalendar"/>
 						<c:forEach var="row" items="${currentCalendar.currentCalendar}"
 							varStatus="rowStatus">
 							<tr>
@@ -72,20 +75,40 @@
 								</c:forEach>
 							</tr>
 						</c:forEach>
-					</jsp:useBean>
 				</tbody>
 			</table>
 			<h2>Comentarios</h2>
 			<ol>
 			
 				<s:iterator value="#session.comments" var="comment">
-					<li><s:property value="#comment.commentBody" escape="false"/> 
-					<s:date name="#comment.commentDate" format="dd/MM/yyyy hh:mm:ss" />
-					 <s:property
-							value="#comment.user.userFullName" /> <s:if
+					<li>
+					<s:property value="#comment.user.userFullName" />
+					<s:property value="#comment.commentBody" escape="false"/> 
+					
+					<jsp:useBean id="now" class="java.util.Date" />
+					<fmt:formatDate pattern="dd/MM/yyyy"  value="${now}" var="today"/>
+					<fmt:formatDate pattern="dd/MM/yyyy"  value="${comment.commentDate}" var="commentDate"/>
+					<fmt:formatDate pattern="dd/MM/yyyy" value="<%=new Date(new Date().getTime() - 60*60*24*1000)%>" var="yesterday"/>
+									
+					<c:choose> 
+						<c:when test="${today == commentDate}">
+							Hoy -
+							<s:date name="#comment.commentDate" format="HH:mm:ss" />
+						</c:when>
+						<c:when test="${yesterday == commentDate}">
+							Ayer -
+							<s:date name="#comment.commentDate" format="HH:mm:ss" />
+						</c:when>
+						<c:otherwise>
+							<s:date name="#comment.commentDate" format="dd/MM/yyyy - HH:mm:ss" />
+						</c:otherwise>
+					</c:choose>
+					h
+					<s:if
 							test="#session.user.idUser == #comment.user.idUser">
-							<a href="editComment">Modificar comentario</a>
+							<a href="editComment">Modificar</a> | <a href="deleteComment">Eliminar</a>
 						</s:if></li>
+					<br/>
 				</s:iterator>
 			</ol>
 			<s:if test="#session.user.isAdmin()">
