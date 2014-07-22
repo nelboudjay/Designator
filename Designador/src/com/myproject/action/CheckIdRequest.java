@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.myproject.model.PasswordChangeRequest;
-import com.myproject.user.service.UserService;
+import com.myproject.service.GenericService;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class CheckIdRequest extends ActionSupport {
@@ -13,7 +13,7 @@ public class CheckIdRequest extends ActionSupport {
 	
 	private String id;
 	
-	private UserService userService;
+	private GenericService service;
 
 	private PasswordChangeRequest passwordChangeRequest;
 
@@ -25,7 +25,7 @@ public class CheckIdRequest extends ActionSupport {
 		Map<String, Object> eqRestrictions = new HashMap<String, Object>();
 		eqRestrictions.put("idPasswordChangeRequest", id);
 
-		passwordChangeRequest = (PasswordChangeRequest) userService.GetUniqueModelData(
+		passwordChangeRequest = (PasswordChangeRequest) service.GetUniqueModelData(
 				PasswordChangeRequest.class, eqRestrictions);
 		
 		if (passwordChangeRequest == null)
@@ -43,12 +43,12 @@ public class CheckIdRequest extends ActionSupport {
 		this.id = id;
 	}
 
-	public UserService getUserService() {
-		return userService;
+	public GenericService getService() {
+		return service;
 	}
 
-	public void setUserService(UserService userService) {
-		this.userService = userService;
+	public void setService(GenericService service) {
+		this.service = service;
 	}
 
 

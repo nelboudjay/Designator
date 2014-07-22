@@ -17,7 +17,7 @@
 		$.idleTimeout('#idletimeout', '#idletimeout a', {
 			idleAfter : 3600,
 			pollingInterval : 2,
-			keepAliveURL : 'keepalive.php',
+			keepAliveURL : '',
 			serverResponseEquals : 'OK',
 			onTimeout : function() {
 				$(this).slideUp();

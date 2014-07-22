@@ -7,7 +7,7 @@ import org.apache.struts2.interceptor.SessionAware;
 
 import com.myproject.model.PasswordChangeRequest;
 import com.myproject.model.User;
-import com.myproject.user.service.UserService;
+import com.myproject.service.GenericService;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class ChangePasswordAction extends ActionSupport implements SessionAware {
@@ -20,7 +20,7 @@ public class ChangePasswordAction extends ActionSupport implements SessionAware 
 
 	private String id;
 
-	private UserService userService;
+	private GenericService service;
 
 	private User user;
 	private PasswordChangeRequest passwordChangeRequest;
@@ -31,7 +31,7 @@ public class ChangePasswordAction extends ActionSupport implements SessionAware 
 		Map<String, Object> eqRestrictions = new HashMap<String, Object>();
 		eqRestrictions.put("idPasswordChangeRequest", id);
 
-		passwordChangeRequest = (PasswordChangeRequest) userService.GetUniqueModelData(
+		passwordChangeRequest = (PasswordChangeRequest) service.GetUniqueModelData(
 				PasswordChangeRequest.class, eqRestrictions);
 
 		if (passwordChangeRequest == null)
@@ -41,7 +41,7 @@ public class ChangePasswordAction extends ActionSupport implements SessionAware 
 			user = passwordChangeRequest.getUser();
 			DesEncrypter encrypter = new DesEncrypter(getText("loginPass"));
 			user.setPassword(encrypter.encrypt(getPassword()));
-			userService.SaveOrUpdateModelData(user);
+			service.SaveOrUpdateModelData(user);
 
 			session.put("user", user);
 			String userFullName = user.getUserFullName();
@@ -60,12 +60,12 @@ public class ChangePasswordAction extends ActionSupport implements SessionAware 
 		this.id = id;
 	}
 
-	public UserService getUserService() {
-		return userService;
+	public GenericService getService() {
+		return service;
 	}
 
-	public void setUserService(UserService userService) {
-		this.userService = userService;
+	public void setService(GenericService service) {
+		this.service = service;
 	}
 
 	public User getUser() {

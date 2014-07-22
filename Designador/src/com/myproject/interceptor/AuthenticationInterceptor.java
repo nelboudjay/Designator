@@ -1,4 +1,4 @@
-package com.myproject.user.interceptor;
+package com.myproject.interceptor;
 
 import java.net.URLDecoder;
 import java.util.HashMap;
@@ -14,7 +14,7 @@ import com.myproject.action.DesEncrypter;
 import com.myproject.model.Comment;
 import com.myproject.model.User;
 import com.myproject.model.UserCookie;
-import com.myproject.user.service.UserService;
+import com.myproject.service.GenericService;
 import com.opensymphony.xwork2.ActionInvocation;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ValidationAware;
@@ -25,7 +25,7 @@ public class AuthenticationInterceptor implements Interceptor {
 	private static final long serialVersionUID = 5686161301032864561L;
 
 	Map<String, Object> session;
-	private UserService userService;
+	private GenericService service;
 
 	private User user;
 	private UserCookie userCookie;
@@ -61,7 +61,7 @@ public class AuthenticationInterceptor implements Interceptor {
 						eqRestrictions
 								.put("idUserCookie", encryptedCookieValue);
 
-						userCookie = (UserCookie) userService
+						userCookie = (UserCookie) service
 								.GetUniqueModelData(UserCookie.class,
 										eqRestrictions);
 
@@ -72,14 +72,14 @@ public class AuthenticationInterceptor implements Interceptor {
 											.getAction()).getText("cookiePass"));
 							String cookieValue = decrypter.decrypt(URLDecoder
 									.decode(encryptedCookieValue, "UTF-8"));
-							userService.AlterEvent("DELETE_USER_COOKIE_"
+							service.AlterEvent("DELETE_USER_COOKIE_"
 									+ cookieValue, "WEEK");
 							session.put("user", user);
 							String userFullName = user.getUserFullName();
 							session.put("userFullName", userFullName);
 							
 							eqRestrictions.clear();
-			    			comments = userService.GetModelDataList(Comment.class, eqRestrictions);
+			    			comments = service.GetModelDataList(Comment.class, eqRestrictions);
 			    			session.put("comments",comments);
 							return ActionSupport.SUCCESS;
 						}
@@ -94,7 +94,7 @@ public class AuthenticationInterceptor implements Interceptor {
 		else{
 			
 			eqRestrictions.clear();
-			comments = userService.GetModelDataList(Comment.class, eqRestrictions);
+			comments = service.GetModelDataList(Comment.class, eqRestrictions);
 			session.put("comments",comments);
 			return ActionSupport.SUCCESS;
 		}
@@ -115,7 +115,7 @@ public class AuthenticationInterceptor implements Interceptor {
 			String userFullName = user.getUserFullName();
 			session.put("userFullName", userFullName);
 			//eqRestrictions.clear();
-			//comments = userService.GetModelDataList(Comment.class, eqRestrictions);
+			//comments = service.GetModelDataList(Comment.class, eqRestrictions);
 			//session.put("comments",comments);
 			break;
 		case "homePage":
@@ -129,12 +129,12 @@ public class AuthenticationInterceptor implements Interceptor {
 	public User getUser() {
 		return user;
 	}
-	public UserService getUserService() {
-		return userService;
+	public GenericService getService() {
+		return service;
 	}
 
-	public void setUserService(UserService userService) {
-		this.userService = userService;
+	public void setService(GenericService service) {
+		this.service = service;
 	}
 	
 	public List<?> getComments() {

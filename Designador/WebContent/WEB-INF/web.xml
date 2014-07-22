@@ -28,7 +28,7 @@
 		<tracking-mode>COOKIE</tracking-mode>
 	</session-config>
 	<listener>
-		<listener-class>com.myproject.user.interceptor.HttpSessionChecker
+		<listener-class>com.myproject.interceptor.HttpSessionChecker
 		</listener-class>
 	</listener>
 	<security-constraint>

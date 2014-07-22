@@ -106,7 +106,7 @@
 					h
 					<s:if
 							test="#session.user.idUser == #comment.user.idUser">
-							<a href="editComment">Modificar</a> | <a href="deleteComment">Eliminar</a>
+							<a href="editComment">Modificar</a> | <s:a href="deleteComment?idComment=%{#comment.commentDate}">Eliminar</s:a>
 						</s:if></li>
 					<br/>
 				</s:iterator>

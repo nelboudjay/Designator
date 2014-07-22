@@ -8,7 +8,7 @@ import org.apache.struts2.interceptor.SessionAware;
 
 import com.myproject.model.Comment;
 import com.myproject.model.User;
-import com.myproject.user.service.UserService;
+import com.myproject.service.GenericService;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class AddCommentAction extends ActionSupport implements SessionAware {
@@ -25,7 +25,7 @@ public class AddCommentAction extends ActionSupport implements SessionAware {
 
 	private String commentBody;
 
-	private UserService userService;
+	private GenericService service;
 
 	@Override
 	public String execute() {
@@ -40,7 +40,7 @@ public class AddCommentAction extends ActionSupport implements SessionAware {
 		
 		
 		comment = new Comment(commentBody,timeStampComment,user);
-		userService.SaveOrUpdateModelData(comment);;
+		service.SaveOrUpdateModelData(comment);;
 
 		return SUCCESS;
 
@@ -71,12 +71,12 @@ public class AddCommentAction extends ActionSupport implements SessionAware {
 		return session;
 	}
 	
-	public UserService getUserService() {
-		return userService;
+	public GenericService getService() {
+		return service;
 	}
 
-	public void setUserService(UserService userService) {
-		this.userService = userService;
+	public void setService(GenericService service) {
+		this.service = service;
 	}
 
 }

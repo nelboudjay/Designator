@@ -1,4 +1,4 @@
-package com.myproject.user.dao;
+package com.myproject.dao;
 
 import java.util.List;
 import java.util.Map;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository
-public class UserDAOImpl implements UserDAO {
+public class DAOImpl implements DAO {
 
 	@Autowired
 	private SessionFactory sessionFactory;

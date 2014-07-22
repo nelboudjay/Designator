@@ -72,12 +72,12 @@
 	</bean>
 
 	
-	<bean id="userDAO" class="com.myproject.user.dao.UserDAOImpl">
+	<bean id="dao" class="com.myproject.dao.DAOImpl">
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
 
-	<bean id="userService" class="com.myproject.user.service.UserServiceImpl">
-		<property name="userDAO" ref="userDAO" />
+	<bean id="service" class="com.myproject.service.GenericServiceImpl">
+		<property name="dao" ref="dao" />
 	</bean>
 
 

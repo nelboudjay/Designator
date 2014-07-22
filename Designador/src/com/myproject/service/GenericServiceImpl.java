@@ -1,4 +1,4 @@
-package com.myproject.user.service;
+package com.myproject.service;
 
 import java.util.List;
 import java.util.Map;
@@ -7,37 +7,37 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.myproject.user.dao.UserDAO;
+import com.myproject.dao.DAO;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class GenericServiceImpl implements GenericService {
 
 	@Autowired
-	private UserDAO userDAO;
+	private DAO dao;
 
 	@Override
 	@Transactional
 	public void SaveOrUpdateModelData(Object obj) {
-		userDAO.SaveOrUpdateModelData(obj);
+		dao.SaveOrUpdateModelData(obj);
 	}
 
 	@Override
 	@Transactional
 	public void DeleteModelData(Object obj) {
-		userDAO.DeleteModelData(obj);
+		dao.DeleteModelData(obj);
 	}
 
 	@Override
 	@Transactional
 	public Object GetUniqueModelData(Class<?> t,
 			Map<String, Object> eqRestrictions) {
-		return userDAO.GetUniqueModelData(t, eqRestrictions);
+		return dao.GetUniqueModelData(t, eqRestrictions);
 	}
 
 	@Override
 	@Transactional
 	public 	List<?> GetModelDataList(Class<?> t, Map<String,Object> eqRestrictions){
-		return userDAO.GetModelDataList(t, eqRestrictions);
+		return dao.GetModelDataList(t, eqRestrictions);
 
 	}
 	
@@ -45,27 +45,27 @@ public class UserServiceImpl implements UserService {
 	@Transactional
 	public void CreateEvent(String eventName, String tableName, String idName,
 			String idValue, String interval) {
-		userDAO.CreateEvent(eventName, tableName, idName, idValue, interval);
+		dao.CreateEvent(eventName, tableName, idName, idValue, interval);
 	}
 
 	@Override
 	@Transactional
 	public void DropEvent(String eventName) {
-		userDAO.DropEvent(eventName);
+		dao.DropEvent(eventName);
 	}
 
 	@Override
 	@Transactional
 	public void AlterEvent(String eventName, String interval) {
-		userDAO.AlterEvent(eventName, interval);
+		dao.AlterEvent(eventName, interval);
 	}
 	
-	public UserDAO getUserDAO() {
-		return userDAO;
+	public DAO getdao() {
+		return dao;
 	}
 
-	public void setUserDAO(UserDAO userDAO) {
-		this.userDAO = userDAO;
+	public void setdao(DAO dao) {
+		this.dao = dao;
 	}
 
 

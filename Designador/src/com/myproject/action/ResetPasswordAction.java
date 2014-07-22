@@ -1,7 +1,6 @@
 package com.myproject.action;
 
 import java.io.IOException;
-
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,7 +11,7 @@ import org.apache.struts2.interceptor.SessionAware;
 import com.myproject.mail.MailService;
 import com.myproject.model.PasswordChangeRequest;
 import com.myproject.model.User;
-import com.myproject.user.service.UserService;
+import com.myproject.service.GenericService;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class ResetPasswordAction extends ActionSupport implements SessionAware {
@@ -25,7 +24,7 @@ public class ResetPasswordAction extends ActionSupport implements SessionAware {
 	private PasswordChangeRequest passwordChangeRequest;
 	private String resetPasswordLoginField;
 
-	private UserService userService;
+	private GenericService service;
 
 	private MailService mailService;
 
@@ -43,13 +42,13 @@ public class ResetPasswordAction extends ActionSupport implements SessionAware {
 			Map<String, Object> eqRestrictions = new HashMap<String, Object>();
 			eqRestrictions.put("userName", getResetPasswordLoginField());
 
-			user = (User) userService.GetUniqueModelData(User.class,
+			user = (User) service.GetUniqueModelData(User.class,
 					eqRestrictions);
 
 			if (user == null) {
 				eqRestrictions.remove("userName");
 				eqRestrictions.put("email", getResetPasswordLoginField());
-				user = (User) userService.GetUniqueModelData(User.class,
+				user = (User) service.GetUniqueModelData(User.class,
 						eqRestrictions);
 			}
 
@@ -61,13 +60,13 @@ public class ResetPasswordAction extends ActionSupport implements SessionAware {
 
 				eqRestrictions.clear();
 				eqRestrictions.put("user", user);
-				passwordChangeRequest = (PasswordChangeRequest) userService
+				passwordChangeRequest = (PasswordChangeRequest) service
 						.GetUniqueModelData(PasswordChangeRequest.class,
 								eqRestrictions);
 				
 				if (passwordChangeRequest != null) {
-					userService.DeleteModelData(passwordChangeRequest);
-					userService.DropEvent("DELETE_PASSWORD_CHANGE_REQUEST_"
+					service.DeleteModelData(passwordChangeRequest);
+					service.DropEvent("DELETE_PASSWORD_CHANGE_REQUEST_"
 							+ passwordChangeRequest.getIdPasswordChangeRequest());
 				}
 
@@ -79,15 +78,15 @@ public class ResetPasswordAction extends ActionSupport implements SessionAware {
 							.replaceAll("-", "");
 					eqRestrictions.put("idPasswordChangeRequest",
 							idPasswordChangeRequest);
-					passwordChangeRequest = (PasswordChangeRequest) userService
+					passwordChangeRequest = (PasswordChangeRequest) service
 							.GetUniqueModelData(PasswordChangeRequest.class,
 									eqRestrictions);
 				} while (passwordChangeRequest != null);
 
 				passwordChangeRequest = new PasswordChangeRequest(
 						idPasswordChangeRequest, user);
-				userService.SaveOrUpdateModelData(passwordChangeRequest);
-				userService.CreateEvent("DELETE_PASSWORD_CHANGE_REQUEST_"
+				service.SaveOrUpdateModelData(passwordChangeRequest);
+				service.CreateEvent("DELETE_PASSWORD_CHANGE_REQUEST_"
 						+ idPasswordChangeRequest, "PASSWORD_CHANGE_REQUEST",
 						"idPASSWORD_CHANGE_REQUEST", idPasswordChangeRequest,
 						"DAY");
@@ -113,12 +112,12 @@ public class ResetPasswordAction extends ActionSupport implements SessionAware {
 		this.resetPasswordLoginField = resetPasswordLoginField;
 	}
 
-	public UserService getUserService() {
-		return userService;
+	public GenericService getService() {
+		return service;
 	}
 
-	public void setUserService(UserService userService) {
-		this.userService = userService;
+	public void setService(GenericService service) {
+		this.service = service;
 	}
 
 	public void setMailService(MailService mailService) {

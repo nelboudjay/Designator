@@ -16,7 +16,7 @@ import org.apache.struts2.interceptor.SessionAware;
 import com.myproject.model.Comment;
 import com.myproject.model.User;
 import com.myproject.model.UserCookie;
-import com.myproject.user.service.UserService;
+import com.myproject.service.GenericService;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class UserLoginAction extends ActionSupport implements SessionAware,
@@ -35,7 +35,7 @@ public class UserLoginAction extends ActionSupport implements SessionAware,
 	private UserCookie userCookie;
 	private List<?> comments;
 
-	private UserService userService;
+	private GenericService service;
 
 	@Override
 	public String execute() {
@@ -54,12 +54,12 @@ public class UserLoginAction extends ActionSupport implements SessionAware,
 			eqRestrictions.put("userName", getLoginField());
 			eqRestrictions.put("password", encrypter.encrypt(getPassword()));
 	
-			user = (User) userService
+			user = (User) service
 					.GetUniqueModelData(User.class, eqRestrictions);
 			if (user == null) {
 				eqRestrictions.remove("userName");
 				eqRestrictions.put("email", getLoginField());
-				user = (User) userService.GetUniqueModelData(User.class,
+				user = (User) service.GetUniqueModelData(User.class,
 						eqRestrictions);
 			}
 	
@@ -83,13 +83,13 @@ public class UserLoginAction extends ActionSupport implements SessionAware,
 						eqRestrictions.clear();
 						eqRestrictions.put("idUserCookie", encryptedCookieValue);
 	
-						userCookie = (UserCookie) userService.GetUniqueModelData(
+						userCookie = (UserCookie) service.GetUniqueModelData(
 								UserCookie.class, eqRestrictions);
 	
 						if (userCookie == null) {
 							userCookie = new UserCookie(encryptedCookieValue, user);
-							userService.SaveOrUpdateModelData(userCookie);
-							userService.CreateEvent("DELETE_USER_COOKIE_"
+							service.SaveOrUpdateModelData(userCookie);
+							service.CreateEvent("DELETE_USER_COOKIE_"
 									+ cookieValue, "USER_COOKIE", "idUSER_COOKIE",
 									encryptedCookieValue, "WEEK");
 						}
@@ -98,7 +98,7 @@ public class UserLoginAction extends ActionSupport implements SessionAware,
 				}
 	
 				eqRestrictions.clear();
-				comments = userService.GetModelDataList(Comment.class,
+				comments = service.GetModelDataList(Comment.class,
 						eqRestrictions);			
 				session.put("comments", comments);
 				
@@ -158,12 +158,12 @@ public class UserLoginAction extends ActionSupport implements SessionAware,
 		return response;
 	}
 
-	public UserService getUserService() {
-		return userService;
+	public GenericService getService() {
+		return service;
 	}
 
-	public void setUserService(UserService userService) {
-		this.userService = userService;
+	public void setService(GenericService service) {
+		this.service = service;
 	}
 
 	public List<?> getComments() {

@@ -15,7 +15,7 @@ import org.apache.struts2.interceptor.SessionAware;
 
 import com.myproject.model.User;
 import com.myproject.model.UserCookie;
-import com.myproject.user.service.UserService;
+import com.myproject.service.GenericService;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class UserLogoutAction extends ActionSupport implements SessionAware, ServletRequestAware, ServletResponseAware{
@@ -28,7 +28,7 @@ public class UserLogoutAction extends ActionSupport implements SessionAware, Ser
 
     private HttpServletResponse response;
 
-	private UserService userService;
+	private GenericService service;
 	
 	private User user;
 	private UserCookie userCookie;
@@ -58,14 +58,14 @@ public class UserLogoutAction extends ActionSupport implements SessionAware, Ser
 					Map<String, Object> eqRestrictions = new HashMap<String, Object>();
 					eqRestrictions.put("idUserCookie", encryptedCookieValue);
 					
-					userCookie = (UserCookie)userService.GetUniqueModelData(UserCookie.class, eqRestrictions);          	
+					userCookie = (UserCookie)service.GetUniqueModelData(UserCookie.class, eqRestrictions);          	
 					
-					userService.DeleteModelData(userCookie);
+					service.DeleteModelData(userCookie);
 					
                     DesEncrypter decrypter = new DesEncrypter(getText("cookiePass"));
                     String cookieValue = decrypter.decrypt(URLDecoder.decode(encryptedCookieValue,"UTF-8"));
 					
-                    userService.DropEvent("DELETE_USER_COOKIE_" + cookieValue);
+                    service.DropEvent("DELETE_USER_COOKIE_" + cookieValue);
 					cookie.setValue(null);
 					cookie.setMaxAge(0);
 					response.addCookie(cookie);
@@ -87,12 +87,12 @@ public class UserLogoutAction extends ActionSupport implements SessionAware, Ser
 		
 	}
 	
-	public UserService getUserService() {
-		return userService;
+	public GenericService getService() {
+		return service;
 	}
 
-	public void setUserService(UserService userService) {
-		this.userService = userService;
+	public void setService(GenericService service) {
+		this.service = service;
 	}
 
 	public User getUser() {
