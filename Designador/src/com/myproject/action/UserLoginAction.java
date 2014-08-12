@@ -31,9 +31,6 @@ public class UserLoginAction extends ActionSupport implements SessionAware,
 	private String loginField;
 	private String password;
 	private boolean rememberMe;
-	private User user;
-	private UserCookie userCookie;
-	private List<?> comments;
 
 	private GenericService service;
 
@@ -42,7 +39,7 @@ public class UserLoginAction extends ActionSupport implements SessionAware,
 
 		clearFieldErrors();
 		
-		user = ((User) session.get("user"));
+		User user = ((User) session.get("user"));
 		
 		if(user != null)
 			return SUCCESS;
@@ -67,7 +64,7 @@ public class UserLoginAction extends ActionSupport implements SessionAware,
 				session.put("user", user);
 				String userFullName = user.getUserFullName();
 				session.put("userFullName", userFullName);
-				if (isRememberMe()) {
+				if (rememberMe) {
 	
 					String cookieValue = user.getUserName()
 							+ request.getSession().getId();
@@ -83,7 +80,7 @@ public class UserLoginAction extends ActionSupport implements SessionAware,
 						eqRestrictions.clear();
 						eqRestrictions.put("idUserCookie", encryptedCookieValue);
 	
-						userCookie = (UserCookie) service.GetUniqueModelData(
+						UserCookie userCookie = (UserCookie) service.GetUniqueModelData(
 								UserCookie.class, eqRestrictions);
 	
 						if (userCookie == null) {
@@ -98,7 +95,7 @@ public class UserLoginAction extends ActionSupport implements SessionAware,
 				}
 	
 				eqRestrictions.clear();
-				comments = service.GetModelDataList(Comment.class,
+				List<?> comments = service.GetModelDataList(Comment.class,
 						eqRestrictions);			
 				session.put("comments", comments);
 				
@@ -126,10 +123,6 @@ public class UserLoginAction extends ActionSupport implements SessionAware,
 		this.password = password;
 	}
 
-	public boolean isRememberMe() {
-		return rememberMe;
-	}
-
 	public void setRememberMe(boolean rememberMe) {
 		this.rememberMe = rememberMe;
 	}
@@ -144,34 +137,14 @@ public class UserLoginAction extends ActionSupport implements SessionAware,
 		this.request = request;
 	}
 
-	public HttpServletRequest getServletRequest() {
-		return request;
-	}
-
 	@Override
 	public void setServletResponse(HttpServletResponse response) {
 		this.response = response;
 
 	}
 
-	public HttpServletResponse getServletResponse() {
-		return response;
-	}
-
-	public GenericService getService() {
-		return service;
-	}
-
 	public void setService(GenericService service) {
 		this.service = service;
-	}
-
-	public List<?> getComments() {
-		return comments;
-	}
-
-	public void setComments(List<?> comments) {
-		this.comments = comments;
 	}
 
 

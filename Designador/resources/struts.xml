@@ -100,7 +100,7 @@
 		<action name="addCommentAction" class="com.myproject.action.AddCommentAction">
 			<interceptor-ref name="permissionStack" />
 			<result name="success" type="redirectAction">homePage</result>
-			<result name="error" type="redirectAction">homePage</result>
+			<result name="error">homePage.jsp</result>
 			<result name="login">login.jsp</result>
 			<result name="input">addComment.jsp</result>
 		</action>
@@ -108,7 +108,7 @@
 		<action name="deleteComment" class="com.myproject.action.DeleteCommentAction">
 			<interceptor-ref name="permissionStack" />
 			<result name="success" type="redirectAction">homePage</result>
-			<result name="error" type="redirectAction">homePage</result>
+			<result name="error" >homePage.jsp</result>
 			<result name="login">login.jsp</result>
 			
 		</action>

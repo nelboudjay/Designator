@@ -88,7 +88,7 @@ public class AuthenticationInterceptor implements Interceptor {
 			}
 			
 			if(!actionInvocation.getInvocationContext().getName().equals("login"))
-				addActionError(actionInvocation ,"Por favor, inicia sesión para continuar");
+				addActionError(actionInvocation ,"Por favor2, inicia sesión para continuar");
 			return ActionSupport.LOGIN;
 		}
 		else{
