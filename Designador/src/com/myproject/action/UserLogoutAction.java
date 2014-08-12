@@ -22,27 +22,16 @@ public class UserLogoutAction extends ActionSupport implements SessionAware, Ser
 
 	private static final long serialVersionUID = 4462259177202729230L;
 	
-	
 	private Map<String, Object> session;
     private HttpServletRequest request;
-
     private HttpServletResponse response;
 
 	private GenericService service;
 	
-	private User user;
-	private UserCookie userCookie;
-
-
-	@Override
-	public void setSession(Map<String, Object> session) {
-		this.session = session;		
-	}
-	
 	@Override
 	public String execute() throws UnsupportedEncodingException{
 		
-		user = ((User)session.get("user"));
+		User user = ((User)session.get("user"));
 		
 		if(user != null){	
 			addActionMessage("Gracias " + user.getUserProfile().getUserFirstName() + ", se ha cerrado tu sesión correctamente");
@@ -58,7 +47,7 @@ public class UserLogoutAction extends ActionSupport implements SessionAware, Ser
 					Map<String, Object> eqRestrictions = new HashMap<String, Object>();
 					eqRestrictions.put("idUserCookie", encryptedCookieValue);
 					
-					userCookie = (UserCookie)service.GetUniqueModelData(UserCookie.class, eqRestrictions);          	
+					UserCookie userCookie = (UserCookie)service.GetUniqueModelData(UserCookie.class, eqRestrictions);          	
 					
 					service.DeleteModelData(userCookie);
 					
@@ -75,6 +64,11 @@ public class UserLogoutAction extends ActionSupport implements SessionAware, Ser
 		
 		return SUCCESS;
 	}
+	
+	@Override
+	public void setSession(Map<String, Object> session) {
+		this.session = session;		
+	}
 
 	@Override
 	public void setServletResponse(HttpServletResponse response) {
@@ -87,22 +81,9 @@ public class UserLogoutAction extends ActionSupport implements SessionAware, Ser
 		
 	}
 	
-	public GenericService getService() {
-		return service;
-	}
-
 	public void setService(GenericService service) {
 		this.service = service;
 	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUsere(User user) {
-		this.user = user;
-	}
-	
 	
 }
 

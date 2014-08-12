@@ -15,17 +15,14 @@ public class CheckIdRequest extends ActionSupport {
 	
 	private GenericService service;
 
-	private PasswordChangeRequest passwordChangeRequest;
-
 
 	@Override
 	public String execute() {
 
-				
 		Map<String, Object> eqRestrictions = new HashMap<String, Object>();
 		eqRestrictions.put("idPasswordChangeRequest", id);
 
-		passwordChangeRequest = (PasswordChangeRequest) service.GetUniqueModelData(
+		PasswordChangeRequest passwordChangeRequest = (PasswordChangeRequest) service.GetUniqueModelData(
 				PasswordChangeRequest.class, eqRestrictions);
 		
 		if (passwordChangeRequest == null)
@@ -35,16 +32,8 @@ public class CheckIdRequest extends ActionSupport {
 
 	}
 
-	public String getId() {
-		return id;
-	}
-
 	public void setId(String id) {
 		this.id = id;
-	}
-
-	public GenericService getService() {
-		return service;
 	}
 
 	public void setService(GenericService service) {

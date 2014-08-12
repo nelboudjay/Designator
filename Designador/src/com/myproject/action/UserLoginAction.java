@@ -146,7 +146,4 @@ public class UserLoginAction extends ActionSupport implements SessionAware,
 	public void setService(GenericService service) {
 		this.service = service;
 	}
-
-
-
 }
