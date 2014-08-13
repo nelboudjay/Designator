@@ -15,15 +15,12 @@ public class ChangePasswordAction extends ActionSupport implements SessionAware 
 	private static final long serialVersionUID = -4842105484814818581L;
 
 	private Map<String, Object> session;
+	
 	private String password;
 	private String repassword;
-
 	private String id;
 
 	private GenericService service;
-
-	private User user;
-	private PasswordChangeRequest passwordChangeRequest;
 
 	@Override
 	public String execute() {
@@ -31,14 +28,14 @@ public class ChangePasswordAction extends ActionSupport implements SessionAware 
 		Map<String, Object> eqRestrictions = new HashMap<String, Object>();
 		eqRestrictions.put("idPasswordChangeRequest", id);
 
-		passwordChangeRequest = (PasswordChangeRequest) service.GetUniqueModelData(
+		PasswordChangeRequest passwordChangeRequest = (PasswordChangeRequest) service.GetUniqueModelData(
 				PasswordChangeRequest.class, eqRestrictions);
 
 		if (passwordChangeRequest == null)
 			addActionError("Tu petición de recordar contraseña ha caducado o no existe. Deberá volver a realizarla.");
 		else {
 
-			user = passwordChangeRequest.getUser();
+			User user = passwordChangeRequest.getUser();
 			DesEncrypter encrypter = new DesEncrypter(getText("loginPass"));
 			user.setPassword(encrypter.encrypt(getPassword()));
 			service.SaveOrUpdateModelData(user);
@@ -52,28 +49,9 @@ public class ChangePasswordAction extends ActionSupport implements SessionAware 
 
 	}
 
-	public String getId() {
-		return id;
-	}
 
 	public void setId(String id) {
 		this.id = id;
-	}
-
-	public GenericService getService() {
-		return service;
-	}
-
-	public void setService(GenericService service) {
-		this.service = service;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
 	}
 
 	public String getPassword() {
@@ -96,14 +74,10 @@ public class ChangePasswordAction extends ActionSupport implements SessionAware 
 	public void setSession(Map<String, Object> session) {
 		this.session = session;
 	}
-
-	public PasswordChangeRequest getPasswordChangeRequest() {
-		return passwordChangeRequest;
+	
+	public void setService(GenericService service) {
+		this.service = service;
 	}
 
-	public void setPasswordChangeRequest(
-			PasswordChangeRequest passwordChangeRequest) {
-		this.passwordChangeRequest = passwordChangeRequest;
-	}
 
 }
