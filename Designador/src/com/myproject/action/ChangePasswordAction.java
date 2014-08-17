@@ -25,16 +25,19 @@ public class ChangePasswordAction extends ActionSupport implements SessionAware 
 	@Override
 	public String execute() {
 
+
 		Map<String, Object> eqRestrictions = new HashMap<String, Object>();
 		eqRestrictions.put("idPasswordChangeRequest", id);
 
 		PasswordChangeRequest passwordChangeRequest = (PasswordChangeRequest) service.GetUniqueModelData(
 				PasswordChangeRequest.class, eqRestrictions);
+		
+		if (passwordChangeRequest == null){
 
-		if (passwordChangeRequest == null)
 			addActionError("Tu petición de recordar contraseña ha caducado o no existe. Deberá volver a realizarla.");
-		else {
-
+		
+		}else {
+			
 			User user = passwordChangeRequest.getUser();
 			DesEncrypter encrypter = new DesEncrypter(getText("loginPass"));
 			user.setPassword(encrypter.encrypt(getPassword()));
@@ -48,7 +51,6 @@ public class ChangePasswordAction extends ActionSupport implements SessionAware 
 		return SUCCESS;
 
 	}
-
 
 	public void setId(String id) {
 		this.id = id;

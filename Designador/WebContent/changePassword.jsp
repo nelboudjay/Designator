@@ -25,12 +25,11 @@
 			Crea una contraseña para tu cuenta.
 		</p>
 		<br />
-
-		<s:form action="changePasswordAction">
+		<s:form action="changePassword">
 			<s:hidden name="id"></s:hidden>
 			<s:password name="password" label="Nueva Contraseña" />
 			<s:password name="repassword" label="Repetir Contraseña" />
-			<s:submit value="Cambiar contraseña y Iniciar sesión" />
+			<s:submit value="Cambiar contraseña y Iniciar sesión" method="foo" />
 		</s:form>
 	</s:else>
 

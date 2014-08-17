@@ -12,6 +12,7 @@
 
 	<constant name="struts.custom.i18n.resources" value="MyConstants" />
 
+	<constant name="struts.enable.DynamicMethodInvocation" value="true"></constant>
 
 	<!-- Enabling Developer mode -->
 	<constant name="struts.devMode" value="true" />
@@ -40,11 +41,11 @@
 				<interceptor-ref name="defaultStack" />
 			</interceptor-stack>
 		</interceptors>
-
+		
 		<action name="/*">
 			<result>404Error.jsp</result>
 		</action>
-
+		
 		<action name="passwordForgot">
 			<result>passwordForgot.jsp</result>
 		</action>
@@ -83,11 +84,12 @@
 
 		<action name="changePassword" class="com.myproject.action.CheckIdRequest">
 			<result name="success">changePassword.jsp</result>
+			<result name="input">changePassword.jsp</result>
 		</action>
 
 		<action name="changePasswordAction" class="com.myproject.action.ChangePasswordAction">
 			<result name="success" type="redirectAction">homePage</result>
-			<result name="input">changePassword.jsp</result>
+			<result name="input" type="redirectAction">changePassword</result>
 		</action>
 
 		<action name="addComment">
@@ -108,9 +110,9 @@
 		<action name="deleteComment" class="com.myproject.action.DeleteCommentAction">
 			<interceptor-ref name="permissionStack" />
 			<result name="success" type="redirectAction">homePage</result>
-			<result name="error" >homePage.jsp</result>
+			<result name="error">homePage.jsp</result>
 			<result name="login">login.jsp</result>
-			
+
 		</action>
 
 
