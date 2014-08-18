@@ -72,10 +72,6 @@ public class ChangePassword extends ActionSupport implements SessionAware, Servl
 		this.id = id;
 	}
 	
-	public String getId() {
-		return id;
-	}
-
 	public String getPassword() {
 		return password;
 	}
