@@ -29,7 +29,7 @@
 			<s:hidden name="id"></s:hidden>
 			<s:password name="password" label="Nueva Contraseña" />
 			<s:password name="repassword" label="Repetir Contraseña" />
-			<s:submit value="Cambiar contraseña y Iniciar sesión" method="foo" />
+			<s:submit value="Cambiar contraseña y Iniciar sesión" method="changePassword" />
 		</s:form>
 	</s:else>
 

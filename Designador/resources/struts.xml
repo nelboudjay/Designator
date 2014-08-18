@@ -41,11 +41,11 @@
 				<interceptor-ref name="defaultStack" />
 			</interceptor-stack>
 		</interceptors>
-		
+
 		<action name="/*">
 			<result>404Error.jsp</result>
 		</action>
-		
+
 		<action name="passwordForgot">
 			<result>passwordForgot.jsp</result>
 		</action>
@@ -82,14 +82,10 @@
 			<result name="input">passwordForgot.jsp</result>
 		</action>
 
-		<action name="changePassword" class="com.myproject.action.CheckIdRequest">
-			<result name="success">changePassword.jsp</result>
+		<action name="changePassword" class="com.myproject.action.ChangePassword" >
+			<result name="none">changePassword.jsp</result>
 			<result name="input">changePassword.jsp</result>
-		</action>
-
-		<action name="changePasswordAction" class="com.myproject.action.ChangePasswordAction">
 			<result name="success" type="redirectAction">homePage</result>
-			<result name="input" type="redirectAction">changePassword</result>
 		</action>
 
 		<action name="addComment">
