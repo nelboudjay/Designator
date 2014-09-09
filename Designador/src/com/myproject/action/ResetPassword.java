@@ -14,7 +14,7 @@ import com.myproject.model.User;
 import com.myproject.service.GenericService;
 import com.opensymphony.xwork2.ActionSupport;
 
-public class ResetPasswordAction extends ActionSupport implements SessionAware {
+public class ResetPassword extends ActionSupport implements SessionAware {
 
 	private static final long serialVersionUID = 818537998167655005L;
 

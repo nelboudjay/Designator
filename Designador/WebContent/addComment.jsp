@@ -46,9 +46,9 @@
 		</div>
 	</s:if>
 
-	<s:form action="addCommentAction">
+	<s:form action="addComment">
 		<s:textarea name="commentBody" />
-		<s:submit value="Añadir Comentario" />
+		<s:submit value="Añadir Comentario" method="addComment"/>
 	</s:form>
 </body>
 </html>

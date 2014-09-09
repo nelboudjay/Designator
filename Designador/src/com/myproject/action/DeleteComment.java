@@ -7,7 +7,7 @@ import com.myproject.model.Comment;
 import com.myproject.service.GenericService;
 import com.opensymphony.xwork2.ActionSupport;
 
-public class DeleteCommentAction extends ActionSupport {
+public class DeleteComment extends ActionSupport {
 
 	private static final long serialVersionUID = -9140151919678779260L;
 
@@ -21,11 +21,15 @@ public class DeleteCommentAction extends ActionSupport {
 		eqRestrictions.put("idComment", idComment);
 		
 		Comment comment = (Comment)service.GetUniqueModelData(Comment.class, eqRestrictions);
-				
-		service.DeleteModelData(comment);
 		
-		
-		return SUCCESS;
+		if (comment == null){
+			addActionError("El comentario que quieres eliminar no existe o ya se ha eliminado");
+			return INPUT;
+		}
+		else{
+			service.DeleteModelData(comment);
+			return SUCCESS;
+		}
 	}
 
 	public void setIdComment(String idComment) {

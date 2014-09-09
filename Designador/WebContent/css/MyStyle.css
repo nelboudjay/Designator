@@ -1,29 +1,28 @@
-
-body{
+body {
 	margin-left: 20px;
 }
 
 .errors {
-	background-color:#FFCCCC;
-	border:1px solid #CC0000;
-	width:400px;
-	margin-bottom:8px;
+	background-color: #FFCCCC;
+	border: 1px solid #CC0000;
+	width: 400px;
+	margin-bottom: 8px;
 }
 
-.errorMessage li{ 
-	list-style-type: none; 
+.errorMessage li {
+	list-style-type: none;
 	margin-left: -25px;
-	
-}
-.boxMessage {
-	background-color:#DDFFDD;
-	border:1px solid #009900;
-	width:400px;
-	margin-bottom:8px;
 }
 
-.actionMessage li{
-	list-style-type: none; 
+.boxMessage {
+	background-color: #DDFFDD;
+	border: 1px solid #009900;
+	width: 400px;
+	margin-bottom: 8px;
+}
+
+.actionMessage li {
+	list-style-type: none;
 	margin-left: -25px;
 }
 
@@ -32,42 +31,73 @@ body{
 	position: absolute;
 }
 
-.dojoTabContainer{
+.dojoTabContainer {
 	margin-left: 20px;
 	margin-right: 253px;
 }
 
 table.calendar {
-	width:94%;
-	margin-left:3%;
-	margin-right:3%;
+	width: 94%;
+	margin-left: 3%;
+	margin-right: 3%;
 	border: 1px solid black;
 }
 
-
-table.calendar td{
+table.calendar td {
 	height: 3.5em;
 	vertical-align: top;
 	text-align: right;
 	width: 14%;
 	border: 1px solid black;
-	
 }
 
 td.active {
-  background-color:yellow  ;
+	background-color: yellow;
 }
 
 label {
-	font-weight:bold;
+	font-weight: bold;
 }
 
-.tr{
+.tr {
 	margin-left: 20%;
 }
 
-a.passwordReset{
-	font-size:22px; 
+a.passwordReset {
+	font-size: 22px;
 	font-weight: bold;
-	color:DodgerBlue;
+	color: DodgerBlue;
+}
+
+/*Confirmation JQuery*/
+#confirmBox {
+	display: none;
+	background-color: #eee;
+	border-radius: 5px;
+	border: 1px solid #aaa;
+	width: 300px;
+	/*left: 50%;*/
+	margin-left: 10px;
+	padding: 6px 8px 8px;
+	box-sizing: border-box;
+	text-align: center;
+}
+
+#confirmBox .button {
+	background-color: #ccc;
+	display: inline-block;
+	border-radius: 3px;
+	border: 1px solid #aaa;
+	padding: 2px;
+	text-align: center;
+	width: 80px;
+	cursor: pointer;
+}
+
+#confirmBox .button:hover {
+	background-color: #ddd;
+}
+
+#confirmBox .message {
+	margin-bottom: 8px;
 }

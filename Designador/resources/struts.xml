@@ -46,10 +46,6 @@
 			<result>404Error.jsp</result>
 		</action>
 
-		<action name="passwordForgot">
-			<result>passwordForgot.jsp</result>
-		</action>
-
 		<action name="index.html">
 			<result type="redirectAction">login</result>
 		</action>
@@ -77,35 +73,35 @@
 			<result name="login">login.jsp</result>
 		</action>
 
-		<action name="resetPasswordAction" class="com.myproject.action.ResetPasswordAction">
+		<action name="passwordForgot" class="com.myproject.action.ForgotPassword">
+			<result>passwordForgot.jsp</result>
+		</action>
+
+		<action name="resetPassword" class="com.myproject.action.ResetPassword">
 			<result name="success">login.jsp</result>
 			<result name="input">passwordForgot.jsp</result>
 		</action>
 
-		<action name="changePassword" class="com.myproject.action.ChangePassword" >
+		<action name="changePassword" class="com.myproject.action.ChangePassword">
 			<result name="none">changePassword.jsp</result>
 			<result name="input">changePassword.jsp</result>
 			<result name="success" type="redirectAction">homePage</result>
 		</action>
 
-		<action name="addComment">
+		<action name="addComment" class="com.myproject.action.AddComment">
 			<interceptor-ref name="permissionStack" />
-			<result>addComment.jsp</result>
-			<result name="error">homePage.jsp</result>
-			<result name="login">login.jsp</result>
-		</action>
-
-		<action name="addCommentAction" class="com.myproject.action.AddCommentAction">
-			<interceptor-ref name="permissionStack" />
+			<result name="none">addComment.jsp</result>
 			<result name="success" type="redirectAction">homePage</result>
 			<result name="error">homePage.jsp</result>
 			<result name="login">login.jsp</result>
 			<result name="input">addComment.jsp</result>
 		</action>
 
-		<action name="deleteComment" class="com.myproject.action.DeleteCommentAction">
+
+		<action name="deleteComment" class="com.myproject.action.DeleteComment">
 			<interceptor-ref name="permissionStack" />
 			<result name="success" type="redirectAction">homePage</result>
+			<result name="input">homePage.jsp</result>
 			<result name="error">homePage.jsp</result>
 			<result name="login">login.jsp</result>
 

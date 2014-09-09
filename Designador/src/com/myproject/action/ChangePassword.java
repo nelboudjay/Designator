@@ -34,7 +34,6 @@ public class ChangePassword extends ActionSupport implements SessionAware, Servl
 	@Override
 	@SkipValidation
 	public String execute() {
-
 		Map<String, Object> eqRestrictions = new HashMap<String, Object>();
 		eqRestrictions.put("idPasswordChangeRequest", id);
 

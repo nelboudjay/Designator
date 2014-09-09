@@ -27,7 +27,7 @@
 	</p>
 	<br />
 		
-	<s:form action="resetPasswordAction">
+	<s:form action="resetPassword">
 		<s:textfield name="resetPasswordLoginField" label="Nombre de usuario o E-Mail"/>
 		<s:submit value="Restablecer mi contraseña" />
 	</s:form>
