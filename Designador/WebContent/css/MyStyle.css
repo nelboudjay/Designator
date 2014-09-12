@@ -101,3 +101,7 @@ a.passwordReset {
 #confirmBox .message {
 	margin-bottom: 8px;
 }
+
+#addComment {	
+	visibility: hidden;
+}
