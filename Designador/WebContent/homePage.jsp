@@ -56,8 +56,15 @@
 							});
 				});
 		$("#addCommentLink").click(function() {
+			
+			$("#addComment").css("display", "block");
+			$("#cancelCommentLink").css("display", "inline");
+		});
+		
+		$("#cancelCommentLink").click(function() {
 
-			$("#addComment").show();
+			$("#addComment").css("display", "none");
+			$("#cancelCommentLink").css("display", "none");
 		});
 	});
 </script>
@@ -142,11 +149,11 @@
 			</s:iterator>
 		</ol>
 		<s:if test="#session.user.isAdmin()">
-			<s:form action="addComment" class="addComment">
-				<s:textarea name="commentBody" />
+			<s:form action="addComment">
+				<textarea name="commentBody" ></textarea>
 				<s:submit value="Añadir Comentario" method="addComment" />
 			</s:form>
-			<a href="" class="addCommentLink">Añadir comentario</a>
+			<a href="#" id="addCommentLink">Añadir comentario</a> | <a href="#" id="cancelCommentLink">Cancelar</a>
 		</s:if>
 
 	</sx:div>
