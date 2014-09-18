@@ -71,6 +71,7 @@
 			<interceptor-ref name="secureStack" />
 			<result name="success">homePage.jsp</result>
 			<result name="login">login.jsp</result>
+			<result name="input">homePage.jsp</result>
 		</action>
 
 		<action name="passwordForgot" class="com.myproject.action.ForgotPassword">
@@ -90,11 +91,11 @@
 
 		<action name="addComment" class="com.myproject.action.AddComment">
 			<interceptor-ref name="permissionStack" />
-			<result name="none">addComment.jsp</result>
+			<result name="none">homePage.jsp</result>
 			<result name="success" type="redirectAction">homePage</result>
 			<result name="error">homePage.jsp</result>
 			<result name="login">login.jsp</result>
-			<result name="input">addComment.jsp</result>
+			<result name="input">homePage.jsp</result>
 		</action>
 
 

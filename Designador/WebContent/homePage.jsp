@@ -55,12 +55,17 @@
 								window.location = link.attr("href");
 							});
 				});
+
 		$("#addCommentLink").click(function() {
-			
+
 			$("#addComment").css("display", "block");
 			$("#cancelCommentLink").css("display", "inline");
+			$('html, body').animate({
+			   scrollTop: parseInt($("#addComment").offset().top)
+			    }, 2000);
+			
 		});
-		
+
 		$("#cancelCommentLink").click(function() {
 
 			$("#addComment").css("display", "none");
@@ -72,6 +77,27 @@
 <title>Página de Inicio</title>
 <s:head />
 <sx:head />
+
+<s:set name="actionName"
+	value="%{com.opensymphony.xwork2.ActionContext.name}" />
+<s:if test='#actionName=="addComment"'>
+	<style type="text/css">
+		#addComment {
+			display: block;
+		}
+		#cancelCommentLink {
+			display: inline;
+		}
+	</style>
+	<script type="text/javascript">
+			alert("hola");
+			$('html, body').animate({
+		   		scrollTop: parseInt($("#addComment").offset().top)
+		    }, 2000);
+	</script>
+</s:if>
+
+
 </head>
 <body>
 
@@ -150,14 +176,13 @@
 		</ol>
 		<s:if test="#session.user.isAdmin()">
 			<s:form action="addComment">
-				<textarea name="commentBody" ></textarea>
+				<s:textarea name="commentBody" />
 				<s:submit value="Añadir Comentario" method="addComment" />
 			</s:form>
-			<a href="#" id="addCommentLink">Añadir comentario</a> | <a href="#" id="cancelCommentLink">Cancelar</a>
+			<a href="#" id="addCommentLink">Añadir comentario</a> <span id="cancelCommentLink">| <a href="#">Cancelar</a> </span>
 		</s:if>
 
 	</sx:div>
-
 
 	<br />
 	<s:div>
