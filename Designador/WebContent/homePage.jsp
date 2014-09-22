@@ -16,7 +16,7 @@
 
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/js/tinymce/tinymce.min.js"></script>
-<script type="text/javascript">
+<!--<script type="text/javascript">
 	tinymce
 			.init({
 				selector : "textarea",
@@ -27,7 +27,7 @@
 						"lists preview searchreplace spellchecker table textcolor wordcount " ],
 				toolbar : "undo redo | styleselect | bold italic | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | fullscreen | emoticons | preview | searchreplace"
 			});
-</script>
+</script> -->
 
 <script type="text/javascript">
 	function doConfirm(msg, yesFn, noFn) {
@@ -56,7 +56,7 @@
 							});
 				});
 
-		$("#addCommentLink").click(function() {
+	/*	$("#addCommentLink").click(function() {
 
 			$("#addComment").css("display", "block");
 			$("#cancelCommentLink").css("display", "inline");
@@ -64,13 +64,22 @@
 			   scrollTop: parseInt($("#addComment").offset().top)
 			    }, 2000);
 			
-		});
+		});;*/
 
 		$("#cancelCommentLink").click(function() {
 
-			$("#addComment").css("display", "none");
+			$("#addCommentSubmit").css("display", "none");
 			$("#cancelCommentLink").css("display", "none");
+			$('#expand').animate({ height: "2em" });
+		})
+		
+		$('#expand').focus(function () {
+		    $(this).animate({ height: "4em" }); 
+			$("#addCommentSubmit").css("display", "inline");
+			$("#cancelCommentLink").css("display", "inline");
+
 		});
+	
 	});
 </script>
 
@@ -90,7 +99,6 @@
 		}
 	</style>
 	<script type="text/javascript">
-			alert("hola");
 			$('html, body').animate({
 		   		scrollTop: parseInt($("#addComment").offset().top)
 		    }, 2000);
@@ -147,7 +155,17 @@
 				</c:forEach>
 			</tbody>
 		</table>
-		<h2>Comentarios</h2>
+		<h2 id="comments">Comentarios</h2>
+		<s:if test="#session.user.isAdmin()">
+			<s:form action="addComment">
+				<s:textarea id="expand" rows="1" cols="100" placeholder="Añadir comentario..." name="commentBody" />
+				<s:submit id="addCommentSubmit" align="left" value="Añadir Comentario" method="addComment">
+				<s:a href="" id="cancelCommentLink">Cancelar</s:a>
+				</s:submit>
+				 
+				
+			</s:form>
+		</s:if>
 		<ol>
 
 			<s:iterator value="#session.comments" var="comment">
@@ -174,13 +192,6 @@
 				<br />
 			</s:iterator>
 		</ol>
-		<s:if test="#session.user.isAdmin()">
-			<s:form action="addComment">
-				<s:textarea name="commentBody" />
-				<s:submit value="Añadir Comentario" method="addComment" />
-			</s:form>
-			<a href="#" id="addCommentLink">Añadir comentario</a> <span id="cancelCommentLink">| <a href="#">Cancelar</a> </span>
-		</s:if>
 
 	</sx:div>
 

@@ -103,9 +103,19 @@ a.passwordReset {
 }
 
 #addComment {	
-	display: none;
+/*	display: none;*/
 }
 
 #cancelCommentLink {
+	display: none;
+}
+
+#expand {
+    height: 2em;
+    width: 50%;
+    padding: 3px;
+}
+
+#addCommentSubmit{
 	display: none;
 }
