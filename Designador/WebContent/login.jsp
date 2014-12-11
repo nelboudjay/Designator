@@ -29,10 +29,10 @@
 
 
 
-<s:form action="loginAction" >
+<s:form action="login" >
 	<s:textfield name="loginField" label="Nombre de usuario o E-Mail"/>
 	<s:password name="password" label="Contraseña"/>
-	<s:submit value="Iniciar sesión"/>
+	<s:submit value="Iniciar sesión" method="login" />
 	<s:checkbox name="rememberMe" label="Recordarme" />
 </s:form>
 <a href="passwordForgot">¿Has olvidado tu contraseña?</a>

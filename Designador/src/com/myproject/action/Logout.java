@@ -18,7 +18,7 @@ import com.myproject.model.UserCookie;
 import com.myproject.service.GenericService;
 import com.opensymphony.xwork2.ActionSupport;
 
-public class UserLogoutAction extends ActionSupport implements SessionAware, ServletRequestAware, ServletResponseAware{
+public class Logout extends ActionSupport implements SessionAware, ServletRequestAware, ServletResponseAware{
 
 	private static final long serialVersionUID = 4462259177202729230L;
 	

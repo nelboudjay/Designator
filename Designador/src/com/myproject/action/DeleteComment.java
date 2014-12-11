@@ -1,18 +1,23 @@
 package com.myproject.action;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import org.apache.struts2.interceptor.SessionAware;
 
 import com.myproject.model.Comment;
 import com.myproject.service.GenericService;
 import com.opensymphony.xwork2.ActionSupport;
 
-public class DeleteComment extends ActionSupport {
+public class DeleteComment extends ActionSupport implements SessionAware{
 
 	private static final long serialVersionUID = -9140151919678779260L;
 
 	private String idComment;
 	private GenericService service;
+	private Map<String, Object> session;
+
 
 	@Override
 	public String execute() {
@@ -27,7 +32,13 @@ public class DeleteComment extends ActionSupport {
 			return INPUT;
 		}
 		else{
-			service.DeleteModelData(comment);
+			service.DeleteModelData(comment);	
+			
+			@SuppressWarnings("unchecked")
+			List<Comment> comments = ((List<Comment>)session.get("comments"));
+			comments.remove(comments.size() - 1);
+			session.put("comments", comments);
+
 			return SUCCESS;
 		}
 	}
@@ -40,5 +51,8 @@ public class DeleteComment extends ActionSupport {
 		this.service = service;
 	}
 	
-
+	@Override
+	public void setSession(Map<String, Object> session) {
+		this.session = session;
+	}
 }

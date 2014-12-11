@@ -67,7 +67,7 @@
 	</bean>
 
 
-	<bean name="resetPasswordAction" class="com.myproject.mail.MailService">
+	<bean name="resetPassword" class="com.myproject.mail.MailService">
 		<property name="mailSender" ref="mailSender"></property>
 	</bean>
 

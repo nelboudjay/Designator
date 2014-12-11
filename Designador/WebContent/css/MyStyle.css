@@ -14,6 +14,7 @@ body {
 	margin-left: -25px;
 }
 
+
 .boxMessage {
 	background-color: #DDFFDD;
 	border: 1px solid #009900;
@@ -70,20 +71,19 @@ a.passwordReset {
 }
 
 /*Confirmation JQuery*/
-#confirmBox {
+div[id^=confirmBox_] {
 	display: none;
 	background-color: #eee;
 	border-radius: 5px;
 	border: 1px solid #aaa;
 	width: 300px;
-	/*left: 50%;*/
 	margin-left: 10px;
 	padding: 6px 8px 8px;
 	box-sizing: border-box;
 	text-align: center;
 }
 
-#confirmBox .button {
+div[id^=confirmBox_] .button {
 	background-color: #ccc;
 	display: inline-block;
 	border-radius: 3px;
@@ -94,23 +94,24 @@ a.passwordReset {
 	cursor: pointer;
 }
 
-#confirmBox .button:hover {
+div[id^=confirmBox_] .button:hover {
 	background-color: #ddd;
 }
 
-#confirmBox .message {
+div[id^=confirmBox_] .message {
 	margin-bottom: 8px;
 }
 
 #addComment {	
-/*	display: none;*/
+	display: block;
 }
 
 #cancelCommentLink {
+	cursor: pointer;
 	display: none;
 }
 
-#expand {
+#commentBody {
     height: 2em;
     width: 50%;
     padding: 3px;

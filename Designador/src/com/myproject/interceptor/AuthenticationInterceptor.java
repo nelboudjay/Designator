@@ -9,6 +9,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts2.StrutsStatics;
+import org.hibernate.Hibernate;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.myproject.action.DesEncrypter;
 import com.myproject.model.Comment;
@@ -25,6 +27,7 @@ public class AuthenticationInterceptor implements Interceptor {
 	private static final long serialVersionUID = 5686161301032864561L;
 
 	Map<String, Object> session;
+	
 	private GenericService service;
 
 	private User user;
@@ -37,6 +40,7 @@ public class AuthenticationInterceptor implements Interceptor {
 
 	@Override
 	public void init() {
+		
 	}
 
 	@Override
@@ -51,7 +55,9 @@ public class AuthenticationInterceptor implements Interceptor {
 
 		Map<String, Object> eqRestrictions = new HashMap<String, Object>();
 
-		if (user == null) {
+		if (user != null)
+			return ActionSupport.SUCCESS;
+		else {
 			Cookie[] cookies = request.getCookies();
 			if (cookies != null) {
 				for (Cookie cookie : cookies) {
@@ -61,6 +67,12 @@ public class AuthenticationInterceptor implements Interceptor {
 						eqRestrictions
 								.put("idUserCookie", encryptedCookieValue);
 
+						if(service == null)
+							System.out.println("Service is null");
+						else
+							System.out.println("Service is not null");
+						service.getClass();
+						
 						userCookie = (UserCookie) service
 								.GetUniqueModelData(UserCookie.class,
 										eqRestrictions);
@@ -87,17 +99,14 @@ public class AuthenticationInterceptor implements Interceptor {
 				}
 			}
 			
-			if(!actionInvocation.getInvocationContext().getName().equals("login"))
+			if(!actionInvocation.getInvocationContext().getName().equals("login")){
 				addActionError(actionInvocation ,"Por favor, inicia sesión para continuar");
-			return ActionSupport.LOGIN;
+				return ActionSupport.LOGIN;
+			}
+			else
+				return actionInvocation.invoke();
 		}
-		else{
-			
-			eqRestrictions.clear();
-			comments = service.GetModelDataList(Comment.class, eqRestrictions);
-			session.put("comments",comments);
-			return ActionSupport.SUCCESS;
-		}
+		
 	}
 
 	void addActionError(ActionInvocation invocation, String message) {

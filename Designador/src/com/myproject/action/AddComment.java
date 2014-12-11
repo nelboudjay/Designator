@@ -2,10 +2,10 @@ package com.myproject.action;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.struts2.interceptor.SessionAware;
-import org.apache.struts2.interceptor.validation.SkipValidation;
 
 import com.myproject.model.Comment;
 import com.myproject.model.User;
@@ -23,12 +23,8 @@ public class AddComment extends ActionSupport implements SessionAware {
 	private GenericService service;
 
 	@Override
-	@SkipValidation
 	public String execute() {
-		return NONE;
-	}
-
-	public String addComment() {
+				
 		clearFieldErrors();
 
 		Date date = new Date();
@@ -39,6 +35,11 @@ public class AddComment extends ActionSupport implements SessionAware {
 
 		Comment comment = new Comment(commentBody, timeStampComment, user);
 		service.SaveOrUpdateModelData(comment);
+
+		@SuppressWarnings("unchecked")
+		List<Comment> comments = ((List<Comment>)session.get("comments"));
+		comments.add(comment);
+		session.put("comments", comments);
 
 		return SUCCESS;
 

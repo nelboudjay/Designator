@@ -32,22 +32,22 @@ public class PermissionInterceptor implements Interceptor {
 	@Override
 	public String intercept(ActionInvocation actionInvocation) throws Exception {
 
-		Map<String, Object> session = actionInvocation.getInvocationContext()
-				.getSession();
+		AuthenticationInterceptor authenticationInterceptor = new AuthenticationInterceptor();
 		
-		user = (User) session.get("user");
-
-		if (user == null) {
-			addActionError(actionInvocation ,"Por favor, inicia sesión para continuar");
+		if (authenticationInterceptor.intercept(actionInvocation).equals(ActionSupport.SUCCESS)){
+			
+			user = authenticationInterceptor.getUser();
+			
+			if (!user.isAdmin()){
+				addActionError(actionInvocation ,"No tienes permiso para ver esta página");
+				return ActionSupport.ERROR;
+			}
+			else
+				return actionInvocation.invoke();
+		}
+		else
 			return ActionSupport.LOGIN;
-		}
-		else if (!user.isAdmin()){
-			addActionError(actionInvocation ,"No tienes permiso para ver esta página");
-			return ActionSupport.ERROR;
-
-		}
-
-		return actionInvocation.invoke();
+		
 	}
 	
 	void addActionError(ActionInvocation invocation, String message) {
