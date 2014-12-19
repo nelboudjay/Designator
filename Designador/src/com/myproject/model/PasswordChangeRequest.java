@@ -1,5 +1,7 @@
 package com.myproject.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -11,44 +13,45 @@ import org.hibernate.annotations.ForeignKey;
 
 @Entity
 @Table(name="PASSWORD_CHANGE_REQUEST")
-public class PasswordChangeRequest {
+public class PasswordChangeRequest implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5046218170591398401L;
 
-
-	
-	public PasswordChangeRequest(String idPasswordChangeRequest, User user) {
+	public PasswordChangeRequest(User idPasswordChangeRequest, String token) {
 		super();
 		this.idPasswordChangeRequest = idPasswordChangeRequest;
-		this.user = user;
+		this.token = token;
 	}
 
 	public PasswordChangeRequest() {		
 	}
 
 	@Id
-	@Column(name = "idPASSWORD_CHANGE_REQUEST", length = 255)
-	private String idPasswordChangeRequest;
-	
 	@OneToOne
 	@ForeignKey (name = "FK_PASSWORD_CHANGE_REQUEST__USER")
-	@JoinColumn(name = "USER", nullable = false, unique = true)
-	private User user;
+	@JoinColumn(name = "idPASSWORD_CHANGE_REQUEST")
+	private User idPasswordChangeRequest;
 	
-	public String getIdPasswordChangeRequest() {
+	@Column(name = "TOKEN", length = 255, nullable = false, unique = true)
+	private String token;
+	
+	public User getIdPasswordChangeRequest() {
 		return idPasswordChangeRequest;
 	}
 
-	public void setIdPasswordChangeRequest(String idPasswordChangeRequest) {
+	public void setIdPasswordChangeRequest(User idPasswordChangeRequest) {
 		this.idPasswordChangeRequest = idPasswordChangeRequest;
 	}
 
-	public User getUser() {
-		return user;
+	public String getToken() {
+		return token;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setToken(String token) {
+		this.token = token;
 	}
-	
 
 }

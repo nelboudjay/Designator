@@ -1,4 +1,4 @@
-package com.myproject.action;
+package com.myproject.tools;
 
 import java.io.UnsupportedEncodingException;
 import java.security.spec.AlgorithmParameterSpec;

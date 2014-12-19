@@ -33,7 +33,6 @@ public class DeleteComment extends ActionSupport implements SessionAware{
 		}
 		else{
 			service.DeleteModelData(comment);	
-			
 			@SuppressWarnings("unchecked")
 			List<Comment> comments = ((List<Comment>)session.get("comments"));
 			comments.remove(comments.size() - 1);

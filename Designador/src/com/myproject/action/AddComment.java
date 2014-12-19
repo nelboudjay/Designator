@@ -24,9 +24,8 @@ public class AddComment extends ActionSupport implements SessionAware {
 
 	@Override
 	public String execute() {
-				
+		
 		clearFieldErrors();
-
 		Date date = new Date();
 
 		Timestamp timeStampComment = new Timestamp(date.getTime());

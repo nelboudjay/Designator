@@ -23,14 +23,7 @@
 			<interceptor class="com.myproject.interceptor.AuthenticationInterceptor"
 				name="AuthenticationInterceptor"></interceptor>
 			<interceptor-stack name="secureStack">
-				<interceptor-ref name="defaultStack" />
 				<interceptor-ref name="AuthenticationInterceptor" />
-			</interceptor-stack>
-
-			<interceptor class="com.myproject.interceptor.PermissionInterceptor"
-				name="PermissionInterceptor"></interceptor>
-			<interceptor-stack name="permissionStack">
-				<interceptor-ref name="PermissionInterceptor" />
 				<interceptor-ref name="defaultStack" />
 			</interceptor-stack>
 		</interceptors>
@@ -61,12 +54,13 @@
 			<result name="login">login.jsp</result>
 		</action>
 
-		<action name="passwordForgot" class="com.myproject.action.ForgotPassword">
+		<action name="passwordForgot">
+			<interceptor-ref name="secureStack" />
 			<result>passwordForgot.jsp</result>
 		</action>
 
 		<action name="resetPassword" class="com.myproject.action.ResetPassword">
-			<result name="success">login.jsp</result>
+			<result name="success" type="redirectAction">login</result>
 			<result name="input">passwordForgot.jsp</result>
 		</action>
 
@@ -77,7 +71,7 @@
 		</action>
 
 		<action name="addComment" class="com.myproject.action.AddComment">
-			<interceptor-ref name="permissionStack" />
+			<interceptor-ref name="secureStack" />
 			<result name="success" type="redirectAction">homePage</result>
 			<result name="error">homePage.jsp</result>
 			<result name="login">login.jsp</result>
@@ -86,7 +80,7 @@
 
 
 		<action name="deleteComment" class="com.myproject.action.DeleteComment">
-			<interceptor-ref name="permissionStack" />
+			<interceptor-ref name="secureStack" />
 			<result name="success" type="redirectAction">homePage</result>
 			<result name="input">homePage.jsp</result>
 			<result name="error">homePage.jsp</result>

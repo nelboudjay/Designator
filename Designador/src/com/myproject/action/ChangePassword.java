@@ -13,6 +13,7 @@ import org.apache.struts2.util.ServletContextAware;
 import com.myproject.model.PasswordChangeRequest;
 import com.myproject.model.User;
 import com.myproject.service.GenericService;
+import com.myproject.tools.DesEncrypter;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class ChangePassword extends ActionSupport implements SessionAware, ServletContextAware{
@@ -43,7 +44,7 @@ public class ChangePassword extends ActionSupport implements SessionAware, Servl
 		if (passwordChangeRequest == null)
 			addActionError("Tu petición de recordar contraseña ha caducado o no existe. Deberá volver a realizarla.");
 		else
-			context.setAttribute("user", passwordChangeRequest.getUser());
+			context.setAttribute("user", passwordChangeRequest.getIdPasswordChangeRequest());
 
 		return NONE;
 

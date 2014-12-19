@@ -18,6 +18,7 @@ import com.myproject.model.Comment;
 import com.myproject.model.User;
 import com.myproject.model.UserCookie;
 import com.myproject.service.GenericService;
+import com.myproject.tools.DesEncrypter;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class Login extends ActionSupport implements SessionAware,

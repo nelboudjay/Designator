@@ -1,6 +1,7 @@
 package com.myproject.interceptor;
 
 import java.net.URLDecoder;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,14 +10,12 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts2.StrutsStatics;
-import org.hibernate.Hibernate;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import com.myproject.action.DesEncrypter;
 import com.myproject.model.Comment;
 import com.myproject.model.User;
 import com.myproject.model.UserCookie;
 import com.myproject.service.GenericService;
+import com.myproject.tools.DesEncrypter;
 import com.opensymphony.xwork2.ActionInvocation;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ValidationAware;
@@ -27,7 +26,7 @@ public class AuthenticationInterceptor implements Interceptor {
 	private static final long serialVersionUID = 5686161301032864561L;
 
 	Map<String, Object> session;
-	
+
 	private GenericService service;
 
 	private User user;
@@ -50,14 +49,14 @@ public class AuthenticationInterceptor implements Interceptor {
 				.getSession();
 		HttpServletRequest request = (HttpServletRequest) actionInvocation
 				.getInvocationContext().get(StrutsStatics.HTTP_REQUEST);
-
+		
 		user = (User) session.get("user");
 
 		Map<String, Object> eqRestrictions = new HashMap<String, Object>();
 
-		if (user != null)
-			return ActionSupport.SUCCESS;
-		else {
+		if (user != null){
+			return properResult(actionInvocation);
+		}else {
 			Cookie[] cookies = request.getCookies();
 			if (cookies != null) {
 				for (Cookie cookie : cookies) {
@@ -67,12 +66,6 @@ public class AuthenticationInterceptor implements Interceptor {
 						eqRestrictions
 								.put("idUserCookie", encryptedCookieValue);
 
-						if(service == null)
-							System.out.println("Service is null");
-						else
-							System.out.println("Service is not null");
-						service.getClass();
-						
 						userCookie = (UserCookie) service
 								.GetUniqueModelData(UserCookie.class,
 										eqRestrictions);
@@ -93,13 +86,18 @@ public class AuthenticationInterceptor implements Interceptor {
 							eqRestrictions.clear();
 			    			comments = service.GetModelDataList(Comment.class, eqRestrictions);
 			    			session.put("comments",comments);
-							return ActionSupport.SUCCESS;
+			    			
+			    			return properResult(actionInvocation);
+			    			
 						}
 					}
 				}
 			}
 			
-			if(!actionInvocation.getInvocationContext().getName().equals("login")){
+			/*Return LOGIN except for 'login' and 'passwordForgot' actions*/
+			List<String> excludedActionsNames = Arrays.asList("login", "passwordForgot");
+			
+			if(!excludedActionsNames.contains(actionInvocation.getInvocationContext().getName())){
 				addActionError(actionInvocation ,"Por favor, inicia sesión para continuar");
 				return ActionSupport.LOGIN;
 			}
@@ -109,31 +107,26 @@ public class AuthenticationInterceptor implements Interceptor {
 		
 	}
 
-	void addActionError(ActionInvocation invocation, String message) {
-		Object action = invocation.getAction();
+	String properResult(ActionInvocation actionInvocation) throws Exception{
+		
+		List<String> actionsNames = Arrays.asList("addComment", "deleteComment");
+
+		if(!actionsNames.contains(actionInvocation.getInvocationContext().getName()))
+			return ActionSupport.SUCCESS;
+		else if (!user.isAdmin()){
+				addActionError(actionInvocation ,"No tienes permiso para ver esta página");
+				return ActionSupport.ERROR;
+		}
+		else
+			return actionInvocation.invoke();
+		
+	}
+	void addActionError(ActionInvocation actionInvocation, String message) {
+		Object action = actionInvocation.getAction();
 		if(action instanceof ValidationAware) {
 			((ValidationAware) action).addActionError(message);
 		}
 	}
-	
-	/*public void AddSessionVariables(Map<String, Object> session) {
-
-		switch (getActionName()) {
-		case "login":
-			session.put("user", user);
-			String userFullName = user.getUserFullName();
-			session.put("userFullName", userFullName);
-			//eqRestrictions.clear();
-			//comments = service.GetModelDataList(Comment.class, eqRestrictions);
-			//session.put("comments",comments);
-			break;
-		case "homePage":
-			break;
-		default:
-			break;
-		}
-
-	}*/
 
 	public User getUser() {
 		return user;
@@ -154,5 +147,6 @@ public class AuthenticationInterceptor implements Interceptor {
 		this.comments = comments;
 	}
 
-
+	
+	
 }

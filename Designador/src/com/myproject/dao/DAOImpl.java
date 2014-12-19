@@ -158,7 +158,7 @@ public class DAOImpl implements DAO {
 				+ eventName
 				+ "			ON SCHEDULE AT CURRENT_TIMESTAMP + INTERVAL 1 " + interval 
 				+ " DO "
-				+ "DELETE FROM PASSWORD_CHANGE_REQUEST WHERE idPASSWORD_CHANGE_REQUEST = '"
+				+ "DELETE FROM " + tableName + " WHERE " + idName + " = '"
 				+ idValue + "';";
 
 		Session session = sessionFactory.getCurrentSession();

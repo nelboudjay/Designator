@@ -46,7 +46,7 @@
 	</bean>
 
 
-	<context:component-scan base-package="com.myproject.mail" />
+	<context:component-scan base-package="com.myproject" />
 
 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 		<property name="host" value="smtp.gmail.com" />
@@ -71,7 +71,6 @@
 		<property name="mailSender" ref="mailSender"></property>
 	</bean>
 
-	
 	<bean id="dao" class="com.myproject.dao.DAOImpl">
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
@@ -79,6 +78,5 @@
 	<bean id="service" class="com.myproject.service.GenericServiceImpl">
 		<property name="dao" ref="dao" />
 	</bean>
-
 
 </beans>

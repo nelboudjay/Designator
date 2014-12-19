@@ -16,6 +16,7 @@ import org.apache.struts2.interceptor.SessionAware;
 import com.myproject.model.User;
 import com.myproject.model.UserCookie;
 import com.myproject.service.GenericService;
+import com.myproject.tools.DesEncrypter;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class Logout extends ActionSupport implements SessionAware, ServletRequestAware, ServletResponseAware{
