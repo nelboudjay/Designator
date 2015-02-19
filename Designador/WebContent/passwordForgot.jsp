@@ -57,10 +57,10 @@
 		información.
 	</p>
 
-	<s:form action="resetPassword">
+	<s:form action="passwordForgot">
 		<s:textfield name="resetPasswordLoginField"
 			label="Nombre de usuario o E-Mail" />
-		<s:submit value="Restablecer mi contraseña" />
+		<s:submit value="Restablecer mi contraseña" method="resetPassword"/>
 	</s:form>
 </body>
 </html>

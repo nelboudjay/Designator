@@ -94,28 +94,34 @@ public class AuthenticationInterceptor implements Interceptor {
 				}
 			}
 			
-			/*Return LOGIN except for 'login' and 'passwordForgot' actions*/
-			List<String> excludedActionsNames = Arrays.asList("login", "passwordForgot");
+			/*Return LOGIN except for 'login', 'passwordForgot' and 'changePassword' actions*/
+			List<String> excludedActionsNames = Arrays.asList("login", "passwordForgot", "changePassword");
 			
-			if(!excludedActionsNames.contains(actionInvocation.getInvocationContext().getName())){
+			if(excludedActionsNames.contains(actionInvocation.getInvocationContext().getName()))
+				return actionInvocation.invoke();
+
+			else{
 				addActionError(actionInvocation ,"Por favor, inicia sesión para continuar");
 				return ActionSupport.LOGIN;
 			}
-			else
-				return actionInvocation.invoke();
 		}
 		
 	}
 
 	String properResult(ActionInvocation actionInvocation) throws Exception{
 		
-		List<String> actionsNames = Arrays.asList("addComment", "deleteComment");
+		List<String> actionsLoginNames = Arrays.asList("login", "homePage");
 
-		if(!actionsNames.contains(actionInvocation.getInvocationContext().getName()))
+		List<String> actionsAdminNames = Arrays.asList("addComment", "deleteComment");
+		
+
+		if (actionsLoginNames.contains( actionInvocation.getInvocationContext().getName()) )
 			return ActionSupport.SUCCESS;
-		else if (!user.isAdmin()){
-				addActionError(actionInvocation ,"No tienes permiso para ver esta página");
-				return ActionSupport.ERROR;
+		else if (actionsAdminNames.contains( actionInvocation.getInvocationContext().getName()) 
+				&&  (!user.isAdmin()))
+		{
+			addActionError(actionInvocation ,"No tienes permiso para ver esta página");
+			return ActionSupport.ERROR;
 		}
 		else
 			return actionInvocation.invoke();
@@ -146,7 +152,4 @@ public class AuthenticationInterceptor implements Interceptor {
 	public void setComments(List<?> comments) {
 		this.comments = comments;
 	}
-
-	
-	
 }

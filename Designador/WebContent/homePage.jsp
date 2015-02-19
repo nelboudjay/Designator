@@ -90,6 +90,11 @@
 			<s:actionerror />
 		</div>
 	</s:if>
+	<s:if test="hasActionMessages()">
+   		<div class="boxMessage">
+      		<s:actionmessage/>
+  		 </div>
+	</s:if>
 	<sx:div label="Inicio">
 		<h2>Todos los partidos</h2>
 		<p>¿Quieres añadir partidos?</p>

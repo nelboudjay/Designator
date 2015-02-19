@@ -26,6 +26,14 @@
 				<interceptor-ref name="AuthenticationInterceptor" />
 				<interceptor-ref name="defaultStack" />
 			</interceptor-stack>
+
+			<interceptor-stack name="storeStack">
+				<interceptor-ref name="AuthenticationInterceptor" />
+				<interceptor-ref name="defaultStack" />
+				<interceptor-ref name="store">
+					<param name="operationMode">STORE</param>
+				</interceptor-ref>
+			</interceptor-stack>
 		</interceptors>
 
 		<action name="/*">
@@ -37,6 +45,9 @@
 		</action>
 
 		<action name="login" class="com.myproject.action.Login">
+			<interceptor-ref name="store">
+				<param name="operationMode">RETRIEVE</param>
+			</interceptor-ref>
 			<interceptor-ref name="secureStack" />
 			<result name="success" type="redirectAction">homePage</result>
 			<result name="input">login.jsp</result>
@@ -44,37 +55,53 @@
 		</action>
 
 		<action name="logout" class="com.myproject.action.Logout">
-			<result name="success">login.jsp</result>
+			<interceptor-ref name="store">
+				<param name="operationMode">STORE</param>
+			</interceptor-ref>
+			<interceptor-ref name="defaultStack" />
+			<result name="success" type="redirectAction">login</result>
 		</action>
 
 		<!-- home link action -->
 		<action name="homePage">
+			<interceptor-ref name="store">
+				<param name="operationMode">RETRIEVE</param>
+			</interceptor-ref>
 			<interceptor-ref name="secureStack" />
 			<result name="success">homePage.jsp</result>
 			<result name="login">login.jsp</result>
 		</action>
 
-		<action name="passwordForgot">
+		<action name="passwordForgot" class="com.myproject.action.PasswordForgot">
+			<interceptor-ref name="store">
+				<param name="operationMode">STORE</param>
+			</interceptor-ref>
 			<interceptor-ref name="secureStack" />
-			<result>passwordForgot.jsp</result>
+			<result name="none">passwordForgot.jsp</result>
+			<result name="input">passwordForgot.jsp</result>
+			<result name="success" type="redirectAction">login</result>
 		</action>
 
-		<action name="resetPassword" class="com.myproject.action.ResetPassword">
-			<result name="success" type="redirectAction">login</result>
-			<result name="input">passwordForgot.jsp</result>
-		</action>
 
 		<action name="changePassword" class="com.myproject.action.ChangePassword">
+			<interceptor-ref name="store">
+				<param name="operationMode">STORE</param>
+			</interceptor-ref>
+			<interceptor-ref name="secureStack" />
+			<result name="error" type="redirectAction">login</result>
 			<result name="none">changePassword.jsp</result>
 			<result name="input">changePassword.jsp</result>
 			<result name="success" type="redirectAction">homePage</result>
 		</action>
 
 		<action name="addComment" class="com.myproject.action.AddComment">
+			<interceptor-ref name="store">
+				<param name="operationMode">STORE</param>
+			</interceptor-ref>
 			<interceptor-ref name="secureStack" />
 			<result name="success" type="redirectAction">homePage</result>
-			<result name="error">homePage.jsp</result>
-			<result name="login">login.jsp</result>
+			<result name="error" type="redirectAction">homePage</result>
+			<result name="login" type="redirectAction">login</result>
 			<result name="input">homePage.jsp</result>
 		</action>
 
