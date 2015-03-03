@@ -76,14 +76,15 @@
 
 	<%@ include file="idle-timeout.html"%>
 
-	<div class="utility">
-
-		<a href="passwordForgot">${session.userFullName}
-			(${session.user.userName}) </a> | <a href="logout">Cerrar sesión</a> | <a
+	<header>
+		<div class="utility">
+			<a href="homePage">${session.userFullName}
+			(${session.user.userName}) <span class="arrow"></span></a> <!--   | <a href="logout">Cerrar sesión</a> | <a
 			href="passwordForgot">Mensajes</a> | <a
-			href="passwordResetInstructions">Ayuda</a>
-	</div>
-	<br />
+			href="passwordResetInstructions">Ayuda</a> -->
+		</div>
+		<br />
+	</header>
 	<s:if test="hasActionErrors()">
 		<br />
 		<div class="errors">

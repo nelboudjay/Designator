@@ -1,5 +1,41 @@
+@include all-flags-sprites;
+
 body {
 	margin-left: 20px;
+	font: 13px/20px Arial,Helvetica,sans-serif;
+}
+
+/*header*/
+
+header {
+    background: url(../images/header_bg.png) 0 0 repeat;
+    height: 62px;
+}
+
+header > div {
+	padding: 5px 10px; 
+	margin-top:16px;
+	
+}
+
+
+header > div > a{
+	color: #8e8e8d;
+	text-decoration:none;
+}
+
+header > div:hover, header > div > a:hover{
+	background: url("../images/menu_bg.png") repeat-x scroll 0 0 #373737;
+	color: #ffffff;
+	
+}
+
+.arrow {
+	width: 7px;
+    height: 5px;
+    background: url(../images/arrows.png) right 0 no-repeat;
+    display:inline-block;
+	
 }
 
 .errors {
@@ -28,7 +64,7 @@ body {
 }
 
 .utility {
-	right: 20px;
+	right: 5px;
 	position: absolute;
 }
 
