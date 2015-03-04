@@ -29,7 +29,7 @@
 	}
 
 	$(function() {
-		
+
 		$("[id^=deleteComment_]").click(
 				function(e) {
 					var comment = $(this).parent().parent();
@@ -45,7 +45,7 @@
 								comment.remove();
 							});
 				});
-		
+
 		$("#cancelCommentLink").click(function() {
 
 			$("#addCommentSubmit").css("display", "none");
@@ -76,15 +76,21 @@
 
 	<%@ include file="idle-timeout.html"%>
 
-	<header>
-		<div class="utility">
-			<a href="homePage">${session.userFullName}
-			(${session.user.userName}) <span class="arrow"></span></a> <!--   | <a href="logout">Cerrar sesión</a> | <a
+	<nav>
+		<ul class="utility">
+			<li><a class="userName" href="homePage">${session.userFullName}
+					(${session.user.userName}) <span class="arrow"></span>
+			</a>
+			<ul>
+			<li class="tito"><a>Profile</a></li>
+			</ul>
+			</li>
+		</ul>
+		<!--   | <a href="logout">Cerrar sesión</a> | <a
 			href="passwordForgot">Mensajes</a> | <a
 			href="passwordResetInstructions">Ayuda</a> -->
-		</div>
 		<br />
-	</header>
+	</nav>
 	<s:if test="hasActionErrors()">
 		<br />
 		<div class="errors">
@@ -92,9 +98,9 @@
 		</div>
 	</s:if>
 	<s:if test="hasActionMessages()">
-   		<div class="boxMessage">
-      		<s:actionmessage/>
-  		 </div>
+		<div class="boxMessage">
+			<s:actionmessage />
+		</div>
 	</s:if>
 	<sx:div label="Inicio">
 		<h2>Todos los partidos</h2>
