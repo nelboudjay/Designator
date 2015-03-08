@@ -21,32 +21,52 @@ ul {
 }
 
 
-nav > ul > li > .userName{
-	color: #8e8e8d;
-	text-decoration:none;
-	padding: 10px 15px;
+#userName {
+	margin-bottom: 8px;
 }
 
-nav > ul > li:hover > .userName{
-    background-color: #373737;
+#userName > span{
+	text-decoration:none;
+	padding: 10px 15px;
+	cursor: pointer;	
+}
+
+.userNameColor {
+	color: #8e8e8d;
+}
+
+#userName:hover > span{
+    background: #373737;
 	box-shadow: 0 0 5px #1e1e1e inset;
 	color: #ffffff;
 	border-bottom: 1px solid #1b1b1b;
-	
 }
 
-nav > ul > li > .tito{
-    background-color: #373737;
+.userName {
+	background: #373737;
+	box-shadow: 0 0 5px #1e1e1e inset;
+	border-bottom: 1px solid #1b1b1b;
+	color: #ffffff;
+}
+
+.tito{
+	background: url("../images/menu_bg.png") repeat-x scroll 0 0 #1b1b1b;
 	box-shadow: 0 0 5px #1e1e1e inset;
 	border-bottom: 1px solid #1b1b1b;
 	padding: 8px 15px 7px;
-	margin-top: 8px;
-	
+	display: none;	
 }
 
-nav > ul > li > .tito > a{
-	color: #ffffff;
+.tito > span{
+	color: #8e8e8d;
+	cursor: pointer;
+}
 
+.tito:hover > span{
+	background: #373737;
+	box-shadow: 0 0 5px #1e1e1e inset;
+	border-bottom: 1px solid #1b1b1b;
+	color: #ffffff;
 }
 
 .arrow {

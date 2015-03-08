@@ -63,7 +63,19 @@
 			$("#cancelCommentLink").css("display", "inline");
 
 		});
+		$('#userName').click(function(){
+			
+			$(this).children(":first").toggleClass("userName"); 
+			$('.tito').slideToggle("drop");
+		});
 
+	/*	$('nav ul > .tito').hover(function(){
+			$('nav ul > .tito > a').css("color","#ffffff");
+			$('nav ul > .tito > a').css("background-color","#373737");
+
+		});	*/
+		//background-color: #373737;
+		
 	});
 </script>
 
@@ -78,13 +90,11 @@
 
 	<nav>
 		<ul class="utility">
-			<li><a class="userName" href="homePage">${session.userFullName}
+			<li id="userName" class="userNameColor"><span>${session.userFullName}
 					(${session.user.userName}) <span class="arrow"></span>
-			</a>
-			<ul>
-			<li class="tito"><a>Profile</a></li>
-			</ul>
-			</li>
+			</span></li>
+			<li class="tito"><span>Profile</span></li>
+			<li class="tito"><span>Profile2</span></li>
 		</ul>
 		<!--   | <a href="logout">Cerrar sesión</a> | <a
 			href="passwordForgot">Mensajes</a> | <a
