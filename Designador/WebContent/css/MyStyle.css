@@ -38,8 +38,8 @@ ul {
 #userName:hover > span{
     background: #373737;
 	box-shadow: 0 0 5px #1e1e1e inset;
-	color: #ffffff;
 	border-bottom: 1px solid #1b1b1b;
+	color: #ffffff;	
 }
 
 .userName {
@@ -49,23 +49,31 @@ ul {
 	color: #ffffff;
 }
 
-.tito{
-	background: url("../images/menu_bg.png") repeat-x scroll 0 0 #1b1b1b;
-	box-shadow: 0 0 5px #1e1e1e inset;
-	border-bottom: 1px solid #1b1b1b;
-	padding: 8px 15px 7px;
-	display: none;	
-}
 
-.tito > span{
+.dropdown-menu {
+	display: none;
+	padding: 8px 0;
+}
+.dropdown-menu > span{
+	text-decoration:none;
+	cursor: pointer;	
 	color: #8e8e8d;
-	cursor: pointer;
-}
+	background: url("../images/menu_bg.png") repeat-x scroll 0 0 #1b1b1b;
+	border-bottom: 1px solid #1b1b1b;
 
-.tito:hover > span{
+}
+.profile > span{
+	padding: 10px 139px 10px 15px;
+}
+.messages > span{
+	padding: 10px 113px 10px 15px;
+}
+.logout > span{
+	padding: 10px 90.5px 10px 15px;
+}
+.dropdown-menu:hover > span{
 	background: #373737;
 	box-shadow: 0 0 5px #1e1e1e inset;
-	border-bottom: 1px solid #1b1b1b;
 	color: #ffffff;
 }
 
@@ -74,6 +82,7 @@ ul {
     height: 5px;
     background: url(../images/arrows.png) right 0 no-repeat;
     display:inline-block;
+    
 	
 }
 

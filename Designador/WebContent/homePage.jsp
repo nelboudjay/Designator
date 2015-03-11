@@ -63,18 +63,14 @@
 			$("#cancelCommentLink").css("display", "inline");
 
 		});
+		
 		$('#userName').click(function(){
 			
-			$(this).children(":first").toggleClass("userName"); 
-			$('.tito').slideToggle("drop");
+			$(this).children(":first").toggleClass("userName"); 			
+			$('.dropdown-menu').slideToggle("drop");
+
 		});
 
-	/*	$('nav ul > .tito').hover(function(){
-			$('nav ul > .tito > a').css("color","#ffffff");
-			$('nav ul > .tito > a').css("background-color","#373737");
-
-		});	*/
-		//background-color: #373737;
 		
 	});
 </script>
@@ -93,8 +89,10 @@
 			<li id="userName" class="userNameColor"><span>${session.userFullName}
 					(${session.user.userName}) <span class="arrow"></span>
 			</span></li>
-			<li class="tito"><span>Profile</span></li>
-			<li class="tito"><span>Profile2</span></li>
+			<li class="dropdown-menu profile"><span>Perfil</span></li>
+		  	<li class="dropdown-menu messages"><span>Mensajes</span></li>
+		  	<li class="dropdown-menu logout"><span>Cerrar sesión</span></li>
+		  	
 		</ul>
 		<!--   | <a href="logout">Cerrar sesión</a> | <a
 			href="passwordForgot">Mensajes</a> | <a
