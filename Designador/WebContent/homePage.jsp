@@ -8,10 +8,10 @@
 <html>
 <head>
 <link rel="stylesheet" type="text/css"
-	href="${pageContext.request.contextPath}/css/MyStyle.css" />
+	href="css/MyStyle.css" />
 
 <script type="text/javascript"
-	src="${pageContext.request.contextPath}/js/jquery.js"></script>
+	src="js/jquery.js"></script>
 
 
 <script type="text/javascript">
@@ -63,15 +63,14 @@
 			$("#cancelCommentLink").css("display", "inline");
 
 		});
-		
-		$('#userName').click(function(){
-			
-			$(this).children(":first").toggleClass("userName"); 			
+
+		$('#userName').click(function() {
+
+			$(this).children(":first").toggleClass("userName");
 			$('.dropdown-menu').slideToggle("drop");
 
 		});
 
-		
 	});
 </script>
 
@@ -85,18 +84,20 @@
 	<%@ include file="idle-timeout.html"%>
 
 	<nav>
-		<ul class="utility">
+		<ul class="logo">
+			<li><a href="homePage"><img src="images/Logo.png"
+					width="12%" height="90%"></a></li>
+		</ul>
+		<ul class="navbar-right">
 			<li id="userName" class="userNameColor"><span>${session.userFullName}
 					(${session.user.userName}) <span class="arrow"></span>
 			</span></li>
-			<li class="dropdown-menu profile"><span>Perfil</span></li>
-		  	<li class="dropdown-menu messages"><span>Mensajes</span></li>
-		  	<li class="dropdown-menu logout"><span>Cerrar sesión</span></li>
-		  	
+			<li class="dropdown-menu profile"><a>Perfil</a></li>
+			<li class="dropdown-menu messages"><a>Mensajes</a></li>
+			<li class="dropdown-menu logout"><a href="logout">Cerrar sesión</a></li>
+
 		</ul>
-		<!--   | <a href="logout">Cerrar sesión</a> | <a
-			href="passwordForgot">Mensajes</a> | <a
-			href="passwordResetInstructions">Ayuda</a> -->
+
 		<br />
 	</nav>
 	<s:if test="hasActionErrors()">

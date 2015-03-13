@@ -1,8 +1,8 @@
 @include all-flags-sprites;
 
 body {
-	margin-left: 20px;
 	font: 13px/20px Arial,Helvetica,sans-serif;
+	margin: 0;
 }
 
 /*header*/
@@ -12,14 +12,28 @@ nav {
     height: 62px;
 }
 
-nav > ul {
-	margin-top:21px;
-}
-
 ul {
 	list-style: outside none none;
 }
 
+.logo {
+	width: 100%;
+	margin: 0;
+	padding-left: 0;
+	display: inline-block;
+}
+
+.navbar-right {
+	right: 5px;
+	position: absolute;
+	margin-top:21px;
+	display: inline-block;
+}
+
+.dropdown-menu {
+	display: none;
+	padding: 8px 0;
+}
 
 #userName {
 	margin-bottom: 8px;
@@ -49,12 +63,7 @@ ul {
 	color: #ffffff;
 }
 
-
-.dropdown-menu {
-	display: none;
-	padding: 8px 0;
-}
-.dropdown-menu > span{
+.dropdown-menu > a{
 	text-decoration:none;
 	cursor: pointer;	
 	color: #8e8e8d;
@@ -62,16 +71,17 @@ ul {
 	border-bottom: 1px solid #1b1b1b;
 
 }
-.profile > span{
+
+.profile > a{
 	padding: 10px 139px 10px 15px;
 }
-.messages > span{
+.messages > a{
 	padding: 10px 113px 10px 15px;
 }
-.logout > span{
+.logout > a{
 	padding: 10px 90.5px 10px 15px;
 }
-.dropdown-menu:hover > span{
+.dropdown-menu:hover > a{
 	background: #373737;
 	box-shadow: 0 0 5px #1e1e1e inset;
 	color: #ffffff;
@@ -111,10 +121,7 @@ ul {
 	margin-left: -25px;
 }
 
-.utility {
-	right: 5px;
-	position: absolute;
-}
+
 
 .dojoTabContainer {
 	margin-left: 20px;
@@ -203,4 +210,38 @@ div[id^=confirmBox_] .message {
 
 #addCommentSubmit{
 	display: none;
+}
+
+
+
+/**************Login******************/
+
+.loginBox {
+	width: 25%;
+	margin-left: 37.5%;
+	margin-top: 10%;	
+	border: 1px solid #dedede;
+	border-radius: 3px;
+}
+
+.boxHeader {
+	background: -moz-linear-gradient(center top , #fdfdfd, #eaeaea) repeat scroll 0 0 / 100% auto #eaeaea;
+	border-bottom: 1px solid #dedede;
+	color: #464647;
+	padding: 10px;
+	text-shadow: 0 1px #fff;
+	font-weight: bold;
+	font-size: 14px;
+}
+
+.boxContent {
+	padding: 15px;
+}
+
+.boxContent input {
+	width: 100%;
+	height: 36px;
+	border-radius: 3px;
+	border: 1px solid #dedede;
+	
 }
