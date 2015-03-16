@@ -8,6 +8,14 @@
 
 <title>Página Principal - Inicar Sesión</title>
 <s:head />
+
+<script type="text/javascript">
+function checkbox(val){
+	
+	console.log("hello " + val.value);
+}
+
+</script>
 </head>
 <body>
 
@@ -39,10 +47,10 @@
 				<input type="text" name="loginField" placeholder="Nombre de usuario o E-Mail" class="loginFields">
 				<input type="password" name="password" placeholder="Contraseña" class="loginFields">	
 				<label class="checkbox">
-					<input type="checkbox" name="rememberMe" >	
+					<input type="checkbox" name="rememberMe" value="true">					
 					Recordarme	
 				</label>	
-				<input type="submit" class="loginButton" value="Iniciar sesión" name="method:login">
+				<input type="submit" class="loginButton" value="Iniciar sesión" name="method:login" >
 						
 			</form>
 			<a href="passwordForgot">¿Has olvidado tu contraseña?</a>
