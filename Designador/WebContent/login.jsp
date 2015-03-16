@@ -38,20 +38,13 @@
 			<form action="/Designador/login" method="post">
 				<input type="text" name="loginField" placeholder="Nombre de usuario o E-Mail" class="loginFields">
 				<input type="password" name="password" placeholder="Contraseña" class="loginFields">	
-				<label>
-					<input type="checkbox" name="rememberMe" class="checkbox">	
+				<label class="checkbox">
+					<input type="checkbox" name="rememberMe" >	
 					Recordarme	
 				</label>	
-				<button>Iniciar sesión</button>
+				<input type="submit" class="loginButton" value="Iniciar sesión" name="method:login">
 						
 			</form>
-			<s:form action="login">
-				<s:textfield name="loginField"
-					placeholder="Nombre de usuario o E-Mail" />
-				<s:password name="password" placeholder="Contraseña" />
-				<s:submit value="Iniciar sesión" method="login" />
-				<s:checkbox name="rememberMe" label="Recordarme" />
-			</s:form>
 			<a href="passwordForgot">¿Has olvidado tu contraseña?</a>
 		</div>
 	</div>
