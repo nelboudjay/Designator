@@ -7,11 +7,9 @@
 
 <html>
 <head>
-<link rel="stylesheet" type="text/css"
-	href="css/MyStyle.css" />
+<link rel="stylesheet" type="text/css" href="css/MyStyle.css" />
 
-<script type="text/javascript"
-	src="js/jquery.js"></script>
+<script type="text/javascript" src="js/jquery.js"></script>
 
 
 <script type="text/javascript">
@@ -64,11 +62,11 @@
 
 		});
 
-		$('#userName').click(function() {
+		$('#userName').click(function(e) {
 
 			$(this).children(":first").toggleClass("userName");
 			$('.dropdown-menu').slideToggle("drop");
-
+			e.stopPropagation();	
 		});
 
 	});
@@ -94,7 +92,8 @@
 			</span></li>
 			<li class="dropdown-menu profile"><a>Perfil</a></li>
 			<li class="dropdown-menu messages"><a>Mensajes</a></li>
-			<li class="dropdown-menu logout"><a href="logout">Cerrar sesión</a></li>
+			<li class="dropdown-menu logout"><a href="logout">Cerrar
+					sesión</a></li>
 
 		</ul>
 

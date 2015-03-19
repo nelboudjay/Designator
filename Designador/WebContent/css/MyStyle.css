@@ -17,8 +17,8 @@ a:hover {
     color: #c1461c;
     text-decoration: underline;
 }
-/*header*/
 
+/*header*/
 nav {
     background: url(../images/header_bg.png) 0 0 repeat;
     height: 62px;
@@ -96,6 +96,9 @@ ul {
 }
 .logout > a{
 	padding: 10px 90.5px 10px 15px;
+	border-bottom-left-radius: 3px;
+	border-bottom-right-radius: 3px;
+	
 }
 .dropdown-menu:hover > a{
 	background: #373737;
@@ -112,6 +115,8 @@ ul {
 	
 }
 
+
+/***********************************/
 .errors {
 	background-color: #FFCCCC;
 	border: 1px solid #CC0000;
@@ -126,10 +131,30 @@ ul {
 
 
 .boxMessage {
-	background-color: #DDFFDD;
-	border: 1px solid #009900;
-	width: 400px;
-	margin-bottom: 8px;
+	background: -moz-linear-gradient(center top , #b6dd69, #acd954) repeat scroll 0 0 / 100% auto #acd954;
+    border: 1px solid #97cc2e;
+    border-radius: 4px;
+    box-shadow: 0 1px 2px #bce075 inset, 0 1px 1px #dfdfdf;
+    color: #2b3a0d;
+    margin-left: 1%;
+    width: 80%;
+}
+
+.close {
+	background: none repeat scroll 0 0 transparent;
+    border: 0 none;
+    cursor: pointer;
+    float: right;
+    font-size: 21px;
+    font-weight: bold;
+    opacity: 0.2;
+    position: relative;
+    text-shadow: 0 1px 0 rgb(255, 255, 255);
+}
+
+.close:hover{
+	opacity: 0.5;
+	color: #000000;
 }
 
 .actionMessage li {

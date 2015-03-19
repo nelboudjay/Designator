@@ -8,18 +8,16 @@
 
 <title>Página Principal - Inicar Sesión</title>
 <s:head />
-
+<script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript">
-function checkbox(val){
-	
-	console.log("hello " + val.value);
-}
-
+	$(document).ready(function() {
+		$('.close').click(function() {
+			$(".boxMessage").css("display", "none");
+		});
+	});
 </script>
 </head>
 <body>
-
-	<!--  <h1>Iniciar sesión</h1> -->
 
 	<nav>
 		<ul class="logo">
@@ -34,6 +32,7 @@ function checkbox(val){
 
 	<s:if test="hasActionMessages()">
 		<div class="boxMessage">
+			<button class="close" type="button">×</button>
 			<s:actionmessage />
 		</div>
 	</s:if>
@@ -44,14 +43,14 @@ function checkbox(val){
 		<div class="boxHeader">Iniciar sesión</div>
 		<div class="boxContent">
 			<form action="/Designador/login" method="post">
-				<input type="text" name="loginField" placeholder="Nombre de usuario o E-Mail" class="loginFields">
-				<input type="password" name="password" placeholder="Contraseña" class="loginFields">	
-				<label class="checkbox">
-					<input type="checkbox" name="rememberMe" value="true">					
-					Recordarme	
-				</label>	
-				<input type="submit" class="loginButton" value="Iniciar sesión" name="method:login" >
-						
+				<input type="text" name="loginField"
+					placeholder="Nombre de usuario o E-Mail" class="loginFields">
+				<input type="password" name="password" placeholder="Contraseña"
+					class="loginFields"> <label class="checkbox"> <input
+					type="checkbox" name="rememberMe" value="true"> Recordarme
+				</label> <input type="submit" class="loginButton" value="Iniciar sesión"
+					name="method:login">
+
 			</form>
 			<a href="passwordForgot">¿Has olvidado tu contraseña?</a>
 		</div>
