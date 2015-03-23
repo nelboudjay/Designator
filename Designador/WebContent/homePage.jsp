@@ -62,12 +62,16 @@
 
 		});
 
-		$('#userName').click(function(e) {
-
+		$('#userName').click(function(evt) {
+			evt.stopPropagation();
 			$(this).children(":first").toggleClass("userName");
 			$('.dropdown-menu').slideToggle("drop");
-			e.stopPropagation();	
 		});
+		
+		$(document).click(function() {
+			$('#userName').children(":first").removeClass("userName");
+			$('.dropdown-menu').slideUp();
+	    });
 
 	});
 </script>
