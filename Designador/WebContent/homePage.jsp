@@ -64,12 +64,12 @@
 
 		$('#userName').click(function(evt) {
 			evt.stopPropagation();
-			$(this).children(":first").toggleClass("userName");
+			$(this).toggleClass("userName");
 			$('.dropdown-menu').slideToggle("drop");
 		});
 		
 		$(document).click(function() {
-			$('#userName').children(":first").removeClass("userName");
+			$('#userName').removeClass("userName");
 			$('.dropdown-menu').slideUp();
 	    });
 
@@ -91,12 +91,12 @@
 					width="12%" height="90%"></a></li>
 		</ul>
 		<ul class="navbar-right">
-			<li id="userName" class="userNameColor"><span>${session.userFullName}
+			<li id="userName" ><span>${session.userFullName}
 					(${session.user.userName}) <span class="arrow"></span>
 			</span></li>
-			<li class="dropdown-menu profile"><a>Perfil</a></li>
-			<li class="dropdown-menu messages"><a>Mensajes</a></li>
-			<li class="dropdown-menu logout"><a href="logout">Cerrar sesión</a></li>
+			<li id="profile" class="dropdown-menu"><a>Perfil</a></li>
+			<li id="messages" class="dropdown-menu"><a>Mensajes</a></li>
+			<li id="logout" class="dropdown-menu"><a href="logout">Cerrar sesión</a></li>
 
 		</ul>
 
