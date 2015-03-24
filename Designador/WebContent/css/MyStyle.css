@@ -39,38 +39,66 @@ ul {
 .navbar-right {
 	right: 5px;
 	position: absolute;
-	margin-top:21px;
+	margin-top:13px;
 }
 
 .dropdown-menu {
 	display: none;
-	padding: 8px 0;
+	padding: 8px 0 8px 15px;
+	height: 20px;
+	background: url("../images/menu_bg.png") repeat-x scroll 0 0 #1b1b1b;
 }
 
-.dropdown-menu a{
+.dropdown-menu > a{
+	text-decoration:none;
+	cursor: pointer;	
+	color: #8e8e8d;
 	font-weight: normal;
 }
 
+.dropdown-menu:hover {
+	background: #373737;
+	color: #ffffff;
+	box-shadow: 0 0 5px #1e1e1e inset;
+}
+
+.dropdown-menu:hover a{
+	color: #ffffff;
+}
+
+.arrow {
+	width: 7px;
+    height: 5px;
+    background: url(../images/arrows.png) right 0 no-repeat;
+    display:inline-block;
+}
+
 #userName {
-	margin-bottom: 8px;
+	height: 20px;
+	padding: 8px 15px;
+}
+
+#userName:hover {
+    background: #373737;
+	box-shadow: 0 0 5px #1e1e1e inset;
+	border-bottom: 1px solid #1b1b1b;
+	color: #ffffff;	
 }
 
 #userName > span{
 	text-decoration:none;
-	padding: 10px 15px;
 	cursor: pointer;	
+}
+
+#userName:hover > span{
+	color: #ffffff;	
 }
 
 .userNameColor {
 	color: #8e8e8d;
 }
 
-#userName:hover > span{
-    background: #373737;
-	box-shadow: 0 0 5px #1e1e1e inset;
-	border-bottom: 1px solid #1b1b1b;
-	color: #ffffff;	
-}
+
 
 .userName {
 	background: #373737;
@@ -79,16 +107,9 @@ ul {
 	color: #ffffff;
 }
 
-.dropdown-menu > a{
-	text-decoration:none;
-	cursor: pointer;	
-	color: #8e8e8d;
-	background: url("../images/menu_bg.png") repeat-x scroll 0 0 #1b1b1b;
-	border-bottom: 1px solid #1b1b1b;
 
-}
 
-.profile > a{
+/*.profile > a{
 	padding: 10px 139px 10px 15px;
 }
 .messages > a{
@@ -99,24 +120,11 @@ ul {
 	border-bottom-left-radius: 3px;
 	border-bottom-right-radius: 3px;
 	
-}
-.dropdown-menu:hover > a{
-	background: #373737;
-	box-shadow: 0 0 5px #1e1e1e inset;
-	color: #ffffff;
-}
-
-.arrow {
-	width: 7px;
-    height: 5px;
-    background: url(../images/arrows.png) right 0 no-repeat;
-    display:inline-block;
-    
-	
-}
+}*/
 
 
-/***********************************/
+
+/*******************Error & Info Messages***************/
 .error {
 	background: #e8a397;
     border: 1px solid #de7e6d;
@@ -168,6 +176,7 @@ ul {
 
 
 
+/**********************************/
 
 
 
@@ -260,7 +269,7 @@ div[id^=confirmBox_] .message {
 
 
 
-/**************Login******************/
+/**************Login box******************/
 
 .loginBox {
 	width: 25%;
@@ -315,7 +324,6 @@ div[id^=confirmBox_] .message {
 	letter-spacing: 0.5px;
 	cursor: pointer;
 }
-
 
 .requiredField {
 	display: none;

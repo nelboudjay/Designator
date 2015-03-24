@@ -32,10 +32,7 @@
 			
 		});
 
-		$('#submit').click(function() {
-
-		});
-
+	
 		$('.close').click(function() {
 			$(".boxMessage").css("display", "none");
 			$(".error").css("display", "none");
@@ -75,7 +72,7 @@
 				<div class="requiredField" ></div>
 				<label class="checkbox"> <input type="checkbox"
 					name="rememberMe" value="true"> Recordarme
-				</label> <input id="submit" type="submit" class="loginButton"
+				</label> <input type="submit" class="loginButton"
 					value="Iniciar sesión" name="method:login">
 			</form>
 			<a href="passwordForgot">¿Has olvidado tu contraseña?</a>

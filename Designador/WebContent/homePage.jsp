@@ -96,8 +96,7 @@
 			</span></li>
 			<li class="dropdown-menu profile"><a>Perfil</a></li>
 			<li class="dropdown-menu messages"><a>Mensajes</a></li>
-			<li class="dropdown-menu logout"><a href="logout">Cerrar
-					sesión</a></li>
+			<li class="dropdown-menu logout"><a href="logout">Cerrar sesión</a></li>
 
 		</ul>
 
