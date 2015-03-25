@@ -64,17 +64,19 @@ ul {
 	transition: all 0.5s ease 0s;
 }
 
+.border-bottom {
+	border-bottom: 1px solid #1b1b1b;
+}
+
 #userName:hover > span, .dropdown-menu:hover > a, .userName > span{
 	color: #ffffff;	
 }
-
 
 .dropdown-menu {
 	display: none;
 	padding: 8px 0 8px 15px;
 	height: 20px;
 	background: url("../images/menu_bg.png") repeat-x scroll 0 0 #1b1b1b;
-	border-bottom: 1px solid #1b1b1b;
 }
 
 .arrow {
@@ -139,8 +141,35 @@ ul {
 	color: #000000;
 }
 
-/**********************************/
+/***************Left Menu*******************/
 
+#leftMenu {
+	float:left;
+	height: 200%;
+	background: url(../images/header_bg.png) 0 0 repeat;
+}
+
+#leftMenu ul {
+	margin: 0;
+	margin-left: 5px;
+	padding: 0;
+	background: url("../images/menu_bg.png") repeat-x scroll 0 #1b1b1b;
+	
+}
+
+#leftMenu li {
+	padding: 8px 15px;
+	height: 20px;
+	padding-right:120px;
+	box-shadow: 0 0 5px #1e1e1e inset;
+	transition: all 0.5s ease 0s;
+}
+
+[id^=widget_] {
+	float:left;
+}
+
+/******************************************/
 
 .dojoTabContainer {
 	margin-left: 20px;

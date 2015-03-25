@@ -88,7 +88,7 @@ public class PasswordForgot extends ActionSupport{
 			mailService.sendMail(user.getEmail(),
 					"Instrucciones para restablecer tu contraseña",
 					"passwordResetInstructions.vm", templateData);
-			addActionMessage("Se te ha enviado un E-mail con las instrucciones para restablecer tu contraseña");
+			addActionMessage("Se te ha enviado un E-mail con las instrucciones para restablecer tu contraseña.");
 			
 			return SUCCESS;
 		}

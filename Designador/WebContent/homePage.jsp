@@ -65,11 +65,13 @@
 		$('#userName').click(function(evt) {
 			evt.stopPropagation();
 			$(this).toggleClass("userName");
+			$('.dropdown-menu').toggleClass("border-bottom");
 			$('.dropdown-menu').slideToggle("drop");
 		});
 		
 		$(document).click(function() {
 			$('#userName').removeClass("userName");
+			$('.dropdown-menu').removeClass("border-bottom");
 			$('.dropdown-menu').slideUp();
 	    });
 
@@ -95,7 +97,7 @@
 					(${session.user.userName}) <span class="arrow"></span>
 			</span></li>
 			<li id="profile" class="dropdown-menu"><a>Perfil</a></li>
-			<li id="messages" class="dropdown-menu"><a>Mensajes</a></li>
+		 	<li id="messages" class="dropdown-menu"><a>Mensajes</a></li>
 			<li id="logout" class="dropdown-menu"><a href="logout">Cerrar sesión</a></li>
 
 		</ul>
@@ -113,7 +115,14 @@
 			<s:actionmessage />
 		</div>
 	</s:if>
-	<sx:div label="Inicio">
+	
+	<div id="leftMenu">
+		<ul>
+			<li><a href="homePage">Inicio</a></li>
+		</ul>
+	</div>
+	
+	<sx:div label="Inicio" >
 		<h2>Todos los partidos</h2>
 		<p>¿Quieres añadir partidos?</p>
 		<table class="calendar">
