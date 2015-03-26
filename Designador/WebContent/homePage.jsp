@@ -119,6 +119,8 @@
 	<div id="leftMenu">
 		<ul>
 			<li><a href="homePage">Inicio</a></li>
+			<li><a href="homePage">Partidos</a></li>
+			<li><a href="homePage">Árbitros</a></li>
 		</ul>
 	</div>
 	

@@ -153,17 +153,23 @@ ul {
 	margin: 0;
 	margin-left: 5px;
 	padding: 0;
-	background: url("../images/menu_bg.png") repeat-x scroll 0 #1b1b1b;
 	
 }
 
 #leftMenu li {
-	padding: 8px 15px;
+	padding: 10px 120px 10px 15px;
 	height: 20px;
 	padding-right:120px;
 	box-shadow: 0 0 5px #1e1e1e inset;
 	transition: all 0.5s ease 0s;
+	border-bottom: 1px solid white;
+	background-image: url("../images/menu_bg.png");
 }
+
+#leftMenu a {
+	
+}
+
 
 [id^=widget_] {
 	float:left;
