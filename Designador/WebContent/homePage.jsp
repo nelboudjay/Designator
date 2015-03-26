@@ -64,15 +64,14 @@
 
 		$('#userName').click(function(evt) {
 			evt.stopPropagation();
-			$(this).toggleClass("userName");
-			$('.dropdown-menu').toggleClass("border-bottom");
 			$('.dropdown-menu').slideToggle("drop");
+			$(this).toggleClass("userName");
+
 		});
 		
 		$(document).click(function() {
-			$('#userName').removeClass("userName");
-			$('.dropdown-menu').removeClass("border-bottom");
 			$('.dropdown-menu').slideUp();
+			$('#userName').removeClass("userName");
 	    });
 
 	});

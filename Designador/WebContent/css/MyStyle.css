@@ -37,19 +37,21 @@ ul {
 }
 
 .navbar-right {
-	right: 5px;
+	right: 0;
 	position: absolute;
-	margin-top:13px;
+	margin-top:1px;
 }
 
 #userName {
 	height: 20px;
-	padding: 8px 15px;	
+	padding: 20px;	
+	cursor: pointer;	
+	border-top-left-radius: 3px;
+	border-top-right-radius: 3px;
 }
 
 #userName > span, .dropdown-menu > a{
 	text-decoration:none;
-	cursor: pointer;	
 	font-weight: normal;	
 	
 }
@@ -59,13 +61,11 @@ ul {
 }
 
 #userName:hover, .dropdown-menu:hover, .userName {
-    background: #373737;
+    background: #1b1b1b;
 	box-shadow: 0 0 5px #1e1e1e inset;
 	transition: all 0.5s ease 0s;
-}
-
-.border-bottom {
-	border-bottom: 1px solid #1b1b1b;
+	border-bottom: 1px solid #373737;
+	opacity:0.9;
 }
 
 #userName:hover > span, .dropdown-menu:hover > a, .userName > span{
@@ -74,9 +74,12 @@ ul {
 
 .dropdown-menu {
 	display: none;
-	padding: 8px 0 8px 15px;
+	padding: 4px 0 4px 15px;
 	height: 20px;
-	background: url("../images/menu_bg.png") repeat-x scroll 0 0 #1b1b1b;
+	background: #1b1b1b;
+	cursor: pointer;	
+	font-size: 12px;
+	border-bottom: 1px solid #373737;
 }
 
 .arrow {
