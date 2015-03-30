@@ -66,13 +66,18 @@
 			evt.stopPropagation();
 			$('.dropdown-menu').slideToggle("drop");
 			$(this).toggleClass("userName");
-
 		});
-		
+
 		$(document).click(function() {
-			$('.dropdown-menu').slideUp();
-			$('#userName').removeClass("userName");
-	    });
+			$('.dropdown-menu').slideUp(function() {
+				$('#userName').removeClass("userName");
+			});
+		});
+
+		$('#leftMenu li').click(function() {
+			$('#leftMenu li').removeClass("active");
+			$(this).addClass("active");
+		});
 
 	});
 </script>
@@ -92,12 +97,13 @@
 					width="12%" height="90%"></a></li>
 		</ul>
 		<ul class="navbar-right">
-			<li id="userName" ><span>${session.userFullName}
+			<li id="userName"><span><img class="profile-icon" src="images/profile-icon.png" >${session.userFullName}
 					(${session.user.userName}) <span class="arrow"></span>
 			</span></li>
 			<li id="profile" class="dropdown-menu"><a>Perfil</a></li>
-		 	<li id="messages" class="dropdown-menu"><a>Mensajes</a></li>
-			<li id="logout" class="dropdown-menu"><a href="logout">Cerrar sesión</a></li>
+			<li id="messages" class="dropdown-menu"><a>Mensajes</a></li>
+			<li id="logout" class="dropdown-menu"><a href="logout">Cerrar
+					sesión</a></li>
 
 		</ul>
 
@@ -114,18 +120,23 @@
 			<s:actionmessage />
 		</div>
 	</s:if>
-	
+
 	<div id="leftMenu">
 		<ul>
-			<li><a href="homePage">Inicio</a></li>
-			<li><a href="homePage">Partidos</a></li>
-			<li><a href="homePage">Árbitros</a></li>
+			<li class="active"><span class="glow"></span><a href="homePage">Inicio</a></li>
+			<li><span class="glow"></span><a href="homePage">Partidos<span
+					class="arrow"></span></a></li>
+			<li><span class="glow"></span><a href="homePage">Árbitros</a></li>
 		</ul>
 	</div>
-	
-	<sx:div label="Inicio" >
-		<h2>Todos los partidos</h2>
-		<p>¿Quieres añadir partidos?</p>
+
+	<div class="main-content">
+		<div class="content-title">
+			<h2>Todos los partidos</h2>
+			<p>¿Quieres añadir partidos?</p>
+		</div>
+
+
 		<table class="calendar">
 			<thead>
 				<tr>
@@ -201,7 +212,7 @@
 			</s:iterator>
 		</ol>
 
-	</sx:div>
+	</div>
 
 	<br />
 	<s:div>

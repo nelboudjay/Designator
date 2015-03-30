@@ -10,7 +10,6 @@ body {
 a {
 	color: inherit;
 	text-decoration: none;
-	font-weight: bold;
 }
 
 a:hover {
@@ -43,39 +42,40 @@ ul {
 }
 
 #userName {
-	height: 20px;
-	padding: 20px;	
+	padding: 14px 20px;	
 	cursor: pointer;	
-	border-top-left-radius: 3px;
-	border-top-right-radius: 3px;
 }
 
-#userName > span, .dropdown-menu > a{
-	text-decoration:none;
-	font-weight: normal;	
-	
+.profile-icon {
+	width:32px;
+	border-radius: 3px;
+    margin-right: 10px;
+    vertical-align: middle;
 }
 
 .dropdown-menu > a{
-	color: #8e8e8d;
+	text-decoration:none;
 }
+
 
 #userName:hover, .dropdown-menu:hover, .userName {
     background: #1b1b1b;
-	box-shadow: 0 0 5px #1e1e1e inset;
 	transition: all 0.5s ease 0s;
 	border-bottom: 1px solid #373737;
+}
+
+.dropdown-menu:hover {
 	opacity:0.9;
 }
 
+
 #userName:hover > span, .dropdown-menu:hover > a, .userName > span{
-	color: #ffffff;	
+	color: #ffffff;		
 }
 
 .dropdown-menu {
 	display: none;
 	padding: 4px 0 4px 15px;
-	height: 20px;
 	background: #1b1b1b;
 	cursor: pointer;	
 	font-size: 12px;
@@ -160,21 +160,63 @@ ul {
 }
 
 #leftMenu li {
-	padding: 10px 120px 10px 15px;
-	height: 20px;
-	padding-right:120px;
-	box-shadow: 0 0 5px #1e1e1e inset;
+	background-color: #252528;
+	padding: 10px 80px 10px 25px;
 	transition: all 0.5s ease 0s;
-	border-bottom: 1px solid white;
-	background-image: url("../images/menu_bg.png");
+	border-bottom: 1px solid #373737;
+	cursor:pointer;
+	position: relative;
 }
 
-#leftMenu a {
-	
+#leftMenu li:hover {
+	background-color: #1b1b1b;
 }
 
+#leftMenu li a {
+	font-weight: normal;
+}
 
-[id^=widget_] {
+#leftMenu li:hover a {
+	text-decoration:none;
+	color:#ffffff;	
+}
+
+.glow {
+	background: none repeat scroll 0 0 #4d1c0b;
+    box-shadow: 0 0 2px 1px #80371f inset;
+    height: 39px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    transition: all 0.5s ease 0s;
+    width: 5px;
+    margin-left: -5px;
+}
+
+li.active .glow{
+	background: none repeat scroll 0 0 #c1461c;
+    box-shadow: 0 0 2px 1px #da9077 inset;
+}
+
+.active .glow::after {
+	box-shadow: -10px 0 15px 20px rgba(255, 235, 205, 0.15);
+    content: "";
+    left: 10px;
+    position: absolute;
+    top: 20px;
+}
+#leftMenu li:hover .glow {
+	background: none repeat scroll 0 0 #c1461c;
+    box-shadow: 0 0 2px 1px #da9077 inset;
+}
+
+#leftMenu .arrow {
+	margin-left:10px;
+}
+
+/****************Main content***************************/
+
+.main-content {
 	float:left;
 }
 
