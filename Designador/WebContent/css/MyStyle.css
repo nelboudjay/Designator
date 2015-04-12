@@ -17,6 +17,9 @@ a:hover {
     text-decoration: underline;
 }
 
+h2 {
+	margin: 0;
+}
 /*header*/
 nav {
     background: url(../images/header_bg.png) 0 0 repeat;
@@ -46,6 +49,13 @@ ul {
 	cursor: pointer;	
 }
 
+#login a {
+	display: block;
+	padding: 20px;
+	cursor: pointer;	
+
+}
+
 .profile-icon {
 	width:32px;
 	border-radius: 3px;
@@ -53,12 +63,19 @@ ul {
     vertical-align: middle;
 }
 
-.dropdown-menu > a{
+.home-icon, .games-icon, referee-icon {
+	position: absolute;
+    height: 20px;
+    left: 20px;
+    
+}
+
+.dropdown-menu > a, #login a{
 	text-decoration:none;
 }
 
 
-#userName:hover, .dropdown-menu:hover, .userName {
+#userName:hover, #login a:hover, .dropdown-menu:hover, .userName {
     background: #1b1b1b;
 	transition: all 0.5s ease 0s;
 	border-bottom: 1px solid #373737;
@@ -69,7 +86,7 @@ ul {
 }
 
 
-#userName:hover > span, .dropdown-menu:hover > a, .userName > span{
+#userName:hover > span, #login a:hover, .dropdown-menu:hover > a, .userName > span{
 	color: #ffffff;		
 }
 
@@ -146,10 +163,18 @@ ul {
 
 /***************Left Menu*******************/
 
+.sidebar-background {
+	background: url(../images/header_bg.png) 0 0 repeat;
+    height: 100%;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 190px;
+    z-index: -1;
+}
+
 #leftMenu {
 	float:left;
-	height: 200%;
-	background: url(../images/header_bg.png) 0 0 repeat;
 }
 
 #leftMenu ul {
@@ -161,7 +186,6 @@ ul {
 
 #leftMenu li {
 	background-color: #252528;
-	padding: 10px 80px 10px 25px;
 	transition: all 0.5s ease 0s;
 	border-bottom: 1px solid #373737;
 	cursor:pointer;
@@ -174,6 +198,8 @@ ul {
 
 #leftMenu li a {
 	font-weight: normal;
+	padding: 10px 60px;
+	display: block;
 }
 
 #leftMenu li:hover a {
@@ -217,9 +243,12 @@ li.active .glow{
 /****************Main content***************************/
 
 .main-content {
-	float:left;
+	margin-left:190px;
 }
 
+.content-title {
+	background: wheat;
+}
 /******************************************/
 
 .dojoTabContainer {

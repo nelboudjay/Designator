@@ -106,8 +106,6 @@
 					sesión</a></li>
 
 		</ul>
-
-		<br />
 	</nav>
 	<s:if test="hasActionErrors()">
 		<br />
@@ -121,12 +119,13 @@
 		</div>
 	</s:if>
 
+	<div class="sidebar-background"></div>
 	<div id="leftMenu">
 		<ul>
-			<li class="active"><span class="glow"></span><a href="homePage">Inicio</a></li>
-			<li><span class="glow"></span><a href="homePage">Partidos<span
+			<li class="active"><span class="glow"></span><a href="homePage"><img class="home-icon" src="images/home-icon.png" >Inicio</a></li>
+			<li><span class="glow"></span><a><img class="home-icon" src="images/games-icon.png" >Partidos<span
 					class="arrow"></span></a></li>
-			<li><span class="glow"></span><a href="homePage">Árbitros</a></li>
+			<li><span class="glow"></span><a><img class="home-icon" src="images/referee-icon.png" >Árbitros</a></li>
 		</ul>
 	</div>
 
