@@ -131,10 +131,12 @@
 
 	<div class="main-content">
 		<div class="content-title">
-			<h2>Todos los partidos</h2>
-			<p>¿Quieres añadir partidos?</p>
+			<h3><img class="home-black-icon" src="images/home-black-icon.png"> Inicio</h3>
+			<span>Todos los partidos</span>
 		</div>
 
+		
+		<p>¿Quieres añadir partidos?</p>
 
 		<table class="calendar">
 			<thead>

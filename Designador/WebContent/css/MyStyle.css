@@ -17,8 +17,13 @@ a:hover {
     text-decoration: underline;
 }
 
-h2 {
+h3	{
+	font-size: 24px;
+}
+h3, h5 {
+	font-weight: 300;
 	margin: 0;
+	color: #5b5b5b;
 }
 /*header*/
 nav {
@@ -243,12 +248,26 @@ li.active .glow{
 /****************Main content***************************/
 
 .main-content {
-	margin-left:190px;
+	margin-left:190px;	
 }
 
 .content-title {
-	background: wheat;
+	background: #e8e7e6;
+	padding-bottom: 10px;
+	box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.07);
+	border-bottom: 1px solid #d9d9d9;
 }
+
+.main-content > p, .content-title > *{
+	padding: 15px;
+	
+}
+
+.home-black-icon {
+    height: 20px;    
+}
+
+
 /******************************************/
 
 .dojoTabContainer {
