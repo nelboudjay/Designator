@@ -1,6 +1,6 @@
 @include all-flags-sprites;
 
-body {
+body, table, td {
 	font: 13px/20px Arial,Helvetica,sans-serif;
 	margin: 0;
 	background-color: #f8f8f8;
@@ -258,13 +258,38 @@ li.active .glow{
 	border-bottom: 1px solid #d9d9d9;
 }
 
-.main-content > p, .content-title > *{
+.content-title > *{
 	padding: 15px;
 	
 }
 
+.main-content > p{
+	padding: 15px 15px 0;
+}
 .home-black-icon {
     height: 20px;    
+}
+
+.calendar {
+	width: 97%;
+	margin: 0 1.5%;
+	border-collapse: collapse;
+}
+
+th {
+	border-bottom:2px solid #ddd;
+	text-align: left;
+	padding: 8px;
+	color: #5b5b5b;
+}
+
+td {
+	height: 3.5em;
+	vertical-align: top;
+	text-align: right;
+	width: 14%;
+	border: 1px solid #ddd;
+	padding: 8px;
 }
 
 
@@ -275,28 +300,14 @@ li.active .glow{
 	margin-right: 253px;
 }
 
-table.calendar {
-	width: 94%;
-	margin-left: 3%;
-	margin-right: 3%;
-	border: 1px solid black;
-}
 
-table.calendar td {
-	height: 3.5em;
-	vertical-align: top;
-	text-align: right;
-	width: 14%;
-	border: 1px solid black;
-}
+
+
 
 td.active {
 	background-color: yellow;
 }
 
-.tr {
-	margin-left: 20%;
-}
 
 a.passwordReset {
 	font-size: 22px;
