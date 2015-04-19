@@ -36,7 +36,7 @@ public class CurrentCalendar {
 		
 		return new DayMonthPair(calendar.get(Calendar.DAY_OF_MONTH),
 				WordUtils.capitalize(monthFormat.format(calendar.getTime())),
-				(1 - dayOfWeek + i*7 + j) == 0);
+				(1 - dayOfWeek + i*7 + j));
 				
 		
 	}

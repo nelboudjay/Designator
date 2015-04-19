@@ -4,7 +4,7 @@ public class DayMonthPair {
 
 	private int day;
 	private String month;
-	private boolean isToday;
+	private int today; /* 0 is today, negative is past and positive is future */
 	
 
 	public DayMonthPair() {
@@ -13,10 +13,10 @@ public class DayMonthPair {
 
 
 	
-	public DayMonthPair(int day, String month, boolean isToday) {
+	public DayMonthPair(int day, String month, int today) {
 		this.day = day;
 		this.month = month;
-		this.isToday = isToday;
+		this.today = today;
 	}
 	
 	public DayMonthPair(int day) {
@@ -27,7 +27,7 @@ public class DayMonthPair {
 	public DayMonthPair(DayMonthPair dayMonth){
 		this.day = dayMonth.getDay();
 		this.month = dayMonth.getMonth();
-		this.isToday = dayMonth.isToday();
+		this.today = dayMonth.getToday();
 	}
 
 	public int getDay() {
@@ -38,8 +38,8 @@ public class DayMonthPair {
 		return month;
 	}
 
-	public boolean isToday() {
-		return isToday;
+	public int getToday() {
+		return today;
 	}
 
 }

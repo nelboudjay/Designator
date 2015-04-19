@@ -1,6 +1,6 @@
 @include all-flags-sprites;
 
-body, table, td {
+body, table, td, p {
 	font: 13px/20px Arial,Helvetica,sans-serif;
 	margin: 0;
 	background-color: #f8f8f8;
@@ -10,6 +10,7 @@ body, table, td {
 a {
 	color: inherit;
 	text-decoration: none;
+	cursor: pointer;
 }
 
 a:hover {
@@ -17,13 +18,41 @@ a:hover {
     text-decoration: underline;
 }
 
-h3	{
+h3 {
 	font-size: 24px;
-}
-h3, h5 {
 	font-weight: 300;
+}
+
+h4 {
+	font-size: 18px;
+	font-weight: 600;
+}
+
+h3, h4, h5 {
 	margin: 0;
 	color: #5b5b5b;
+	font-family: "Open Sans",HelveticaNeue,Helvetica,Arial;
+}
+
+.btn {
+	background: url("../images/btn_bg.png")  0 0 repeat-x;
+    border: 1px solid #dedede;
+    border-radius: 3px;
+    box-shadow: 0 1px 0 0 #bfbfbf;
+    color: #686868;
+    cursor: pointer;
+    font-weight: 500;
+    padding: 0 12px;
+    height: 28px;
+    margin-top: 10px;
+}
+
+.btn:hover {
+	color: #464647;
+	background-image: -webkit-linear-gradient(top, #fdfdfd, #eaeaea);
+    background-image: -moz-linear-gradient(top, #fdfdfd, #eaeaea);
+    background-image: -o-linear-gradient(top, #fdfdfd, #eaeaea);
+    background-image: linear-gradient(top, #fdfdfd, #eaeaea);
 }
 /*header*/
 nav {
@@ -33,11 +62,12 @@ nav {
 
 ul {
 	list-style: outside none none;
+	margin: 0;	
+	padding: 0;
 }
 
 .logo {
 	width: 100%;
-	margin: 0;
 	padding-left: 0;
 	display: inline-block;
 	float: left;
@@ -77,6 +107,8 @@ ul {
 
 .dropdown-menu > a, #login a{
 	text-decoration:none;
+	padding: 4px 0 4px 15px;
+    display: block;
 }
 
 
@@ -97,7 +129,6 @@ ul {
 
 .dropdown-menu {
 	display: none;
-	padding: 4px 0 4px 15px;
 	background: #1b1b1b;
 	cursor: pointer;	
 	font-size: 12px;
@@ -258,14 +289,16 @@ li.active .glow{
 	border-bottom: 1px solid #d9d9d9;
 }
 
-.content-title > *{
+.content-title > * {
 	padding: 15px;
 	
 }
 
-.main-content > p{
-	padding: 15px 15px 0;
+.main-content > p, .main-content > .comments {
+	padding: 15px;
+	margin: 0;
 }
+
 .home-black-icon {
     height: 20px;    
 }
@@ -292,6 +325,81 @@ td {
 	padding: 8px;
 }
 
+.active {
+	background-color: #c1461c;
+	color: #fff;
+}
+
+.future {
+	font-weight: bold;
+}
+
+.comments h4 {
+	padding-bottom: 15px;
+}
+
+#commentBody {
+    height: 2em;
+    width: 33%;
+    padding: 3px;
+	color: inherit;
+}
+
+.addCommentSubmit {
+	display:none;
+}
+
+.comments-list {
+	margin-left: 15px;
+	margin-top: 30px;
+}
+.avatar {
+	border-radius: 50%;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3);
+    width: 32px;
+    position: absolute;
+}
+
+
+.info:after, .info:before {
+	right: 100%;
+	top: 50%;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+}
+
+.info:after {
+	border-color: rgba(255, 255, 255, 0);
+	border-right-color: #ffffff;
+	border-width: 6px;
+	margin-top: -6px;
+}
+.info:before {
+	border-color: rgba(181, 205, 215, 0);
+	border-right-color: #b5cdd7;
+	border-width: 7px;
+	margin-top: -7px;
+}
+
+.info {
+	border: 1px solid #b5cdd7;
+	margin-left: 47px;
+	padding:5px;
+	background-color:white;
+	position:relative;
+}
+
+.name {
+	padding-left:10px;
+}
+.time {
+	float:right;
+	padding-right:10px;
+}
 
 /******************************************/
 
@@ -299,15 +407,6 @@ td {
 	margin-left: 20px;
 	margin-right: 253px;
 }
-
-
-
-
-
-td.active {
-	background-color: yellow;
-}
-
 
 a.passwordReset {
 	font-size: 22px;
@@ -347,25 +446,6 @@ div[id^=confirmBox_] .message {
 	margin-bottom: 8px;
 }
 
-#addComment {	
-	display: block;
-}
-
-#cancelCommentLink {
-	cursor: pointer;
-	display: none;
-}
-
-#commentBody {
-    height: 2em;
-    width: 50%;
-    padding: 3px;
-}
-
-#addCommentSubmit{
-	display: none;
-}
-
 
 /**************Login box******************/
 
@@ -378,7 +458,10 @@ div[id^=confirmBox_] .message {
 }
 
 .boxHeader {
-	background: -moz-linear-gradient(center top , #fdfdfd, #eaeaea) repeat scroll 0 0 / 100% auto #eaeaea;
+	background-image: -webkit-linear-gradient(top, #fdfdfd, #eaeaea);
+    background-image: -moz-linear-gradient(top, #fdfdfd, #eaeaea);
+    background-image: -o-linear-gradient(top, #fdfdfd, #eaeaea);
+    background-image: linear-gradient(top, #fdfdfd, #eaeaea);
 	border-bottom: 1px solid #dedede;
 	color: #464647;
 	padding: 10px;
@@ -411,7 +494,7 @@ div[id^=confirmBox_] .message {
 
 .loginButton {
 	width: 100%;
-	background: url("../images/btn_bg.png") repeat-x scroll 0 bottom rgba(0, 0, 0, 0);
+	background: url("../images/btn_bg.png") 0 bottom repeat-x;
 	height: 30px;
 	border: 1px solid #a6330c;
 	color: #ffffff;
