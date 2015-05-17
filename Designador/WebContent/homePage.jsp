@@ -1,97 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
-<%@ taglib prefix="sx" uri="/struts-dojo-tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
 
 <html>
 <head>
 <link rel="stylesheet" type="text/css" href="css/MyStyle.css" />
-<link rel="stylesheet"
-	href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,800">
+<link rel="stylesheet" type="text/css" href="css/idle-timeout.css" />
 
 <script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/homePageScript.js"></script>
 
+<title>Designador</title>
 
-<script type="text/javascript">
-	function doConfirm(confirmBox, msg, yesFn, noFn) {
-
-		confirmBox.css("display", "inline");
-		confirmBox.attr("text-align", "center");
-		confirmBox.find(".message").text(msg);
-		confirmBox.find(".yes,.no").unbind().click(function() {
-			confirmBox.hide();
-		});
-		confirmBox.find(".yes").click(yesFn);
-		confirmBox.find(".no").click(noFn);
-		confirmBox.show();
-	}
-
-	function minimazeTextarea() {
-		$('#commentBody').animate({
-			height : "2em"
-		}, "normal");
-		$(".addCommentSubmit").fadeOut("slow");
-	}
-
-	$(function() {
-
-		$("[id^=deleteComment_]").click(
-				function(e) {
-					var comment = $(this).parent().parent();
-					var link = $(this);
-					var confirmBox = link.next();
-					e.preventDefault();
-					doConfirm(confirmBox,
-							"¿Estás seguro que quieres eliminar este mensaje?",
-							function yes() {
-								$.ajax({
-									url : link.attr("href"),
-								});
-								comment.remove();
-							});
-				});
-
-		$("#cancelCommentLink").click(minimazeTextarea);
-
-		$("#commentBody").blur(minimazeTextarea);
-
-		$('#commentBody').focus(function() {
-			$(this).animate({
-				height : "4em"
-			}, "normal");
-			$(".addCommentSubmit").fadeIn("slow");
-
-		});
-
-		$('#userName').click(function(evt) {
-			evt.stopPropagation();
-			$('.dropdown-menu').slideToggle("drop");
-			$(this).toggleClass("userName");
-		});
-
-		$(document).click(function() {
-			$('.dropdown-menu').slideUp(function() {
-				$('#userName').removeClass("userName");
-			});
-		});
-
-		$('#leftMenu li').click(function() {
-			$('#leftMenu li').removeClass("active");
-			$(this).addClass("active");
-		});
-
-	});
-</script>
-<title>Página de Inicio</title>
 <s:head />
-<sx:head />
-
 </head>
 <body>
-
-	<%@ include file="idle-timeout.html"%>
 
 	<nav>
 		<ul class="logo">
@@ -100,7 +24,7 @@
 		</ul>
 		<ul class="navbar-right">
 			<li id="userName"><span><img class="profile-icon"
-					src="images/profile-icon.png">${session.userFullName}
+					src="images/profile-icon.png">${session.user.userFullName}
 					(${session.user.userName}) <span class="arrow"></span> </span></li>
 			<li id="profile" class="dropdown-menu"><a>Perfil</a></li>
 			<li id="messages" class="dropdown-menu"><a>Mensajes</a></li>
@@ -109,17 +33,6 @@
 
 		</ul>
 	</nav>
-	<s:if test="hasActionErrors()">
-		<br />
-		<div class="errors">
-			<s:actionerror />
-		</div>
-	</s:if>
-	<s:if test="hasActionMessages()">
-		<div class="boxMessage">
-			<s:actionmessage />
-		</div>
-	</s:if>
 
 	<div class="sidebar-background"></div>
 	<div id="leftMenu">
@@ -141,6 +54,26 @@
 			</h3>
 			<span>Todos los partidos</span>
 		</div>
+
+		<s:if test="hasActionErrors()">
+			<div class="errors">
+				<button class="close" type="button">×</button>
+				<s:actionerror />
+			</div>
+		</s:if>
+		<s:if test="hasFieldErrors()">
+			<div class="errors">
+				<button class="close" type="button">×</button>
+				<s:fielderror />
+			</div>
+		</s:if>
+		<s:if test="hasActionMessages()">
+			<div class="boxMessage">
+				<button class="close" type="button">×</button>
+				<s:actionmessage />
+			</div>
+		</s:if>
+
 
 		<p>¿Quieres añadir partidos?</p>
 
@@ -174,69 +107,64 @@
 			</tbody>
 		</table>
 
-		<div class="comments">
-			<h4 id="comments">Comentarios</h4>
-
+		<div id="comments">
+			<h4 class="comments">Comentarios</h4>
 			<s:if test="#session.user.isAdmin()">
-
-				<form action="/Designador/addComment" method="post">
-					<s:textarea id="commentBody" class="placeholder" rows="1"
-						cols="100" placeholder="Añadir comentario..." name="commentBody" />
-
-					<p class="addCommentSubmit">
-						<input type="submit" class="btn" value="Añadir Comentario">
-						<a class="cancelCommentLink">Cancelar</a>
-					</p>
-				</form>
+				<textarea rows="1" cols="100" placeholder="Añadir comentario..."
+					id="commentBody" name="commentBody"></textarea>
+				<div class="required-field "></div>
+				<p class="add-comment-submit" style="display: none;">
+					<button id="addComment" class="btn">Añadir Comentario</button>
+					<a id="cancelCommentLink">Cancelar</a>
+				</p>
 			</s:if>
 
-				<ul class="comments-list">
-					<s:iterator value="#session.comments" var="comment" step="-1"
-						begin="#session.comments.size -1" status="status">
-						<li><s:div id="comment_%{#status.count}">
-									<img src="images/profile-icon.png" class="avatar">
-									<span class="arrow-left"></span>
-									<div class="info">
-										<span class="name"><s:property
-												value="#comment.user.userFullName" /></span> <span class="time">
-											now</span>
-									</div>
-								<p>
+			<ul class="comments-list" style="margin-top: 20px;">
+				<s:iterator value="#session.comments" var="comment" step="-1"
+					begin="#session.comments.size -1" status="status">
+					<li><s:div id="comment_%{#status.count}">
+							<img src="images/profile-icon.png" class="avatar">
+							<div class="info">
+								<span class="name"><s:property
+										value="#comment.user.userFullName" /></span> <span class="time">
+									<img src="images/clock-icon.png" class="clock"> <s:date
+										name="%{new java.util.Date()}" format="dd/MM/yyyy" var="today" />
+									<s:date
+										name="%{new java.util.Date(new java.util.Date().getTime() - 60*60*24*1000)}"
+										format="dd/MM/yyyy" var="yesterday" /> <s:date
+										name="#comment.commentDate" format="dd/MM/yyyy"
+										var="commentDate" /> <s:if test="#commentDate == #today">
+										Hoy, 
+									</s:if> <s:elseif test="#commentDate == #yesterday">
+										Ayer, 
+									</s:elseif> <s:else>
+										El <s:date name="#comment.commentDate" format="d" /> de <s:date
+											name="#comment.commentDate" format="MMM" /> 
+									 de <s:date name="#comment.commentDate" format="yyyy" />,
+									</s:else> a las <s:date name="#comment.commentDate" format="HH:mm:ss" />
+									horas
+								</span>
+							</div>
+							<div id="${comment.commentId}"  class="content">
+								<div class="comment-body">
 									<s:property value="#comment.commentBody" escape="false" />
-								</p>
-								<s:date name="%{new java.util.Date()}" format="dd/MM/yyyy"
-									var="today" />
-								<s:date name="#comment.commentDate" format="dd/MM/yyyy"
-									var="commentDate" />
-								<s:date
-									name="%{new java.util.Date(new java.util.Date().getTime() - 60*60*24*1000)}"
-									format="dd/MM/yyyy" var="yesterday" />
-								<s:if test="#commentDate == #today">
-						hoy -
-					</s:if>
-								<s:elseif test="#commentDate == #yesterday">
-						ayer -
-					</s:elseif>
-								<s:else>
-									<s:date name="#comment.commentDate" format="dd/MM/yyyy" /> -
-					</s:else>
-								<s:date name="#comment.commentDate" format="HH:mm:ss" />
-							h
-							<s:if test="#session.user.idUser == #comment.user.idUser">
-									<a href="editComment">Modificar</a> | <s:a
-										id="deleteComment_%{#status.count}"
-										href="deleteComment?idComment=%{#comment.idComment}">Eliminar</s:a>
-								</s:if>
-								<s:div id="confirmBox_%{#status.count}">
-									<span class="message"></span>
-									<span class="button yes">Sí</span>
-									<span class="button no">No</span>
-								</s:div>
-							</s:div></li>
+								</div>
 
-						<br />
-					</s:iterator>
-				</ul>
+								<s:if test="#session.user.idUser == #comment.user.idUser">
+									<div class="edit-comment">
+										<span class="modify-comment">Modificar</span> | <span
+											class="delete-comment"> Eliminar</span>
+										<div class="confirm-box">
+											<span class="message">¿Estás seguro que quieres
+												eliminar este mensaje? </span> <span class="btn yes">Sí</span> <span
+												class="btn no">No</span>
+										</div>
+									</div>
+								</s:if>
+							</div>
+						</s:div></li>
+				</s:iterator>
+			</ul>
 
 		</div>
 

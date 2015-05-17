@@ -54,6 +54,15 @@ h3, h4, h5 {
     background-image: -o-linear-gradient(top, #fdfdfd, #eaeaea);
     background-image: linear-gradient(top, #fdfdfd, #eaeaea);
 }
+
+textarea {
+    width: 33%;
+    padding-top: 1.1em;
+    padding-left: 0.5em;
+	color: inherit;
+	overflow-y: hidden; 
+}
+
 /*header*/
 nav {
     background: url(../images/header_bg.png) 0 0 repeat;
@@ -150,20 +159,23 @@ ul {
 
 
 /*******************Error & Info Messages***************/
-.error {
+.error, .errors {
 	background: #e8a397;
     border: 1px solid #de7e6d;
     border-radius: 4px;
     box-shadow: 0 1px 2px #efc0b8 inset, 0 1px 1px #dfdfdf;
-    margin-left: 1%;
     width: 80%;
 }
+.error {
+	margin-left: 1%;
+}
 
+.errorMessage {
+	padding: 10px;	
+}
 .errorMessage li {
 	list-style-type: none;
-	margin-left: -25px;
 	color:#7d2a1c;
-	font-weight:normal;
 }
 .boxMessage {
 	background: #acd954;
@@ -177,7 +189,8 @@ ul {
 
 .actionMessage li {
 	list-style-type: none;
-	margin-left: -25px;
+	padding: 10px;
+	color: #2b3a0d;
 }
 
 .close {
@@ -284,6 +297,7 @@ li.active .glow{
 
 .content-title {
 	background: #e8e7e6;
+	color: #5b5b5b;
 	padding-bottom: 10px;
 	box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.07);
 	border-bottom: 1px solid #d9d9d9;
@@ -294,7 +308,7 @@ li.active .glow{
 	
 }
 
-.main-content > p, .main-content > .comments {
+.main-content > p, .main-content > #comments {
 	padding: 15px;
 	margin: 0;
 }
@@ -334,24 +348,27 @@ td {
 	font-weight: bold;
 }
 
-.comments h4 {
+.comments {
 	padding-bottom: 15px;
 }
 
-#commentBody {
-    height: 2em;
-    width: 33%;
-    padding: 3px;
-	color: inherit;
-}
-
-.addCommentSubmit {
-	display:none;
+.modify-comment-submit {
+	padding-left:0 !important;
+	background-color: #ffffff;
 }
 
 .comments-list {
 	margin-left: 15px;
-	margin-top: 30px;
+	font-size: 12px;
+	position: relative;
+}
+
+.comments-list > li{
+	padding-bottom: 20px;
+}
+
+#templateComment {
+	display: none;
 }
 .avatar {
 	border-radius: 50%;
@@ -359,7 +376,6 @@ td {
     width: 32px;
     position: absolute;
 }
-
 
 .info:after, .info:before {
 	right: 100%;
@@ -380,72 +396,72 @@ td {
 }
 .info:before {
 	border-color: rgba(181, 205, 215, 0);
-	border-right-color: #b5cdd7;
+	border-right-color: #d8d8d8;
 	border-width: 7px;
 	margin-top: -7px;
 }
-
 .info {
-	border: 1px solid #b5cdd7;
+	color: #aeaeae;
+}
+
+.info, .content {
+	border: 1px solid #d8d8d8;
 	margin-left: 47px;
 	padding:5px;
-	background-color:white;
+	background-color:#ffffff;
 	position:relative;
 }
 
-.name {
+.name, .content > * {
 	padding-left:10px;
+}
+
+.clock {
+	width: 20px;
+	vertical-align: middle;
+	margin-bottom: 2px;
 }
 .time {
 	float:right;
 	padding-right:10px;
 }
 
-/******************************************/
-
-.dojoTabContainer {
-	margin-left: 20px;
-	margin-right: 253px;
+.content {
+	border-top: none;
 }
 
-a.passwordReset {
-	font-size: 22px;
-	font-weight: bold;
-	color: DodgerBlue;
+.edit-comment {
+	padding-top: 10px;
 }
 
-/*Confirmation JQuery*/
-div[id^=confirmBox_] {
+.edit-comment > span {
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+.edit-comment > span:HOVER {
+	text-decoration: none;
+	color: #c1461c;
+	
+}
+
+.confirm-box {
+	color: #5b5b5b;
 	display: none;
-	background-color: #eee;
+	background-color: #f8f8f8;
 	border-radius: 5px;
 	border: 1px solid #aaa;
 	width: 300px;
-	margin-left: 10px;
-	padding: 6px 8px 8px;
+	padding: 6px 8px;
 	box-sizing: border-box;
 	text-align: center;
 }
 
-div[id^=confirmBox_] .button {
-	background-color: #ccc;
+.confirm-box .btn {
 	display: inline-block;
-	border-radius: 3px;
-	border: 1px solid #aaa;
-	padding: 2px;
-	text-align: center;
-	width: 80px;
-	cursor: pointer;
+    height: 18px;
+    margin: 0;
 }
-
-div[id^=confirmBox_] .button:hover {
-	background-color: #ddd;
-}
-
-div[id^=confirmBox_] .message {
-	margin-bottom: 8px;
-}
-
 
 /**************Login box******************/
 
@@ -506,8 +522,8 @@ div[id^=confirmBox_] .message {
 	cursor: pointer;
 }
 
-.requiredField {
+.required-field {
 	display: none;
-	margin-bottom: 10px;
 	color: #dd4b39;
 }
+

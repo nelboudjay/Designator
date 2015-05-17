@@ -1,6 +1,7 @@
 package com.myproject.interceptor;
 
 import java.net.URLDecoder;
+import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -25,14 +26,14 @@ public class AuthenticationInterceptor implements Interceptor {
 
 	private static final long serialVersionUID = 5686161301032864561L;
 
-	Map<String, Object> session;
-
 	private GenericService service;
 
 	private User user;
 	private UserCookie userCookie;
-    private List<?> comments;
     
+	private Map<String, Object> eqRestrictions = new HashMap<String, Object>();
+
+
 	@Override
 	public void destroy() {
 	}
@@ -52,10 +53,8 @@ public class AuthenticationInterceptor implements Interceptor {
 		
 		user = (User) session.get("user");
 
-		Map<String, Object> eqRestrictions = new HashMap<String, Object>();
-
 		if (user != null){
-			return properResult(actionInvocation);
+			return properResult(actionInvocation, session);
 		}else {
 			Cookie[] cookies = request.getCookies();
 			if (cookies != null) {
@@ -80,14 +79,8 @@ public class AuthenticationInterceptor implements Interceptor {
 							service.AlterEvent("DELETE_USER_COOKIE_"
 									+ cookieValue, "WEEK");
 							session.put("user", user);
-							String userFullName = user.getUserFullName();
-							session.put("userFullName", userFullName);
 							
-							eqRestrictions.clear();
-			    			comments = service.GetModelDataList(Comment.class, eqRestrictions);
-			    			session.put("comments",comments);
-			    			
-			    			return properResult(actionInvocation);
+			    			return properResult(actionInvocation, session);
 			    			
 						}
 					}
@@ -108,13 +101,22 @@ public class AuthenticationInterceptor implements Interceptor {
 		
 	}
 
-	String properResult(ActionInvocation actionInvocation) throws Exception{
+	String properResult(ActionInvocation actionInvocation, Map<String, Object> session) throws Exception{
+		
+		eqRestrictions.clear();
+		List<?> comments = service.GetModelDataList(Comment.class, eqRestrictions);
+		
+		comments
+			.stream()
+			.sorted((c1, c2) -> c1.getCommentDate()
+					.compareTo(c2.getCommentDate()));
+		//Collections.sort(comments)
+		
+		session.put("comments",comments);
 		
 		List<String> actionsLoginNames = Arrays.asList("login", "homePage");
-
 		List<String> actionsAdminNames = Arrays.asList("addComment", "deleteComment");
 		
-
 		if (actionsLoginNames.contains( actionInvocation.getInvocationContext().getName()) )
 			return ActionSupport.SUCCESS;
 		else if (actionsAdminNames.contains( actionInvocation.getInvocationContext().getName()) 
@@ -145,11 +147,4 @@ public class AuthenticationInterceptor implements Interceptor {
 		this.service = service;
 	}
 	
-	public List<?> getComments() {
-		return comments;
-	}
-
-	public void setComments(List<?> comments) {
-		this.comments = comments;
-	}
 }

@@ -1,15 +1,11 @@
-
-	<link rel="stylesheet" type="text/css"
-	href="${pageContext.request.contextPath}/css/idle-timeout.css" /> 
-
 	<div id="idletimeout">
  		Quedan <span> <!-- countdown place holder --></span> segundos 
 		para finalizar la sesi&oacute;n. <a id="idletimeout-resume" href="#">
 		Haga Click aqu&iacute; para continuar</a>.
 	</div>
 
-	<script src="${pageContext.request.contextPath}/js/idle-timeout/jquery.idletimer.js" type="text/javascript"></script>
-	<script src="${pageContext.request.contextPath}/js/idle-timeout/jquery.idletimeout.js" type="text/javascript"></script>
+	<script src="js/idle-timeout/jquery.idletimer.js" type="text/javascript"></script>
+	<script src="js/idle-timeout/jquery.idletimeout.js" type="text/javascript"></script>
 	<script type="text/javascript">
 		$.idleTimeout('#idletimeout', '#idletimeout a', {
 			idleAfter : 3600,

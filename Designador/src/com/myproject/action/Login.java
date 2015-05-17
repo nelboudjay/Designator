@@ -2,7 +2,6 @@ package com.myproject.action;
 
 import java.net.URLEncoder;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.Cookie;
@@ -14,7 +13,6 @@ import org.apache.struts2.interceptor.ServletResponseAware;
 import org.apache.struts2.interceptor.SessionAware;
 import org.apache.struts2.interceptor.validation.SkipValidation;
 
-import com.myproject.model.Comment;
 import com.myproject.model.User;
 import com.myproject.model.UserCookie;
 import com.myproject.service.GenericService;
@@ -62,8 +60,6 @@ public class Login extends ActionSupport implements SessionAware,
 
 		if (user != null) {
 			session.put("user", user);
-			String userFullName = user.getUserFullName();
-			session.put("userFullName", userFullName);
 			if (rememberMe) {
 
 				String cookieValue = user.getUserName()
@@ -95,11 +91,6 @@ public class Login extends ActionSupport implements SessionAware,
 				} catch (Exception e) {
 				}
 			}
-
-			eqRestrictions.clear();
-			List<?> comments = service.GetModelDataList(Comment.class,
-					eqRestrictions);
-			session.put("comments", comments);
 
 			return SUCCESS;
 		} else {

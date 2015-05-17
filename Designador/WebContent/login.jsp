@@ -16,17 +16,24 @@
 			
 			$('#loginField').css("border-color", "");
 			$('#password').css("border-color", "");
-			$('.requiredField').text("");
+			$('#loginField').css("border-style", "solid");
+			$('#password').css("border-style", "solid");
+			
+			$('.required-field ').text("");
 
 			if ($('#loginField').val() == '') {
-				$('.requiredField').css("display", "block");
-				$('.requiredField').text("Introduce tu nombre de usuario o E-Mail.");
+				$('.required-field ').css("display", "block");
+				$('.required-field ').text("Introduce tu nombre de usuario o E-Mail.");
 				$('#loginField').css("border-color", "#b94a48");
+				$('#loginField').css("border-style", "solid");
+
 				return false;
 			} else if ($('#password').val() == '') {
-				$('.requiredField').css("display", "block");
-				$('.requiredField').text("Introduce tu contraseña.");
+				$('.required-field ').css("display", "block");
+				$('.required-field ').text("Introduce tu contraseña.");
 				$('#password').css("border-color", "#b94a48");
+				$('#password').css("border-style", "solid");
+
 				return false;
 			}
 			
@@ -34,8 +41,7 @@
 
 	
 		$('.close').click(function() {
-			$(".boxMessage").css("display", "none");
-			$(".error").css("display", "none");
+			$(".boxMessage, .error, .errors").remove();
 		});
 	});
 </script>
@@ -69,7 +75,7 @@
 					placeholder="Nombre de usuario o E-Mail" class="loginFields">
 				<input id="password" type="password" name="password"
 					placeholder="Contraseña" class="loginFields">
-				<div class="requiredField" ></div>
+				<div class="required-field" ></div>
 				<label class="checkbox"> <input type="checkbox"
 					name="rememberMe" value="true"> Recordarme
 				</label> <input type="submit" class="loginButton"

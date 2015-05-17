@@ -4,6 +4,7 @@
     "http://struts.apache.org/dtds/struts-2.0.dtd">
 
 <struts>
+	<constant name="struts.locale" value="es_ES" />
 
 	<constant name="struts.enable.DynamicMethodInvocation" value="false" />
 
@@ -13,6 +14,9 @@
 	<constant name="struts.custom.i18n.resources" value="MyConstants" />
 
 	<constant name="struts.enable.DynamicMethodInvocation" value="true"></constant>
+
+    <constant name="struts.ui.theme" value="simple" />
+
 
 	<!-- Enabling Developer mode -->
 	<constant name="struts.devMode" value="true" />
@@ -102,7 +106,7 @@
 			<result name="success" type="redirectAction">homePage</result>
 			<result name="error" type="redirectAction">homePage</result>
 			<result name="login" type="redirectAction">login</result>
-			<result name="input">homePage.jsp</result>
+			<result name="input" type="redirectAction">homePage</result>
 		</action>
 
 

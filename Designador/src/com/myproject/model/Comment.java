@@ -35,7 +35,7 @@ public class Comment {
 	@Id
 	@Column(name = "idCOMMENT")
 	@GeneratedValue
-	private String idComment;
+	private String commentId;
 
 	@Column(name = "COMMENT_BODY", nullable = false)
 	private String commentBody;
@@ -48,12 +48,12 @@ public class Comment {
 	@JoinColumn(name = "USER", nullable = false)
 	private User user;
 
-	public String getIdComment() {
-		return idComment;
+	public String getCommentId() {
+		return commentId;
 	}
 
-	public void setIdComment(String idComment) {
-		this.idComment = idComment;
+	public void setCommentId(String commentId) {
+		this.commentId = commentId;
 	}
 
 	public String getCommentBody() {
