@@ -1,7 +1,7 @@
 package com.myproject.interceptor;
 
 import java.net.URLDecoder;
-import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -106,13 +106,13 @@ public class AuthenticationInterceptor implements Interceptor {
 		eqRestrictions.clear();
 		List<?> comments = service.GetModelDataList(Comment.class, eqRestrictions);
 		
-		comments
-			.stream()
-			.sorted((c1, c2) -> c1.getCommentDate()
-					.compareTo(c2.getCommentDate()));
-		//Collections.sort(comments)
-		
-		session.put("comments",comments);
+		List<Comment> sortedComments = new ArrayList<Comment>();
+		comments.stream().sorted(
+				(comment1,comment2) -> ((Comment)comment1).getCommentDate().
+				compareTo(((Comment)comment2).getCommentDate()))
+				.forEach(comment ->  sortedComments.add((Comment)(comment)));
+			
+		session.replace("comments",sortedComments);
 		
 		List<String> actionsLoginNames = Arrays.asList("login", "homePage");
 		List<String> actionsAdminNames = Arrays.asList("addComment", "deleteComment");

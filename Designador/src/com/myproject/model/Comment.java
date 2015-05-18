@@ -1,6 +1,7 @@
 package com.myproject.model;
 
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 import javax.persistence.Column;
@@ -17,9 +18,10 @@ import org.hibernate.annotations.ForeignKey;
 
 @Entity
 @Table(name = "COMMENT")
-public class Comment {
+public class Comment implements Serializable{
 
-	
+	private static final long serialVersionUID = -3058890532896488659L;
+
 	public Comment(String commentBody,
 			Timestamp commentDate, User user) {
 		super();

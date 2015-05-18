@@ -1,5 +1,7 @@
 package com.myproject.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.ManyToOne;
 import javax.persistence.JoinColumn;
@@ -14,8 +16,10 @@ import org.hibernate.annotations.ForeignKey;
 
 @Entity
 @Table(name="USER")
-public class User{
-	
+public class User implements Serializable{
+
+	private static final long serialVersionUID = -4142991539282053208L;
+
 	public User(User user){
 		super();
 		this.idUser = user.getIdUser();

@@ -1,5 +1,7 @@
 package com.myproject.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,8 +10,10 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="ADDRESS")
-public class Address {
-	
+public class Address implements Serializable{
+
+	private static final long serialVersionUID = 5261261581605625466L;
+
 	@Id
 	@Column(name = "idADDRESS")
 	@GeneratedValue

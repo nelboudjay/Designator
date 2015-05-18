@@ -1,5 +1,6 @@
 package com.myproject.model;
 
+import java.io.Serializable;
 import java.sql.Blob;
 
 import javax.persistence.Column;
@@ -14,8 +15,10 @@ import org.hibernate.annotations.ForeignKey;
 
 @Entity
 @Table(name="USER_PROFILE")
-public class UserProfile {
-	
+public class UserProfile implements Serializable{
+
+	private static final long serialVersionUID = 7906067534274348077L;
+
 	@Id
 	@Column(name = "idUSER_PROFILE")
 	@GeneratedValue
