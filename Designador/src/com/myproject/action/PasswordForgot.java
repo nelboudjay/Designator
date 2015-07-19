@@ -14,9 +14,6 @@ import com.opensymphony.xwork2.ActionSupport;
 
 public class PasswordForgot extends ActionSupport{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -6102575198527216129L;
 	
 	private String resetPasswordLoginField;
@@ -37,19 +34,19 @@ public class PasswordForgot extends ActionSupport{
 		clearFieldErrors();
 
 		Map<String, Object> eqRestrictions = new HashMap<String, Object>();
-		eqRestrictions.put("userName", getResetPasswordLoginField());
+		eqRestrictions.put("userName", resetPasswordLoginField.trim());
 
 		User user = (User) service.GetUniqueModelData(User.class, eqRestrictions);
 		
 		if (user == null) {
 			eqRestrictions.remove("userName");
-			eqRestrictions.put("email", getResetPasswordLoginField());
+			eqRestrictions.put("email", resetPasswordLoginField.trim());
 			user = (User) service
 					.GetUniqueModelData(User.class, eqRestrictions);
 		}
 		
 		if (user == null) {
-			addActionError("El nombre de usuario o el E-mail introducido no se corresopnde a ningún usuario registrado.");
+			addActionError("El nombre de usuario o el email introducido no se corresopnde a ningún usuario registrado.");
 			return INPUT;
 		} else {
 			
@@ -88,7 +85,7 @@ public class PasswordForgot extends ActionSupport{
 			mailService.sendMail(user.getEmail(),
 					"Instrucciones para restablecer tu contraseña",
 					"passwordResetInstructions.vm", templateData);
-			addActionMessage("Se te ha enviado un E-mail con las instrucciones para restablecer tu contraseña.");
+			addActionMessage("Se te ha enviado un correo electrónico con las instrucciones para restablecer tu contraseña.");
 			
 			return SUCCESS;
 		}

@@ -36,8 +36,8 @@ public class GenericServiceImpl implements GenericService {
 
 	@Override
 	@Transactional
-	public 	List<?> GetModelDataList(Class<?> t, Map<String,Object> eqRestrictions){
-		return dao.GetModelDataList(t, eqRestrictions);
+	public 	List<?> GetModelDataList(Class<?> t, Map<String,Object> eqRestrictions,  String attribute, Boolean ascendingOrder){
+		return dao.GetModelDataList(t, eqRestrictions, attribute, ascendingOrder);
 
 	}
 	

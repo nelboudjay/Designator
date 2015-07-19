@@ -1,0 +1,144 @@
+@import url("commonStyle.css");
+@import url("idle-timeout.css");
+
+.main-content {
+	margin-left:190px;	
+}
+
+.content-title {
+	background: #e8e7e6;
+	color: #5b5b5b;
+	padding-bottom: 10px;
+	box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.07);
+	border-bottom: 1px solid #d9d9d9;
+}
+
+.content-title > * {
+	padding: 15px;
+	
+}
+
+.main-content > p, .main-content > #comments {
+	padding: 15px;
+	margin: 0;
+}
+
+.home-black-icon {
+    height: 20px;    
+}
+
+.calendar {
+	width: 97%;
+	margin: 0 1.5%;
+	border-collapse: collapse;
+}
+
+.active {
+	background-color: #c1461c;
+	color: #fff;
+}
+
+.future {
+	font-weight: bold;
+}
+
+.comments {
+	padding-bottom: 15px;
+}
+
+.modify-comment-submit {
+	padding-left:0 !important;
+	background-color: #ffffff;
+}
+
+.comments-list {
+	margin-left: 15px;
+	font-size: 12px;
+	position: relative;
+}
+
+.comments-list > li{
+	padding-bottom: 20px;
+}
+
+#templateComment {
+	display: none;
+}
+
+.info:after, .info:before {
+	right: 100%;
+	top: 50%;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+}
+
+.info:after {
+	border-color: rgba(255, 255, 255, 0);
+	border-right-color: #ffffff;
+	border-width: 6px;
+	margin-top: -6px;
+}
+.info:before {
+	border-color: rgba(181, 205, 215, 0);
+	border-right-color: #d8d8d8;
+	border-width: 7px;
+	margin-top: -7px;
+}
+.info {
+	color: #aeaeae;
+}
+
+.info, .content {
+	border: 1px solid #d8d8d8;
+	margin-left: 47px;
+	padding:5px;
+	background-color:#ffffff;
+	position:relative;
+	padding-left: 10px;
+}
+
+.clock {
+	width: 20px;
+	vertical-align: middle;
+	margin-bottom: 2px;
+}
+.time {
+	float:right;
+	padding-right:10px;
+}
+
+.content {
+	border-top: none;
+}
+
+.edit-comment {
+	padding-top: 10px;
+}
+
+.edit-comment > span:HOVER {
+	text-decoration: none;
+	color: #c1461c;
+	
+}
+
+.confirm-box {
+	color: #5b5b5b;
+	display: none;
+	background-color: #f8f8f8;
+	border-radius: 5px;
+	border: 1px solid #aaa;
+	width: 300px;
+	padding: 6px 8px;
+	box-sizing: border-box;
+	text-align: center;
+}
+
+.confirm-box .btn {
+	display: inline-block;
+    height: 18px;
+    margin: 0;
+}

@@ -47,13 +47,13 @@ public class Login extends ActionSupport implements SessionAware,
 		DesEncrypter encrypter = new DesEncrypter(getText("loginPass"));
 
 		Map<String, Object> eqRestrictions = new HashMap<String, Object>();
-		eqRestrictions.put("userName", getLoginField());
+		eqRestrictions.put("userName", loginField.trim());
 		eqRestrictions.put("password", encrypter.encrypt(getPassword()));
 
 		User user = (User) service.GetUniqueModelData(User.class, eqRestrictions);
 		if (user == null) {
 			eqRestrictions.remove("userName");
-			eqRestrictions.put("email", getLoginField());
+			eqRestrictions.put("email", loginField.trim());
 			user = (User) service
 					.GetUniqueModelData(User.class, eqRestrictions);
 		}

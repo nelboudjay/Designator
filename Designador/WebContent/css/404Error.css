@@ -1,0 +1,23 @@
+@import url("commonStyle.css");
+@import url("idle-timeout.css");
+
+.error-404 {
+	margin-left:20px;
+}
+.error-404 > h1{
+	color:#464647;
+	font-size:xx-large;
+}
+.error-404 > h3{
+	color:#c1461c;
+	font-family:inherit;
+}
+
+.title-1 {
+	width:350px;
+	margin-bottom:14px;
+}
+
+.main-links {
+	padding-left:15px;
+}

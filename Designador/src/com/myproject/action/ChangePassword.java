@@ -1,7 +1,6 @@
 package com.myproject.action;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
@@ -10,7 +9,6 @@ import org.apache.struts2.interceptor.SessionAware;
 import org.apache.struts2.interceptor.validation.SkipValidation;
 import org.apache.struts2.util.ServletContextAware;
 
-import com.myproject.model.Comment;
 import com.myproject.model.PasswordChangeRequest;
 import com.myproject.model.User;
 import com.myproject.service.GenericService;
@@ -53,14 +51,12 @@ public class ChangePassword extends ActionSupport implements SessionAware,
 				return ERROR;
 
 			}else{
-				/* We store the user in the ServletContext and not in the SessionAware because we don't want
-				 * to open a session */
+				/** We store the user in the ServletContext and not in the SessionAware because we don't want
+				  to open a session **/
 				context.setAttribute("user",
 						passwordChangeRequest.getIdPasswordChangeRequest());
 				return NONE;
-
 			}
-				
 		}
 		else
 			return NONE;
@@ -75,6 +71,9 @@ public class ChangePassword extends ActionSupport implements SessionAware,
 		 
 			user = (User) context.getAttribute("user");
 
+			if (user == null)
+				addActionError("Tu contraseña no ha podido ser cambiada. Vuelve a intentarlo más tarde o solicita una nueva contraseña.");
+
 			if (user != null) {
 	
 				DesEncrypter encrypter = new DesEncrypter(getText("loginPass"));
@@ -82,13 +81,7 @@ public class ChangePassword extends ActionSupport implements SessionAware,
 				service.SaveOrUpdateModelData(user);
 	
 				session.put("user", user);
-				String userFullName = user.getUserFullName();
-				session.put("userFullName", userFullName);
 				
-				Map<String, Object> eqRestrictions = new HashMap<String, Object>();
-				
-				List<?> comments = service.GetModelDataList(Comment.class, eqRestrictions);
-    			session.put("comments",comments);
 			}
 		}
 		else{
@@ -127,8 +120,7 @@ public class ChangePassword extends ActionSupport implements SessionAware,
 		return passwordChangeRequest;
 	}
 
-	public void setPasswordChangeRequest(
-			PasswordChangeRequest passwordChangeRequest) {
+	public void setPasswordChangeRequest(PasswordChangeRequest passwordChangeRequest) {
 		this.passwordChangeRequest = passwordChangeRequest;
 	}
 

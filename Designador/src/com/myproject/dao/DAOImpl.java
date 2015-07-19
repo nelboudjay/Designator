@@ -10,6 +10,7 @@ import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -99,7 +100,7 @@ public class DAOImpl implements DAO {
 
 	@Override
 	public List<?> GetModelDataList(Class<?> t,
-			Map<String, Object> eqRestrictions) {
+			Map<String, Object> eqRestrictions, String attribute, Boolean ascendingOrder) {
 
 		Session session = sessionFactory.getCurrentSession();
 		session.beginTransaction();
@@ -118,6 +119,13 @@ public class DAOImpl implements DAO {
 
 			}
 
+			if(attribute != null){
+				if (ascendingOrder)
+					cr.addOrder(Order.asc(attribute));
+				else
+					cr.addOrder(Order.desc(attribute));
+			}
+			
 			obj = cr.list();
 
 		} catch (HibernateException e) {

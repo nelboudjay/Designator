@@ -5,11 +5,12 @@
 
 <html>
 <head>
-<link rel="stylesheet" type="text/css" href="css/MyStyle.css" />
-<link rel="stylesheet" type="text/css" href="css/idle-timeout.css" />
+
+<link rel="stylesheet" type="text/css" href="css/homePage.css" />
 
 <script type="text/javascript" src="js/jquery.js"></script>
-<script type="text/javascript" src="js/homePageScript.js"></script>
+<script type="text/javascript" src="js/commonScript.js"></script>
+<script type="text/javascript" src="js/homePage.js"></script>
 
 <title>Designador</title>
 
@@ -17,34 +18,9 @@
 </head>
 <body>
 
-	<nav>
-		<ul class="logo">
-			<li><a href="homePage"><img src="images/Logo.png"
-					width="12%" height="90%"></a></li>
-		</ul>
-		<ul class="navbar-right">
-			<li id="userName"><span><img class="profile-icon"
-					src="images/profile-icon.png">${session.user.userFullName}
-					(${session.user.userName}) <span class="arrow"></span> </span></li>
-			<li id="profile" class="dropdown-menu"><a>Perfil</a></li>
-			<li id="messages" class="dropdown-menu"><a>Mensajes</a></li>
-			<li id="logout" class="dropdown-menu"><a href="logout">Cerrar
-					sesión</a></li>
+	<jsp:include page="header.jsp"/>
 
-		</ul>
-	</nav>
-
-	<div class="sidebar-background"></div>
-	<div id="leftMenu">
-		<ul>
-			<li class="active"><span class="glow"></span><a href="homePage"><img
-					class="home-icon" src="images/home-icon.png">Inicio</a></li>
-			<li><span class="glow"></span><a><img class="home-icon"
-					src="images/games-icon.png">Partidos<span class="arrow"></span></a></li>
-			<li><span class="glow"></span><a><img class="home-icon"
-					src="images/referee-icon.png">Árbitros</a></li>
-		</ul>
-	</div>
+	<jsp:include page="leftMenu.jsp"/>
 
 	<div class="main-content">
 		<div class="content-title">
@@ -55,25 +31,7 @@
 			<span>Todos los partidos</span>
 		</div>
 
-		<s:if test="hasActionErrors()">
-			<div class="errors">
-				<button class="close" type="button">×</button>
-				<s:actionerror />
-			</div>
-		</s:if>
-		<s:if test="hasFieldErrors()">
-			<div class="errors">
-				<button class="close" type="button">×</button>
-				<s:fielderror />
-			</div>
-		</s:if>
-		<s:if test="hasActionMessages()">
-			<div class="boxMessage">
-				<button class="close" type="button">×</button>
-				<s:actionmessage />
-			</div>
-		</s:if>
-
+		<jsp:include page="errorMessages.jsp"/>
 
 		<p>¿Quieres añadir partidos?</p>
 
@@ -110,9 +68,11 @@
 		<div id="comments">
 			<h4 class="comments">Comentarios</h4>
 			<s:if test="#session.user.isAdmin()">
-				<textarea rows="1" cols="100" placeholder="Añadir comentario..."
-					id="commentBody" name="commentBody"></textarea>
-				<div class="required-field "></div>
+				<div>
+					<textarea rows="1" cols="100" placeholder="Añadir comentario..."
+						id="commentBody" name="commentBody"  class="required-field"></textarea>
+					<div class="error-field">El comentario no puede estare en blanco.</div>
+				</div>
 				<p class="add-comment-submit" style="display: none;">
 					<button id="addComment" class="btn">Añadir Comentario</button>
 					<a id="cancelCommentLink">Cancelar</a>
@@ -123,7 +83,7 @@
 				<s:iterator value="#session.comments" var="comment" step="-1"
 					begin="#session.comments.size -1" status="status">
 					<li><s:div id="comment_%{#status.count}">
-							<img src="images/profile-icon.png" class="avatar">
+							<img src="images/avatar-icon.png" class="avatar">
 							<div class="info">
 								<span class="name"><s:property
 										value="#comment.user.userFullName" /></span> <span class="time">
@@ -152,8 +112,8 @@
 
 								<s:if test="#session.user.idUser == #comment.user.idUser">
 									<div class="edit-comment">
-										<span class="modify-comment">Modificar</span> | <span
-											class="delete-comment"> Eliminar</span>
+										<span class="modify-comment link" class="modify-comment">Modificar</span> | <span
+											class="delete-comment link"> Eliminar</span>
 										<div class="confirm-box">
 											<span class="message">¿Estás seguro que quieres
 												eliminar este mensaje? </span> <span class="btn yes">Sí</span> <span

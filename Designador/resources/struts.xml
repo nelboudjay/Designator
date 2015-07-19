@@ -94,7 +94,6 @@
 			<interceptor-ref name="secureStack" />
 			<result name="error" type="redirectAction">login</result>
 			<result name="none">changePassword.jsp</result>
-			<result name="input">changePassword.jsp</result>
 			<result name="success" type="redirectAction">homePage</result>
 		</action>
 
