@@ -27,19 +27,21 @@
 			<interceptor class="com.myproject.interceptor.AuthenticationInterceptor"
 				name="AuthenticationInterceptor"></interceptor>
 			<interceptor-stack name="secureStack">
+				<interceptor-ref name="store">
+					<param name="operationMode">AUTOMATIC</param>
+				</interceptor-ref>
 				<interceptor-ref name="AuthenticationInterceptor" />
 				<interceptor-ref name="defaultStack" />
 			</interceptor-stack>
 
-			<interceptor-stack name="storeStack">
-				<interceptor-ref name="AuthenticationInterceptor" />
-				<interceptor-ref name="defaultStack" />
-				<interceptor-ref name="store">
-					<param name="operationMode">STORE</param>
-				</interceptor-ref>
-			</interceptor-stack>
 		</interceptors>
 
+		<default-interceptor-ref name="secureStack"></default-interceptor-ref>
+		
+		<global-results>
+			<result name="login" type="redirectAction">login</result>
+		</global-results>
+		
 		<action name="/*">
 			<result>404Error.jsp</result>
 		</action>
@@ -49,10 +51,6 @@
 		</action>
 
 		<action name="login" class="com.myproject.action.Login">
-			<interceptor-ref name="store">
-				<param name="operationMode">RETRIEVE</param>
-			</interceptor-ref>
-			<interceptor-ref name="secureStack" />
 			<result name="success" type="redirectAction">homePage</result>
 			<result name="input">login.jsp</result>
 			<result name="login">login.jsp</result>
@@ -68,19 +66,10 @@
 
 		<!-- home link action -->
 		<action name="homePage">
-			<interceptor-ref name="store">
-				<param name="operationMode">RETRIEVE</param>
-			</interceptor-ref>
-			<interceptor-ref name="secureStack" />
 			<result name="success">homePage.jsp</result>
-			<result name="login">login.jsp</result>
 		</action>
 
 		<action name="passwordForgot" class="com.myproject.action.PasswordForgot">
-			<interceptor-ref name="store">
-				<param name="operationMode">STORE</param>
-			</interceptor-ref>
-			<interceptor-ref name="secureStack" />
 			<result name="none">passwordForgot.jsp</result>
 			<result name="input">passwordForgot.jsp</result>
 			<result name="success" type="redirectAction">login</result>
@@ -88,36 +77,28 @@
 
 
 		<action name="changePassword" class="com.myproject.action.ChangePassword">
-			<interceptor-ref name="store">
-				<param name="operationMode">STORE</param>
-			</interceptor-ref>
-			<interceptor-ref name="secureStack" />
 			<result name="error" type="redirectAction">login</result>
 			<result name="none">changePassword.jsp</result>
 			<result name="success" type="redirectAction">homePage</result>
 		</action>
 
 		<action name="addComment" class="com.myproject.action.AddComment">
-			<interceptor-ref name="store">
-				<param name="operationMode">STORE</param>
-			</interceptor-ref>
-			<interceptor-ref name="secureStack" />
-			<result name="success" type="redirectAction">homePage</result>
 			<result name="error" type="redirectAction">homePage</result>
-			<result name="login" type="redirectAction">login</result>
 			<result name="input" type="redirectAction">homePage</result>
+			<result name="success" type="redirectAction">homePage</result>
+			
 		</action>
 
 
 		<action name="deleteComment" class="com.myproject.action.DeleteComment">
-			<interceptor-ref name="secureStack" />
+			<result name="error" type="redirectAction">homePage</result>
+			<result name="input" type="redirectAction">homePage</result>
 			<result name="success" type="redirectAction">homePage</result>
-			<result name="input">homePage.jsp</result>
-			<result name="error">homePage.jsp</result>
-			<result name="login">login.jsp</result>
-
 		</action>
 
+		<action name="profile">
+			<result name="success">profile.jsp</result>
+		</action>
 
 	</package>
 </struts>

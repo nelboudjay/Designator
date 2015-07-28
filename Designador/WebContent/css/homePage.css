@@ -28,9 +28,9 @@
 }
 
 .calendar {
-	width: 97%;
-	margin: 0 1.5%;
+	width: 100%;
 	border-collapse: collapse;
+	margin-bottom: 20px;
 }
 
 .active {
@@ -52,7 +52,6 @@
 }
 
 .comments-list {
-	margin-left: 15px;
 	font-size: 12px;
 	position: relative;
 }

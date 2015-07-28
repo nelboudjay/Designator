@@ -344,7 +344,9 @@ li.active .glow{
 
 /****************Main content***************************/
 
-
+.container {
+	margin: 0 1.5%;
+}
 
 th {
 	border-bottom:2px solid #ddd;

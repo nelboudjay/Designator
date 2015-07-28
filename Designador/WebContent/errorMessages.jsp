@@ -1,20 +1,21 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
 
 <s:if test="hasActionErrors()">
 	<div class="errors">
-		<button class="close" type="button">×</button>
+		<button class="close" type="button">Ã—</button>
 		<s:actionerror />
 	</div>
 </s:if>
 <s:if test="hasFieldErrors()">
 	<div class="errors">
-		<button class="close" type="button">×</button>
+		<button class="close" type="button">Ã—</button>
 		<s:fielderror />
 	</div>
 </s:if>
 <s:if test="hasActionMessages()">
 	<div class="boxMessage">
-		<button class="close" type="button">×</button>
+		<button class="close" type="button">Ã—</button>
 		<s:actionmessage />
 	</div>
 </s:if>
