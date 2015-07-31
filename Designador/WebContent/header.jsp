@@ -19,7 +19,7 @@
 	<s:if test="#session.user != null">
 
 		<ul class="navbar-right">
-			<li id="userName"><span><img class="profile-icon"
+			<li class="userName"><span><img class="profile-icon"
 					src="images/avatar-icon.png"> ${session.user.userFullName}
 					(${session.user.userName}) <span class="arrow"></span> </span></li>
 			<li id="profile" class="dropdown-menu"><a href="profile"><img class="small-icon" src="images/profile-icon.png"><span>Perfil</span></a></li>

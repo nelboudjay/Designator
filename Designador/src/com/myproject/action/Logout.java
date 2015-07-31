@@ -35,7 +35,7 @@ public class Logout extends ActionSupport implements SessionAware, ServletReques
 		User user = ((User)session.get("user"));
 		
 		if(user != null){	
-			addActionMessage("Gracias " + user.getUserProfile().getUserFirstName() + ", se ha cerrado tu sesión correctamente.");
+			addActionMessage("Gracias " + user.getUserProfile().getFirstName() + ", se ha cerrado tu sesión correctamente.");
 			session.clear();
 		}
 		

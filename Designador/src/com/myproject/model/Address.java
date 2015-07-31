@@ -19,8 +19,11 @@ public class Address implements Serializable{
 	@GeneratedValue
 	private int idAddress;
 	
-	@Column(name="ADDRESS", length = 255)
-	private String address;
+	@Column(name="ADDRESS1", length = 255)
+	private String address1;
+	
+	@Column(name="ADDRESS2", length = 255)
+	private String address2;
 	
 	@Column(name="PROVINCE", length = 45)
 	private String province;
@@ -39,13 +42,26 @@ public class Address implements Serializable{
 		this.idAddress = idAddress;
 	}
 
-	public String getAddress() {
-		return address;
+	public String getAddress1() {
+		return address1;
 	}
 
-	public void setAddress(String address) {
-		this.address = address;
+	public void setAddress1(String address1) {
+		this.address1 = address1;
 	}
+	
+	public String getAddress2() {
+		return address2;
+	}
+
+	public void setAddress2(String address2) {
+		this.address2 = address2;
+	}
+	
+	public String getAddress() {
+		return getAddress1() + " " + getAddress2();
+	}
+
 
 	public String getProvince() {
 		return province;

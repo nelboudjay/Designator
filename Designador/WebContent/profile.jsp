@@ -29,6 +29,112 @@
 		</div>
 		<div class="container">
 			<h3 class="title-1">Nombre</h3>
+			
+			<div class="row">
+				<div>
+					<label><strong>Nombre</strong></label> <input id="firstName"
+						type="text" class="text-input-2 required-field" name="firstName">
+					<div class="error-field">Nombre no puede estar en blanco.</div>
+						
+				</div>
+				
+				<div>
+					<label><strong>Primer Apellido</strong></label> <input id="lastName1"
+						type="text" class="text-input-2 required-field" name="lastName1">
+					<div class="error-field">Primer Apellido no puede estar en blanco.</div>
+						
+				</div>
+				
+				<div>
+					<label><strong>Primer Apellido</strong></label> <input id="lastName2"
+						type="text" class="text-input-2" name="lastName2">
+				</div>
+			</div>
+			
+			<h3 class="title-1">Dirección Postal</h3>
+			
+			<div class="row">
+				<div>
+					<label><strong>Dirección Linea 1</strong></label> <input id="address1"
+						type="text" class="text-input-2" name="address1">	
+				</div>
+				
+				<div>
+					<label><strong>Dirección Linea 2</strong></label> <input id="address2"
+						type="text" class="text-input-2" name="address2">
+				</div>
+			</div>
+			
+			<div class="row">
+				<div>
+					<label><strong>Población</strong></label> <input id="city"
+						type="text" class="text-input-2" name="city">
+				</div>
+				
+				<div>
+					<label><strong>Provincia</strong></label> <input id="province"
+						type="text" class="text-input-2" name="province">
+						
+				</div>
+				
+				<div>
+					<label><strong>Código Postal</strong></label> <input id="zipcode"
+						type="text" class="text-input-2" name="zipcode" size="5" maxlength="5">
+				</div>
+			</div>
+			
+			<h3 class="title-1">Teléfono</h3>
+			
+			<div class="row">
+				<div>
+					<label><strong>Fijo</strong></label> <input id="homePhone"
+						type="text" class="text-input-2" name="homePhone">	
+				</div>
+				
+				<div>
+					<label><strong>Móvil</strong></label> <input id="mobilePhone"
+						type="text" class="text-input-2" name="mobilePhone">
+				</div>
+			</div>
+			
+			<h3 class="title-1">Correo Electrónico</h3>
+			
+			<div class="row">
+				<div>
+					<label><strong>Correo Electrónico Principal</strong></label> <input id="email"
+						type="text" class="text-input-2 required-field" name="email">	
+						<div class="error-field">Correo Electrónico principal no puede estar en blanco.</div>
+				</div>
+				
+				<div>
+					<label><strong>Correo Electrónico Secundario</strong></label> <input id="email2"
+						type="text" class="text-input-2" name="email2">	
+				</div>
+				
+			</div>
+			
+			<h3 class="title-1">Usuario y Contraseña</h3>
+			
+		    <div class="row">
+			
+				<div>
+					<label><strong>Usuario</strong></label> <input id="userName"
+						type="text" class="text-input-2 required-field" name="userName">	
+						<div class="error-field">Usuario no puede estar en blanco.</div>
+				</div>
+				
+				<div>
+					<label><strong>Contraseña</strong></label> <input id="password"
+						type="password" class="text-input-2 required-field identical-field" name="password">	
+				</div>
+				
+				<div>
+					<label><strong>Confirmar Contraseña</strong></label> <input id="repassword"
+						type="password" class="text-input-2 required-field identical-field" name="repassword">	
+				</div>
+				
+			</div> 
+			
 		</div>
 	</div>
 

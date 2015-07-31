@@ -107,9 +107,9 @@ public class User implements Serializable{
 	
 	public String getUserFullName(){
 		
-		return WordUtils.capitalize(getUserProfile().getUserFirstName() + " "
-				+ getUserProfile().getUserLastName1() + " " 
-				+ ((getUserProfile().getUserLastName2() == null) ? "" : getUserProfile().getUserLastName2()));
+		return WordUtils.capitalize(getUserProfile().getFirstName() + " "
+				+ getUserProfile().getLastName1() + " " 
+				+ ((getUserProfile().getLastName2() == null) ? "" : getUserProfile().getLastName2()));
 	}
 	
 	public boolean isAdmin(){

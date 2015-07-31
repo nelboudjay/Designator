@@ -34,15 +34,15 @@ $(document).ready(function() {
 	});
 	
 	
-	$('#userName').click(function(evt) {
+	$('.userName').click(function(evt) {
 		evt.stopPropagation();
 		$('.dropdown-menu').slideToggle("drop");
-		$(this).toggleClass("userName");
+		$(this).toggleClass("shine");
 	});
 
 	$(document).click(function() {
 		$('.dropdown-menu').slideUp(function() {
-			$('#userName').removeClass("userName");
+			$('.userName').removeClass("shine");
 		});
 	});
 	

@@ -25,7 +25,7 @@ public class UserProfile implements Serializable{
 	private int idUserProfile;
 	
 	@Column(name="FIRSTNAME", length = 45, nullable = false)
-	private String userFirstName;
+	private String firstName;
 	
 	@Column(name="LASTNAME1", length = 45, nullable = false)
 	private String lastName1;
@@ -44,6 +44,9 @@ public class UserProfile implements Serializable{
 	@Column(name="MOBILE_PHONE", length = 45)
 	private String mobilePhone;
 	
+	@Column(name="EMAIL2", length = 45)
+	private String email2;
+
 	@Column(name="PICTURE", length = 45)
 	private Blob picture;
 
@@ -55,59 +58,67 @@ public class UserProfile implements Serializable{
 		this.idUserProfile = idUserProfile;
 	}
 
-	public String getUserFirstName() {
-		return userFirstName;
+	public String getFirstName() {
+		return firstName;
 	}
 
-	public void setUserFirstName(String userFirstName) {
-		this.userFirstName = userFirstName;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
 
-	public String getUserLastName1() {
+	public String getLastName1() {
 		return lastName1;
 	}
 
-	public void setUserLastName1(String lastName1) {
+	public void setLastName1(String lastName1) {
 		this.lastName1 = lastName1;
 	}
 
-	public String getUserLastName2() {
+	public String getLastName2() {
 		return lastName2;
 	}
 
-	public void setUserLastName2(String lastName2) {
+	public void setLastName2(String lastName2) {
 		this.lastName2 = lastName2;
 	}
 
-	public Address getUserAddress() {
+	public Address getAddress() {
 		return address;
 	}
 
-	public void setUserAddress(Address address) {
+	public void setAddress(Address address) {
 		this.address = address;
 	}
 
-	public String getUserHomePhone() {
+	public String getHomePhone() {
 		return homePhone;
 	}
 
-	public void setUserHomePhone(String homePhone) {
+	public void setHomePhone(String homePhone) {
 		this.homePhone = homePhone;
 	}
 
-	public String getUserMobilePhone() {
+	public String getMobilePhone() {
 		return mobilePhone;
 	}
 
-	public void setUserMobilePhone(String mobilePhone) {
+	public void setMobilePhone(String mobilePhone) {
 		this.mobilePhone = mobilePhone;
 	}
+	
+	public String getEmail2() {
+		return email2;
+	}
 
-	public Blob getUserPicture() {
+	public void setEmail2(String email2) {
+		this.email2 = email2;
+	}
+
+	public Blob getPicture() {
 		return picture;
 	}
 
-	public void setUserPicture(Blob picture) {
+	public void setPicture(Blob picture) {
 		this.picture = picture;
 	}
 
