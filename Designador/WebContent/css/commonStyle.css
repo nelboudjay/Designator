@@ -408,6 +408,9 @@ form > div {
 	padding-left: 5px;
 }
 
+.file-input {
+	display: block;
+}
 .checkBox {
 	color: #464647;
 }
