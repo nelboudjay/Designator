@@ -99,6 +99,10 @@
 		<action name="profile">
 			<result name="success">profile.jsp</result>
 		</action>
+		
+		<action name="editProfile" class="com.myproject.action.EditProfile">
+			<result name="success">profile.jsp</result>
+		</action>
 
 	</package>
 </struts>
