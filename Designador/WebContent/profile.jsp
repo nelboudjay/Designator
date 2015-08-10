@@ -22,7 +22,7 @@
 	<div class="main-content">
 		<div class="content-title">
 			<h3>
-				<img class="home-black-icon" src="images/home-black-icon.png">
+				<img class="black-icon" src="images/profile-black-icon.png">
 				${session.user.userFullName}
 			</h3>
 			<span>Perfil</span>
@@ -82,6 +82,7 @@
 					<div>
 						<label><strong>Código Postal</strong></label> <input id="zipcode"
 							type="text" class="text-input-2" name="zipcode" size="5" maxlength="5" value="${session.user.userProfile.address.zipcode}">
+						<div class="error-field">Correo Electrónico principal no puede estar en blanco.</div>
 					</div>
 				</div>
 				

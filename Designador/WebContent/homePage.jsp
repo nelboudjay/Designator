@@ -25,7 +25,7 @@
 	<div class="main-content">
 		<div class="content-title">
 			<h3>
-				<img class="home-black-icon" src="images/home-black-icon.png">
+				<img class="black-icon" src="images/home-black-icon.png">
 				Inicio
 			</h3>
 			<span>Todos los partidos</span>
@@ -73,7 +73,7 @@
 					<div>
 						<textarea rows="1" cols="100" placeholder="Añadir comentario..."
 							id="commentBody" name="commentBody"  class="required-field"></textarea>
-						<div class="error-field">El comentario no puede estare en blanco.</div>
+						<div class="error-field">El comentario no puede estar en blanco.</div>
 					</div>
 					<p class="add-comment-submit" style="display: none;">
 						<button id="addComment" class="btn">Añadir Comentario</button>
