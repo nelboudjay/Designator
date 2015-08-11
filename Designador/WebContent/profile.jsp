@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
-	
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <html>
 <head>
 
@@ -82,7 +83,7 @@
 					<div>
 						<label><strong>Código Postal</strong></label> <input id="zipcode"
 							type="text" class="text-input-2" name="zipcode" size="5" maxlength="5" value="${session.user.userProfile.address.zipcode}">
-						<div class="error-field">Correo Electrónico principal no puede estar en blanco.</div>
+						<div class="error-field">Código postal incorrecto.</div>
 					</div>
 				</div>
 				
@@ -105,13 +106,13 @@
 				<div class="row">
 					<div>
 						<label><strong>Correo Electrónico Principal</strong></label> <input id="email"
-							type="text" class="text-input-2 required-field" name="email" value="${session.user.email}">	
+							type="text" class="text-input-2 required-field email" name="email" value="${session.user.email}">	
 							<div class="error-field">Correo Electrónico principal no puede estar en blanco.</div>
 					</div>
 					
 					<div>
 						<label><strong>Correo Electrónico Secundario</strong></label> <input id="email2"
-							type="text" class="text-input-2" name="email2" value="${session.user.userProfile.email2}">	
+							type="text" class="text-input-2 email" name="email2" value="${session.user.userProfile.email2}">	
 					</div>
 					
 				</div>
@@ -125,6 +126,7 @@
 							type="text" class="text-input-2 required-field" name="userName" value="${session.user.userName}">	
 							<div class="error-field">Usuario no puede estar en blanco.</div>
 					</div>
+					
 					
 					<div>
 						<label><strong>Contraseña</strong></label> <input id="password"

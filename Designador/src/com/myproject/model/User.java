@@ -14,9 +14,13 @@ import javax.persistence.Table;
 import org.apache.commons.lang3.text.WordUtils;
 import org.hibernate.annotations.ForeignKey;
 
+import com.myproject.tools.DesEncrypter;
+
+import com.opensymphony.xwork2.ActionSupport;
+
 @Entity
 @Table(name="USER")
-public class User implements Serializable{
+public class User extends ActionSupport implements Serializable{
 
 	private static final long serialVersionUID = -4142991539282053208L;
 
@@ -70,7 +74,8 @@ public class User implements Serializable{
 	}
 	
 	public String getPassword() {
-		return password;
+        DesEncrypter decrypter = new DesEncrypter(getText("loginPass"));
+		return decrypter.decrypt(password);
 	}
 	
 	public UserRole getUserRole() {
@@ -94,7 +99,9 @@ public class User implements Serializable{
 	}
 	
 	public void setPassword(String password) {
-		this.password = password;
+
+		DesEncrypter encrypter = new DesEncrypter(getText("loginPass"));
+		this.password =	encrypter.encrypt(password);
 	}
 	
 	public void setUserRole(UserRole userRole) {

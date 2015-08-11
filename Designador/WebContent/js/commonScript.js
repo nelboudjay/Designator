@@ -1,13 +1,17 @@
+function warn(e){
+	
+	e.next().css("display", "block");
+	e.css({"border-color" : "#b94a48", "border-style" : "solid"});								
+	return false;
+}
+
 function validate(){
 		var noEmpty = true;
 		$('.required-field').css("border-color" , "");
 		$('.error-field').css("display","none");
 		$('.required-field').each(function(){
-			if ($.trim($(this).val()) == '') {
-				$(this).next().css("display", "block");
-				$(this).css({"border-color" : "#b94a48", "border-style" : "solid"});								
-				noEmpty =  false;
-			}
+			if ($.trim($(this).val()) == '') 
+				noEmpty = warn($(this));
 		});
 		
 		if(noEmpty){
@@ -15,14 +19,23 @@ function validate(){
 			$(".identical-field").each(function(){
 				if(fieldValue == "")
 					fieldValue = $(this).val();
-				else if (fieldValue != $(this).val()){
-					$(this).next().css("display", "block");
-					$(this).css({"border-color" : "#b94a48", "border-style" : "solid"});	
-					noEmpty =  false;
-				}
+				else if (fieldValue != $(this).val())
+					noEmpty = warn($(this));
 					
 			});
 		}
+		
+		if ( $("#zipcode").length && !($("#zipcode").val()).match(/^(\d{5}|)$/)) 
+			noEmpty =  warn($("#zipcode"));
+		
+		if ( $(".email").length) {
+			$('.email').each(function(){
+				console.log($.trim($(this).val()));
+				if (!$.trim($(this).val()).match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}$/)) 
+					noEmpty = warn($(this));
+			});
+		}
+
 		
 		return noEmpty;
 }

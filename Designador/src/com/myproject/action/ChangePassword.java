@@ -12,7 +12,6 @@ import org.apache.struts2.util.ServletContextAware;
 import com.myproject.model.PasswordChangeRequest;
 import com.myproject.model.User;
 import com.myproject.service.GenericService;
-import com.myproject.tools.DesEncrypter;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class ChangePassword extends ActionSupport implements SessionAware,
@@ -72,12 +71,12 @@ public class ChangePassword extends ActionSupport implements SessionAware,
 			user = (User) context.getAttribute("user");
 
 			if (user == null)
+				
 				addActionError("Tu contraseña no ha podido ser cambiada. Vuelve a intentarlo más tarde o solicita una nueva contraseña.");
-
-			if (user != null) {
+			
+			else {
 	
-				DesEncrypter encrypter = new DesEncrypter(getText("loginPass"));
-				user.setPassword(encrypter.encrypt(getPassword()));
+				user.setPassword(getPassword());
 				service.SaveOrUpdateModelData(user);
 	
 				session.put("user", user);
@@ -86,8 +85,7 @@ public class ChangePassword extends ActionSupport implements SessionAware,
 		}
 		else{
 			
-			DesEncrypter encrypter = new DesEncrypter(getText("loginPass"));
-			user.setPassword(encrypter.encrypt(getPassword()));
+			user.setPassword(getPassword());
 			service.SaveOrUpdateModelData(user);
 		}
 			

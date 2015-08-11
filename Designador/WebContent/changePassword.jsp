@@ -33,7 +33,7 @@
 			<div>
 			<label><strong>Vuelve a escribir la contraseña</strong></label> <input id="rePassword"
 				type="password" class="text-input-2 required-field identical-field" name="repassword">
-				<div class="error-field error-field-2">Las contraseñas deben ser iguales.</div>
+				<div class="error-field">Las contraseñas deben ser iguales.</div>
 				
 			</div>
 			<input type="submit" class="btn"
