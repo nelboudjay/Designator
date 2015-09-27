@@ -14,6 +14,24 @@ public class Address implements Serializable{
 
 	private static final long serialVersionUID = 5261261581605625466L;
 
+	
+	public Address(int idAddress, String address1, String address2,
+			String province, String city, String zipcode) {
+		super();
+		this.idAddress = idAddress;
+		this.address1 = address1;
+		this.address2 = address2;
+		this.province = province;
+		this.city = city;
+		this.zipcode = zipcode;
+	}
+
+	public Address() {
+		super();
+	}
+
+
+
 	@Id
 	@Column(name = "idADDRESS")
 	@GeneratedValue
@@ -58,7 +76,7 @@ public class Address implements Serializable{
 		this.address2 = address2;
 	}
 	
-	public String getAddress() {
+	public String getFullAddress() {
 		return getAddress1() + " " + getAddress2();
 	}
 

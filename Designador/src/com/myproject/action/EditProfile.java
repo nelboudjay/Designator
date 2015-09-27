@@ -1,15 +1,18 @@
 package com.myproject.action;
 
+import java.sql.Blob;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.struts2.interceptor.SessionAware;
+import org.apache.struts2.interceptor.validation.SkipValidation;
 
 import com.myproject.model.Address;
 import com.myproject.model.Comment;
 import com.myproject.model.User;
+import com.myproject.model.UserProfile;
 import com.myproject.service.GenericService;
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -19,77 +22,223 @@ public class EditProfile extends ActionSupport implements SessionAware {
 
 	private Map<String, Object> session;
 	
-	private String address1, address2, province, city, zipCode;
+	private String firstName, lastName1, lastName2;
+	private String address1, address2, province, city, zipcode;
+	private String homePhone, mobilePhone;
+	private String email, email2;
+	private String userName, password, repassword;
+	private Blob picture;
+	
+	private User user; 
+
+	Map<String, Object> eqRestrictions = new HashMap<String, Object>();
+
 	private Address address;
+	
 	
 	private GenericService service;
 
 	@Override
+	@SkipValidation
 	public String execute() {
+		return NONE;
+	}
+	
+	public String editProfile() {
 
-		clearFieldErrors();
+		user =  (User) session.get("user");
+		
+		/*Check if the username changed already exists*/
+		if(!user.getUserName().equalsIgnoreCase(userName.trim())){
 
-
-
-		User user = (User) session.get("user");
-
-		System.out.println("hello " + address1 + address2 + province + city + zipCode);
-		/*Comment comment;
-		if (commentId == null ||commentId.equals(""))
-			comment = new Comment(commentBody.trim(), commentDate, user);
-		else{
-			Map<String, Object> eqRestrictions = new HashMap<String, Object>();
-			eqRestrictions.put("commentId", commentId);
-			comment = (Comment)service.GetUniqueModelData(Comment.class, eqRestrictions);
-			if (comment == null)
-				comment = new Comment(commentBody.trim(), commentDate, user);
-			else{
-				comment.setCommentBody(commentBody.trim());
-				comment.setCommentDate(commentDate);
-			}
+			eqRestrictions.put("userName", userName.trim());
+			
+			if ((User) service.GetUniqueModelData(User.class, eqRestrictions) != null) {
+				addActionError("El nombre de usuario ya existe. Por favor, elige otro.");
+				return INPUT;
+			}			
 		}
 		
-		service.SaveOrUpdateModelData(comment);*/
+		if(emailAlreadyExists(email.trim())){
+			addActionError("El correo eléctronico principal ya existe. Por favor, elige otro.");
+			return INPUT;
+		}
+		
+		if(!email2.trim().equals("") && emailAlreadyExists(email2.trim())){
+			addActionError("El correo eléctronico secundario ya existe. Por favor, elige otro.");
+			return INPUT;
+		}
+		
+		eqRestrictions.clear();
+		eqRestrictions.put("idUser", user.getIdUser());
+		user = (User)service.GetUniqueModelData(User.class, eqRestrictions);
+		if (user == null){
+			addActionError("No se puede actualizar el perfil. Este usuario ya no existe");
+			return INPUT;
+		}
+		else{
+			Address address = new Address(user.getUserProfile().getAddress().getIdAddress(), address1.trim(), address2.trim(), province.trim(), city.trim(), zipcode);
+			
+			UserProfile userProfile = new UserProfile(user.getUserProfile().getIdUserProfile(), 
+					firstName.trim(), lastName1.trim(), lastName2.trim(),address, homePhone.trim(), mobilePhone.trim(), email2.trim(), picture);
+			
+			service.SaveOrUpdateModelData(address);
 
+			System.out.println("my address1: " + userProfile.getAddress().getProvince());
+
+			
+			/*user.setEmail(email.trim());
+			user.setPassword(password);
+			user.setUserName(userName);
+			user.setUserProfile(new UserProfile(user.getUserProfile().getIdUserProfile(), 
+					firstName.trim(), lastName1.trim(), lastName2.trim(),
+					new Address(user.getUserProfile().getAddress().getIdAddress(), address1.trim(), address2.trim(), province.trim(), city.trim(), zipcode),
+					homePhone.trim(), mobilePhone.trim(), email2.trim(), picture));
+			service.SaveOrUpdateModelData(user);
+			session.put("user", user);*/
+			addActionMessage("El perfil has sido actualizado con exito");
+		}
 		return SUCCESS;
 
 	}
 
-	
-	
-	public String getAddress1() {
-		return address1;
+	public Boolean emailAlreadyExists(String email){
+		
+		if(!user.getEmail().equalsIgnoreCase(email) && 
+				((user.getUserProfile().getEmail2() == null) || !user.getUserProfile().getEmail2().equalsIgnoreCase(email))){
+			eqRestrictions.clear();
+			eqRestrictions.put("email", email);
+			
+			if ((User) service.GetUniqueModelData(User.class, eqRestrictions) != null)
+				return true;
+			else{
+				
+				eqRestrictions.clear();
+				eqRestrictions.put("email2", email);
+				return ((UserProfile) service.GetUniqueModelData(UserProfile.class, eqRestrictions) != null);
+				
+			}
+		}
+		else
+			return false;
+	}
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName1() {
+		return lastName1;
+	}
+
+	public void setLastName1(String lastName1) {
+		this.lastName1 = lastName1;
+	}
+
+	public void setLastName2(String lastName2) {
+		this.lastName2 = lastName2;
 	}
 
 	public void setAddress1(String address1) {
 		this.address1 = address1;
 	}
 
+	public void setAddress2(String address2) {
+		this.address2 = address2;
+	}
 
+	public void setProvince(String province) {
+		this.province = province;
+	}
 
-	public String getAddress2() {
-		return address2;
+	public void setCity(String city) {
+		this.city = city;
+	}
+	
+	public String getZipcode() {
+		return zipcode;
+	}
+	public void setZipcode(String zipcode) {
+		this.zipcode = zipcode;
+	}
+
+	
+	public String getHomePhone() {
+		return homePhone;
+	}
+
+	public void setHomePhone(String homePhone) {
+		this.homePhone = homePhone;
+	}
+
+	public String getMobilePhone() {
+		return mobilePhone;
+	}
+
+	public void setMobilePhone(String mobilePhone) {
+		this.mobilePhone = mobilePhone;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getEmail2() {
+		return email2;
 	}
 
 
+	public void setEmail2(String email2) {
+		this.email2 = email2;
+	}
+	
+	public String getUserName() {
+		return userName;
+	}
 
-	public String getProvince() {
-		return province;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 
-
-	public String getCity() {
-		return city;
+	public String getPassword() {
+		return password;
 	}
 
-
-
-	public String getZipCode() {
-		return zipCode;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
+	public String getRepassword() {
+		return repassword;
+	}
 
+	public void setRepassword(String repassword) {
+		this.repassword = repassword;
+	}
+
+	public Blob getPicture() {
+		return picture;
+	}
+
+	public void setPicture(Blob picture) {
+		this.picture = picture;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
 
 	@Override
 	public void setSession(Map<String, Object> session) {

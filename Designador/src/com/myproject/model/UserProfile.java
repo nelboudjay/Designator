@@ -19,6 +19,27 @@ public class UserProfile implements Serializable{
 
 	private static final long serialVersionUID = 7906067534274348077L;
 
+	
+	
+	public UserProfile(int idUserProfile, String firstName, String lastName1,
+			String lastName2, Address address, String homePhone,
+			String mobilePhone, String email2, Blob picture) {
+		super();
+		this.idUserProfile = idUserProfile;
+		this.firstName = firstName;
+		this.lastName1 = lastName1;
+		this.lastName2 = lastName2;
+		this.address = address;
+		this.homePhone = homePhone;
+		this.mobilePhone = mobilePhone;
+		this.email2 = email2;
+		this.picture = picture;
+	}
+
+	public UserProfile() {
+		super();
+	}
+
 	@Id
 	@Column(name = "idUSER_PROFILE")
 	@GeneratedValue

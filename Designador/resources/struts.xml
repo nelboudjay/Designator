@@ -57,10 +57,6 @@
 		</action>
 
 		<action name="logout" class="com.myproject.action.Logout">
-			<interceptor-ref name="store">
-				<param name="operationMode">STORE</param>
-			</interceptor-ref>
-			<interceptor-ref name="defaultStack" />
 			<result name="success" type="redirectAction">login</result>
 		</action>
 
@@ -96,13 +92,11 @@
 			<result name="success" type="redirectAction">homePage</result>
 		</action>
 
-		<action name="profile">
+		<action name="profile" class="com.myproject.action.EditProfile">
+			<result name="none">profile.jsp</result>
+			<result name="input">profile.jsp</result>
 			<result name="success">profile.jsp</result>
 		</action>
-		
-		<action name="editProfile" class="com.myproject.action.EditProfile">
-			<result name="success">profile.jsp</result>
-		</action>
-
+	
 	</package>
 </struts>

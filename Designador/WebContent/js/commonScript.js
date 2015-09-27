@@ -1,5 +1,4 @@
 function warn(e){
-	
 	e.next().css("display", "block");
 	e.css({"border-color" : "#b94a48", "border-style" : "solid"});								
 	return false;
@@ -7,11 +6,14 @@ function warn(e){
 
 function validate(){
 		var noEmpty = true;
-		$('.required-field').css("border-color" , "");
+		$("input", this).css("border-color" , "");
 		$('.error-field').css("display","none");
 		$('.required-field').each(function(){
-			if ($.trim($(this).val()) == '') 
+			if ($.trim($(this).val()) == '') {
+				if($(this).hasClass("email"))
+					$(this).next().text("Correo Electrónico principal no puede estar en blanco.");
 				noEmpty = warn($(this));
+			}
 		});
 		
 		if(noEmpty){
@@ -19,22 +21,28 @@ function validate(){
 			$(".identical-field").each(function(){
 				if(fieldValue == "")
 					fieldValue = $(this).val();
-				else if (fieldValue != $(this).val())
-					noEmpty = warn($(this));
-					
+				else if (fieldValue != $(this).val()){
+					noEmpty = warn($(this));	
+				}
 			});
 		}
 		
-		if ( $("#zipcode").length && !($("#zipcode").val()).match(/^(\d{5}|)$/)) 
+		if (!($("#zipcode").val()).match(/^(\d{5}|)$/)) 
 			noEmpty =  warn($("#zipcode"));
 		
-		if ( $(".email").length) {
-			$('.email').each(function(){
-				console.log($.trim($(this).val()));
-				if (!$.trim($(this).val()).match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}$/)) 
-					noEmpty = warn($(this));
-			});
-		}
+		if (!($("#homePhone").val()).match(/^\+?(\d{9,}|)$/))
+			noEmpty =  warn($("#homePhone"));
+		
+		if (!($("#mobilePhone").val()).match(/^\+?(\d{9,}|)$/))
+			noEmpty =  warn($("#mobilePhone"));
+
+		$('.email').each(function(){
+			if (!$.trim($(this).val()).match(/^(([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)|)$/i)) {
+				$(this).next().text("Correo electrónico no válido.");	
+				noEmpty = warn($(this));
+			}
+		});
+		
 
 		
 		return noEmpty;
@@ -96,5 +104,7 @@ $(document).ready(function() {
 	
 	$(document).find("textarea").keyup();
 
-
+	if($(".errorMessage").children().length > 1)
+		$(".errorMessage li").css({"list-style-type":"initial","margin-left":"10px"});
+	
 });

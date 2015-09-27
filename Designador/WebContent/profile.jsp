@@ -28,8 +28,11 @@
 			</h3>
 			<span>Perfil</span>
 		</div>
+		
+		<jsp:include page="errorMessages.jsp"/>
+		
 		<div class="container">
-			<form action="editProfile" method="post">
+			<form action="profile" method="post">
 			
 				<h3 class="title-1">Nombre</h3>
 				
@@ -40,8 +43,8 @@
 						<div class="error-field">Nombre no puede estar en blanco.</div>
 							
 					</div>
-					
-					<div>
+					  
+					  	<div>
 						<label><strong>Primer Apellido</strong></label> <input id="lastName1"
 							type="text" class="text-input-2 required-field" name="lastName1" value="${session.user.userProfile.lastName1}">
 						<div class="error-field">Primer Apellido no puede estar en blanco.</div>
@@ -49,11 +52,11 @@
 					</div>
 					
 					<div>
-						<label><strong>Primer Apellido</strong></label> <input id="lastName2"
+						<label><strong>Segundo Apellido</strong></label> <input id="lastName2"
 							type="text" class="text-input-2" name="lastName2" value="${session.user.userProfile.lastName2}">
-					</div>
+					</div> 
 				</div>
-				
+								
 				<h3 class="title-1">Dirección Postal</h3>
 				
 				<div class="row">
@@ -93,11 +96,13 @@
 					<div>
 						<label><strong>Fijo</strong></label> <input id="homePhone"
 							type="text" class="text-input-2" name="homePhone" value="${session.user.userProfile.homePhone}">	
+							<div class="error-field">Número de teléfono no válido.</div>
 					</div>
 					
 					<div>
 						<label><strong>Móvil</strong></label> <input id="mobilePhone"
 							type="text" class="text-input-2" name="mobilePhone" value="${session.user.userProfile.mobilePhone}">
+						<div class="error-field">Número de teléfono no válido.</div>				
 					</div>
 				</div>
 				
@@ -107,18 +112,21 @@
 					<div>
 						<label><strong>Correo Electrónico Principal</strong></label> <input id="email"
 							type="text" class="text-input-2 required-field email" name="email" value="${session.user.email}">	
-							<div class="error-field">Correo Electrónico principal no puede estar en blanco.</div>
+							<div class="error-field"></div>
 					</div>
 					
 					<div>
 						<label><strong>Correo Electrónico Secundario</strong></label> <input id="email2"
-							type="text" class="text-input-2 email" name="email2" value="${session.user.userProfile.email2}">	
+							type="text" class="text-input-2 email" name="email2" value="${session.user.userProfile.email2}">			
+							<div class="error-field"></div>
+					
 					</div>
 					
 				</div>
 				
+			
 				<h3 class="title-1">Usuario y Contraseña</h3>
-				
+				 
 			    <div class="row">
 				
 					<div>
@@ -131,15 +139,18 @@
 					<div>
 						<label><strong>Contraseña</strong></label> <input id="password"
 							type="password" class="text-input-2 required-field identical-field" name="password" value="${session.user.password}">	
+						<div class="error-field">Introduce tu contraseña.</div>
+					
 					</div>
 					
 					<div>
 						<label><strong>Confirmar Contraseña</strong></label> <input id="repassword"
 							type="password" class="text-input-2 required-field identical-field" name="repassword">	
+						<div class="error-field">Las contraseñas deben ser iguales.</div>
 					</div>
 					
 				</div> 
-				
+			
 				<h3 class="title-1">Foto de Perfil</h3>
 				
 				<div class="row">
@@ -152,7 +163,7 @@
 				
 				<div class="row">
 					<div>
-						<input type="submit" class="btn" value="Actualizar Perfil"> o 
+						<input type="submit" class="btn" value="Actualizar Perfil" name="method:editProfile"> o 
 						<a href="homePage">Cancelar</a>
 					</div>
 					
