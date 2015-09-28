@@ -1,8 +1,6 @@
 package com.myproject.action;
 
 import java.sql.Blob;
-import java.sql.Timestamp;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,7 +8,6 @@ import org.apache.struts2.interceptor.SessionAware;
 import org.apache.struts2.interceptor.validation.SkipValidation;
 
 import com.myproject.model.Address;
-import com.myproject.model.Comment;
 import com.myproject.model.User;
 import com.myproject.model.UserProfile;
 import com.myproject.service.GenericService;
@@ -31,10 +28,7 @@ public class EditProfile extends ActionSupport implements SessionAware {
 	
 	private User user; 
 
-	Map<String, Object> eqRestrictions = new HashMap<String, Object>();
-
-	private Address address;
-	
+	Map<String, Object> eqRestrictions = new HashMap<String, Object>();	
 	
 	private GenericService service;
 
@@ -78,24 +72,19 @@ public class EditProfile extends ActionSupport implements SessionAware {
 		}
 		else{
 			Address address = new Address(user.getUserProfile().getAddress().getIdAddress(), address1.trim(), address2.trim(), province.trim(), city.trim(), zipcode);
-			
-			UserProfile userProfile = new UserProfile(user.getUserProfile().getIdUserProfile(), 
-					firstName.trim(), lastName1.trim(), lastName2.trim(),address, homePhone.trim(), mobilePhone.trim(), email2.trim(), picture);
-			
 			service.SaveOrUpdateModelData(address);
 
-			System.out.println("my address1: " + userProfile.getAddress().getProvince());
-
+			UserProfile userProfile = new UserProfile(user.getUserProfile().getIdUserProfile(), 
+					firstName.trim(), lastName1.trim(), lastName2.trim(),address, homePhone.trim(), mobilePhone.trim(), email2.trim(), picture);
+			service.SaveOrUpdateModelData(userProfile);
 			
-			/*user.setEmail(email.trim());
+			user.setEmail(email.trim());
 			user.setPassword(password);
-			user.setUserName(userName);
-			user.setUserProfile(new UserProfile(user.getUserProfile().getIdUserProfile(), 
-					firstName.trim(), lastName1.trim(), lastName2.trim(),
-					new Address(user.getUserProfile().getAddress().getIdAddress(), address1.trim(), address2.trim(), province.trim(), city.trim(), zipcode),
-					homePhone.trim(), mobilePhone.trim(), email2.trim(), picture));
+			user.setUserName(userName.trim());
+			user.setUserProfile(userProfile);
 			service.SaveOrUpdateModelData(user);
-			session.put("user", user);*/
+
+			session.put("user", user);
 			addActionMessage("El perfil has sido actualizado con exito");
 		}
 		return SUCCESS;

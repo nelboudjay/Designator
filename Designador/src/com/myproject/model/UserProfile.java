@@ -18,8 +18,6 @@ import org.hibernate.annotations.ForeignKey;
 public class UserProfile implements Serializable{
 
 	private static final long serialVersionUID = 7906067534274348077L;
-
-	
 	
 	public UserProfile(int idUserProfile, String firstName, String lastName1,
 			String lastName2, Address address, String homePhone,
@@ -145,10 +143,3 @@ public class UserProfile implements Serializable{
 
 }
 
-
-
-
-	
-	
-	
-	
