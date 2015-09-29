@@ -32,7 +32,7 @@
 		<jsp:include page="errorMessages.jsp"/>
 		
 		<div class="container">
-			<form action="profile" method="post">
+			<form action="profile" method="post" enctype="multipart/form-data">
 			
 				<h3 class="title-1">Nombre</h3>
 				
@@ -154,11 +154,11 @@
 				<h3 class="title-1">Foto de Perfil</h3>
 				
 				<div class="row">
-					<div>
+				  	<div>
 						<label><strong>Elige una foto de Perfil</strong></label> <input id="picture"
-							type="file" class="file-input" name="picture" value="${session.user.userProfile.picture}">	
-					</div>
-					
+							type="file" class="file-input" name="picture">
+							File : <s:property value="picture"/>	
+					</div>					
 				</div>
 				
 				<div class="row">

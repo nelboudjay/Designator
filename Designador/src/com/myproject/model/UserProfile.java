@@ -21,7 +21,7 @@ public class UserProfile implements Serializable{
 	
 	public UserProfile(int idUserProfile, String firstName, String lastName1,
 			String lastName2, Address address, String homePhone,
-			String mobilePhone, String email2, Blob picture) {
+			String mobilePhone, String email2, byte[] picture) {
 		super();
 		this.idUserProfile = idUserProfile;
 		this.firstName = firstName;
@@ -67,7 +67,7 @@ public class UserProfile implements Serializable{
 	private String email2;
 
 	@Column(name="PICTURE", length = 45)
-	private Blob picture;
+	private byte[] picture;
 
 	public int getIdUserProfile() {
 		return idUserProfile;
@@ -133,11 +133,11 @@ public class UserProfile implements Serializable{
 		this.email2 = email2;
 	}
 
-	public Blob getPicture() {
+	public byte[] getPicture() {
 		return picture;
 	}
 
-	public void setPicture(Blob picture) {
+	public void setPicture(byte[] picture) {
 		this.picture = picture;
 	}
 

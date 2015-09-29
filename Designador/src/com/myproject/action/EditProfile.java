@@ -1,6 +1,7 @@
 package com.myproject.action;
 
-import java.sql.Blob;
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,8 +25,9 @@ public class EditProfile extends ActionSupport implements SessionAware {
 	private String homePhone, mobilePhone;
 	private String email, email2;
 	private String userName, password, repassword;
-	private Blob picture;
-	
+	private File picture;
+	private String pictureContentType;
+	private String pictureFileName;
 	private User user; 
 
 	Map<String, Object> eqRestrictions = new HashMap<String, Object>();	
@@ -39,7 +41,7 @@ public class EditProfile extends ActionSupport implements SessionAware {
 	}
 	
 	public String editProfile() {
-
+		
 		user =  (User) session.get("user");
 		
 		/*Check if the username changed already exists*/
@@ -74,8 +76,21 @@ public class EditProfile extends ActionSupport implements SessionAware {
 			Address address = new Address(user.getUserProfile().getAddress().getIdAddress(), address1.trim(), address2.trim(), province.trim(), city.trim(), zipcode);
 			service.SaveOrUpdateModelData(address);
 
+			
+			//save image into database
+	        byte[] bPicture = new byte[(int) picture.length()];
+	        
+	        try {
+		     FileInputStream fileInputStream = new FileInputStream(picture);
+		     //convert file into array of bytes
+		     fileInputStream.read(bPicture);
+		     fileInputStream.close();
+	        } catch (Exception e) {
+		     e.printStackTrace();
+	        }
+	        
 			UserProfile userProfile = new UserProfile(user.getUserProfile().getIdUserProfile(), 
-					firstName.trim(), lastName1.trim(), lastName2.trim(),address, homePhone.trim(), mobilePhone.trim(), email2.trim(), picture);
+					firstName.trim(), lastName1.trim(), lastName2.trim(),address, homePhone.trim(), mobilePhone.trim(), email2.trim(), bPicture);
 			service.SaveOrUpdateModelData(userProfile);
 			
 			user.setEmail(email.trim());
@@ -85,7 +100,7 @@ public class EditProfile extends ActionSupport implements SessionAware {
 			service.SaveOrUpdateModelData(user);
 
 			session.put("user", user);
-			addActionMessage("El perfil has sido actualizado con exito");
+			addActionMessage("Tu perfil ha sido actualizado con exito");
 		}
 		return SUCCESS;
 
@@ -213,20 +228,20 @@ public class EditProfile extends ActionSupport implements SessionAware {
 		this.repassword = repassword;
 	}
 
-	public Blob getPicture() {
-		return picture;
-	}
-
-	public void setPicture(Blob picture) {
+	public void setPicture(File picture) {
 		this.picture = picture;
 	}
 
-	public User getUser() {
-		return user;
+	public File getPicture() {
+		return picture;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setPictureContentType(String pictureContentType) {
+		this.pictureContentType = pictureContentType;
+	}
+
+	public void setPictureFileName(String pictureFileName) {
+		this.pictureFileName = pictureFileName;
 	}
 
 	@Override

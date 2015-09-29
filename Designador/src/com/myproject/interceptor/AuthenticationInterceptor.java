@@ -102,18 +102,20 @@ public class AuthenticationInterceptor implements Interceptor {
 
 	String properResult(ActionInvocation actionInvocation, Map<String, Object> session) throws Exception{
 		
-		eqRestrictions.clear();
-			
-		List<?> comments = service.GetModelDataList(Comment.class, eqRestrictions, "commentDate", true);
-		
-		session.put("comments",comments);
-		
 		List<String> actionsLoginNames = Arrays.asList("login", "homePage");
 		List<String> actionsAdminNames = Arrays.asList("addComment", "deleteComment");
 		
-		if (actionsLoginNames.contains( actionInvocation.getInvocationContext().getName()) )
+		if (actionsLoginNames.contains( actionInvocation.getInvocationContext().getName()) ){
+
+			if (actionInvocation.getInvocationContext().getName().equals("homePage")  ){
+				eqRestrictions.clear();
+				
+				List<?> comments = service.GetModelDataList(Comment.class, eqRestrictions, "commentDate", true);
+				
+				session.put("comments",comments);
+			}
 			return ActionSupport.SUCCESS;
-		else if (actionsAdminNames.contains( actionInvocation.getInvocationContext().getName()) 
+		}else if (actionsAdminNames.contains( actionInvocation.getInvocationContext().getName()) 
 				&&  (!user.isAdmin()))
 		{
 			addActionError(actionInvocation ,"No tienes permiso para ver esta página");
