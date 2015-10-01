@@ -151,13 +151,12 @@
 					
 				</div> 
 			
-				<h3 class="title-1">Foto de Perfil</h3>
+				<h3 class="title-1">Foto de Perfil <img src="<s:url value="profileImage" />"  width="24px"></h3>
 				
 				<div class="row">
 				  	<div>
 						<label><strong>Elige una foto de Perfil</strong></label> <input id="picture"
 							type="file" class="file-input" name="picture">
-							File : <s:property value="picture"/>	
 					</div>					
 				</div>
 				

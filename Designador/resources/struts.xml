@@ -23,6 +23,10 @@
 
 	<package name="default" extends="struts-default">
 
+		<result-types>
+        	<result-type name="displayImage" class="com.myproject.action.DisplayImage" />
+    	</result-types>
+    	
 		<interceptors>
 			<interceptor class="com.myproject.interceptor.AuthenticationInterceptor"
 				name="AuthenticationInterceptor"></interceptor>
@@ -96,6 +100,10 @@
 			<result name="none">profile.jsp</result>
 			<result name="input">profile.jsp</result>
 			<result name="success">profile.jsp</result>
+		</action>
+	
+		<action name="profileImage" class="com.myproject.action.GetProfileImage" >
+			<result name="success" type="displayImage"></result>
 		</action>
 	
 	</package>

@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+
 import org.apache.struts2.interceptor.SessionAware;
 import org.apache.struts2.interceptor.validation.SkipValidation;
 
@@ -19,15 +20,13 @@ public class EditProfile extends ActionSupport implements SessionAware {
 	private static final long serialVersionUID = 7821048979321587609L;
 
 	private Map<String, Object> session;
-	
+
 	private String firstName, lastName1, lastName2;
 	private String address1, address2, province, city, zipcode;
 	private String homePhone, mobilePhone;
 	private String email, email2;
 	private String userName, password, repassword;
 	private File picture;
-	private String pictureContentType;
-	private String pictureFileName;
 	private User user; 
 
 	Map<String, Object> eqRestrictions = new HashMap<String, Object>();	
@@ -37,13 +36,12 @@ public class EditProfile extends ActionSupport implements SessionAware {
 	@Override
 	@SkipValidation
 	public String execute() {
+		
 		return NONE;
 	}
 	
 	public String editProfile() {
-		
-		user =  (User) session.get("user");
-		
+		 user =  (User) session.get("user");
 		/*Check if the username changed already exists*/
 		if(!user.getUserName().equalsIgnoreCase(userName.trim())){
 
@@ -236,14 +234,6 @@ public class EditProfile extends ActionSupport implements SessionAware {
 		return picture;
 	}
 
-	public void setPictureContentType(String pictureContentType) {
-		this.pictureContentType = pictureContentType;
-	}
-
-	public void setPictureFileName(String pictureFileName) {
-		this.pictureFileName = pictureFileName;
-	}
-
 	@Override
 	public void setSession(Map<String, Object> session) {
 		this.session = session;
@@ -252,5 +242,7 @@ public class EditProfile extends ActionSupport implements SessionAware {
 	public void setService(GenericService service) {
 		this.service = service;
 	}
+
+
 
 }

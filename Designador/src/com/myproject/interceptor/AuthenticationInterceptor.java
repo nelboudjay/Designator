@@ -121,7 +121,6 @@ public class AuthenticationInterceptor implements Interceptor {
 			addActionError(actionInvocation ,"No tienes permiso para ver esta página");
 			return ActionSupport.ERROR;
 		}
-		else
 			return actionInvocation.invoke();
 		
 	}

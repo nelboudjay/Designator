@@ -19,8 +19,14 @@
 	<s:if test="#session.user != null">
 
 		<ul class="navbar-right">
-			<li class="userName"><span><img class="profile-icon"
-					src="images/avatar-icon.png"> ${session.user.userFullName}
+			<li class="userName"><span>
+				<s:if test="#session.user.userProfile.picture == null">
+						<img class="profile-icon" src="images/avatar-icon.png">
+				</s:if>
+				<s:else>
+						<img class="profile-icon" src="profileImage">
+				</s:else>
+					 ${session.user.userFullName}
 					(${session.user.userName}) <span class="arrow"></span> </span></li>
 			<li id="profile" class="dropdown-menu"><a href="profile"><img class="small-icon" src="images/profile-icon.png"><span>Perfil</span></a></li>
 			<li id="messages" class="dropdown-menu"><a><img class="small-icon" src="images/messages-icon.png"><span>Mensajes</span></a></li>
