@@ -6,7 +6,7 @@
 <html>
 <head>
 
-<link rel="stylesheet" type="text/css" href="css/homePage.css" />
+<link rel="stylesheet" type="text/css" href="css/profile.css" />
 
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="js/commonScript.js"></script>
@@ -151,12 +151,25 @@
 					
 				</div> 
 			
-				<h3 class="title-1">Foto de Perfil <img src="<s:url value="profileImage" />"  width="24px"></h3>
-				
+				<h3 class="title-1">Foto de Perfil 
+					<span  id="profileImage">
+						<button type="button" class="close2" title="Eliminar foto">×</button>
+						<img  src="<s:url value="profileImage" />"  width="24px">
+						<s:if test="#session.user.userProfile.picture != null">
+							<input type="hidden" name="currentPicture"  value="true">
+						</s:if>		
+						<s:else>
+							<input type="hidden" name="currentPicture"  value="false">
+						</s:else>
+					</span>
+				</h3>
+						
 				<div class="row">
 				  	<div>
-						<label><strong>Elige una foto de Perfil</strong></label> <input id="picture"
-							type="file" class="file-input" name="picture">
+						<label><strong>Elige una foto de Perfil</strong></label> 
+						<input id="picture" type="file" class="file-input" name="picture">
+						<div class="error-field">Formato de foto no válido. (Formatos válidos: png, gif, jpeg y jpg)</div>
+							
 					</div>					
 				</div>
 				

@@ -1,8 +1,8 @@
 package com.myproject.model;
 
 import java.io.Serializable;
-import java.sql.Blob;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -52,7 +52,7 @@ public class UserProfile implements Serializable{
 	@Column(name="LASTNAME2", length = 45)
 	private String lastName2;
 	
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	@ForeignKey (name = "FK_USER_PROFILE__ADDRESS")
 	@JoinColumn(name = "ADDRESS", unique = true)
 	private Address address;

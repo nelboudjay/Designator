@@ -2,6 +2,7 @@ package com.myproject.model;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ManyToOne;
 import javax.persistence.JoinColumn;
@@ -15,7 +16,6 @@ import org.apache.commons.lang3.text.WordUtils;
 import org.hibernate.annotations.ForeignKey;
 
 import com.myproject.tools.DesEncrypter;
-
 import com.opensymphony.xwork2.ActionSupport;
 
 @Entity
@@ -51,12 +51,12 @@ public class User extends ActionSupport implements Serializable{
 	@Column(name="PASSWORD", nullable = false, length = 45)
 	private String password;
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@ForeignKey (name = "FK_USER__USER_ROLE")
 	@JoinColumn(name = "USER_ROLE", nullable = false)
 	private UserRole userRole;
 	
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	@ForeignKey (name = "FK_USER__USER_PROFILE")
 	@JoinColumn(name = "USER_PROFILE", nullable = false, unique = true)
 	private UserProfile userProfile;

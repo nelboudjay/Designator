@@ -7,6 +7,26 @@ body, table, td, p {
 	color: #8c8b8b
 }
 
+table {
+	border-collapse: collapse;
+}
+
+th {
+	background-color: #e8e7e6;
+	color: #5b5b5b;
+    padding: 8px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+td {
+	height: 3.5em;
+	vertical-align: top;
+	width: 14%;
+	border: 1px solid #ddd;
+	padding: 8px;
+}
+
 label {
 	margin-bottom: 5px;
 	display: inline-block;
@@ -41,13 +61,35 @@ h3 {
 
 h4 {
 	font-size: 18px;
-	font-weight: 600;
+	font-weight: 400;
 }
 
 h3, h4, h5 {
 	margin: 0;
 	color: #5b5b5b;
 	font-family: "Open Sans",HelveticaNeue,Helvetica,Arial;
+}
+
+.main-content {
+	margin-left:190px;	
+}
+
+.content-title {
+	background: #e8e7e6;
+	color: #5b5b5b;
+	padding-bottom: 10px;
+	box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.07);
+	border-bottom: 1px solid #d9d9d9;
+}
+
+.content-title > * {
+	padding: 15px;
+	
+}
+
+.main-content > p, .main-content > #comments {
+	padding: 15px;
+	margin: 0;
 }
 
 .btn {
@@ -235,7 +277,21 @@ ul {
     text-shadow: 0 1px 0 rgb(255, 255, 255);
 }
 
-.close:hover {
+.close2 {
+	background: none repeat scroll 0 0 transparent;
+    border: 0 none;
+    cursor: pointer;
+    float: right;
+    font-size: 16px;
+    font-weight: bold;
+    opacity: 0.3;
+    position: absolute;
+    text-shadow: 0 1px 0 rgb(255, 255, 255);
+    bottom: 15;
+    left: 15;
+}
+
+.close:hover, .close2:hover {
 	opacity: 0.5;
 	color: #000000;
 }
@@ -359,23 +415,6 @@ li.active .glow{
 .container {
 	margin: 0 1.5%;
 }
-
-th {
-	border-bottom:2px solid #ddd;
-	text-align: left;
-	padding: 8px;
-	color: #5b5b5b;
-}
-
-td {
-	height: 3.5em;
-	vertical-align: top;
-	text-align: right;
-	width: 14%;
-	border: 1px solid #ddd;
-	padding: 8px;
-}
-
 
 .avatar {
 	border-radius: 50%;
