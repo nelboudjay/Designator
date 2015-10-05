@@ -103,7 +103,7 @@ public class AuthenticationInterceptor implements Interceptor {
 	String properResult(ActionInvocation actionInvocation, Map<String, Object> session) throws Exception{
 		
 		List<String> actionsLoginNames = Arrays.asList("login", "homePage");
-		List<String> actionsAdminNames = Arrays.asList("addComment", "deleteComment");
+		List<String> actionsAdminNames = Arrays.asList("addComment", "deleteComment","addMember","members");
 		
 		if (actionsLoginNames.contains( actionInvocation.getInvocationContext().getName()) ){
 

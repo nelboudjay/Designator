@@ -6,7 +6,7 @@
 <html>
 <head>
 
-<link rel="stylesheet" type="text/css" href="css/profile.css" />
+<link rel="stylesheet" type="text/css" href="css/members.css" />
 
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="js/commonScript.js"></script>
@@ -33,7 +33,7 @@
 		
 		<div class="container">
 			<br>
-			<h4 class="new-record"><a><img src="images/add-icon.png" class="small-icon">Añadir un nuevo miembro</a></h4>
+			<h4 class="new-record"><a href="addMember"><img src="images/add-icon.png" class="small-icon">Añadir un nuevo miembro</a></h4>
 			<br>
 			<br>
 			<table>

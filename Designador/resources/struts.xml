@@ -109,6 +109,10 @@
 		<action name="members" class="com.myproject.action.GetMembers" >
 			<result name="success">members.jsp</result>
 		</action>
+		
+		<action name="addMember" class="com.myproject.action.GetMembers" >
+			<result>addMember.jsp</result>
+		</action>
 	
 	</package>
 </struts>
