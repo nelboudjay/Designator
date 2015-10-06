@@ -27,12 +27,21 @@ public class User extends ActionSupport implements Serializable{
 	public User(User user){
 		super();
 		this.idUser = user.getIdUser();
-		this.userName = user.getPassword();
+		this.userName = user.getUserName();
 		this.email = user.getEmail();
 		this.password = user.getPassword();
 		this.userRole = user.getUserRole();	
 		this.userProfile = user.getUserProfile();
 	}
+	
+	public User(String userName, String email, UserRole userRole, UserProfile userProfile){
+		super();
+		this.userName = userName;
+		this.email = email;
+		this.userRole = userRole;	
+		this.userProfile = userProfile;
+	}
+	
 	
 	public User(){
 	}

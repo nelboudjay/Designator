@@ -38,14 +38,14 @@
 				
 				<div class="row">
 					<div>
-						<label><strong>Nombre</strong></label> <input id="firstName"
+						<label class="required"><strong>Nombre</strong></label> <input id="firstName"
 							type="text" class="text-input-2 required-field" name="firstName" value="${session.user.userProfile.firstName}">
 						<div class="error-field">Nombre no puede estar en blanco.</div>
 							
 					</div>
 					  
-					  	<div>
-						<label><strong>Primer Apellido</strong></label> <input id="lastName1"
+					<div>
+						<label class="required"><strong>Primer Apellido</strong></label> <input id="lastName1"
 							type="text" class="text-input-2 required-field" name="lastName1" value="${session.user.userProfile.lastName1}">
 						<div class="error-field">Primer Apellido no puede estar en blanco.</div>
 							
@@ -110,7 +110,7 @@
 				
 				<div class="row">
 					<div>
-						<label><strong>Correo Electrónico Principal</strong></label> <input id="email"
+						<label class="required"><strong>Correo Electrónico Principal</strong></label> <input id="email"
 							type="text" class="text-input-2 required-field email" name="email" value="${session.user.email}">	
 							<div class="error-field"></div>
 					</div>
@@ -130,21 +130,21 @@
 			    <div class="row">
 				
 					<div>
-						<label><strong>Usuario</strong></label> <input id="userName"
+						<label class="required"><strong>Usuario</strong></label> <input id="userName"
 							type="text" class="text-input-2 required-field" name="userName" value="${session.user.userName}">	
 							<div class="error-field">Usuario no puede estar en blanco.</div>
 					</div>
 					
 					
 					<div>
-						<label><strong>Contraseña</strong></label> <input id="password"
+						<label class="required"><strong>Contraseña</strong></label> <input id="password"
 							type="password" class="text-input-2 required-field identical-field" name="password" value="${session.user.password}">	
 						<div class="error-field">Introduce tu contraseña.</div>
 					
 					</div>
 					
 					<div>
-						<label><strong>Confirmar Contraseña</strong></label> <input id="repassword"
+						<label class="required"><strong>Confirmar Contraseña</strong></label> <input id="repassword"
 							type="password" class="text-input-2 required-field identical-field" name="repassword">	
 						<div class="error-field">Las contraseñas deben ser iguales.</div>
 					</div>

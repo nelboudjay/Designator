@@ -478,3 +478,8 @@ form > div {
 	display:table-cell;
 	padding-right: 20px;
 }
+
+.required:after {
+	color: #c1461c;
+    content: " *";
+}

@@ -110,8 +110,11 @@
 			<result name="success">members.jsp</result>
 		</action>
 		
-		<action name="addMember" class="com.myproject.action.GetMembers" >
-			<result>addMember.jsp</result>
+		<action name="addMember" class="com.myproject.action.AddMember" >
+			<result name="none">addMember.jsp</result>
+			<result name="input">addMember.jsp</result>
+			<result name="success" type="redirectAction">members</result>
+			
 		</action>
 	
 	</package>

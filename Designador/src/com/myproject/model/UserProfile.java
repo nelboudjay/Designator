@@ -33,7 +33,21 @@ public class UserProfile implements Serializable{
 		this.email2 = email2;
 		this.picture = picture;
 	}
-
+	
+	public UserProfile(String firstName, String lastName1,
+			String lastName2, Address address, String homePhone,
+			String mobilePhone, String email2, byte[] picture) {
+		super();
+		this.firstName = firstName;
+		this.lastName1 = lastName1;
+		this.lastName2 = lastName2;
+		this.address = address;
+		this.homePhone = homePhone;
+		this.mobilePhone = mobilePhone;
+		this.email2 = email2;
+		this.picture = picture;
+	}
+	
 	public UserProfile() {
 		super();
 	}

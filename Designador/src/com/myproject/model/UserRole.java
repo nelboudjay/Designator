@@ -15,6 +15,17 @@ public class UserRole implements Serializable{
 
 	private static final long serialVersionUID = -1495014165546048748L;
 
+	
+	public UserRole(int idUserRole, String userRoleName) {
+		super();
+		this.idUserRole = idUserRole;
+		this.userRoleName = userRoleName;
+	}
+
+	public UserRole() {
+		super();
+	}
+
 	@Id
 	@Column(name = "idUSER_ROLE")
 	@GeneratedValue
