@@ -46,10 +46,19 @@ function validate(){
 			}
 		});
 
-		if($("#picture").length && $("#picture")[0].files && $("#picture")[0].files[0] 
-			&& $.inArray($("#picture")[0].files[0].type, ["image/png","image/gif","image/jpeg","image/jpg"]) == -1 ) 
-			noEmpty =  warn($("#picture"));
 		
+		if($("#picture").length && $("#picture")[0].files && $("#picture")[0].files[0] ){
+			 
+			if($.inArray($("#picture")[0].files[0].type, ["image/png","image/gif","image/jpeg","image/jpg"]) == -1 ) {
+			
+				$("#picture").next().text("Formato de foto no válido. (Formatos válidos: png, gif, jpeg y jpg).");
+				noEmpty =  warn($("#picture"));
+			}
+			else if ($("#picture")[0].files[0].size > 2700000){
+				$("#picture").next().text("El tamaño de la imagen excede el tamaño permitido: 2.5Mb ");
+				noEmpty =  warn($("#picture"));
+			}
+		}
 		return noEmpty;
 }
 
@@ -73,11 +82,21 @@ $(document).ready(function() {
 	
 	$("#picture").change(function(){
 		
+		$('#picture').css({"border-color" : "", "border-style" : ""});
+		$("#picture").next().css("display","none");
+		
 		var input = $(this)[0];
 		if (input.files && input.files[0]) {
 			
-			if($.inArray(input.files[0].type, ["image/png","image/gif","image/jpeg","image/jpg"]) == -1 ) 
+			if(input.files[0].size > 2700000){
+				$("#picture").next().text("El tamaño de la imagen excede el tamaño permitido: 2.5Mb ");
 				warn($("#picture"));
+			}
+
+			if($.inArray(input.files[0].type, ["image/png","image/gif","image/jpeg","image/jpg"]) == -1 ) {
+				$("#picture").next().text("Formato de foto no válido. (Formatos válidos: png, gif, jpeg y jpg).");
+				warn($("#picture"));
+			}
 			
 			var reader = new FileReader();
 	        reader.onload = function (e) {

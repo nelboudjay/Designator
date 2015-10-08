@@ -1,0 +1,40 @@
+<table style="width:70%; margin-left:20px">
+	<tr>
+		<td><h2>Hola Usuario</h2></td>
+	</tr>
+	<tr>
+		<td><h2>Inforamción para tu nueva cuenta en Designador</h2></td>
+	</tr>
+	<tr>
+		<td style="padding-bottom: 10px;">Se ha creado una cuenta de usuario en <a href="http://localhost:8080/Designador">Designador</a> por parte de tu administrador.</td>
+	</tr>
+	<tr>
+		<td style="padding-bottom: 10px;"><a href="http://localhost:8080/Designador">Designador</a> es una aplicación web que se utiliza para ayudar a los arbitros y a los designadores para la gestión de la designación de árbitros en competiciones de baloncesto.</td>
+	</tr>
+	<tr>
+		<td style="padding-bottom: 25px;">Por favor, pulsa en el enlace de abajo para empezar:</td>
+	</tr>
+	<tr>
+		<td style="font-size:22px; font-weight: bold;color:DodgerBlue;"><a href="http://localhost:8080/Designador/changePassword?id=$token" style="color:inherit;">Crear una nueva contraseña</a> »</td>
+	</tr>
+	<tr>
+		<td>
+			<ul>
+				<li>Tu nombre de usuario será visible en está página.</li>
+				<li>En la casilla <b>Nueva Contraseña</b>, escribe una nueva contraseña para tu cuenta.</li>
+				<li>En la casilla <b>Vuelve a escribir la contraseña</b>, vuelve a escribir la misma contraseña.</li>
+				<li>Haz Clic sobre <b>Cambiar contraseña y Iniciar sesión</b>.</li>
+			</ul>
+		</td>
+	</tr>
+	<tr>
+		<td>Si tienes cualquier problema para entrar en el sistema, ponte en contacto con nosotros en <a target="_blank" href="mailto:soporte@designador.com"> soporte@designador.com</a></td>
+	</tr>
+	<tr>
+		<td>Gracias por utilizar <a href="http://localhost:8080/Designador">Designador</a></td>
+	</tr>
+	<tr>
+		<td>Administrador</td>
+	</tr>
+</table>
+	

@@ -17,6 +17,7 @@
 
     <constant name="struts.ui.theme" value="simple" />
 
+	<constant name="struts.multipart.maxSize" value="10000000" />
 
 	<!-- Enabling Developer mode -->
 	<constant name="struts.devMode" value="true" />

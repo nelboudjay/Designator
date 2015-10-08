@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.apache.struts2.interceptor.validation.SkipValidation;
 
+import com.myproject.mail.MailService;
 import com.myproject.model.Address;
 import com.myproject.model.User;
 import com.myproject.model.UserProfile;
@@ -28,6 +29,8 @@ public class AddMember extends ActionSupport  {
 	private boolean admin;
 	
 	private GenericService service;
+
+	private MailService mailService;
 
 	@Override
 	@SkipValidation
@@ -90,9 +93,13 @@ public class AddMember extends ActionSupport  {
 
 		User user = new User(userName,email.trim(),userRole,userProfile);
 		
-		service.SaveOrUpdateModelData(user);
+		//service.SaveOrUpdateModelData(user);
+		Map<String, String> templateData = new HashMap<String, String>();
 
-		addActionMessage("Se ha sido añadido un nuevo miembro con exito");
+		mailService.sendMail(email,"Instrucciones para completar tu registro en Designador",
+				"confirmRegistrationInstructions.vm", templateData);
+		
+		addActionMessage("Se ha sido añadido un nuevo miembro con exito. Un correo electrónico ha sido enviado a él para confirmar su registro.");
 		
 		return SUCCESS;
 	}
@@ -223,8 +230,17 @@ public class AddMember extends ActionSupport  {
 		this.picture = picture;
 	}
 
+	
+	public String getPictureContentType() {
+		return pictureContentType;
+	}
+
 	public void setPictureContentType(String pictureContentType) {
 		this.pictureContentType = pictureContentType;
+	}
+
+	public String getPictureFileName() {
+		return pictureFileName;
 	}
 
 	public void setPictureFileName(String pictureFileName) {
@@ -243,6 +259,9 @@ public class AddMember extends ActionSupport  {
 		this.service = service;
 	}
 
+	public void setMailService(MailService mailService) {
+		this.mailService = mailService;
+	}
 
 
 }

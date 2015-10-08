@@ -262,14 +262,22 @@ public class EditProfile extends ActionSupport implements SessionAware {
 		this.currentPicture = currentPicture;
 	}
 
+	public String getPictureContentType() {
+		return pictureContentType;
+	}
+
 	public void setPictureContentType(String pictureContentType) {
 		this.pictureContentType = pictureContentType;
 	}
-	
+
+	public String getPictureFileName() {
+		return pictureFileName;
+	}
+
 	public void setPictureFileName(String pictureFileName) {
 		this.pictureFileName = pictureFileName;
 	}
-
+	
 	@Override
 	public void setSession(Map<String, Object> session) {
 		this.session = session;

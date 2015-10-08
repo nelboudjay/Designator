@@ -182,7 +182,7 @@
 				  	<div>
 						<label><strong>Elige una foto de Perfil</strong></label> 
 						<input id="picture" type="file" class="file-input" name="picture">
-						<div class="error-field">Formato de foto no válido. (Formatos válidos: png, gif, jpeg y jpg)</div>
+						<div class="error-field"></div>
 							
 					</div>					
 				</div>
