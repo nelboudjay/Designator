@@ -38,6 +38,7 @@ public class User extends ActionSupport implements Serializable{
 		super();
 		this.userName = userName;
 		this.email = email;
+		this.password = "";
 		this.userRole = userRole;	
 		this.userProfile = userProfile;
 	}

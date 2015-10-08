@@ -102,7 +102,8 @@
 			<result name="success">profile.jsp</result>
 		</action>
 	
-		<action name="profileImage" class="com.myproject.action.GetProfileImage" >
+		<action name="getImage" class="com.myproject.action.GetImage" >
+			<param name="profileImage">${profileImage}</param>
 			<result name="success" type="displayImage"></result>
 		</action>
 		

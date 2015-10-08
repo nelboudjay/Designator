@@ -106,7 +106,7 @@ $(document).ready(function() {
 	});
 	
 	
-	$('.new-record').hover(
+	$('.new-record > a').hover(
 			function(){
 				var imageName = $(this).find("img").attr("src");
 				$(this).find("img").attr("src",imageName.slice(0,imageName.length - 4) + "-selected.png");

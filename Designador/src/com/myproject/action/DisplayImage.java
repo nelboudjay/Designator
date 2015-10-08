@@ -14,7 +14,7 @@ public class DisplayImage implements Result {
 	@Override
 	public void execute(ActionInvocation invocation) throws Exception {
 		
-		GetProfileImage action = (GetProfileImage) invocation.getAction();
+		GetImage action = (GetImage) invocation.getAction();
 		
 		HttpServletResponse response = ServletActionContext.getResponse();
  

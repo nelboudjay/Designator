@@ -24,7 +24,7 @@
 						<img class="profile-icon" src="images/avatar-icon.png">
 				</s:if>
 				<s:else>
-						<img class="profile-icon" src="profileImage">
+						<img class="profile-icon" src="getImage?profileImage=true">
 				</s:else>
 					 ${session.user.userFullName}
 					(${session.user.userName}) <span class="arrow"></span> </span></li>

@@ -25,7 +25,7 @@ public class EditProfile extends ActionSupport implements SessionAware {
 	private String homePhone, mobilePhone;
 	private String email, email2;
 	private String userName, password, repassword;
-	private String currentPicture;
+	private boolean currentPicture;
 	private File picture;
 	private String pictureContentType, pictureFileName;
 	private User user; 
@@ -88,8 +88,8 @@ public class EditProfile extends ActionSupport implements SessionAware {
 			     e.printStackTrace();
 		        }
 			}
-			else if (currentPicture == "true")
-				bPicture = user.getUserProfile().getPicture();			
+			else if (currentPicture)
+				bPicture = user.getUserProfile().getPicture();
 	        
 			UserProfile userProfile = new UserProfile(user.getUserProfile().getIdUserProfile(), 
 					firstName.trim(), lastName1.trim(), lastName2.trim(),address, homePhone.trim(), mobilePhone.trim(), email2.trim(), bPicture);
@@ -127,6 +127,7 @@ public class EditProfile extends ActionSupport implements SessionAware {
 		else
 			return false;
 	}
+
 	public String getFirstName() {
 		return firstName;
 	}
@@ -143,26 +144,46 @@ public class EditProfile extends ActionSupport implements SessionAware {
 		this.lastName1 = lastName1;
 	}
 
+	public String getLastName2() {
+		return lastName2;
+	}
 	public void setLastName2(String lastName2) {
 		this.lastName2 = lastName2;
+	}
+
+	
+	public String getAddress1() {
+		return address1;
 	}
 
 	public void setAddress1(String address1) {
 		this.address1 = address1;
 	}
 
+	public String getAddress2() {
+		return address2;
+	}
+
 	public void setAddress2(String address2) {
 		this.address2 = address2;
+	}
+
+	public String getProvince() {
+		return province;
 	}
 
 	public void setProvince(String province) {
 		this.province = province;
 	}
 
+	public String getCity() {
+		return city;
+	}
+
 	public void setCity(String city) {
 		this.city = city;
 	}
-	
+
 	public String getZipcode() {
 		return zipcode;
 	}
@@ -212,7 +233,6 @@ public class EditProfile extends ActionSupport implements SessionAware {
 		this.userName = userName;
 	}
 
-
 	public String getPassword() {
 		return password;
 	}
@@ -220,7 +240,7 @@ public class EditProfile extends ActionSupport implements SessionAware {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
+	
 	public String getRepassword() {
 		return repassword;
 	}
@@ -233,18 +253,19 @@ public class EditProfile extends ActionSupport implements SessionAware {
 		this.picture = picture;
 	}
 
-	public File getPicture() {
-		return picture;
+
+	public boolean isCurrentPicture() {
+		return currentPicture;
 	}
-	
-	public void setCurrentPicture(String currentPicture) {
+
+	public void setCurrentPicture(boolean currentPicture) {
 		this.currentPicture = currentPicture;
 	}
 
 	public void setPictureContentType(String pictureContentType) {
 		this.pictureContentType = pictureContentType;
 	}
-
+	
 	public void setPictureFileName(String pictureFileName) {
 		this.pictureFileName = pictureFileName;
 	}

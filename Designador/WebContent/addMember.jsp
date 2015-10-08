@@ -38,21 +38,21 @@
 				<div class="row">
 					<div>
 						<label class="required"><strong>Nombre</strong></label> <input id="firstName"
-							type="text" class="text-input-2 required-field" name="firstName" value="">
+							type="text" class="text-input-2 required-field" name="firstName" value="${firstName}">
 						<div class="error-field">Nombre no puede estar en blanco.</div>
 							
 					</div>
 					  
 					  	<div>
 						<label class="required"><strong>Primer Apellido</strong></label> <input id="lastName1"
-							type="text" class="text-input-2 required-field" name="lastName1" value="">
+							type="text" class="text-input-2 required-field" name="lastName1" value="${lastName1}">
 						<div class="error-field">Primer Apellido no puede estar en blanco.</div>
 							
 					</div>
 					
 					<div>
 						<label><strong>Segundo Apellido</strong></label> <input id="lastName2"
-							type="text" class="text-input-2" name="lastName2" value="">
+							type="text" class="text-input-2" name="lastName2" value="${lastName2}">
 					</div> 
 				</div>
 								
@@ -61,30 +61,30 @@
 				<div class="row">
 					<div>
 						<label><strong>Dirección Linea 1</strong></label> <input id="address1"
-							type="text" class="text-input-2" name="address1" value="">	
+							type="text" class="text-input-2" name="address1" value="${address1}">	
 					</div>
 					
 					<div>
 						<label><strong>Dirección Linea 2</strong></label> <input id="address2"
-							type="text" class="text-input-2" name="address2" value="">
+							type="text" class="text-input-2" name="address2" value="${address2}">
 					</div>
 				</div>
 				
 				<div class="row">
 					<div>
 						<label><strong>Población</strong></label> <input id="city"
-							type="text" class="text-input-2" name="city" value="">
+							type="text" class="text-input-2" name="city" value="${city}">
 					</div>
 					
 					<div>
 						<label><strong>Provincia</strong></label> <input id="province"
-							type="text" class="text-input-2" name="province" value="">
+							type="text" class="text-input-2" name="province" value="${province}">
 							
 					</div>
 					
 					<div>
 						<label><strong>Código Postal</strong></label> <input id="zipcode"
-							type="text" class="text-input-2" name="zipcode" size="5" maxlength="5" value="">
+							type="text" class="text-input-2" name="zipcode" size="5" maxlength="5" value="${zipcode}">
 						<div class="error-field">Código postal incorrecto.</div>
 					</div>
 				</div>
@@ -94,13 +94,13 @@
 				<div class="row">
 					<div>
 						<label><strong>Fijo</strong></label> <input id="homePhone"
-							type="text" class="text-input-2" name="homePhone" value="">	
+							type="text" class="text-input-2" name="homePhone" value="${homePhone}">	
 							<div class="error-field">Número de teléfono no válido.</div>
 					</div>
 					
 					<div>
 						<label><strong>Móvil</strong></label> <input id="mobilePhone"
-							type="text" class="text-input-2" name="mobilePhone" value="">
+							type="text" class="text-input-2" name="mobilePhone" value="${mobilePhone}">
 						<div class="error-field">Número de teléfono no válido.</div>				
 					</div>
 				</div>
@@ -110,13 +110,13 @@
 				<div class="row">
 					<div>
 						<label class="required"><strong>Correo Electrónico Principal</strong></label> <input id="email"
-							type="text" class="text-input-2 required-field email" name="email" value="">	
+							type="text" class="text-input-2 required-field email" name="email" value="${email}">	
 							<div class="error-field"></div>
 					</div>
 					
 					<div>
 						<label><strong>Correo Electrónico Secundario</strong></label> <input id="email2"
-							type="text" class="text-input-2 email" name="email2" value="">			
+							type="text" class="text-input-2 email" name="email2" value="${email2}">			
 							<div class="error-field"></div>
 					
 					</div>
@@ -126,8 +126,7 @@
 				<h3 class="title-1">Foto de Perfil 
 					<span  id="profileImage">
 						<button type="button" class="close2" title="Eliminar foto">×</button>
-						<img  src=""  width="24px">
-						<input type="hidden" name="currentPicture"  value="false">
+						<img  src="getImage"  width="24px">
 					</span>
 				</h3>
 						
@@ -144,8 +143,8 @@
 				
 				<div class="row">
 					<div>
-						<label><strong>Designador</strong></label> <input id="admin"
-							type="checkbox"  name="admin" value="">	
+						 <label><strong>Designador</strong></label> 
+							<s:checkbox label="Designador" name="admin" value="admin" fieldValue="true"/>
 					</div>
 				</div>
 				
