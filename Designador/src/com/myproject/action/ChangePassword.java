@@ -46,7 +46,9 @@ public class ChangePassword extends ActionSupport implements SessionAware,
 							eqRestrictions);
 
 			if (passwordChangeRequest == null){
-				addActionError("Tu petición de recordar contraseña ha caducado o no existe. Deberá volver a realizarla.");
+				addActionError("Tu petición para restablecer la contraseña ha caducado o no existe. Deberás volver a realizarla.");
+				addActionError("Si tu petición es para crear contraseña para tu nueva cuenta. La cuenta ya ha sido eliminada." +
+								" Ponte en contacto con tu administrador para más detalles.");
 				return ERROR;
 
 			}else{
@@ -54,6 +56,7 @@ public class ChangePassword extends ActionSupport implements SessionAware,
 				  to open a session **/
 				context.setAttribute("user",
 						passwordChangeRequest.getIdPasswordChangeRequest());
+				context.setAttribute("token", id);
 				return NONE;
 			}
 		}
@@ -72,13 +75,21 @@ public class ChangePassword extends ActionSupport implements SessionAware,
 
 			if (user == null)
 				
-				addActionError("Tu contraseña no ha podido ser cambiada. Vuelve a intentarlo más tarde o solicita una nueva contraseña.");
+				addActionError("Tu contraseña no ha podido ser actualizada. Vuelve a intentarlo más tarde o ponte en contacto con tu administrador.");
 			
 			else {
-	
+								
 				user.setPassword(getPassword());
 				service.SaveOrUpdateModelData(user);
 	
+				service.DropEvent("DELETE_PASSWORD_CHANGE_REQUEST_"
+						+ user.getIdUser());
+				
+				String token = (String)context.getAttribute("token");
+				
+				passwordChangeRequest = new PasswordChangeRequest(user, token);
+				service.DeleteModelData(passwordChangeRequest);
+				
 				session.put("user", user);
 				
 			}
@@ -89,9 +100,14 @@ public class ChangePassword extends ActionSupport implements SessionAware,
 			service.SaveOrUpdateModelData(user);
 		}
 			
-		addActionMessage("Tu contraseña ha sido cambiada correctamente");
+		addActionMessage("Tu contraseña ha sido actualizada correctamente");
 
 		return SUCCESS;
+	}
+
+	
+	public String getId() {
+		return id;
 	}
 
 	public void setId(String id) {

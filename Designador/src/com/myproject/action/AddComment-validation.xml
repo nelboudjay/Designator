@@ -4,7 +4,7 @@
 <validators>
 	<field name="commentBody">
 		<field-validator type="requiredstring">
-			<message>El comentario no puede estar en blanco.</message>
+			<message>El aviso no puede estar en blanco.</message>
 		</field-validator>
 	</field>
 </validators> 

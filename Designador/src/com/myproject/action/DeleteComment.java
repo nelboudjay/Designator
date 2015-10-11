@@ -23,7 +23,7 @@ public class DeleteComment extends ActionSupport{
 		Comment comment = (Comment)service.GetUniqueModelData(Comment.class, eqRestrictions);
 		
 		if (comment == null){
-			addActionError("El comentario que quieres eliminar no existe o ya se ha eliminado");
+			addActionError("El aviso que quieres eliminar no existe o ya se ha eliminado");
 			return INPUT;
 		}
 		else{

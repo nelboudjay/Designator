@@ -1,40 +1,77 @@
-<table style="width:70%; margin-left:20px">
-	<tr>
-		<td><h2>Hola Usuario</h2></td>
-	</tr>
-	<tr>
-		<td><h2>Inforamción para tu nueva cuenta en Designador</h2></td>
-	</tr>
-	<tr>
-		<td style="padding-bottom: 10px;">Se ha creado una cuenta de usuario en <a href="http://localhost:8080/Designador">Designador</a> por parte de tu administrador.</td>
-	</tr>
-	<tr>
-		<td style="padding-bottom: 10px;"><a href="http://localhost:8080/Designador">Designador</a> es una aplicación web que se utiliza para ayudar a los arbitros y a los designadores para la gestión de la designación de árbitros en competiciones de baloncesto.</td>
-	</tr>
-	<tr>
-		<td style="padding-bottom: 25px;">Por favor, pulsa en el enlace de abajo para empezar:</td>
-	</tr>
-	<tr>
-		<td style="font-size:22px; font-weight: bold;color:DodgerBlue;"><a href="http://localhost:8080/Designador/changePassword?id=$token" style="color:inherit;">Crear una nueva contraseña</a> »</td>
-	</tr>
-	<tr>
-		<td>
-			<ul>
-				<li>Tu nombre de usuario será visible en está página.</li>
-				<li>En la casilla <b>Nueva Contraseña</b>, escribe una nueva contraseña para tu cuenta.</li>
-				<li>En la casilla <b>Vuelve a escribir la contraseña</b>, vuelve a escribir la misma contraseña.</li>
-				<li>Haz Clic sobre <b>Cambiar contraseña y Iniciar sesión</b>.</li>
-			</ul>
-		</td>
-	</tr>
-	<tr>
-		<td>Si tienes cualquier problema para entrar en el sistema, ponte en contacto con nosotros en <a target="_blank" href="mailto:soporte@designador.com"> soporte@designador.com</a></td>
-	</tr>
-	<tr>
-		<td>Gracias por utilizar <a href="http://localhost:8080/Designador">Designador</a></td>
-	</tr>
-	<tr>
-		<td>Administrador</td>
-	</tr>
-</table>
-	
+<html>
+<head>
+</head>
+<body style="background-color: #e8e7e6;">
+	<div>
+		<div style="margin-left: 12px;">
+			<img src="cid:logoImage">
+		</div>
+		<table
+			style="background-color: #ffffff; margin: 20px; padding: 20px 10px;">
+			<tr>
+				<td><h2>Hola $firstName,</h2></td>
+			</tr>
+			<tr>
+				<td><h2
+						style="color: #ffffff; padding: 20px; background-color: #c1461c;">Inforamción
+						para tu nueva cuenta en Designador</h2></td>
+			</tr>
+			<tr>
+				<td style="padding-bottom: 10px;">Se ha creado una cuenta de
+					usuario en <a style="color: #c1461c;"
+					href="http://localhost:8080/Designador">Designador</a> por parte de
+					tu administrador. Recuerda que si en los proximos 7 días no confirmas tu registro, tu cuenta se eliminará
+					automaticamente.
+				</td>
+			</tr>
+			<tr>
+				<td style="padding-bottom: 10px;"><a style="color: #c1461c;"
+					href="http://localhost:8080/Designador">Designador</a> es una
+					aplicación web que se utiliza para ayudar a los arbitros y a los
+					designadores para la gestión de la designación de árbitros en
+					competiciones de baloncesto.</td>
+			</tr>
+			<tr>
+				<td style="padding-bottom: 25px;">Por favor, pulsa en el enlace
+					de abajo para empezar:</td>
+			</tr>
+			<tr>
+				<td><b><a style="color: #c1461c;"
+						href="http://localhost:8080/Designador/changePassword?id=$token">Crear
+							una nueva contraseña</a></b></td>
+			</tr>
+			<tr>
+				<td>
+					<ul>
+						<li>Tu nombre de usuario será visible en está página.</li>
+						<li>En la casilla <b>Nueva Contraseña</b>, escribe una nueva
+							contraseña para tu cuenta.
+						</li>
+						<li>En la casilla <b>Vuelve a escribir la contraseña</b>,
+							vuelve a escribir la misma contraseña.
+						</li>
+						<li>Haz Clic sobre <b>Cambiar contraseña y Iniciar sesión</b>.
+						</li>
+					</ul>
+				</td>
+			</tr>
+			<tr>
+				<td style="padding-bottom: 25px;">Si tienes cualquier problema
+					para entrar en el sistema, ponte en contacto con nosotros en <a
+					target="_blank" style="color: #c1461c;"
+					href="mailto:soporte@designador.com"> soporte@designador.com</a>.
+				</td>
+			</tr>
+			<tr>
+				<td>Gracias por utilizar <a style="color: #c1461c;"
+					href="http://localhost:8080/Designador">Designador</a></td>
+			</tr>
+			<tr>
+				<td>$adminFirstName</td>
+			</tr>
+		</table>
+		<div style="color: #e8e7e6">end</div>
+	</div>
+</body>
+</html>
+

@@ -84,7 +84,7 @@ public class Login extends ActionSupport implements SessionAware,
 						userCookie = new UserCookie(encryptedCookieValue, user);
 						service.SaveOrUpdateModelData(userCookie);
 						service.CreateEvent(
-								"DELETE_USER_COOKIE_" + cookieValue,
+								"DELETE_USER_COOKIE_" + cookieValue,"USER_COOKIE",
 								"USER_COOKIE", "idUSER_COOKIE",
 								encryptedCookieValue, "WEEK");
 					}

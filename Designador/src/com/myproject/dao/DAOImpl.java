@@ -160,13 +160,13 @@ public class DAOImpl implements DAO {
 	}
 
 	@Override
-	public void CreateEvent(String eventName, String tableName, String idName,
+	public void CreateEvent(String eventName, String tablesNames, String tableName, String idName,
 			String idValue, String interval) {
 		String sql = "CREATE EVENT "
 				+ eventName
 				+ "			ON SCHEDULE AT CURRENT_TIMESTAMP + INTERVAL 1 " + interval 
 				+ " DO "
-				+ "DELETE FROM " + tableName + " WHERE " + idName + " = '"
+				+ "DELETE " + tablesNames + " FROM " + tableName + " WHERE " + idName + " = '"
 				+ idValue + "';";
 
 		Session session = sessionFactory.getCurrentSession();

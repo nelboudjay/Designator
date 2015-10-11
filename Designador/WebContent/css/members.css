@@ -1,4 +1,13 @@
 @import url("commonStyle.css");
 @import url("idle-timeout.css");
 
+.members tr:nth-child(odd) {
+	background: #e8e7e6;
+}
 
+.unconfirmed {
+	background-color: #f0ad4e;
+    border-radius: 0.25em;
+    color: white;
+    padding: 4px;
+}

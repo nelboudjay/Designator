@@ -20,8 +20,16 @@
 	<jsp:include page="errorMessages.jsp" />
 
 	<div class="change-password-box">
-		<h3 class="title-1">Cambiar contraseña</h3>
-		<div>Tu nombre de usuario es <strong>  <s:property value="#attr.user.userName"/> </strong>.
+		<s:if test="#attr.user.password == ''">
+			<h3 class="title-1">Crear Mi Cuenta</h3>
+			<div>Bienvenido a <b><a class="link" href="login">Designador</a></b>, una aplicación web que se utiliza para ayudar a los arbitros y a los designadores para la gestión de la designación de árbitros en competiciones de baloncesto.</div>
+			<div>Para empzar, por favor crea una contraseña:</div>
+		</s:if>
+		<s:else>
+			<h3 class="title-1">Cambiar Mi Contraseña</h3>
+		</s:else>
+		
+		<div>Tu nombre de usuario es <b><s:property value="#attr.user.userName"/></b>.
 		</div>
 		<form action="changePassword" method="post">
 			<div>
@@ -37,7 +45,7 @@
 				
 			</div>
 			<input type="submit" class="btn"
-				value="Cambiar contraseña y Iniciar sesión"
+				value="Actualizar contraseña y Iniciar sesión"
 				name="method:changePassword">
 		</form>
 	</div>

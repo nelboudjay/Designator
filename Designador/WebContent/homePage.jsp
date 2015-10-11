@@ -68,15 +68,15 @@
 			</table>
 
 			<div id="comments">
-				<h4 class="comments">Comentarios</h4>
+				<h4 class="comments">Avisos</h4>
 				<s:if test="#session.user.isAdmin()">
 					<div>
-						<textarea rows="1" cols="100" placeholder="Añadir comentario..."
+						<textarea rows="1" cols="100" placeholder="Añadir aviso..."
 							id="commentBody" name="commentBody"  class="required-field"></textarea>
-						<div class="error-field">El comentario no puede estar en blanco.</div>
+						<div class="error-field">El aviso no puede estar en blanco.</div>
 					</div>
 					<p class="add-comment-submit" style="display: none;">
-						<button id="addComment" class="btn">Añadir Comentario</button>
+						<button id="addComment" class="btn">Añadir Aviso</button>
 						<a id="cancelCommentLink">Cancelar</a>
 					</p>
 				</s:if>

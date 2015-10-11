@@ -43,9 +43,9 @@ public class GenericServiceImpl implements GenericService {
 	
 	@Override
 	@Transactional
-	public void CreateEvent(String eventName, String tableName, String idName,
+	public void CreateEvent(String eventName, String tablesNames, String tableName, String idName,
 			String idValue, String interval) {
-		dao.CreateEvent(eventName, tableName, idName, idValue, interval);
+		dao.CreateEvent(eventName, tablesNames, tableName, idName, idValue, interval);
 	}
 
 	@Override

@@ -17,6 +17,7 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -32,8 +33,8 @@ public class MailService {
 		MimeMessage mimeMessage = mailSender.createMimeMessage();
 		try {
 			MimeMessageHelper helper = new MimeMessageHelper(mimeMessage,
-					false, "utf-8");
-
+					true, "UTF-8");
+			
 			/*  first, get and initialize an engine  */
 	        VelocityEngine ve = new VelocityEngine();
 	        ve.setProperty("resource.loader", "class");
@@ -41,7 +42,7 @@ public class MailService {
 	        ve.init();
 	        
 	        /*  next, get the Template  */	
-	        Template t = ve.getTemplate("templates/" + path);
+	        Template t = ve.getTemplate("templates/" + path,"utf-8");
 			
 	        /*  create a context and add data */
 	        VelocityContext context = new VelocityContext();
@@ -50,9 +51,13 @@ public class MailService {
 	        
 	        /* now render the template into a StringWriter */
 	        StringWriter writer = new StringWriter();
+
 	        t.merge( context, writer );
-			
-			mimeMessage.setContent(writer.toString(), "text/html");
+	        
+		//	mimeMessage.setContent(writer.toString(), "text/html");
+			helper.setText(writer.toString(),true);
+			helper.addInline("logoImage", new ClassPathResource("/Logo.png"));
+
 			helper.setTo(to);
 			helper.setSubject(subject);
 

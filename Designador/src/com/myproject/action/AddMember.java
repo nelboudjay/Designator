@@ -4,18 +4,22 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
+import org.apache.commons.lang.WordUtils;
+import org.apache.struts2.interceptor.SessionAware;
 import org.apache.struts2.interceptor.validation.SkipValidation;
 
 import com.myproject.mail.MailService;
 import com.myproject.model.Address;
+import com.myproject.model.PasswordChangeRequest;
 import com.myproject.model.User;
 import com.myproject.model.UserProfile;
 import com.myproject.model.UserRole;
 import com.myproject.service.GenericService;
 import com.opensymphony.xwork2.ActionSupport;
 
-public class AddMember extends ActionSupport  {
+public class AddMember extends ActionSupport  implements SessionAware{
 
 	private static final long serialVersionUID = 7821048979321587609L;
 
@@ -28,6 +32,7 @@ public class AddMember extends ActionSupport  {
 	private String pictureContentType, pictureFileName;
 	private boolean admin;
 	
+	private Map<String, Object> session;
 	private GenericService service;
 
 	private MailService mailService;
@@ -59,7 +64,7 @@ public class AddMember extends ActionSupport  {
 				|| !city.trim().equals("") || !zipcode.equals(""))
 			address = new Address(address1.trim(), address2.trim(), province.trim(), city.trim(), zipcode);
 			
-		if(fieldAlreadyExists(email.trim(),"email")){
+		/*if(fieldAlreadyExists(email.trim(),"email")){
 			addActionError("El correo eléctronico principal ya existe para otro usuario. Por favor, elige otro.");
 			return INPUT;
 		}
@@ -67,7 +72,7 @@ public class AddMember extends ActionSupport  {
 		if(!email2.trim().equals("") && fieldAlreadyExists(email2.trim(),"email")){
 			addActionError("El correo eléctronico secundario ya existe para otro usuario. Por favor, elige otro.");
 			return INPUT;
-		}
+		}*/
 		
 		byte[] bPicture = null;
 		if(picture != null){
@@ -93,9 +98,46 @@ public class AddMember extends ActionSupport  {
 
 		User user = new User(userName,email.trim(),userRole,userProfile);
 		
-		//service.SaveOrUpdateModelData(user);
+		service.SaveOrUpdateModelData(user);
+		
+		Map<String, Object> eqRestrictions = new HashMap<String, Object>();
+		PasswordChangeRequest passwordChangeRequest;
+		String token;
+		
+		do {
+			token = UUID.randomUUID().toString()
+					.replaceAll("-", "");
+			eqRestrictions.put("token",
+					token);
+			passwordChangeRequest = (PasswordChangeRequest) service
+					.GetUniqueModelData(PasswordChangeRequest.class,
+							eqRestrictions);
+		} while (passwordChangeRequest != null);
+		
+		/*Save the password request in the database*/
+		passwordChangeRequest = new PasswordChangeRequest(user, token);
+		service.SaveOrUpdateModelData(passwordChangeRequest);
+		
+		if (address != null)
+			service.CreateEvent("DELETE_PASSWORD_CHANGE_REQUEST_"
+				+ user.getIdUser(), "PASSWORD_CHANGE_REQUEST, USER, USER_PROFILE, ADDRESS", 
+				"PASSWORD_CHANGE_REQUEST JOIN USER ON PASSWORD_CHANGE_REQUEST.idPASSWORD_CHANGE_REQUEST = USER.idUSER " +
+				"JOIN USER_PROFILE ON USER.USER_PROFILE = USER_PROFILE.idUSER_PROFILE " +
+				"JOIN ADDRESS ON USER_PROFILE.ADDRESS = ADDRESS.idADDRESS "	,
+				"idPASSWORD_CHANGE_REQUEST", "" + user.getIdUser(), "WEEK");
+		else
+			service.CreateEvent("DELETE_PASSWORD_CHANGE_REQUEST_"
+					+ user.getIdUser(), "PASSWORD_CHANGE_REQUEST, USER, USER_PROFILE", 
+					"PASSWORD_CHANGE_REQUEST JOIN USER ON PASSWORD_CHANGE_REQUEST.idPASSWORD_CHANGE_REQUEST = USER.idUSER " +
+					"JOIN USER_PROFILE ON USER.USER_PROFILE = USER_PROFILE.idUSER_PROFILE " ,
+					"idPASSWORD_CHANGE_REQUEST", "" + user.getIdUser(), "WEEK");
+
+		
 		Map<String, String> templateData = new HashMap<String, String>();
 
+		templateData.put("firstName",WordUtils.capitalize(firstName.trim()));
+		templateData.put("adminFirstName", WordUtils.capitalize(((User)session.get("user")).getUserProfile().getFirstName()));
+		
 		mailService.sendMail(email,"Instrucciones para completar tu registro en Designador",
 				"confirmRegistrationInstructions.vm", templateData);
 		
@@ -261,6 +303,12 @@ public class AddMember extends ActionSupport  {
 
 	public void setMailService(MailService mailService) {
 		this.mailService = mailService;
+	}
+
+	@Override
+	public void setSession(Map<String, Object> session) {
+		this.session = session;
+		
 	}
 
 

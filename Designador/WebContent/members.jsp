@@ -36,17 +36,24 @@
 			<h4 class="new-record"><a href="addMember"><img src="images/add-icon.png" class="small-icon">Añadir un nuevo miembro</a></h4>
 			<br>
 			<br>
-			<table>
+			<table class="members">
 				<tr>
 					<th>Nombre</th>
 					<th>Mostrar</th>
 					<th>Contactar</th>	
 				</tr>
-				<s:iterator  value="users">
+				<s:iterator value="users" >
 				<tr>
 					<td><a class="link"><s:property value="userFullName"/></a></td>
 					<td>Partidos</td>
-					<td><a class="link">Por Correo</a></td>
+					<td>
+						<s:if test="password == ''">
+							<span class="unconfirmed">Sin confirmar</span>
+						</s:if>
+						<s:else>
+							<a class="link">Por Correo</a>
+						</s:else>	
+					</td>
 				</tr>
 				
 			</s:iterator>

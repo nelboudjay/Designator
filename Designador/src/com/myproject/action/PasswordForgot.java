@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import org.apache.commons.lang.WordUtils;
 import org.apache.struts2.interceptor.validation.SkipValidation;
 
 import com.myproject.mail.MailService;
@@ -73,13 +74,14 @@ public class PasswordForgot extends ActionSupport{
 			service.DropEvent("DELETE_PASSWORD_CHANGE_REQUEST_"
 					+ user.getIdUser());
 			service.CreateEvent("DELETE_PASSWORD_CHANGE_REQUEST_"
-					+ user.getIdUser(), "PASSWORD_CHANGE_REQUEST",
-					"idPASSWORD_CHANGE_REQUEST", ""+user.getIdUser(), "DAY");
+					+ user.getIdUser(), "PASSWORD_CHANGE_REQUEST", "PASSWORD_CHANGE_REQUEST",
+					"idPASSWORD_CHANGE_REQUEST", "" + user.getIdUser(), "DAY");
 			
 			/*add a value to the template email*/
 			Map<String, String> templateData = new HashMap<String, String>();
 			templateData
 					.put("token", token);
+			templateData.put("firstName",WordUtils.capitalize(user.getUserProfile().getFirstName()));
 			
 			/*Send the email*/
 			mailService.sendMail(user.getEmail(),

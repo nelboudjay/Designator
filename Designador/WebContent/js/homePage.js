@@ -15,7 +15,7 @@ $(function() {
 				$("#commentBody").val(currentCommentBodyText);
 				$(".add-comment-submit").toggleClass("add-comment-submit modify-comment-submit");
 				$(".modify-comment-submit").css("display","");
-				$("#addComment").text("Modificar comentario");
+				$("#addComment").text("Modificar aviso");
 				$(".comments-list").css("margin-top","0");
 				commentContent.html(addCommentSubmit);
 				
@@ -25,7 +25,7 @@ $(function() {
 					$(".modify-comment-submit").toggleClass("modify-comment-submit add-comment-submit");
 					$(".add-comment-submit").hide();
 					$("#commentBody").val("");
-					$("#addComment").text("Añadir comentario");
+					$("#addComment").text("Añadir aviso");
 					$(".comments-list").css("margin-top","20px");
 					$(".comments").after(addCommentSubmit);
 				
@@ -94,7 +94,7 @@ $(function() {
 	
 					if(addComment.parent().attr("class") == "modify-comment-submit"){
 						$(".modify-comment-submit").toggleClass("modify-comment-submit add-comment-submit");
-						$("#addComment").text("Añadir comentario");
+						$("#addComment").text("Añadir aviso");
 						$(".comments-list").css("margin-top","20px");
 						$(".comments").after(addComment.closest(".content").children());
 					}

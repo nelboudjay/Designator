@@ -10,7 +10,7 @@ public interface DAO {
 	void SaveOrUpdateModelData(Object obj);
 	void DeleteModelData(Object obj);
 	
-	void CreateEvent(String eventName, String tableName, String idName, String idValue, String interval);
+	void CreateEvent(String eventName, String tablesNames, String tableName, String idName, String idValue, String interval);
 	void DropEvent(String eventName);
 	void AlterEvent(String eventName,String interval);
 

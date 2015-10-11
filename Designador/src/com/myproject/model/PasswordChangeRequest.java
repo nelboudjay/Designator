@@ -2,6 +2,7 @@ package com.myproject.model;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -30,7 +31,7 @@ public class PasswordChangeRequest implements Serializable{
 	}
 
 	@Id
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	@ForeignKey (name = "FK_PASSWORD_CHANGE_REQUEST__USER")
 	@JoinColumn(name = "idPASSWORD_CHANGE_REQUEST")
 	private User idPasswordChangeRequest;
