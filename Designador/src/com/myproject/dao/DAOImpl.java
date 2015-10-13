@@ -1,5 +1,7 @@
 package com.myproject.dao;
 
+import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -109,7 +111,7 @@ public class DAOImpl implements DAO {
 		try {
 
 			Criteria cr = session.createCriteria(t);
-
+			 
 			for (Entry<String, Object> entry : eqRestrictions.entrySet()) {
 				// get key
 				String key = entry.getKey();
@@ -120,6 +122,27 @@ public class DAOImpl implements DAO {
 			}
 
 			if(attribute != null){
+				
+				List<Field> fields = Arrays.asList(t.getDeclaredFields());
+				String auxAttribute = attribute;
+                if(fields.stream().filter(field -> field.getName().equals(auxAttribute)).count() == 0){
+                    
+                	for(Field field : fields){
+                		List<Field> fieldFields;
+                		if (Arrays.asList(field.getAnnotations()).stream().
+                				filter(annotation -> annotation.annotationType().getSimpleName().equals("ForeignKey")).count() == 1){
+                			
+                			fieldFields = Arrays.asList(field.getType().getDeclaredFields());
+                			
+                			if(fieldFields.stream().filter(fieldField -> fieldField.getName().equals(auxAttribute)).count() == 1){
+                				cr.createAlias(field.getName(), "alias");
+                				attribute = "alias." + attribute;
+                				break;
+                			}
+                		}		
+                	}
+                }
+                
 				if (ascendingOrder)
 					cr.addOrder(Order.asc(attribute));
 				else

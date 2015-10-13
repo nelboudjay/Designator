@@ -19,7 +19,7 @@ public class GetMembers extends ActionSupport{
 	public String execute() {
 		Map<String, Object> eqRestrictions = new HashMap<String, Object>();	
 
-		users = service.GetModelDataList(User.class, eqRestrictions, null, null);
+		users = service.GetModelDataList(User.class, eqRestrictions, "firstName", true);
 		
 		return SUCCESS;
 	}
