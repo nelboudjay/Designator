@@ -9,3 +9,49 @@
 	display: inline;
     position: relative;
 }
+
+.user-menu {
+  	background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    border-radius: 4px;  
+    margin-bottom: 4px;  
+}
+
+.user-menu > * {
+	padding:10px;
+}
+
+.user-menu > span {
+	font-size:18px;
+	vertical-align: sub;
+}
+
+.user-menu > img {
+	padding-right:0;
+	vertical-align:middle;
+	height:48px;
+	width:48px;
+	border-radius:2px;
+}
+
+.user-menu ul {
+	float: right;
+    line-height: 50px;
+	
+}
+
+.user-menu li {
+	display:inline;
+	padding: 0 5px;
+	color:#5b5b5b;
+}
+
+.user-paginate > a {
+	padding: 6px 12px;
+}
+
+.user-paginate > a:hover {
+	text-decoration:none;
+}
+
+

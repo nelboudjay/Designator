@@ -33,32 +33,33 @@
 		
 		<div class="container">
 			
-			<s:set var="currentIdUser" value="idUser"/>
-			<table class="members">
-				<tr>
-					<th>Nombre</th>
-				
-				</tr>
+			<div class="user-menu">
+				<img  src="<s:url value="getImage?profileImage=true" />" >
+				<span>${session.user.userFullName}</span>
+				<ul>
+					<li><a>Partidos</a></li>
+					<li><a>Disponibilidad</a></li>
+					<li><a>Conflictos</a></li>
+				</ul>
+			</div>
+			<div class="user-paginate">
+				<s:set var="currentIdUser" value="idUser"/>			
 				<s:iterator value="users" status="status" >
-				<tr>
-					<td><a class="link">
-					
-					<s:property value="users.size"/>
 					<s:if test="#currentIdUser == idUser">
-						<s:if test="#status.count == 1">
-							First: <s:property value="userFullName"/>
-							<s:if test="#status.count < users.size">
-							</s:if>
+				
+						<s:if test="#status.count > 1">
+							<a class="btn"><s:property value="users[#status.index-1].userFullName"/></a>						
 						</s:if>
 						
+						<s:if test="#status.count < users.size">
+							<a class="btn"><s:property value="users[#status.index+1].userFullName"/></a>						
+						</s:if>
 					</s:if>
-					
-					</a></td>
-					
-				</tr>
+				</s:iterator>
 				
-			</s:iterator>
-			</table>
+			</div>
+			<br/><br/>
+			
 		</div>
 	</div>
 
