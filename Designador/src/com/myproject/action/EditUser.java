@@ -3,6 +3,7 @@ package com.myproject.action;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.struts2.interceptor.SessionAware;
@@ -14,12 +15,13 @@ import com.myproject.model.UserProfile;
 import com.myproject.service.GenericService;
 import com.opensymphony.xwork2.ActionSupport;
 
-public class EditProfile extends ActionSupport implements SessionAware {
+public class EditUser extends ActionSupport implements SessionAware {
 
 	private static final long serialVersionUID = 7821048979321587609L;
 
 	private Map<String, Object> session;
 
+	private int idUser;
 	private String firstName, lastName1, lastName2;
 	private String address1, address2, province, city, zipcode;
 	private String homePhone, mobilePhone;
@@ -29,7 +31,8 @@ public class EditProfile extends ActionSupport implements SessionAware {
 	private File picture;
 	private String pictureContentType, pictureFileName;
 	private User user; 
-
+	private List<?> users;
+	
 	Map<String, Object> eqRestrictions = new HashMap<String, Object>();	
 	
 	private GenericService service;
@@ -37,6 +40,11 @@ public class EditProfile extends ActionSupport implements SessionAware {
 	@Override
 	@SkipValidation
 	public String execute() {
+		
+		Map<String, Object> eqRestrictions = new HashMap<String, Object>();	
+
+		System.out.println("hello " + idUser);
+		users = service.GetModelDataList(User.class, eqRestrictions, "firstName", true);
 		
 		return NONE;
 	}
@@ -126,6 +134,16 @@ public class EditProfile extends ActionSupport implements SessionAware {
 		}
 		else
 			return false;
+	}
+
+	
+	
+	public int getIdUser() {
+		return idUser;
+	}
+
+	public void setIdUser(int idUser) {
+		this.idUser = idUser;
 	}
 
 	public String getFirstName() {
@@ -278,6 +296,12 @@ public class EditProfile extends ActionSupport implements SessionAware {
 		this.pictureFileName = pictureFileName;
 	}
 	
+	
+	
+	public List<?> getUsers() {
+		return users;
+	}
+
 	@Override
 	public void setSession(Map<String, Object> session) {
 		this.session = session;

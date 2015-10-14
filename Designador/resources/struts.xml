@@ -97,10 +97,16 @@
 			<result name="success" type="redirectAction">homePage</result>
 		</action>
 
-		<action name="profile" class="com.myproject.action.EditProfile">
+	    <action name="user" class="com.myproject.action.EditUser">
 			<result name="none">profile.jsp</result>
 			<result name="input">profile.jsp</result>
 			<result name="success">profile.jsp</result>
+		</action> 
+		
+		<action name="editUser" class="com.myproject.action.EditUser">
+			<result name="none">editUser.jsp</result>
+			<result name="input">editUser.jsp</result>
+			<result name="success">editUser.jsp</result>
 		</action>
 	
 		<action name="getImage" class="com.myproject.action.GetImage" >
