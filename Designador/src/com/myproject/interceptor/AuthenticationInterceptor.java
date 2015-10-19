@@ -97,13 +97,12 @@ public class AuthenticationInterceptor implements Interceptor {
 				return ActionSupport.LOGIN;
 			}
 		}
-		
 	}
 
 	String properResult(ActionInvocation actionInvocation, Map<String, Object> session) throws Exception{
 		
 		List<String> actionsLoginNames = Arrays.asList("login", "homePage");
-		List<String> actionsAdminNames = Arrays.asList("addComment", "deleteComment","addMember","members");
+		List<String> actionsAdminNames = Arrays.asList("addComment", "deleteComment","addUser", "deleteUser");
 		
 		if (actionsLoginNames.contains( actionInvocation.getInvocationContext().getName()) ){
 
@@ -121,9 +120,11 @@ public class AuthenticationInterceptor implements Interceptor {
 			addActionError(actionInvocation ,"No tienes permiso para ver esta página");
 			return ActionSupport.ERROR;
 		}
-			return actionInvocation.invoke();
+		
+		return actionInvocation.invoke();
 		
 	}
+	
 	void addActionError(ActionInvocation actionInvocation, String message) {
 		Object action = actionInvocation.getAction();
 		if(action instanceof ValidationAware) {

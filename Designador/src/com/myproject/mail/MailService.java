@@ -57,6 +57,7 @@ public class MailService {
 		//	mimeMessage.setContent(writer.toString(), "text/html");
 			helper.setText(writer.toString(),true);
 			helper.addInline("logoImage", new ClassPathResource("/Logo.png"));
+	
 
 			helper.setTo(to);
 			helper.setSubject(subject);

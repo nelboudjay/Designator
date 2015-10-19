@@ -47,11 +47,37 @@
 }
 
 .user-paginate > a {
-	padding: 6px 12px;
+	padding: 6px;
+	margin-right: 3px;
 }
 
 .user-paginate > a:hover {
 	text-decoration:none;
 }
 
+.user-paginate img {
+	height: 15px;
+	vertical-align:text-bottom;
+}
 
+
+.perso-info td{
+	
+	width:auto;
+	border-top:1px solid #ddd;
+	border-style: solid none none;
+}
+
+.perso-info  tr > td:first-child {
+	font-weight: bold;
+	color:#333;
+}
+
+.perso-info tr > td:nth-child(2){
+	color:#5b5b5b;
+}
+
+
+input[type="radio"]{
+	margin-right:15px;
+}

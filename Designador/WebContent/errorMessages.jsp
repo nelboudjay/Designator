@@ -6,13 +6,32 @@
 		<button class="close" type="button">×</button>
 		<s:actionerror />
 	</div>
+
 </s:if>
+
 <s:if test="hasFieldErrors()">
 	<div class="errors">
 		<button class="close" type="button">×</button>
 		<s:fielderror />
-	</div>
+	</div>  
+	
+	<s:set var="keys" value="''"/>
+	
+	<s:iterator  value="fieldErrors" >
+		<s:set var="keys" value="#keys + \",#\"  + key "/>
+	</s:iterator>
+		
+			
+	 <script type="text/javascript">
+		var key = 	"<s:property value='#keys.substring(1)' />";
+		
+		 $(document).ready(function() {
+			 $("" + key).css({"border-color" : "#b94a48", "border-style" : "solid"});
+		 });
+	 </script> 
+    
 </s:if>
+
 <s:if test="hasActionMessages()">
 	<div class="boxMessage">
 		<button class="close" type="button">×</button>

@@ -90,34 +90,55 @@
 			
 		</action>
 
-
 		<action name="deleteComment" class="com.myproject.action.DeleteComment">
 			<result name="error" type="redirectAction">homePage</result>
 			<result name="input" type="redirectAction">homePage</result>
 			<result name="success" type="redirectAction">homePage</result>
 		</action>
 
-		<action name="profile" class="com.myproject.action.EditProfile">
-			<result name="none">profile.jsp</result>
-			<result name="input">profile.jsp</result>
-			<result name="success">profile.jsp</result>
+		<action name="users" class="com.myproject.action.GetUsers" >
+			<result name="success">users.jsp</result>
+			<result name="input">users.jsp</result>
+		</action>
+		
+	    <action name="user" class="com.myproject.action.AddEditUser">
+			<result name="none">user.jsp</result>
+			<result name="not found" type="redirectAction">users</result>
+		</action> 
+		
+		<action name="editUser" class="com.myproject.action.AddEditUser">
+			<result name="error" type="redirectAction">homePage</result>
+			<result name="none">addEditUser.jsp</result>
+			<result name="input">addEditUser.jsp</result>
+			<result name="not found" type="redirectAction">users</result>
+			<result name="success" type="redirectAction">
+			   <param name="actionName">user</param>
+			   <param name="idUser">${idUser}</param>
+			</result>
 		</action>
 	
+		<action name="addUser" class="com.myproject.action.AddEditUser" >
+			<result name="error" type="redirectAction">homePage</result>
+			<result name="none">addEditUser.jsp</result>
+			<result name="input">addEditUser.jsp</result>
+			<result name="success" type="redirectAction">
+			   <param name="actionName">user</param>
+			   <param name="idUser">${idUser}</param>
+			</result>		
+		</action>
+		
+		<action name="deleteUser" class="com.myproject.action.DeleteUser">
+			<result name="error" type="redirectAction">homePage</result>
+			<result name="error" type="redirectAction">homePage</result>
+			<result name="success" type="redirectAction">users</result>
+			<result name="input" type="redirectAction">users</result>	
+		</action>
+		
 		<action name="getImage" class="com.myproject.action.GetImage" >
-			<param name="profileImage">${profileImage}</param>
 			<result name="success" type="displayImage"></result>
+			<result name="input" type="redirectAction">homePage</result>
 		</action>
 		
-		<action name="members" class="com.myproject.action.GetMembers" >
-			<result name="success">members.jsp</result>
-		</action>
-		
-		<action name="addMember" class="com.myproject.action.AddMember" >
-			<result name="none">addMember.jsp</result>
-			<result name="input">addMember.jsp</result>
-			<result name="success" type="redirectAction">members</result>
-			
-		</action>
 	
 	</package>
 </struts>

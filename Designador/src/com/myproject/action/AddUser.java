@@ -19,7 +19,7 @@ import com.myproject.model.UserRole;
 import com.myproject.service.GenericService;
 import com.opensymphony.xwork2.ActionSupport;
 
-public class AddMember extends ActionSupport  implements SessionAware{
+public class AddUser extends ActionSupport  implements SessionAware{
 
 	private static final long serialVersionUID = 7821048979321587609L;
 
@@ -92,9 +92,9 @@ public class AddMember extends ActionSupport  implements SessionAware{
 		
 		UserRole userRole;
 		if(admin)
-			userRole = new UserRole(1,"Admin");
+			userRole = new UserRole("1","Admin");
 		else
-			userRole = new UserRole(2, "Referee");
+			userRole = new UserRole("2", "Referee");
 
 		User user = new User(userName,email.trim(),userRole,userProfile);
 		

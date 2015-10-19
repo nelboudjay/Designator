@@ -6,8 +6,12 @@
 	margin-bottom: 20px;
 }
 
+.calendar .active {
+	background-color: #c1461c;
+	color: #fff;
+}
 .calendar th {
-	background-color: inherit;
+	background-color: #f8f8f8;
 	border-color: #dddddd;
     border-style: none none solid;
     border-width: 0 0 2px;
@@ -15,12 +19,10 @@
 
 .calendar td {
 	text-align:right;
+	background-color: #f8f8f8;
 }
 
-.active {
-	background-color: #c1461c;
-	color: #fff;
-}
+
 
 .future {
 	font-weight: bold;
@@ -109,20 +111,3 @@
 	
 }
 
-.confirm-box {
-	color: #5b5b5b;
-	display: none;
-	background-color: #f8f8f8;
-	border-radius: 5px;
-	border: 1px solid #aaa;
-	width: 300px;
-	padding: 6px 8px;
-	box-sizing: border-box;
-	text-align: center;
-}
-
-.confirm-box .btn {
-	display: inline-block;
-    height: 18px;
-    margin: 0;
-}

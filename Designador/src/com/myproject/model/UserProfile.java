@@ -19,7 +19,7 @@ public class UserProfile implements Serializable{
 
 	private static final long serialVersionUID = 7906067534274348077L;
 	
-	public UserProfile(int idUserProfile, String firstName, String lastName1,
+	public UserProfile(String idUserProfile, String firstName, String lastName1,
 			String lastName2, Address address, String homePhone,
 			String mobilePhone, String email2, byte[] picture) {
 		super();
@@ -55,7 +55,7 @@ public class UserProfile implements Serializable{
 	@Id
 	@Column(name = "idUSER_PROFILE")
 	@GeneratedValue
-	private int idUserProfile;
+	private String idUserProfile;
 	
 	@Column(name="FIRSTNAME", length = 45, nullable = false)
 	private String firstName;
@@ -83,11 +83,11 @@ public class UserProfile implements Serializable{
 	@Column(name="PICTURE", length = 45)
 	private byte[] picture;
 
-	public int getIdUserProfile() {
+	public String getIdUserProfile() {
 		return idUserProfile;
 	}
 
-	public void setIdUserProfile(int idUserProfile) {
+	public void setIdUserProfile(String idUserProfile) {
 		this.idUserProfile = idUserProfile;
 	}
 

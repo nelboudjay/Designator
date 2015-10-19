@@ -16,7 +16,7 @@ public class UserRole implements Serializable{
 	private static final long serialVersionUID = -1495014165546048748L;
 
 	
-	public UserRole(int idUserRole, String userRoleName) {
+	public UserRole(String idUserRole, String userRoleName) {
 		super();
 		this.idUserRole = idUserRole;
 		this.userRoleName = userRoleName;
@@ -29,12 +29,12 @@ public class UserRole implements Serializable{
 	@Id
 	@Column(name = "idUSER_ROLE")
 	@GeneratedValue
-	private int idUserRole;
+	private String idUserRole;
 	
 	@Column(name="USER_ROLE_NAME", length = 45, nullable = false)
 	private String userRoleName;
 	
-	public int getIdUserRole() {
+	public String getIdUserRole() {
 		return idUserRole;
 	}
 	
@@ -42,7 +42,7 @@ public class UserRole implements Serializable{
 		return userRoleName;
 	}
 	
-	public void setIdUserRole(int idUserRole) {
+	public void setIdUserRole(String idUserRole) {
 		this.idUserRole = idUserRole;
 	}
 

@@ -50,7 +50,7 @@ public class User extends ActionSupport implements Serializable{
 	@Id
 	@Column(name = "idUSER")
 	@GeneratedValue
-	private int idUser;
+	private String idUser;
 	
 	@Column(name="USERNAME", nullable = false, unique = true, length = 45)
 	private String userName;
@@ -61,7 +61,7 @@ public class User extends ActionSupport implements Serializable{
 	@Column(name="PASSWORD", nullable = false, length = 45)
 	private String password;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.PERSIST)
 	@ForeignKey (name = "FK_USER__USER_ROLE")
 	@JoinColumn(name = "USER_ROLE", nullable = false)
 	private UserRole userRole;
@@ -71,7 +71,7 @@ public class User extends ActionSupport implements Serializable{
 	@JoinColumn(name = "USER_PROFILE", nullable = false, unique = true)
 	private UserProfile userProfile;
 
-	public int getIdUser() {
+	public String getIdUser() {
 		return idUser;
 	}
 	
@@ -96,7 +96,7 @@ public class User extends ActionSupport implements Serializable{
 		return userProfile;
 	}
 	
-	public void setIdUser(int idUser) {
+	public void setIdUser(String idUser) {
 		this.idUser = idUser;
 	}
 	
@@ -130,7 +130,7 @@ public class User extends ActionSupport implements Serializable{
 	}
 	
 	public boolean isAdmin(){
-		return getUserRole().getUserRoleName().equals("Admin");
+		return !getUserRole().getUserRoleName().equals("Referee");
 	}
 
 }

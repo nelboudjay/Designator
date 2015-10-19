@@ -16,7 +16,10 @@
 <body>
 
 	<jsp:include page="header.jsp" />
-
+	
+	<s:if test="#session.user != null">
+		<jsp:include page="leftMenu.jsp"/>
+	</s:if>	
 	<jsp:include page="errorMessages.jsp" />
 
 	<div class="change-password-box">

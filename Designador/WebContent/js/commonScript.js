@@ -184,4 +184,28 @@ $(document).ready(function() {
 	else
 		$("#profileImage").hide();
 	
+	$(".delete").click(function(e){
+        e.preventDefault();
+		e.stopPropagation();
+
+		$(".delete").hide();
+		$(".confirm-box").css("display", "inline");
+		
+		var deleteLink = $(this).attr("href");
+		
+		$(document).click(function() {
+			$(".confirm-box").hide();
+			$(".delete").show();
+		});
+		
+		$(".confirm-box > .no, .confirm-box > .yes").click(function() {
+			if ($(this).hasClass("no")) {
+				$(".confirm-box").hide();
+				$(".delete").show();
+			} else if ($(this).hasClass("yes")) 
+			    window.location = deleteLink;
+			
+		});
+	});
+	
 });
