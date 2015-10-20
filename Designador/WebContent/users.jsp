@@ -33,7 +33,7 @@
 		
 		<div class="container">
 			<br>	
-			<s:if test="#session.user.isAdmin">
+			<s:if test="#session.user.isAdmin()">
 				<h4 class="new-record"><a href="addUser"><img src="images/add-icon.png" class="small-icon">Añadir un nuevo miembro</a></h4>
 			</s:if>
 			<br>

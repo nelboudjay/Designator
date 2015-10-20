@@ -102,9 +102,10 @@ public class AddEditUser extends ActionSupport implements SessionAware, ServletC
 				addFieldError("userName","El nombre de usuario ya existe. Por favor, elige otro.");
 				return INPUT;
 			}
-
-			user.setUserName(userName.trim());
-			user.setPassword(password);
+			else{
+				user.setUserName(userName.trim());
+				user.setPassword(password);
+			}
 		}
 		else {
 			user.setUserName(user.getUserName());

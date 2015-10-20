@@ -2,11 +2,6 @@
 
 <s:url includeContext="false" var="currentAction" />
 
-
-<s:if test="#session.user != null">
-	<jsp:include page="idle-timeout.html"/>
-</s:if>
-
 <nav>
 	<ul class="logo">
 		<li><s:if test="#session.user == null">

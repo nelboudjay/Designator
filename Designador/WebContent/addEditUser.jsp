@@ -230,7 +230,13 @@
 				<div class="row">
 					<div>
 						<input type="submit" class="btn" value="Actualizar Perfil" name="method:editUser"> o 
-						<a href="homePage">Cancelar</a>
+						<s:if test="#request.user == null">
+							<a href="users">Cancelar</a>
+						</s:if>
+						<s:else>
+							<a href="user?idUser=${idUser}">Cancelar</a>
+						</s:else>						
+						
 					</div>
 					
 				</div>
