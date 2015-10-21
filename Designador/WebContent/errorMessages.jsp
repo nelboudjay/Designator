@@ -18,11 +18,10 @@
 	<s:set var="keys" value="''"/>
 	
 	<s:iterator  value="fieldErrors" >
-		<s:set var="keys" value="#keys + \",#\"  + key "/>
+		<s:set var="keys" value="#keys + ',#'  + key "/>
 	</s:iterator>
 		
-			
-	 <script type="text/javascript">
+	<script type="text/javascript">
 		var key = 	"<s:property value='#keys.substring(1)' />";
 		
 		 $(document).ready(function() {

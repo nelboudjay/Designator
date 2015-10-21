@@ -24,7 +24,7 @@
 		<div class="content-title">
 			<h3>
 				<img class="black-icon" src="images/profile-black-icon.png">
-				<s:property value="user.userFullName"/>
+				<s:property value="#attr.userFullName"/>
 			</h3>
 			<span>Perfil</span>
 		</div>
@@ -34,25 +34,26 @@
 		<br/>
 		
 		<div class="container">
-						
-				<s:property value="users.size"/>
-				<s:iterator value="users" status="status" >
-					<s:if test="user.idUser == idUser">
+				
+				<s:set var="currentIdUser" value="idUser"/>
 
+				<s:iterator value="#attr.users" status="status" >
+					<s:if test="idUser == #currentIdUser">
 						<s:if test="#status.count > 1">
-							<s:set var="previousUserFullName" value="users[#status.index-1].userFullName"/>
+							<s:set var="previousUserFullName" value="#attr.users[#status.index-1].userFullName"/>
+							<s:set var="previousIdUser" value="#attr.users[#status.index-1].idUser"/>	
 						</s:if>
-						
-						<s:if test="#status.count < users.size">
-							<s:set var="nextUserFullName" value="users[#status.index+1].userFullName"/>						
+												
+						<s:if test="#status.count < #attr.users.size">
+							<s:set var="nextUserFullName" value="#attr.users[#status.index+1].userFullName"/>	
+							<s:set var="nextIdUser" value="#attr.users[#status.index+1].idUser"/>									
 						</s:if>
 					</s:if>
 				</s:iterator>
-			
-			
+
 			<div class="user-menu">
-				<img  src="getImage?idUser=${user.idUser}" >
-				<span><s:property value="user.userFullName"/></span>
+				<img  src="getImage?idUser=${idUser}" >
+				<span><s:property value="#attr.userFullName"/></span>
 				<ul>
 					<li><a>Partidos</a></li>
 					<li><a>Disponibilidad</a></li>
@@ -62,11 +63,11 @@
 			<div class="user-paginate">
 				
 				<s:if test="#previousUserFullName != null ">
-					<a class="btn"><img src="images/back-icon.png"><s:property value="#previousUserFullName"/></a>						
+					<a class="btn" href="user?idUser=${previousIdUser}"><img src="images/back-icon.png"><s:property value="#previousUserFullName"/></a>						
 				</s:if>
 				
 				<s:if test="#nextUserFullName != null ">
-					<a class="btn"><s:property value="#nextUserFullName"/><img src="images/forward-icon.png"></a>						
+					<a class="btn" href="user?idUser=${nextIdUser}"><s:property value="#nextUserFullName"/><img src="images/forward-icon.png"></a>						
 				</s:if>
 				
 			</div>
@@ -76,26 +77,26 @@
 			<table class="perso-info">
 				<tr>
 					<td>Correo Electrónico Principal</td>
-					<td><s:property value="user.email"/></td>
+					<td><s:property value="#attr.email"/></td>
 				</tr>
 				<tr>
 					<td>Estado</td>
 					<td style="text-decoration:underline;">
-						<s:if test="user.password == ''">
-							<span title="Usuario sin confirmar su registro.">No Confirmado</span>
+						<s:if test="#attr.confirmed">
+							<span title="Usuario ha confirmado su registro.">Confirmado</span>
 						</s:if>	
 						<s:else>
-							<span title="Usuario ha confirmado su registro.">Confirmado</span>
+							<span title="Usuario sin confirmar su registro.">No Confirmado</span>
 						</s:else>
 					</td>
 				</tr>
 				<tr>
 					<td>Previlegios</td>
 					<td>
-						<s:if test="user.userRole.userRoleName == 'Admin'">
+						<s:if test="#attr.userRoleName == 'Admin'">
 							Designador
 						</s:if>	
-						<s:elseif test="user.userRole.userRoleName == 'Referee'">
+						<s:elseif test="#attr.userRoleName == 'Referee'">
 							Árbitro
 						</s:elseif>
 						<s:else>
@@ -106,13 +107,13 @@
 			</table>
 			<p><a href="users" class="link">« Todos los Miembros</a> · 
 			
-				<s:if test="user.idUser == #session.user.idUser">
-					<a class="link" href="editUser?idUser=${user.idUser}">Editar</a> · 
+				<s:if test="idUser == #session.user.idUser">
+					<a class="link" href="editUser?idUser=${idUser}">Editar</a> · 
 					<a class="link" href="changePassword">Cambiar contraseña</a> 
 				</s:if>
 				<s:elseif test="#session.user.isAdmin()">
-					<a class="link" href="editUser?idUser=${user.idUser}">Editar</a> · 
-					<a class="link delete" href="deleteUser?idUser=${user.idUser}">Eliminar</a>
+					<a class="link" href="editUser?idUser=${idUser}">Editar</a> · 
+					<a class="link delete" href="deleteUser?idUser=${idUser}">Eliminar</a>
 					<span class="confirm-box">
 						<span class="message">¿Estás seguro que quieres
 							eliminar este miembro? </span> <span class="btn yes">Sí</span> 

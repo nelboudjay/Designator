@@ -73,11 +73,11 @@ public class ChangePassword extends ActionSupport implements SessionAware,
 		 
 			user = (User) context.getAttribute("user");
 
-			if (user == null)
+			if (user == null){
 				
 				addActionError("Tu contraseña no ha podido ser actualizada. Vuelve a intentarlo más tarde o ponte en contacto con tu administrador.");
-			
-			else {
+				return ERROR;
+			}else {
 								
 				user.setPassword(getPassword());
 				service.SaveOrUpdateModelData(user);

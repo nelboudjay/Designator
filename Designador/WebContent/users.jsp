@@ -48,7 +48,7 @@
 				<s:if test="#users == null">
 					<s:set var="users" value="#attr.users"/>
 				</s:if>
-				<s:iterator value="#users" >
+				<s:iterator value="users" >
 					<tr>
 						<td><a class="link" href="user?idUser=${idUser}"><s:property value="userFullName"/></a></td>
 						<td>Partidos</td>

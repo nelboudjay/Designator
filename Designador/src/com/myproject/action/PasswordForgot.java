@@ -47,7 +47,7 @@ public class PasswordForgot extends ActionSupport{
 		}
 		
 		if (user == null) {
-			addActionError("El nombre de usuario o el email introducido no se corresopnde a ningún usuario registrado.");
+			addFieldError("resetPasswordLoginField","El nombre de usuario o el email introducido no se corresopnde a ningún usuario registrado.");
 			return INPUT;
 		} else {
 			

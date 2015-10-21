@@ -20,6 +20,8 @@
 	<s:if test="#session.user != null">
 		<jsp:include page="leftMenu.jsp"/>
 	</s:if>	
+
+	<div ${session.user != null ? "class='main-content'" : ""}> 
 	<jsp:include page="errorMessages.jsp" />
 
 	<div class="change-password-box">
@@ -37,13 +39,13 @@
 		<form action="changePassword" method="post">
 			<div>
 				<label><strong>Nueva contraseña</strong></label> <input id="password"
-					type="password" class="text-input-2 required-field identical-field" name="password">
+					type="password" class="text-input-2 required-field identical-field" name="password" value="${password}">
 				<div class="error-field">Introduce tu nueva contraseña.</div>
 					
 			</div>
 			<div>
-			<label><strong>Vuelve a escribir la contraseña</strong></label> <input id="rePassword"
-				type="password" class="text-input-2 required-field identical-field" name="repassword">
+			<label><strong>Vuelve a escribir la contraseña</strong></label> <input id="repassword"
+				type="password" class="text-input-2 required-field identical-field" name="repassword" value="${repassword}">
 				<div class="error-field">Las contraseñas deben ser iguales.</div>
 				
 			</div>
@@ -52,6 +54,6 @@
 				name="method:changePassword">
 		</form>
 	</div>
-
+	</div>
 </body>
 </html>

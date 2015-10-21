@@ -11,6 +11,7 @@ import javax.servlet.ServletContext;
 
 import org.apache.commons.lang.WordUtils;
 import org.apache.struts2.interceptor.SessionAware;
+import org.apache.struts2.interceptor.validation.SkipValidation;
 import org.apache.struts2.util.ServletContextAware;
 
 import com.myproject.model.Address;
@@ -47,20 +48,35 @@ public class AddEditUser extends ActionSupport implements SessionAware, ServletC
 	private GenericService service;
 
 	@Override
+	@SkipValidation
 	public String execute() {
 		
-		if( ActionContext.getContext().getName().equalsIgnoreCase("addUser")){
-			setIdUser("");
+		if( ActionContext.getContext().getName().equalsIgnoreCase("addUser"))
 			return NONE;
-		}
-		else {
+		else if (idUser == null || idUser.equals("")){
+			
+			addActionError("Por favor, introduce el id del usuario que quieres añadir/editar.");
+
+			eqRestrictions.clear();
+			List<?> users = service.GetModelDataList(User.class, eqRestrictions, "firstName", true);
+			context.setAttribute("users", users);
+			
+			return "not found";
+			
+		}	
+		else{
 			
 			user = (User)session.get("user");
 			
-			if (idUser == null || idUser.equals("") || idUser.equals(user.getIdUser())){
-				context.setAttribute("user", user);
+			if (idUser.equals(user.getIdUser())){
+				
+				context.setAttribute("userFullName", user.getUserFullName());
+				setFirstName(user.getUserProfile().getFirstName());
+				//setLastName1(user);
+				//context.setAttribute("user", user);
 				return NONE;
-			}else if(!user.isAdmin() && ActionContext.getContext().getName().equalsIgnoreCase("editUser")){
+			}
+			else if(!user.isAdmin()){
 				addActionError("No tienes permiso para ver esta página");
 				return ERROR;
 				
@@ -80,8 +96,7 @@ public class AddEditUser extends ActionSupport implements SessionAware, ServletC
 					addActionError("El usuario que has introducido no existe o ya se ha eliminado");
 					
 					eqRestrictions.clear();
-					List<?> users = service.GetModelDataList(User.class, eqRestrictions, "firstName", true);
-					
+					List<?> users = service.GetModelDataList(User.class, eqRestrictions, "firstName", true);	
 					context.setAttribute("users", users);
 					
 					return "not found";

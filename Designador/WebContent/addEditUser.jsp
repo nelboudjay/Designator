@@ -25,7 +25,7 @@
 			<h3>
 				<img class="black-icon" src="images/profile-black-icon.png">
 				<s:if test="idUser != '' ">
-					${request.user.userName}
+					${request.userFullName}
 				</s:if>
 				<s:else>
 					Nuevo Miembro
@@ -45,7 +45,7 @@
 					<div>
 						<label class="required"><strong>Nombre</strong></label> <input id="firstName"
 							type="text" class="text-input-2 required-field" name="firstName" 
-								value="${firstName == null ? request.user.userProfile.firstName : firstName}">
+								value="${firstName}">
 						<div class="error-field">Nombre no puede estar en blanco.</div>
 							
 					</div>
@@ -53,7 +53,7 @@
 					<div>
 						<label class="required"><strong>Primer Apellido</strong></label> <input id="lastName1"
 							type="text" class="text-input-2 required-field" name="lastName1" 
-								value="${lastName1 == null ? request.user.userProfile.lastName1 : lastName1}">
+								value="${lastName1}">
 						<div class="error-field">Primer Apellido no puede estar en blanco.</div>
 							
 					</div>
@@ -207,6 +207,9 @@
 					<s:if test="idUserRole != null">
 						<s:set var="currentIdUserRole" value="idUserRole"/>
 					</s:if>
+					<s:elseif test="#request.user == null">
+						<s:set var="currentIdUserRole" value="1"/>
+					</s:elseif>
 					<s:else>
 						<s:set var="currentIdUserRole" value="#request.user.userRole.idUserRole"/>
 					</s:else>

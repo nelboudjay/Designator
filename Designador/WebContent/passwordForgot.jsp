@@ -46,8 +46,8 @@
 	<div class="reset-password-box">
 		<h3 class="title-1">Restablecer contraseña</h3>
 		<form action="passwordForgot" method="post">
-			<label> <strong>Nombre de usuario o E-Mail</strong></label> <div><input type="text"
-				class="text-input-2 required-field" name="resetPasswordLoginField">
+			<label> <strong>Nombre de usuario o E-Mail</strong></label> <div><input id="resetPasswordLoginField" type="text"
+				class="text-input-2 required-field" name="resetPasswordLoginField" value="${resetPasswordLoginField}">
 			<div class="error-field">Introduce tu nombre de usuario o E-Mail.</div></div>
 			<span>Tu contraseña se puede restablecer utilizando una
 				dirección de correo electrónico o nombre de usuario.</span> <input
