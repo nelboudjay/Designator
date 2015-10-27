@@ -67,6 +67,7 @@ h3 {
 .title-2 {
 	font-weight:400;
 	margin:10px 0;	
+	font-size:20px;
 }
 
 h4 {
@@ -81,9 +82,8 @@ h3, h4, h5 {
 }
 
 .main-content {
-	margin-left:190px;	
+	margin-left:227px;	
 }
-
 
 .content-title {
 	background: #e8e7e6;
@@ -350,12 +350,13 @@ ul {
     left: 0;
     position: fixed;
     top: 0;
-    width: 190px;
+    width: 227px;
     z-index: -1;
 }
 
 #leftMenu {
 	float:left;
+	width:227px;
 }
 
 #leftMenu ul {
@@ -512,4 +513,57 @@ form > div {
 	display: inline-block;
     height: 18px;
     margin: 0;
+}
+
+
+
+
+.user-menu {
+  	background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    border-radius: 4px;  
+    margin-bottom: 4px;  
+}
+
+.user-menu > * {
+	padding:10px;
+}
+
+.user-menu > span {
+	font-size:18px;
+	vertical-align: sub;
+}
+
+.user-menu > img {
+	padding-right:0;
+	vertical-align:middle;
+	height:48px;
+	width:48px;
+	border-radius:2px;
+}
+
+.user-menu ul {
+	float: right;
+    line-height: 50px;
+	
+}
+
+.user-menu li {
+	display:inline;
+	padding: 0 5px;
+	color:#5b5b5b;
+}
+
+.user-paginate > a {
+	padding: 6px;
+	margin-right: 3px;
+}
+
+.user-paginate > a:hover {
+	text-decoration:none;
+}
+
+.user-paginate img {
+	height: 15px;
+	vertical-align:text-bottom;
 }

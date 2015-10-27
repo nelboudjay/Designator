@@ -118,7 +118,7 @@
 			</result>
 		</action>
 	
-		<action name="addUser" class="com.myproject.action.AddEditUser" >
+		  <action name="addUser" class="com.myproject.action.AddEditUser" >
 			<result name="error" type="redirectAction">homePage</result>
 			<result name="none">addEditUser.jsp</result>
 			<result name="input">addEditUser.jsp</result>
@@ -130,7 +130,6 @@
 		
 		<action name="deleteUser" class="com.myproject.action.DeleteUser">
 			<result name="error" type="redirectAction">homePage</result>
-			<result name="error" type="redirectAction">homePage</result>
 			<result name="success" type="redirectAction">users</result>
 			<result name="input" type="redirectAction">users</result>	
 		</action>
@@ -138,6 +137,11 @@
 		<action name="getImage" class="com.myproject.action.GetImage" >
 			<result name="success" type="displayImage"></result>
 			<result name="input" type="redirectAction">homePage</result>
+		</action>
+		
+		<action name="availability" class="com.myproject.action.GetAvailability">
+			<result name="none">availability.jsp</result>
+			<result name="not found" type="redirectAction">users</result>
 		</action>
 		
 	

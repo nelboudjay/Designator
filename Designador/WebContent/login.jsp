@@ -23,12 +23,12 @@
 		<div class="boxContent">
 			<form action="login" method="post">
 				<div>
-					<input type="text" name="loginField"
+					<input id="loginField" type="text" name="loginField"
 						placeholder="Nombre de usuario o E-Mail" class="text-input required-field" value="${loginField}">
 					<div class="error-field">Introduce tu nombre de usuario o E-Mail.</div>
 				</div>
 				<div>
-					<input type="password" name="password"
+					<input id="password" type="password" name="password"
 						placeholder="Contraseña" class="text-input required-field" value="${password}">
 					<div class="error-field">Introduce tu contraseña.</div>
 				</div>

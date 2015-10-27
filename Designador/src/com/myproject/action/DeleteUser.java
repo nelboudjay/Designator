@@ -9,6 +9,7 @@ import javax.servlet.ServletContext;
 import org.apache.struts2.interceptor.SessionAware;
 import org.apache.struts2.util.ServletContextAware;
 
+import com.myproject.model.PasswordChangeRequest;
 import com.myproject.model.User;
 import com.myproject.service.GenericService;
 import com.opensymphony.xwork2.ActionSupport;
@@ -26,36 +27,56 @@ public class DeleteUser extends ActionSupport implements  SessionAware, ServletC
 	@Override
 	public String execute() {
 				
-		Map<String, Object> eqRestrictions = new HashMap<String, Object>();
-		eqRestrictions.put("idUser", idUser);
-		
-		User user = (User)service.GetUniqueModelData(User.class, eqRestrictions);
-		
-		System.out.println("idUser " + idUser);
-		System.out.println(" session idUser " + ((User)session.get("user")).getIdUser());
-
-		if(user != null && !idUser.equals(((User)session.get("user")).getIdUser())){
-			addActionMessage("El miembro ha sido eliminado con exito");
-			service.DeleteModelData(user);	
-			return SUCCESS;
+		if (idUser == null || idUser.equals("")){
+			
+			addActionError("Por favor, introduce el id del usuario que quieres eliminar.");
+			return returnInput();
+			
 		}
 		else{
 			
-			if(user == null)
-				addActionError("El miembro que quieres eliminar no existe o ya se ha eliminado");
-			else
-				addActionError("No puedes eliminar tu perfil");
+			User user = (User)session.get("user");
 			
-			eqRestrictions.clear();
-			List<?> users = service.GetModelDataList(User.class, eqRestrictions, "firstName", true);
-			
-			context.setAttribute("users", users);
-			return INPUT;
-
+			if(idUser.equals(user.getIdUser())){
+				
+				addActionError("No puedes eliminar tu propio perfil.");
+				return returnInput();
+			}
+			else{
+				
+				Map<String, Object> eqRestrictions = new HashMap<String, Object>();
+				eqRestrictions.put("idUser", idUser);
+				user = (User)service.GetUniqueModelData(User.class, eqRestrictions);
+				
+				if(user == null){
+					addActionError("El miembro que quieres eliminar no existe o ya se ha eliminado");
+					return returnInput();
+				}
+				else{
+					eqRestrictions.clear();
+					eqRestrictions.put("idPasswordChangeRequest", user);
+					
+					PasswordChangeRequest passwordChangeRequest = (PasswordChangeRequest)service.GetUniqueModelData(PasswordChangeRequest.class, eqRestrictions);
+					if(passwordChangeRequest != null){
+						service.DropEvent("DELETE_PASSWORD_CHANGE_REQUEST_" + idUser);
+						service.DeleteModelData(passwordChangeRequest);	
+					}
+					
+					service.DeleteModelData(user);	
+					addActionMessage("El miembro ha sido eliminado con exito");
+					return SUCCESS;
+				}
+			}
 		}
-		
 	}
 
+	String returnInput(){
+		Map<String, Object> eqRestrictions = new HashMap<String, Object>();
+		List<?> users = service.GetModelDataList(User.class, eqRestrictions, "firstName", true);
+		context.setAttribute("users", users);
+		return INPUT;
+	}
+	
 	public void setIdUser(String idUser) {
 		this.idUser = idUser;
 	}

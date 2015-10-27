@@ -28,7 +28,7 @@ public class MailService {
 	@Autowired
 	private JavaMailSender mailSender;
 
-	public void sendMail(String to, String subject, String path, Map<String,String> templateData) {
+	public void sendMail(String[] to, String subject, String path, Map<String,String> templateData) {
 
 		MimeMessage mimeMessage = mailSender.createMimeMessage();
 		try {

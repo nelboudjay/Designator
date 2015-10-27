@@ -167,6 +167,7 @@ $(document).ready(function() {
 	$('form').on('submit',validate);	
 	
 	$(document).on("keyup", "textarea", function() {
+		console.log($(this));
 		$(this).css('height', 'auto');
 		$(this).height(this.scrollHeight);
 

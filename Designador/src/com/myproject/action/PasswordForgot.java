@@ -84,7 +84,7 @@ public class PasswordForgot extends ActionSupport{
 			templateData.put("firstName",WordUtils.capitalize(user.getUserProfile().getFirstName()));
 			
 			/*Send the email*/
-			mailService.sendMail(user.getEmail(),
+			mailService.sendMail(new String[]{user.getEmail()},
 					"Instrucciones para restablecer tu contraseña",
 					"passwordResetInstructions.vm", templateData);
 			addActionMessage("Se te ha enviado un correo electrónico con las instrucciones para restablecer tu contraseña.");

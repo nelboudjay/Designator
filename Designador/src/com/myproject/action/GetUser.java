@@ -23,7 +23,8 @@ public class GetUser extends ActionSupport implements SessionAware, ServletConte
 
 
 	private String idUser;
-
+	private String email, userFullName, userRoleName, homePhone, mobilePhone;
+	private boolean confirmed;
 	
 	Map<String, Object> eqRestrictions = new HashMap<String, Object>();	
 	
@@ -33,6 +34,7 @@ public class GetUser extends ActionSupport implements SessionAware, ServletConte
 	public String execute() {
 		
 		User user;
+		
 		List<?> users = service.GetModelDataList(User.class, eqRestrictions, "firstName", true);
 		context.setAttribute("users", users);
 		
@@ -44,12 +46,12 @@ public class GetUser extends ActionSupport implements SessionAware, ServletConte
 			user = (User)session.get("user");
 	
 			if (idUser.equals(user.getIdUser())){
-				
-				context.setAttribute("userFullName", user.getUserFullName());
-				context.setAttribute("email", user.getEmail());
-				context.setAttribute("confirmed", !user.getPassword().equals(""));
-				context.setAttribute("userRoleName", user.getUserRole().getIdUserRole());
-
+				setUserFullName(user.getUserFullName());
+				setEmail(user.getEmail());
+				setConfirmed(!user.getPassword().equals(""));
+				setUserRoleName(user.getUserRole().getUserRoleName());
+				setHomePhone(user.getUserProfile().getHomePhone());
+				setMobilePhone(user.getUserProfile().getMobilePhone());
 				return NONE;
 			}
 			else{
@@ -60,10 +62,12 @@ public class GetUser extends ActionSupport implements SessionAware, ServletConte
 				user = (User) service.GetUniqueModelData(User.class, eqRestrictions);
 				
 				if(user != null){
-					context.setAttribute("userFullName", user.getUserFullName());
-					context.setAttribute("email", user.getEmail());
-					context.setAttribute("confirmed", !user.getPassword().equals(""));
-					context.setAttribute("userRoleName", user.getUserRole().getIdUserRole());
+					setUserFullName(user.getUserFullName());
+					setEmail(user.getEmail());
+					setConfirmed(!user.getPassword().equals(""));
+					setUserRoleName(user.getUserRole().getUserRoleName());
+					setHomePhone(user.getUserProfile().getHomePhone());
+					setMobilePhone(user.getUserProfile().getMobilePhone());
 					return NONE;
 				}else{
 					addActionError("El usuario que has introducido no existe o ya se ha eliminado");
@@ -81,6 +85,55 @@ public class GetUser extends ActionSupport implements SessionAware, ServletConte
 		this.idUser = idUser;
 	}
 	
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getUserFullName() {
+		return userFullName;
+	}
+
+	public void setUserFullName(String userFullName) {
+		this.userFullName = userFullName;
+	}
+
+	public String getUserRoleName() {
+		return userRoleName;
+	}
+
+	public void setUserRoleName(String userRoleName) {
+		this.userRoleName = userRoleName;
+	}
+
+	public boolean isConfirmed() {
+		return confirmed;
+	}
+
+	public void setConfirmed(boolean confirmed) {
+		this.confirmed = confirmed;
+	}
+
+	
+	public String getHomePhone() {
+		return homePhone;
+	}
+
+	public void setHomePhone(String homePhone) {
+		this.homePhone = homePhone;
+	}
+
+	public String getMobilePhone() {
+		return mobilePhone;
+	}
+
+	public void setMobilePhone(String mobilePhone) {
+		this.mobilePhone = mobilePhone;
+	}
+
 	@Override
 	public void setSession(Map<String, Object> session) {
 		this.session = session;

@@ -43,19 +43,5 @@
       		<message>Correo electrónico secundario no válido.</message>
    		</field-validator>
 	</field>
-	<!--  <field name="userName">
-		<field-validator type="requiredstring">
-			<message>Usuario no puede estar en blanco.</message>
-		</field-validator>
-	</field>
-	<field name="password">
-		<field-validator type="requiredstring">
-			<message>Introduce tu contraseña.</message>
-		</field-validator>
-		<field-validator type="fieldexpression">
-		    <param name="expression"><![CDATA[password == repassword]]></param>
-		    <message>Las contraseñas deben ser iguales.</message>
-		</field-validator>
-	</field>-->
 
 </validators> 

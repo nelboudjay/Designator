@@ -109,7 +109,7 @@
 								</div>
 								<div id="${comment.commentId}"  class="content">
 									<div class="comment-body">
-										<s:property value="#comment.commentBody" escape="false" />
+										<s:property value="#comment.commentBody.replaceAll('(\r\n|\n)', '<br/>')" escape="false" />
 									</div>
 	
 									<s:if test="#session.user.idUser == #comment.user.idUser">

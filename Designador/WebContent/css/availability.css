@@ -1,0 +1,10 @@
+@import url("commonStyle.css");
+
+tr:nth-child(odd) {
+	background: inherit;
+}
+
+tr:nth-child(even) {
+	background: #e8e7e6;
+}
+

@@ -11,7 +11,7 @@
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="js/commonScript.js"></script>
 
-<title>Mi perfil</title>
+<title>Perfil</title>
 
 <s:head />
 </head>
@@ -24,7 +24,7 @@
 		<div class="content-title">
 			<h3>
 				<img class="black-icon" src="images/profile-black-icon.png">
-				<s:property value="#attr.userFullName"/>
+				<s:property value="userFullName"/>
 			</h3>
 			<span>Perfil</span>
 		</div>
@@ -53,7 +53,7 @@
 
 			<div class="user-menu">
 				<img  src="getImage?idUser=${idUser}" >
-				<span><s:property value="#attr.userFullName"/></span>
+				<span><s:property value="userFullName"/></span>
 				<ul>
 					<li><a>Partidos</a></li>
 					<li><a>Disponibilidad</a></li>
@@ -75,14 +75,26 @@
 			<br/>
 			<h3 class="title-2">Información Personal</h3>
 			<table class="perso-info">
+				<s:if test="homePhone != ''">
+					<tr>
+						<td>Teléfono fijo</td>
+						<td><s:property value="homePhone"/></td>
+					</tr>
+				</s:if>
+				<s:if test="mobilePhone != ''">
+					<tr>
+						<td>Teléfono móvil</td>
+						<td><s:property value="mobilePhone"/></td>
+					</tr>
+				</s:if>
 				<tr>
 					<td>Correo Electrónico Principal</td>
-					<td><s:property value="#attr.email"/></td>
+					<td><s:property value="email"/></td>
 				</tr>
 				<tr>
 					<td>Estado</td>
 					<td style="text-decoration:underline;">
-						<s:if test="#attr.confirmed">
+						<s:if test="confirmed">
 							<span title="Usuario ha confirmado su registro.">Confirmado</span>
 						</s:if>	
 						<s:else>
@@ -91,12 +103,12 @@
 					</td>
 				</tr>
 				<tr>
-					<td>Previlegios</td>
+					<td>Previlegios <s:property value="userRoleName"/>  </td>
 					<td>
-						<s:if test="#attr.userRoleName == 'Admin'">
+						<s:if test="userRoleName == 'Admin'">
 							Designador
 						</s:if>	
-						<s:elseif test="#attr.userRoleName == 'Referee'">
+						<s:elseif test="userRoleName == 'Referee'">
 							Árbitro
 						</s:elseif>
 						<s:else>

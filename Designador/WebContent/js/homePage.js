@@ -7,7 +7,8 @@ $(function() {
 	
 				minimazeAddCommentForm();
 				var commentContent = $(this).parents(".content");
-				var currentCommentBodyText = $.trim($("> .comment-body", commentContent).text());
+				var currentCommentBodyText = $.trim($("> .comment-body", commentContent).html()).replace(/<br>/g,"\n");
+				
 				var currentCommentContent = commentContent.children();
 				
 				var addCommentSubmit = $(".comments").nextUntil(".comments-list");
@@ -18,7 +19,8 @@ $(function() {
 				$("#addComment").text("Modificar aviso");
 				$(".comments-list").css("margin-top","0");
 				commentContent.html(addCommentSubmit);
-				
+				$("#commentBody").keyup();
+
 				$("#cancelCommentLink, .delete-comment, .modify-comment").click( function(){
 
 					//Move back the text area
@@ -113,6 +115,9 @@ $(function() {
 		$(".error-field").css("display", "none");
 		$('.required-field').css("border-color", "");
 		$('.required-field').css("border-style", "");
+		
+		$("#commentBody").keyup();
+
 
 	}	
 	
