@@ -50,6 +50,7 @@ a:hover {
     text-decoration: underline;
 }
 
+
 h3 {
 	font-size: 24px;
 	font-weight: 300;
@@ -147,11 +148,15 @@ ul {
 	padding: 0;
 }
 
-.link {
+.link,.link-2 {
 	cursor: pointer;
     text-decoration: underline;
 }
 
+.link-2:hover {
+	color:#c1461c;
+	text-decoration: none;
+}
 #login a {
 	display: block;
 	padding: 20px 25px;

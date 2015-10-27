@@ -2,7 +2,6 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
 <html>
 <head>
 
@@ -73,6 +72,7 @@
 			</div>
 			
 			<br/>
+			<div class="month-calendar">
 			<h3 class="title-2"><s:property value="selectedMonth"/> <s:property value="selectedYear"/></h3>
 			
 			<p>	
@@ -87,7 +87,7 @@
 				</s:iterator>
 			</p>
 			
-			<table class="month-calendar">
+			<table >
 				<thead>
 					<tr>
 						<s:iterator
@@ -97,32 +97,32 @@
 					</tr>
 				</thead>
 				<tbody>
-					<jsp:useBean id="currentCalendar" class="com.myproject.calendar.CurrentCalendar" scope="session">
-						<jsp:setProperty name="currentCalendar" property="monthCalendar" value="2015-10" />
+					<jsp:useBean id="monthCalendar" class="com.myproject.calendar.MonthCalendar" >
+						<jsp:setProperty property="yearMonth" name="monthCalendar" value="${dateStr}"/>
 					</jsp:useBean>
-					
-					<!--<c:forEach var="row" items="${currentCalendar.monthCalendar}"
-						varStatus="rowStatus">
+					<c:forEach var="week" items="${monthCalendar.monthCalendar}" varStatus="weekStatus">
 						<tr>
-							<c:forEach var="column" items="${row}" varStatus="columnStatus">
-								<td>${row}
-									  ${column.today == 0 ? 'class=\"active\"' : column.today > 0 ? 'class=\"future\"' : ''}>${column.day}
-									<c:if
-										test="${rowStatus.index == 0 && columnStatus.index == 0
-														|| column.day == 1}">
-										<span>de </span>${column.month} 
-									</c:if>
-								</td>
-							</c:forEach>
+						<c:forEach var="column" items="${week}" varStatus="columnStatus">
+							<td>
+							<c:if test="${column != null}">
+								${column.day}
+								<c:if test="${column.today >= 0}">
+									<br><span class="link-2">Activar</span>
+								</c:if>
+							</c:if>
+							</td>
+						</c:forEach>
 						</tr>
-					</c:forEach>-->
+					</c:forEach>		
+				
+					
 				</tbody>
 			</table>
+			</div>
 			
-			
-			
-			
-			
+			<div><h3 class="title-2">Fechas Disponibles</h3></div>
+				
+												
 		</div>
 	</div>
 
