@@ -42,15 +42,14 @@
 					<tr>
 						<s:iterator
 							value="{'Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'}">
-							<th><s:property value="top" /></th>
+							<th><s:property/></th>
 						</s:iterator>
 					</tr>
 				</thead>
 				<tbody>
 					<jsp:useBean id="currentCalendar"
 						class="com.myproject.calendar.CurrentCalendar" />
-					<c:forEach var="row" items="${currentCalendar.currentCalendar}"
-						varStatus="rowStatus">
+					<c:forEach var="row" items="${currentCalendar.currentCalendar}" varStatus="rowStatus">
 						<tr>
 							<c:forEach var="column" items="${row}" varStatus="columnStatus">
 								<td
@@ -58,7 +57,7 @@
 									<c:if
 										test="${rowStatus.index == 0 && columnStatus.index == 0
 														|| column.day == 1}">
-										<span>de </span>${column.month} 
+										<span>de </span>${column.monthName} 
 									</c:if>
 								</td>
 							</c:forEach>

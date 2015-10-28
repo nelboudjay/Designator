@@ -22,3 +22,9 @@ tr:nth-child(even) {
 	text-align:right;
 }
 
+.garbage{
+	cursor: pointer;
+    float: left;
+    margin-right: 5px;
+    width: 16px;
+}

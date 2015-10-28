@@ -9,6 +9,7 @@
 
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="js/commonScript.js"></script>
+<script type="text/javascript" src="js/availability.js"></script>
 
 <title>Disponibilidad</title>
 
@@ -90,9 +91,10 @@
 			<table >
 				<thead>
 					<tr>
-						<s:iterator
-							value="{'Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'}">
-							<th><s:property value="top" /></th>
+						<s:set var="weekDays" value="{'Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'}"/>
+						
+						<s:iterator value="#weekDays">
+							<th><s:property/></th>
 						</s:iterator>
 					</tr>
 				</thead>
@@ -105,9 +107,11 @@
 						<c:forEach var="column" items="${week}" varStatus="columnStatus">
 							<td>
 							<c:if test="${column != null}">
-								${column.day}
+								<span class="${column.today == 0 ? 'bold' : ''}">${column.day}</span>
 								<c:if test="${column.today >= 0}">
-									<br><span class="link-2">Activar</span>
+									<br><span class="link-2 ${column.today == 0 ? 'bold' : ''}" data-date="${selectedYear}-${column.month}-${column.day}" 
+															data-day="${column.day}" data-dayName="${weekDays[columnStatus.index]}" 
+															data-month="${selectedMonth}" data-availability="0">Activar</span>
 								</c:if>
 							</c:if>
 							</td>
@@ -120,7 +124,10 @@
 			</table>
 			</div>
 			
-			<div><h3 class="title-2">Fechas Disponibles</h3></div>
+			<div id="availableDates">
+				<h3 class="title-2">Fechas Disponibles</h3>
+				<div class="no-dates" >No tienes fechas disponibles este mes.</div>
+			</div>
 				
 												
 		</div>

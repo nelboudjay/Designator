@@ -572,3 +572,7 @@ form > div {
 	height: 15px;
 	vertical-align:text-bottom;
 }
+
+.bold {
+	font-weight: bold;
+}
