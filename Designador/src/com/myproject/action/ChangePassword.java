@@ -12,6 +12,7 @@ import org.apache.struts2.util.ServletContextAware;
 import com.myproject.model.PasswordChangeRequest;
 import com.myproject.model.User;
 import com.myproject.service.GenericService;
+import com.myproject.tools.FieldCondition;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class ChangePassword extends ActionSupport implements SessionAware,
@@ -38,8 +39,8 @@ public class ChangePassword extends ActionSupport implements SessionAware,
 
 		if (user == null) {
 
-			Map<String, Object> eqRestrictions = new HashMap<String, Object>();
-			eqRestrictions.put("token", id);
+			Map<String, FieldCondition> eqRestrictions = new HashMap<String, FieldCondition>();
+			eqRestrictions.put("token", new FieldCondition(id));
 
 			passwordChangeRequest = (PasswordChangeRequest) service
 					.GetUniqueModelData(PasswordChangeRequest.class,

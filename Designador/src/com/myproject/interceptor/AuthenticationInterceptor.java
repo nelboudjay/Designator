@@ -16,6 +16,7 @@ import com.myproject.model.User;
 import com.myproject.model.UserCookie;
 import com.myproject.service.GenericService;
 import com.myproject.tools.DesEncrypter;
+import com.myproject.tools.FieldCondition;
 import com.opensymphony.xwork2.ActionInvocation;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ValidationAware;
@@ -30,7 +31,7 @@ public class AuthenticationInterceptor implements Interceptor {
 	private User user;
 	private UserCookie userCookie;
     
-	private Map<String, Object> eqRestrictions = new HashMap<String, Object>();
+	private Map<String, FieldCondition> eqRestrictions = new HashMap<String, FieldCondition>();
 
 
 	@Override
@@ -62,7 +63,7 @@ public class AuthenticationInterceptor implements Interceptor {
 						String encryptedCookieValue = cookie.getValue();
 
 						eqRestrictions
-								.put("idUserCookie", encryptedCookieValue);
+								.put("idUserCookie", new FieldCondition(encryptedCookieValue));
 
 						userCookie = (UserCookie) service
 								.GetUniqueModelData(UserCookie.class,

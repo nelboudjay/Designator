@@ -14,6 +14,7 @@ import com.myproject.mail.MailService;
 import com.myproject.model.Comment;
 import com.myproject.model.User;
 import com.myproject.service.GenericService;
+import com.myproject.tools.FieldCondition;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class AddComment extends ActionSupport implements SessionAware {
@@ -35,7 +36,7 @@ public class AddComment extends ActionSupport implements SessionAware {
 		Date date = new Date();
 
 		Timestamp commentDate = new Timestamp(date.getTime());
-		Map<String, Object> eqRestrictions = new HashMap<String, Object>();
+		Map<String, FieldCondition> eqRestrictions = new HashMap<String, FieldCondition>();
 
 		User user = (User) session.get("user");
 
@@ -45,7 +46,7 @@ public class AddComment extends ActionSupport implements SessionAware {
 		if (commentId == null ||commentId.equals(""))
 			comment = new Comment(commentBody.trim(), commentDate, user);
 		else{
-			eqRestrictions.put("commentId", commentId);
+			eqRestrictions.put("commentId", new FieldCondition(commentId));
 			comment = (Comment)service.GetUniqueModelData(Comment.class, eqRestrictions);
 			if (comment == null)
 				comment = new Comment(commentBody.trim(), commentDate, user);

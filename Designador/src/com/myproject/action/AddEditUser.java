@@ -21,6 +21,7 @@ import com.myproject.model.User;
 import com.myproject.model.UserProfile;
 import com.myproject.model.UserRole;
 import com.myproject.service.GenericService;
+import com.myproject.tools.FieldCondition;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -59,7 +60,7 @@ public class AddEditUser extends ActionSupport implements SessionAware, ServletC
 			
 			addActionError("Por favor, introduce el id del usuario que quieres editar.");
 
-			Map<String, Object> eqRestrictions = new HashMap<String, Object>();
+			Map<String, FieldCondition> eqRestrictions = new HashMap<String, FieldCondition>();
 			List<?> users = service.GetModelDataList(User.class, eqRestrictions, "firstName", true);
 			context.setAttribute("users", users);
 			
@@ -80,8 +81,8 @@ public class AddEditUser extends ActionSupport implements SessionAware, ServletC
 			}
 			else{
 				
-				Map<String, Object> eqRestrictions = new HashMap<String, Object>();	
-				eqRestrictions.put("idUser", idUser);
+				Map<String, FieldCondition> eqRestrictions = new HashMap<String, FieldCondition>();	
+				eqRestrictions.put("idUser", new FieldCondition(idUser));
 				user = (User) service.GetUniqueModelData(User.class, eqRestrictions);
 				
 				if(user == null){
@@ -126,7 +127,7 @@ public class AddEditUser extends ActionSupport implements SessionAware, ServletC
 			
 			addActionError("Por favor, introduce el id del usuario que quieres editar.");
 			
-			Map<String, Object> eqRestrictions = new HashMap<String, Object>();
+			Map<String, FieldCondition> eqRestrictions = new HashMap<String, FieldCondition>();
 			List<?> users = service.GetModelDataList(User.class, eqRestrictions, "firstName", true);
 			context.setAttribute("users", users);
 			
@@ -155,8 +156,8 @@ public class AddEditUser extends ActionSupport implements SessionAware, ServletC
 			}
 			else{
 
-				Map<String, Object> eqRestrictions = new HashMap<String, Object>();	
-				eqRestrictions.put("idUser", idUser);
+				Map<String, FieldCondition> eqRestrictions = new HashMap<String, FieldCondition>();	
+				eqRestrictions.put("idUser", new FieldCondition(idUser));
 				user = (User) service.GetUniqueModelData(User.class, eqRestrictions);
 				
 				if(user == null){
@@ -311,7 +312,7 @@ public class AddEditUser extends ActionSupport implements SessionAware, ServletC
 		service.SaveOrUpdateModelData(user);
 		setIdUser(user.getIdUser());
 		
-		Map<String, Object> eqRestrictions = new HashMap<String, Object>();
+		Map<String, FieldCondition> eqRestrictions = new HashMap<String, FieldCondition>();
 		PasswordChangeRequest passwordChangeRequest;
 		String token;
 		
@@ -319,7 +320,7 @@ public class AddEditUser extends ActionSupport implements SessionAware, ServletC
 			token = UUID.randomUUID().toString()
 					.replaceAll("-", "");
 			eqRestrictions.put("token",
-					token);
+					new FieldCondition(token));
 			passwordChangeRequest = (PasswordChangeRequest) service
 					.GetUniqueModelData(PasswordChangeRequest.class,
 							eqRestrictions);
@@ -360,16 +361,16 @@ public class AddEditUser extends ActionSupport implements SessionAware, ServletC
 	
 	public Boolean fieldAlreadyExists(String field, String fieldName){
 		
-		Map<String, Object> eqRestrictions = new HashMap<String, Object>();	
+		Map<String, FieldCondition> eqRestrictions = new HashMap<String, FieldCondition>();	
 
-		eqRestrictions.put(fieldName, field);
+		eqRestrictions.put(fieldName, new FieldCondition(field));
 			
 		if ((User) service.GetUniqueModelData(User.class, eqRestrictions) != null)
 			return true;
 		else if (fieldName == "email" ){
 			
 			eqRestrictions.clear();
-			eqRestrictions.put("email2", field);
+			eqRestrictions.put("email2", new FieldCondition(field));
 			return ((UserProfile) service.GetUniqueModelData(UserProfile.class, eqRestrictions) != null);
 		}
 		else

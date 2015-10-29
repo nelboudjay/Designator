@@ -12,6 +12,7 @@ import org.apache.struts2.util.ServletContextAware;
 import com.myproject.model.PasswordChangeRequest;
 import com.myproject.model.User;
 import com.myproject.service.GenericService;
+import com.myproject.tools.FieldCondition;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class DeleteUser extends ActionSupport implements  SessionAware, ServletContextAware {
@@ -44,8 +45,8 @@ public class DeleteUser extends ActionSupport implements  SessionAware, ServletC
 			}
 			else{
 				
-				Map<String, Object> eqRestrictions = new HashMap<String, Object>();
-				eqRestrictions.put("idUser", idUser);
+				Map<String, FieldCondition> eqRestrictions = new HashMap<String, FieldCondition>();
+				eqRestrictions.put("idUser", new FieldCondition (idUser));
 				user = (User)service.GetUniqueModelData(User.class, eqRestrictions);
 				
 				if(user == null){
@@ -54,7 +55,7 @@ public class DeleteUser extends ActionSupport implements  SessionAware, ServletC
 				}
 				else{
 					eqRestrictions.clear();
-					eqRestrictions.put("idPasswordChangeRequest", user);
+					eqRestrictions.put("idPasswordChangeRequest", new FieldCondition (user));
 					
 					PasswordChangeRequest passwordChangeRequest = (PasswordChangeRequest)service.GetUniqueModelData(PasswordChangeRequest.class, eqRestrictions);
 					if(passwordChangeRequest != null){
@@ -71,7 +72,7 @@ public class DeleteUser extends ActionSupport implements  SessionAware, ServletC
 	}
 
 	String returnInput(){
-		Map<String, Object> eqRestrictions = new HashMap<String, Object>();
+		Map<String, FieldCondition> eqRestrictions = new HashMap<String, FieldCondition>();
 		List<?> users = service.GetModelDataList(User.class, eqRestrictions, "firstName", true);
 		context.setAttribute("users", users);
 		return INPUT;

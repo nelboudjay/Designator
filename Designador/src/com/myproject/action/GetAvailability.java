@@ -1,6 +1,7 @@
 package com.myproject.action;
 
 
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -20,6 +21,7 @@ import org.apache.struts2.util.ServletContextAware;
 import com.myproject.model.RefereeAvailability;
 import com.myproject.model.User;
 import com.myproject.service.GenericService;
+import com.myproject.tools.FieldCondition;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class GetAvailability extends ActionSupport implements SessionAware, ServletContextAware {
@@ -29,15 +31,17 @@ public class GetAvailability extends ActionSupport implements SessionAware, Serv
 	private Map<String, Object> session;
     private ServletContext context;
 
-
+    Date date;
+    
 	private String idUser;
 	private String userFullName;
 	private Map<String,String> monthsList = new LinkedHashMap<String,String>();
 	private String dateStr;
 	private String selectedMonthName, selectedYear;
 	private int selectedMonth;
+	private List<?> availableDates;
 	
-	Map<String, Object> eqRestrictions = new HashMap<String, Object>();	
+	Map<String, FieldCondition> eqRestrictions = new HashMap<String, FieldCondition>();	
 	
 	private GenericService service;
 
@@ -47,7 +51,7 @@ public class GetAvailability extends ActionSupport implements SessionAware, Serv
 		User user;
 		
 		List<?> users = service.GetModelDataList(User.class, eqRestrictions, "firstName", true);
-		context.setAttribute("users", users);
+		context.setAttribute("users", new FieldCondition (users));
 		
 		if (idUser == null || idUser.equals("")){		
 			addActionError("Por favor, introduce el id del usuario para ver su disponibilidad.");
@@ -62,21 +66,30 @@ public class GetAvailability extends ActionSupport implements SessionAware, Serv
 				setSelectedDate(dateStr);
 				setUserFullName(user.getUserFullName());
 				
-				eqRestrictions.put("user", user);
-				List<?> availableDates = service.GetModelDataList(RefereeAvailability.class, eqRestrictions, "startDate", true);
+				
+				Calendar calendar = Calendar.getInstance();
+				calendar.setTime(date);
+				calendar.add(Calendar.MONTH, 1);
+				Timestamp fromDate = new Timestamp(date.getTime());
+				Timestamp toDate = new Timestamp(calendar.getTime().getTime());
+
+				
+				eqRestrictions.put("startDate", new FieldCondition (fromDate,1));
+				eqRestrictions.put("endDate", new FieldCondition (toDate, -1));
+				eqRestrictions.put("user", new FieldCondition (user));
+
+				availableDates = service.GetModelDataList(RefereeAvailability.class, eqRestrictions, "startDate", true);
 				
 				for(Object  ra : availableDates)
 					System.out.println(((RefereeAvailability)ra).getStartDate());
 				
-				System.out.println(selectedYear);
-				System.out.println(selectedMonth);
 				return NONE;
 			}
 			else{
 				
-				Map<String, Object> eqRestrictions = new HashMap<String, Object>();	
+				Map<String, FieldCondition> eqRestrictions = new HashMap<String, FieldCondition>();	
 		
-				eqRestrictions.put("idUser", idUser);
+				eqRestrictions.put("idUser", new FieldCondition(idUser));
 				user = (User) service.GetUniqueModelData(User.class, eqRestrictions);
 				
 				if(user != null){
@@ -110,9 +123,7 @@ public class GetAvailability extends ActionSupport implements SessionAware, Serv
 
         try {
 			
-			Date date = sdf.parse(dateStr);
-		
-			
+			date = sdf.parse(dateStr);
 			if(calendar.getTime().compareTo(date) >= 0){
 				selectedYear =  yearFormat.format(calendar.getTime());
 				selectedMonthName = WordUtils.capitalize(monthNameFormat.format(calendar.getTime()));
@@ -153,6 +164,7 @@ public class GetAvailability extends ActionSupport implements SessionAware, Serv
 			}
 		
 		} catch (ParseException e) {
+			date = calendar.getTime();
 			selectedYear =  yearFormat.format(calendar.getTime());
 			selectedMonthName = WordUtils.capitalize(monthNameFormat.format(calendar.getTime()));
 			selectedMonth =  calendar.get(Calendar.MONTH) + 1;
@@ -161,6 +173,7 @@ public class GetAvailability extends ActionSupport implements SessionAware, Serv
 				calendar.add(Calendar.MONTH, 1);
 			}
 		} catch (NullPointerException e){
+			date = calendar.getTime();
 			selectedYear =  yearFormat.format(calendar.getTime());
 			selectedMonthName = WordUtils.capitalize(monthNameFormat.format(calendar.getTime()));
 			selectedMonth =  calendar.get(Calendar.MONTH) + 1;
@@ -213,6 +226,11 @@ public class GetAvailability extends ActionSupport implements SessionAware, Serv
 	public String getSelectedYear() {
 		return selectedYear;
 	}
+	
+	public List<?> getAvailableDates() {
+		return availableDates;
+	}
+
 
 	@Override
 	public void setSession(Map<String, Object> session) {

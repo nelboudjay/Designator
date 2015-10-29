@@ -17,6 +17,7 @@ import com.myproject.model.User;
 import com.myproject.model.UserCookie;
 import com.myproject.service.GenericService;
 import com.myproject.tools.DesEncrypter;
+import com.myproject.tools.FieldCondition;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class Logout extends ActionSupport implements SessionAware, ServletRequestAware, ServletResponseAware{
@@ -45,8 +46,8 @@ public class Logout extends ActionSupport implements SessionAware, ServletReques
 				if (cookie.getName().equals("MYJSESSIONID")){
 					String encryptedCookieValue = cookie.getValue();
 					
-					Map<String, Object> eqRestrictions = new HashMap<String, Object>();
-					eqRestrictions.put("idUserCookie", encryptedCookieValue);
+					Map<String, FieldCondition> eqRestrictions = new HashMap<String, FieldCondition>();
+					eqRestrictions.put("idUserCookie", new FieldCondition(encryptedCookieValue));
 					
 					UserCookie userCookie = (UserCookie)service.GetUniqueModelData(UserCookie.class, eqRestrictions);          	
 					

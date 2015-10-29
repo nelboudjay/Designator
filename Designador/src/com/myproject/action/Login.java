@@ -17,6 +17,7 @@ import com.myproject.model.User;
 import com.myproject.model.UserCookie;
 import com.myproject.service.GenericService;
 import com.myproject.tools.DesEncrypter;
+import com.myproject.tools.FieldCondition;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class Login extends ActionSupport implements SessionAware,
@@ -44,14 +45,14 @@ public class Login extends ActionSupport implements SessionAware,
 
 		DesEncrypter encrypter = new DesEncrypter(getText("loginPass"));
 
-		Map<String, Object> eqRestrictions = new HashMap<String, Object>();
-		eqRestrictions.put("userName", loginField.trim());
-		eqRestrictions.put("password", encrypter.encrypt(getPassword()));
+		Map<String, FieldCondition> eqRestrictions = new HashMap<String, FieldCondition>();
+		eqRestrictions.put("userName", new FieldCondition(loginField.trim()));
+		eqRestrictions.put("password", new FieldCondition(encrypter.encrypt(getPassword())));
 
 		User user = (User) service.GetUniqueModelData(User.class, eqRestrictions);
 		if (user == null) {
 			eqRestrictions.remove("userName");
-			eqRestrictions.put("email", loginField.trim());
+			eqRestrictions.put("email", new FieldCondition(loginField.trim()));
 			user = (User) service
 					.GetUniqueModelData(User.class, eqRestrictions);
 		}
@@ -72,7 +73,7 @@ public class Login extends ActionSupport implements SessionAware,
 					response.addCookie(cookie);
 
 					eqRestrictions.clear();
-					eqRestrictions.put("idUserCookie", encryptedCookieValue);
+					eqRestrictions.put("idUserCookie", new FieldCondition(encryptedCookieValue));
 
 					UserCookie userCookie = (UserCookie) service
 							.GetUniqueModelData(UserCookie.class,

@@ -127,6 +127,7 @@
 			<div id="availableDates">
 				<h3 class="title-2">Fechas Disponibles</h3>
 				<div class="no-dates" >No tienes fechas disponibles este mes.</div>
+				<s:property value="availableDates"/>
 			</div>
 				
 												

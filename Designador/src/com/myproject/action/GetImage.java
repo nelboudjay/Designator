@@ -11,6 +11,7 @@ import org.apache.struts2.util.ServletContextAware;
 
 import com.myproject.model.User;
 import com.myproject.service.GenericService;
+import com.myproject.tools.FieldCondition;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class GetImage extends ActionSupport implements SessionAware, ServletContextAware {
@@ -39,9 +40,9 @@ public class GetImage extends ActionSupport implements SessionAware, ServletCont
 			if(user != null && idUser.equals(user.getIdUser()))
 				imageInBytes = user.getUserProfile().getPicture();
 			else{
-				Map<String, Object> eqRestrictions = new HashMap<String, Object>();	
+				Map<String, FieldCondition> eqRestrictions = new HashMap<String, FieldCondition>();	
 
-				eqRestrictions.put("idUser", idUser);
+				eqRestrictions.put("idUser", new FieldCondition(idUser));
 				user = (User) service.GetUniqueModelData(User.class, eqRestrictions);
 				
 				if(user == null){

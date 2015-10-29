@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.myproject.model.User;
 import com.myproject.service.GenericService;
+import com.myproject.tools.FieldCondition;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class GetUsers extends ActionSupport{
@@ -17,7 +18,7 @@ public class GetUsers extends ActionSupport{
 
 	@Override
 	public String execute() {
-		Map<String, Object> eqRestrictions = new HashMap<String, Object>();	
+		Map<String, FieldCondition> eqRestrictions = new HashMap<String, FieldCondition>();	
 		
 		users = service.GetModelDataList(User.class, eqRestrictions, "firstName", true);
 		

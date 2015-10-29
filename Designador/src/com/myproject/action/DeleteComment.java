@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.myproject.model.Comment;
 import com.myproject.service.GenericService;
+import com.myproject.tools.FieldCondition;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class DeleteComment extends ActionSupport{
@@ -17,8 +18,8 @@ public class DeleteComment extends ActionSupport{
 	@Override
 	public String execute() {
 				
-		Map<String, Object> eqRestrictions = new HashMap<String, Object>();
-		eqRestrictions.put("commentId", commentId);
+		Map<String, FieldCondition> eqRestrictions = new HashMap<String, FieldCondition>();
+		eqRestrictions.put("commentId", new FieldCondition (commentId));
 		
 		Comment comment = (Comment)service.GetUniqueModelData(Comment.class, eqRestrictions);
 		

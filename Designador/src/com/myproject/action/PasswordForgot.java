@@ -11,6 +11,7 @@ import com.myproject.mail.MailService;
 import com.myproject.model.PasswordChangeRequest;
 import com.myproject.model.User;
 import com.myproject.service.GenericService;
+import com.myproject.tools.FieldCondition;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class PasswordForgot extends ActionSupport{
@@ -34,14 +35,14 @@ public class PasswordForgot extends ActionSupport{
 		
 		clearFieldErrors();
 
-		Map<String, Object> eqRestrictions = new HashMap<String, Object>();
-		eqRestrictions.put("userName", resetPasswordLoginField.trim());
+		Map<String, FieldCondition> eqRestrictions = new HashMap<String, FieldCondition>();
+		eqRestrictions.put("userName", new FieldCondition(resetPasswordLoginField.trim()));
 
 		User user = (User) service.GetUniqueModelData(User.class, eqRestrictions);
 		
 		if (user == null) {
 			eqRestrictions.remove("userName");
-			eqRestrictions.put("email", resetPasswordLoginField.trim());
+			eqRestrictions.put("email", new FieldCondition(resetPasswordLoginField.trim()));
 			user = (User) service
 					.GetUniqueModelData(User.class, eqRestrictions);
 		}
@@ -60,8 +61,7 @@ public class PasswordForgot extends ActionSupport{
 			do {
 				token = UUID.randomUUID().toString()
 						.replaceAll("-", "");
-				eqRestrictions.put("token",
-						token);
+				eqRestrictions.put("token", new FieldCondition(token));
 				passwordChangeRequest = (PasswordChangeRequest) service
 						.GetUniqueModelData(PasswordChangeRequest.class,
 								eqRestrictions);

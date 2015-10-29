@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.myproject.dao.DAO;
+import com.myproject.tools.FieldCondition;
 
 @Service
 public class GenericServiceImpl implements GenericService {
@@ -30,13 +31,13 @@ public class GenericServiceImpl implements GenericService {
 	@Override
 	@Transactional
 	public Object GetUniqueModelData(Class<?> t,
-			Map<String, Object> eqRestrictions) {
+			Map<String, FieldCondition> eqRestrictions) {
 		return dao.GetUniqueModelData(t, eqRestrictions);
 	}
 
 	@Override
 	@Transactional
-	public 	List<?> GetModelDataList(Class<?> t, Map<String,Object> eqRestrictions,  String attribute, Boolean ascendingOrder){
+	public 	List<?> GetModelDataList(Class<?> t, Map<String,FieldCondition> eqRestrictions,  String attribute, Boolean ascendingOrder){
 		return dao.GetModelDataList(t, eqRestrictions, attribute, ascendingOrder);
 
 	}

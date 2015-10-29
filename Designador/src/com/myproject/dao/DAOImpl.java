@@ -17,6 +17,8 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.myproject.tools.FieldCondition;
+
 
 @Repository
 public class DAOImpl implements DAO {
@@ -68,7 +70,7 @@ public class DAOImpl implements DAO {
 
 	@Override
 	public Object GetUniqueModelData(Class<?> t,
-			Map<String, Object> eqRestrictions) {
+			Map<String, FieldCondition> eqRestrictions) {
 
 		Session session = sessionFactory.getCurrentSession();
 		session.beginTransaction();
@@ -78,12 +80,20 @@ public class DAOImpl implements DAO {
 
 			Criteria cr = session.createCriteria(t);
 
-			for (Entry<String, Object> entry : eqRestrictions.entrySet()) {
+			for (Entry<String, FieldCondition> entry : eqRestrictions.entrySet()) {
 				// get key
 				String key = entry.getKey();
 				// get value
-				Object value = entry.getValue();
-				cr.add(Restrictions.eq(key, value));
+				FieldCondition value = entry.getValue();
+				
+				switch (value.getCondition()){
+					case -1:	cr.add(Restrictions.lt(key, value.getField()));
+								break;
+					case  0:	cr.add(Restrictions.eq(key, value.getField()));
+								break;
+					case  1:	cr.add(Restrictions.gt(key, value.getField()));
+								break;
+				}
 
 			}
 
@@ -102,7 +112,7 @@ public class DAOImpl implements DAO {
 
 	@Override
 	public List<?> GetModelDataList(Class<?> t,
-			Map<String, Object> eqRestrictions, String attribute, Boolean ascendingOrder) {
+			Map<String, FieldCondition> eqRestrictions, String attribute, Boolean ascendingOrder) {
 
 		Session session = sessionFactory.getCurrentSession();
 		session.beginTransaction();
@@ -112,12 +122,20 @@ public class DAOImpl implements DAO {
 
 			Criteria cr = session.createCriteria(t);
 			 
-			for (Entry<String, Object> entry : eqRestrictions.entrySet()) {
+			for (Entry<String, FieldCondition> entry : eqRestrictions.entrySet()) {
 				// get key
 				String key = entry.getKey();
 				// get value
-				Object value = entry.getValue();
-				cr.add(Restrictions.eq(key, value));
+				FieldCondition value = entry.getValue();
+				
+				switch (value.getCondition()){
+					case -1:	cr.add(Restrictions.lt(key, value.getField()));
+								break;
+					case  0:	cr.add(Restrictions.eq(key, value.getField()));
+								break;
+					case  1:	cr.add(Restrictions.ge(key, value.getField()));
+								break;
+				}
 
 			}
 
