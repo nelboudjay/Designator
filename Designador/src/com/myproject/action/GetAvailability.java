@@ -17,6 +17,7 @@ import org.apache.commons.lang.WordUtils;
 import org.apache.struts2.interceptor.SessionAware;
 import org.apache.struts2.util.ServletContextAware;
 
+import com.myproject.model.RefereeAvailability;
 import com.myproject.model.User;
 import com.myproject.service.GenericService;
 import com.opensymphony.xwork2.ActionSupport;
@@ -33,7 +34,8 @@ public class GetAvailability extends ActionSupport implements SessionAware, Serv
 	private String userFullName;
 	private Map<String,String> monthsList = new LinkedHashMap<String,String>();
 	private String dateStr;
-	private String selectedMonth, selectedYear;
+	private String selectedMonthName, selectedYear;
+	private int selectedMonth;
 	
 	Map<String, Object> eqRestrictions = new HashMap<String, Object>();	
 	
@@ -60,6 +62,14 @@ public class GetAvailability extends ActionSupport implements SessionAware, Serv
 				setSelectedDate(dateStr);
 				setUserFullName(user.getUserFullName());
 				
+				eqRestrictions.put("user", user);
+				List<?> availableDates = service.GetModelDataList(RefereeAvailability.class, eqRestrictions, "startDate", true);
+				
+				for(Object  ra : availableDates)
+					System.out.println(((RefereeAvailability)ra).getStartDate());
+				
+				System.out.println(selectedYear);
+				System.out.println(selectedMonth);
 				return NONE;
 			}
 			else{
@@ -105,7 +115,8 @@ public class GetAvailability extends ActionSupport implements SessionAware, Serv
 			
 			if(calendar.getTime().compareTo(date) >= 0){
 				selectedYear =  yearFormat.format(calendar.getTime());
-				selectedMonth = WordUtils.capitalize(monthNameFormat.format(calendar.getTime()));
+				selectedMonthName = WordUtils.capitalize(monthNameFormat.format(calendar.getTime()));
+				selectedMonth =  calendar.get(Calendar.MONTH) + 1;
 				for(int i = 0; i < 4; i++){
 					monthsList.put(sdf.format(calendar.getTime()), WordUtils.capitalize(monthNameFormat.format(calendar.getTime())));
 					calendar.add(Calendar.MONTH, 1);
@@ -114,9 +125,11 @@ public class GetAvailability extends ActionSupport implements SessionAware, Serv
 			}
 			else{ 
 				selectedYear =  yearFormat.format(date);
-				selectedMonth = WordUtils.capitalize(monthNameFormat.format(date));
+				selectedMonthName = WordUtils.capitalize(monthNameFormat.format(date));
+
 				calendar.add(Calendar.MONTH, 1);
 				if(calendar.getTime().compareTo(date) == 0){
+					selectedMonth =  calendar.get(Calendar.MONTH) + 1;
 					calendar.add(Calendar.MONTH, -1);
 					for(int i = 0; i < 5; i++){
 						monthsList.put(sdf.format(calendar.getTime()), WordUtils.capitalize(monthNameFormat.format(calendar.getTime())));
@@ -128,6 +141,7 @@ public class GetAvailability extends ActionSupport implements SessionAware, Serv
 					calendar.add(Calendar.MONTH, 1);
 					if(calendar.getTime().compareTo(date) <= 0){
 						calendar.setTime(date);
+						selectedMonth =  calendar.get(Calendar.MONTH) + 1;
 						calendar.add(Calendar.MONTH, -2);
 						for(int i = 0; i < 6; i++){
 							monthsList.put(sdf.format(calendar.getTime()), WordUtils.capitalize(monthNameFormat.format(calendar.getTime())));
@@ -140,14 +154,16 @@ public class GetAvailability extends ActionSupport implements SessionAware, Serv
 		
 		} catch (ParseException e) {
 			selectedYear =  yearFormat.format(calendar.getTime());
-			selectedMonth = WordUtils.capitalize(monthNameFormat.format(calendar.getTime()));
+			selectedMonthName = WordUtils.capitalize(monthNameFormat.format(calendar.getTime()));
+			selectedMonth =  calendar.get(Calendar.MONTH) + 1;
 			for(int i = 0; i < 4; i++){
 				monthsList.put(sdf.format(calendar.getTime()), WordUtils.capitalize(monthNameFormat.format(calendar.getTime())));
 				calendar.add(Calendar.MONTH, 1);
 			}
 		} catch (NullPointerException e){
 			selectedYear =  yearFormat.format(calendar.getTime());
-			selectedMonth = WordUtils.capitalize(monthNameFormat.format(calendar.getTime()));
+			selectedMonthName = WordUtils.capitalize(monthNameFormat.format(calendar.getTime()));
+			selectedMonth =  calendar.get(Calendar.MONTH) + 1;
 			for(int i = 0; i < 4; i++){
 				monthsList.put(sdf.format(calendar.getTime()), WordUtils.capitalize(monthNameFormat.format(calendar.getTime())));
 				calendar.add(Calendar.MONTH, 1);
@@ -184,9 +200,15 @@ public class GetAvailability extends ActionSupport implements SessionAware, Serv
 		this.dateStr = dateStr;
 	}
 
-	public String getSelectedMonth() {
+	public String getSelectedMonthName() {
+		return selectedMonthName;
+	}
+
+	
+	public int getSelectedMonth() {
 		return selectedMonth;
 	}
+
 
 	public String getSelectedYear() {
 		return selectedYear;

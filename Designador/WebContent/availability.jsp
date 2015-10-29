@@ -74,12 +74,12 @@
 			
 			<br/>
 			<div class="month-calendar">
-			<h3 class="title-2"><s:property value="selectedMonth"/> <s:property value="selectedYear"/></h3>
+			<h3 class="title-2"><s:property value="selectedMonthName"/> <s:property value="selectedYear"/></h3>
 			
 			<p>	
 				<s:iterator value="monthsList" status="status" var="month">
 				
-					<s:if test="value == selectedMonth">
+					<s:if test="value == selectedMonthName">
 						<s:property value="value"/>
 					</s:if>
 					<s:else>
@@ -111,7 +111,7 @@
 								<c:if test="${column.today >= 0}">
 									<br><span class="link-2 ${column.today == 0 ? 'bold' : ''}" data-date="${selectedYear}-${column.month}-${column.day}" 
 															data-day="${column.day}" data-dayName="${weekDays[columnStatus.index]}" 
-															data-month="${selectedMonth}" data-availability="0">Activar</span>
+															data-month="${selectedMonthName}" data-availability="0">Activar</span>
 								</c:if>
 							</c:if>
 							</td>

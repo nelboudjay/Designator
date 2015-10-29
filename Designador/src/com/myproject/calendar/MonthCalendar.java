@@ -37,8 +37,10 @@ public class MonthCalendar {
 		
 		try {
 			Date date = sdf.parse(yearMonth);
-			calendar.setTime(date);
 			
+			if(calendar.getTime().compareTo(date) <= 0)
+				calendar.setTime(date);
+
 
 			int monthDays = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
 			int dayOfWeek = (calendar.get(Calendar.DAY_OF_WEEK) + 5) % 7 ;
