@@ -90,9 +90,9 @@ public class AuthenticationInterceptor implements Interceptor {
 			/*Return LOGIN except for 'login', 'passwordForgot' and 'changePassword' actions*/
 			List<String> excludedActionsNames = Arrays.asList("login", "passwordForgot", "changePassword");
 			
+
 			if(excludedActionsNames.contains(actionInvocation.getInvocationContext().getName()))
 				return actionInvocation.invoke();
-
 			else{
 				addActionError(actionInvocation ,"Por favor, inicia sesión para continuar");
 				return ActionSupport.LOGIN;

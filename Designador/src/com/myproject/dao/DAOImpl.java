@@ -87,11 +87,11 @@ public class DAOImpl implements DAO {
 				FieldCondition value = entry.getValue();
 				
 				switch (value.getCondition()){
-					case -1:	cr.add(Restrictions.lt(key, value.getField()));
+					case -1:	cr.add(Restrictions.le(key, value.getField()));
 								break;
 					case  0:	cr.add(Restrictions.eq(key, value.getField()));
 								break;
-					case  1:	cr.add(Restrictions.gt(key, value.getField()));
+					case  1:	cr.add(Restrictions.ge(key, value.getField()));
 								break;
 				}
 
@@ -129,7 +129,7 @@ public class DAOImpl implements DAO {
 				FieldCondition value = entry.getValue();
 				
 				switch (value.getCondition()){
-					case -1:	cr.add(Restrictions.lt(key, value.getField()));
+					case -1:	cr.add(Restrictions.le(key, value.getField()));
 								break;
 					case  0:	cr.add(Restrictions.eq(key, value.getField()));
 								break;

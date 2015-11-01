@@ -22,12 +22,10 @@ public class GetUser extends ActionSupport implements SessionAware, ServletConte
 	private Map<String, Object> session;
     private ServletContext context;
 
-
 	private String idUser;
 	private String email, userFullName, userRoleName, homePhone, mobilePhone;
 	private boolean confirmed;
 	
-	Map<String, FieldCondition> eqRestrictions = new HashMap<String, FieldCondition>();	
 	
 	private GenericService service;
 
@@ -35,7 +33,8 @@ public class GetUser extends ActionSupport implements SessionAware, ServletConte
 	public String execute() {
 		
 		User user;
-		
+		Map<String, FieldCondition> eqRestrictions = new HashMap<String, FieldCondition>();	
+
 		List<?> users = service.GetModelDataList(User.class, eqRestrictions, "firstName", true);
 		context.setAttribute("users", users);
 		
@@ -44,37 +43,27 @@ public class GetUser extends ActionSupport implements SessionAware, ServletConte
 			return "not found";	
 		}	
 		else{
+			
 			user = (User)session.get("user");
 	
-			if (idUser.equals(user.getIdUser())){
-				setUserFullName(user.getUserFullName());
-				setEmail(user.getEmail());
-				setConfirmed(!user.getPassword().equals(""));
-				setUserRoleName(user.getUserRole().getUserRoleName());
-				setHomePhone(user.getUserProfile().getHomePhone());
-				setMobilePhone(user.getUserProfile().getMobilePhone());
-				return NONE;
-			}
-			else{
-				
-				Map<String, FieldCondition> eqRestrictions = new HashMap<String, FieldCondition>();	
-		
+			if (!idUser.equals(user.getIdUser())){
 				eqRestrictions.put("idUser", new FieldCondition(idUser));
 				user = (User) service.GetUniqueModelData(User.class, eqRestrictions);
-				
-				if(user != null){
-					setUserFullName(user.getUserFullName());
-					setEmail(user.getEmail());
-					setConfirmed(!user.getPassword().equals(""));
-					setUserRoleName(user.getUserRole().getUserRoleName());
-					setHomePhone(user.getUserProfile().getHomePhone());
-					setMobilePhone(user.getUserProfile().getMobilePhone());
-					return NONE;
-				}else{
+				if(user == null){
 					addActionError("El usuario que has introducido no existe o ya se ha eliminado");
 					return "not found";
 				}
 			}
+			
+			setUserFullName(user.getUserFullName());
+			setEmail(user.getEmail());
+			setConfirmed(!user.getPassword().equals(""));
+			setUserRoleName(user.getUserRole().getUserRoleName());
+			setHomePhone(user.getUserProfile().getHomePhone());
+			setMobilePhone(user.getUserProfile().getMobilePhone());
+			
+			return NONE;
+			
 		}
 	}
 	

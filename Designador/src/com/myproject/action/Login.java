@@ -42,7 +42,6 @@ public class Login extends ActionSupport implements SessionAware,
 	}
 
 	public String login() {
-
 		DesEncrypter encrypter = new DesEncrypter(getText("loginPass"));
 
 		Map<String, FieldCondition> eqRestrictions = new HashMap<String, FieldCondition>();

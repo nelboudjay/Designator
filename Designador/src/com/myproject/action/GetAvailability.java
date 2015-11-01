@@ -8,6 +8,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -35,13 +36,12 @@ public class GetAvailability extends ActionSupport implements SessionAware, Serv
     
 	private String idUser;
 	private String userFullName;
-	private Map<String,String> monthsList = new LinkedHashMap<String,String>();
+	private Map<String,String> monthsList; 
 	private String dateStr;
-	private String selectedMonthName, selectedYear;
-	private int selectedMonth;
+	private String selectedMonthName, selectedMonth, selectedYear;
 	private List<?> availableDates;
+	private List<String> availableStartDates; 
 	
-	Map<String, FieldCondition> eqRestrictions = new HashMap<String, FieldCondition>();	
 	
 	private GenericService service;
 
@@ -49,66 +49,63 @@ public class GetAvailability extends ActionSupport implements SessionAware, Serv
 	public String execute() {
 		
 		User user;
-		
+		Map<String, FieldCondition> eqRestrictions = new HashMap<String, FieldCondition>();	
+
 		List<?> users = service.GetModelDataList(User.class, eqRestrictions, "firstName", true);
-		context.setAttribute("users", new FieldCondition (users));
-		
-		if (idUser == null || idUser.equals("")){		
+		context.setAttribute("users", users);
+
+		if (idUser == null || idUser.equals("")){	
 			addActionError("Por favor, introduce el id del usuario para ver su disponibilidad.");
 			return "not found";	
 		}	
 		else{
 			user = (User)session.get("user");
 	
-			if (idUser.equals(user.getIdUser())){
-			
-
-				setSelectedDate(dateStr);
-				setUserFullName(user.getUserFullName());
-				
-				
-				Calendar calendar = Calendar.getInstance();
-				calendar.setTime(date);
-				calendar.add(Calendar.MONTH, 1);
-				Timestamp fromDate = new Timestamp(date.getTime());
-				Timestamp toDate = new Timestamp(calendar.getTime().getTime());
-
-				
-				eqRestrictions.put("startDate", new FieldCondition (fromDate,1));
-				eqRestrictions.put("endDate", new FieldCondition (toDate, -1));
-				eqRestrictions.put("user", new FieldCondition (user));
-
-				availableDates = service.GetModelDataList(RefereeAvailability.class, eqRestrictions, "startDate", true);
-				
-				for(Object  ra : availableDates)
-					System.out.println(((RefereeAvailability)ra).getStartDate());
-				
-				return NONE;
+			if (!idUser.equals(user.getIdUser()) && !user.isAdmin()){
+				addActionError("No tienes permiso para ver esta página");
+				return ERROR;
 			}
-			else{
-				
-				Map<String, FieldCondition> eqRestrictions = new HashMap<String, FieldCondition>();	
-		
+			else if (!idUser.equals(user.getIdUser())){
 				eqRestrictions.put("idUser", new FieldCondition(idUser));
 				user = (User) service.GetUniqueModelData(User.class, eqRestrictions);
-				
-				if(user != null){
-					setSelectedDate(dateStr);
-					setUserFullName(user.getUserFullName());
-
-					return NONE;
-				}else{
+				if(user == null){
 					addActionError("El usuario que has introducido no existe o ya se ha eliminado");
 					return "not found";
 				}
 			}
+			
+			setSelectedDate(dateStr);
+			setUserFullName(user.getUserFullName());
+
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(date);
+			Timestamp fromDate = new Timestamp(date.getTime());
+			calendar.add(Calendar.MONTH, 1);
+			Timestamp toDate = new Timestamp(calendar.getTime().getTime());
+
+			eqRestrictions.clear();
+			eqRestrictions.put("startDate", new FieldCondition (fromDate,1));
+			eqRestrictions.put("endDate", new FieldCondition (toDate, -1));
+			eqRestrictions.put("user", new FieldCondition (user));
+
+			availableDates = service.GetModelDataList(RefereeAvailability.class, eqRestrictions, "startDate", true);
+			
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-d");
+			availableStartDates = new LinkedList<String>();
+			availableDates.forEach(ad ->  availableStartDates.add(dateFormat.format(((RefereeAvailability)ad).getStartDate())));
+			
+			setDateStr(selectedYear + "-" + selectedMonth);
+
+			return SUCCESS;
+
 		}
 	}
 	
-	
 	public void setSelectedDate(String dateStr){
 	
+		monthsList =  new LinkedHashMap<String,String>();
 		SimpleDateFormat monthNameFormat = new SimpleDateFormat("MMMM",new Locale("es","ES"));
+		SimpleDateFormat monthFormat = new SimpleDateFormat("MM",new Locale("es","ES"));
 		SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy");
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
@@ -125,9 +122,10 @@ public class GetAvailability extends ActionSupport implements SessionAware, Serv
 			
 			date = sdf.parse(dateStr);
 			if(calendar.getTime().compareTo(date) >= 0){
+				date = calendar.getTime();
 				selectedYear =  yearFormat.format(calendar.getTime());
 				selectedMonthName = WordUtils.capitalize(monthNameFormat.format(calendar.getTime()));
-				selectedMonth =  calendar.get(Calendar.MONTH) + 1;
+				selectedMonth =  monthFormat.format(calendar.getTime());
 				for(int i = 0; i < 4; i++){
 					monthsList.put(sdf.format(calendar.getTime()), WordUtils.capitalize(monthNameFormat.format(calendar.getTime())));
 					calendar.add(Calendar.MONTH, 1);
@@ -140,7 +138,7 @@ public class GetAvailability extends ActionSupport implements SessionAware, Serv
 
 				calendar.add(Calendar.MONTH, 1);
 				if(calendar.getTime().compareTo(date) == 0){
-					selectedMonth =  calendar.get(Calendar.MONTH) + 1;
+					selectedMonth =  monthFormat.format(calendar.getTime());
 					calendar.add(Calendar.MONTH, -1);
 					for(int i = 0; i < 5; i++){
 						monthsList.put(sdf.format(calendar.getTime()), WordUtils.capitalize(monthNameFormat.format(calendar.getTime())));
@@ -152,7 +150,7 @@ public class GetAvailability extends ActionSupport implements SessionAware, Serv
 					calendar.add(Calendar.MONTH, 1);
 					if(calendar.getTime().compareTo(date) <= 0){
 						calendar.setTime(date);
-						selectedMonth =  calendar.get(Calendar.MONTH) + 1;
+						selectedMonth =  monthFormat.format(calendar.getTime());
 						calendar.add(Calendar.MONTH, -2);
 						for(int i = 0; i < 6; i++){
 							monthsList.put(sdf.format(calendar.getTime()), WordUtils.capitalize(monthNameFormat.format(calendar.getTime())));
@@ -167,20 +165,22 @@ public class GetAvailability extends ActionSupport implements SessionAware, Serv
 			date = calendar.getTime();
 			selectedYear =  yearFormat.format(calendar.getTime());
 			selectedMonthName = WordUtils.capitalize(monthNameFormat.format(calendar.getTime()));
-			selectedMonth =  calendar.get(Calendar.MONTH) + 1;
+			selectedMonth =  monthFormat.format(calendar.getTime());
 			for(int i = 0; i < 4; i++){
 				monthsList.put(sdf.format(calendar.getTime()), WordUtils.capitalize(monthNameFormat.format(calendar.getTime())));
 				calendar.add(Calendar.MONTH, 1);
 			}
+
 		} catch (NullPointerException e){
 			date = calendar.getTime();
 			selectedYear =  yearFormat.format(calendar.getTime());
 			selectedMonthName = WordUtils.capitalize(monthNameFormat.format(calendar.getTime()));
-			selectedMonth =  calendar.get(Calendar.MONTH) + 1;
+			selectedMonth =  monthFormat.format(calendar.getTime());
 			for(int i = 0; i < 4; i++){
 				monthsList.put(sdf.format(calendar.getTime()), WordUtils.capitalize(monthNameFormat.format(calendar.getTime())));
 				calendar.add(Calendar.MONTH, 1);
 			}
+
 		}
 	}
 	
@@ -218,7 +218,7 @@ public class GetAvailability extends ActionSupport implements SessionAware, Serv
 	}
 
 	
-	public int getSelectedMonth() {
+	public String getSelectedMonth() {
 		return selectedMonth;
 	}
 
@@ -229,6 +229,11 @@ public class GetAvailability extends ActionSupport implements SessionAware, Serv
 	
 	public List<?> getAvailableDates() {
 		return availableDates;
+	}
+
+
+	public List<String> getAvailableStartDates() {
+		return availableStartDates;
 	}
 
 
@@ -248,3 +253,4 @@ public class GetAvailability extends ActionSupport implements SessionAware, Serv
 
 	
 }
+	

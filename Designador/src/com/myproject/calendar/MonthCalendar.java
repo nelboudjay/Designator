@@ -24,24 +24,25 @@ public class MonthCalendar {
 		SimpleDateFormat monthFormat = new SimpleDateFormat("MMMM",new Locale("es","ES"));
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
 		sdf.setLenient(false);
-		
-		long diffDays;
-		
+
 		calendar.set(Calendar.HOUR_OF_DAY, 0);
 		calendar.set(Calendar.MINUTE, 0);
 		calendar.set(Calendar.SECOND, 0);
 		calendar.set(Calendar.MILLISECOND, 0);
 		
+		long diffDays;
 		long today = calendar.getTime().getTime();
 		long calDay;
+		
+		calendar.set(Calendar.DATE, 1);
+
 		
 		try {
 			Date date = sdf.parse(yearMonth);
 			
 			if(calendar.getTime().compareTo(date) <= 0)
 				calendar.setTime(date);
-
-
+			
 			int monthDays = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
 			int dayOfWeek = (calendar.get(Calendar.DAY_OF_WEEK) + 5) % 7 ;
 			
@@ -76,9 +77,7 @@ public class MonthCalendar {
 			}						
 
 		} catch (ParseException e) {
-			
-			calendar.set(Calendar.DATE, 1);
-			
+						
 			int monthDays = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
 			int dayOfWeek = (calendar.get(Calendar.DAY_OF_WEEK) + 5) % 7 ;
 

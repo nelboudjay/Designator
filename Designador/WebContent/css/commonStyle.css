@@ -576,3 +576,11 @@ form > div {
 .bold {
 	font-weight: bold;
 }
+
+.box{
+	background-color:#f5f5f5;
+	padding:19px;
+	border:1px solid #e3e3e3;
+	border-radius:4px;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05) inset;
+}

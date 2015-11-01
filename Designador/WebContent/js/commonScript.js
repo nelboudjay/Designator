@@ -125,6 +125,13 @@ $(document).ready(function() {
 	});
 	
 	
+	$('#leftMenu li').each(function(){		
+		if ($(this).attr("class") == 'active') {
+			var imageName = $(this).find("img").attr("src");
+			$(this).find("img").attr("src",imageName.slice(0,imageName.length - 4) + "-selected.png");
+		}	
+	});
+	
 	$('.new-record > a').hover(
 			function(){
 				var imageName = $(this).find("img").attr("src");
@@ -167,7 +174,6 @@ $(document).ready(function() {
 	$('form').on('submit',validate);	
 	
 	$(document).on("keyup", "textarea", function() {
-		console.log($(this));
 		$(this).css('height', 'auto');
 		$(this).height(this.scrollHeight);
 

@@ -9,8 +9,9 @@ tr:nth-child(even) {
 }
 
 .month-calendar{
-	float:left;
 	width:60%;
+	display:inline-table;
+	margin-bottom:20px;
 }
 
 .month-calendar > table{
@@ -20,6 +21,8 @@ tr:nth-child(even) {
 .month-calendar  > table td {
 	border:1px solid #333;
 	text-align:right;
+	width:66px;
+	height:66px;
 }
 
 .garbage{
@@ -27,4 +30,23 @@ tr:nth-child(even) {
     float: left;
     margin-right: 5px;
     width: 16px;
+}
+
+
+.cross {
+	background-image: url("../images/cross-icon.png");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size:12px;
+}
+
+.check {
+	background-image: url("../images/check-icon.png");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size:12px;
+}
+
+#availableDates {
+	display:inline-table; 
 }

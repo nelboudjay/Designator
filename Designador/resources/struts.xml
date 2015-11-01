@@ -6,14 +6,14 @@
 <struts>
 	<constant name="struts.locale" value="es_ES" />
 
-	<constant name="struts.enable.DynamicMethodInvocation" value="false" />
+	<constant name="struts.enable.DynamicMethodInvocation" value="true" />
+
+    <constant name="struts.ognl.allowStaticMethodAccess" value="true"/>
 
 	<!-- Removing .action extention -->
 	<constant name="struts.action.extension" value="," />
 
 	<constant name="struts.custom.i18n.resources" value="MyConstants" />
-
-	<constant name="struts.enable.DynamicMethodInvocation" value="true"></constant>
 
     <constant name="struts.ui.theme" value="simple" />
 
@@ -140,10 +140,29 @@
 		</action>
 		
 		<action name="availability" class="com.myproject.action.GetAvailability">
-			<result name="none">availability.jsp</result>
+			<result name="success">availability.jsp</result>
 			<result name="not found" type="redirectAction">users</result>
+			<result name="error" type="redirectAction">homePage</result>
+			<result name="input">availability.jsp</result>
 		</action>
 		
+		<action name="addAvailability" class="com.myproject.action.AddAvailability">
+			<result name="success" type="redirectAction">
+				<param name="actionName">availability</param>
+			    <param name="idUser">${idUser}</param>
+			</result>
+			<result name="not found" type="redirectAction">users</result>
+			<result name="error" type="redirectAction">homePage</result>
+		</action>
+		
+		<action name="deleteAvailability" class="com.myproject.action.DeleteAvailability">
+			<result name="success" type="redirectAction">
+				<param name="actionName">availability</param>
+			    <param name="idUser">${idUser}</param>
+			</result>
+			<result name="not found" type="redirectAction">users</result>
+			<result name="error" type="redirectAction">homePage</result>
+		</action>
 	
 	</package>
 </struts>
