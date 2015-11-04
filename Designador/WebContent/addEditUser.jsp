@@ -204,23 +204,23 @@
 				<s:if test="#session.user.isAdmin()">
 					<h3 class="title-1">Privilegios</h3>
 					
-					<s:if test="idUserRole != null">
-						<s:set var="currentIdUserRole" value="idUserRole"/>
+					<s:if test="userRole != null">
+						<s:set var="currentUserRole" value="userRole"/>
 					</s:if>
 					<s:else>
-						<s:set var="currentIdUserRole" value="1"/>
+						<s:set var="currentUserRole" value="1"/>
 					</s:else>
 									
 					<div class="row">
 						<div>
 							<label><b>Designador</b></label>
-							<input type="radio" value="1" name="idUserRole" ${currentIdUserRole == '1' ? 'checked' : ''}>
+							<input type="radio" value="1" name="userRole" ${currentUserRole == 1 ? 'checked' : ''}>
 							
 							<label><b>Árbitro</b></label>
-							<input type="radio" value="2" name="idUserRole" ${currentIdUserRole == '2' ? 'checked' : ''}>
+							<input type="radio" value="2" name="userRole" ${currentUserRole == 2 ? 'checked' : ''}>
 							
 							<label><b>Designador y Árbitro</b></label>
-							<input  type="radio" value="3" name="idUserRole" ${currentIdUserRole == '3' ? 'checked' : ''}>
+							<input  type="radio" value="3" name="userRole" ${currentUserRole == 3 ? 'checked' : ''}>
 						</div>
 					</div>
 				
@@ -244,6 +244,7 @@
 			</form>	
 			
 		</div>
+		<jsp:include page="footer.jsp"/>
 	</div> 
 
 </body>

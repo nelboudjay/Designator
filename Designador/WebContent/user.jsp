@@ -53,10 +53,10 @@
 
 			<div class="user-menu">
 				<img  src="getImage?idUser=${idUser}" >
-				<span><s:property value="userFullName"/></span>
+				<a href="user?idUser=${idUser}"><s:property value="#attr.userFullName"/></a>
 				<ul>
 					<li><a>Partidos</a></li>
-					<li><a>Disponibilidad</a></li>
+					<li><a href="availability?idUser=${idUser}">Disponibilidad</a></li>
 					<li><a>Conflictos</a></li>
 				</ul>
 			</div>
@@ -103,17 +103,9 @@
 					</td>
 				</tr>
 				<tr>
-					<td>Previlegios <s:property value="userRoleName"/>  </td>
+					<td>Previlegios </td>
 					<td>
-						<s:if test="userRoleName == 'Admin'">
-							Designador
-						</s:if>	
-						<s:elseif test="userRoleName == 'Referee'">
-							Árbitro
-						</s:elseif>
-						<s:else>
-							Designador y Árbitro
-						</s:else>
+						<s:property value="userRoleName"/>
 					</td>
 				</tr>
 			</table>
@@ -136,6 +128,8 @@
 				
 			</p>
 		</div>
+		<jsp:include page="footer.jsp"/>
+		
 	</div>
 
 </body>

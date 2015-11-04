@@ -58,7 +58,7 @@ public class GetUser extends ActionSupport implements SessionAware, ServletConte
 			setUserFullName(user.getUserFullName());
 			setEmail(user.getEmail());
 			setConfirmed(!user.getPassword().equals(""));
-			setUserRoleName(user.getUserRole().getUserRoleName());
+			setUserRoleName(user.getUserRoleName());
 			setHomePhone(user.getUserProfile().getHomePhone());
 			setMobilePhone(user.getUserProfile().getMobilePhone());
 			

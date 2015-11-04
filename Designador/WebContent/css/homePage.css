@@ -19,6 +19,7 @@
 .calendar td {
 	text-align:right;
 	background-color: #f8f8f8;
+	vertical-align:top;
 }
 
 

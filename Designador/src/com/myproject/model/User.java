@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.ManyToOne;
 import javax.persistence.JoinColumn;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,6 +22,11 @@ import com.opensymphony.xwork2.ActionSupport;
 public class User extends ActionSupport implements Serializable{
 
 	private static final long serialVersionUID = -4142991539282053208L;
+	
+	public static final int ADMIN = 1;
+	public static final int REFEREE = 2;
+	public static final int BOTH = 3;
+
 
 	public User(User user){
 		super();
@@ -34,7 +38,7 @@ public class User extends ActionSupport implements Serializable{
 		this.userProfile = user.getUserProfile();
 	}
 	
-	public User(String userName, String email, UserRole userRole, UserProfile userProfile){
+	public User(String userName, String email, int userRole, UserProfile userProfile){
 		super();
 		this.userName = userName;
 		this.email = email;
@@ -61,10 +65,9 @@ public class User extends ActionSupport implements Serializable{
 	@Column(name="PASSWORD", nullable = false, length = 45)
 	private String password;
 	
-	@ManyToOne(cascade = CascadeType.PERSIST)
-	@ForeignKey (name = "FK_USER__USER_ROLE")
-	@JoinColumn(name = "USER_ROLE", nullable = false)
-	private UserRole userRole;
+	
+	@Column(name = "USER_ROLE", nullable = false)
+	private int userRole;
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	@ForeignKey (name = "FK_USER__USER_PROFILE")
@@ -88,7 +91,7 @@ public class User extends ActionSupport implements Serializable{
 		return decrypter.decrypt(password);
 	}
 	
-	public UserRole getUserRole() {
+	public int getUserRole() {
 		return userRole;
 	}
 	
@@ -114,7 +117,7 @@ public class User extends ActionSupport implements Serializable{
 		this.password =	encrypter.encrypt(password);
 	}
 	
-	public void setUserRole(UserRole userRole) {
+	public void setUserRole(int userRole) {
 		this.userRole = userRole;
 	}
 	
@@ -130,7 +133,32 @@ public class User extends ActionSupport implements Serializable{
 	}
 	
 	public boolean isAdmin(){
-		return !getUserRole().getUserRoleName().equals("Referee");
+		
+		return userRole == ADMIN || userRole == BOTH;
+		
+	}
+	
+	public String getUserRoleName(){
+		
+		switch (userRole){
+		
+			case ADMIN: 	return "Designador";
+			case REFEREE:	return "Árbitro";
+			default:		return "Designador y Árbitro";
+				
+		}
+	}
+	
+	@Override
+	public boolean equals(Object o){
+		
+		boolean result = false;
+		if(o instanceof User){
+			User usr = (User)o;
+			result = usr.getIdUser().equals(this.idUser);
+		}
+
+		return result;
 	}
 
 }

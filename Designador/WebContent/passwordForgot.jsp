@@ -24,7 +24,7 @@
 	<s:if test="#session.user != null">
 		<div class="panel-info">
 			<div class="panel-heading">
-				<h3>¡Tu sesion ya está iniciada!</h3>
+				<h3>¡Tu sesión ya está iniciada!</h3>
 			</div>
 			<div class="panel-body">
 				<p>
@@ -55,6 +55,9 @@
 				name="method:resetPassword">
 		</form>
 	</div>
+	<s:if test="#session.user != null">
 
+ 		<jsp:include page="footer.jsp"/>
+ 	</s:if>
 </body>
 </html>

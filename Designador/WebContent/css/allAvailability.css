@@ -1,0 +1,39 @@
+@import url("commonStyle.css");
+
+.cross {
+	background-image: url("../images/cross-icon.png");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size:12px;
+}
+
+.check {
+	background-image: url("../images/check-icon.png");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size:12px;
+}
+
+
+.show-all-referees {
+	display:none;
+}
+
+#datePicker {
+	height:28px;
+}
+
+.ui-datepicker-calendar tr {
+	background-color:inherit;
+}
+
+.ui-datepicker-calendar td {
+	height:0;
+	padding: 0;
+	border: 0 none;
+}
+
+.ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight{
+	border: 1px solid #c1461c !important;
+	background: #fbf9ee url("../images/ui-bg_glass_55_da9077_1x400.png") repeat-x scroll 50% 50% !important;
+}

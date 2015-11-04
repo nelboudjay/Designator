@@ -74,6 +74,34 @@ $(function() {
 	});
 	
 	
+	$(".show-available-referees").click(function(){
+		$(this).hide();
+		$(".show-all-referees").show();
+		
+		$(".available-referees > tbody > tr").each(function(){
+			
+			if($("td:nth-child(2)",this).hasClass("cross"))
+				$(this).hide();
+		})
+	});
+	
+	$(".show-all-referees").click(function(){
+		$(this).hide();
+		$(".show-available-referees").show();
+
+		$(".available-referees > tbody > tr").each(function(){
+			
+			if($("td:nth-child(2)",this).hasClass("cross"))
+				$(this).show();
+		})
+	});
+	
+	$(function () {
+		$.datepicker.setDefaults($.datepicker.regional["es"]);
+		
+		$("#datepicker").datepicker();
+	});
+	
 	function sortAvailableDates(){
 		
 		var availableDatesList = $("#availableDates").children('*[data-day]');

@@ -54,10 +54,10 @@
 			</s:if>	
 			<div id="${idUser}" class="user-menu">
 				<img  src="getImage?idUser=${idUser}" >
-				<span><s:property value="#attr.userFullName"/></span>
+				<a href="user?idUser=${idUser}"><s:property value="#attr.userFullName"/></a>
 				<ul>
 					<li><a>Partidos</a></li>
-					<li><a>Disponibilidad</a></li>
+					<li><a href="availability?idUser=${idUser}">Disponibilidad</a></li>
 					<li><a>Conflictos</a></li>
 				</ul>
 			</div>
@@ -124,26 +124,30 @@
 									">
 									${column.day}
 								</div>
-								<c:if test="${column.today >= 0}">
-									
-									<s:if test="%{#dataDate  in #attr.availableStartDates}">
-										<span class="link-2 ${column.today == 0 ? 'bold' : ''}" data-date="${dataDate}" 
-											data-day="${column.day}" data-dayName="${weekDays[columnStatus.index]}" 	
-											data-month="${selectedMonthName}" 
-											
-											data-available="1">Desactivar									
-										</span>
-									</s:if>
-									<s:else>
-										<span class="link-2 ${column.today == 0 ? 'bold' : ''}" data-date="${dataDate}" 
-											data-day="${column.day}" data-dayName="${weekDays[columnStatus.index]}" 	
-											data-month="${selectedMonthName}" 
-											
-											data-available="0">Activar									
-										</span>
-									</s:else>
-																												
-								</c:if>
+								<c:choose>
+									<c:when test="${column.today >= 0}">
+										
+										<s:if test="%{#dataDate  in #attr.availableStartDates}">
+											<span class="link-2 ${column.today == 0 ? 'bold' : ''}" data-date="${dataDate}" 
+												data-day="${column.day}" data-dayName="${weekDays[columnStatus.index]}" 	
+												data-month="${selectedMonthName}" 
+												
+												data-available="1">Desactivar									
+											</span>
+										</s:if>
+										<s:else>
+											<span class="link-2 ${column.today == 0 ? 'bold' : ''}" data-date="${dataDate}" 
+												data-day="${column.day}" data-dayName="${weekDays[columnStatus.index]}" 	
+												data-month="${selectedMonthName}" 
+												
+												data-available="0">Activar									
+											</span>
+										</s:else>																									
+									</c:when>
+									<c:otherwise>
+										<span>&nbsp;</span>
+									</c:otherwise>
+								</c:choose>
 							</c:if>
 							</td>
 						</c:forEach>
@@ -173,7 +177,7 @@
 				
 			</div>
 							
-			<div class="box" id="addDates">
+		<!--<div class="box" id="addDates">
 				<h3 class="title-2">Añadir Fechas (Una o más)</h3>
 				
 				<p>Añade tu disponibilidad para un rango de fechas, o añade un rango de tiempo para un día.</p>
@@ -185,9 +189,11 @@
 						<option value="cada">Cada</option>
 					</select>
 				</div>
-			</div>
+			</div>-->
 											
 		</div>
+		
+		<jsp:include page="footer.jsp"/>
 		
 	</div>
 

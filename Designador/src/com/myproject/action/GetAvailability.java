@@ -74,6 +74,16 @@ public class GetAvailability extends ActionSupport implements SessionAware, Serv
 				}
 			}
 			
+			if(user.getUserRole() == User.ADMIN){ /*User is only Admin*/
+				if(user.equals((User)session.get("user")))
+					addActionError("No dispones de perfil de árbitro para consultar tu disponibilidad");
+				else
+					addActionError("Este usuario no tiene perfil de árbitro para consultar su disponibilidad");
+
+				return "not found";
+
+			}
+			
 			setSelectedDate(dateStr);
 			setUserFullName(user.getUserFullName());
 
@@ -95,6 +105,9 @@ public class GetAvailability extends ActionSupport implements SessionAware, Serv
 			availableDates.forEach(ad ->  availableStartDates.add(dateFormat.format(((RefereeAvailability)ad).getStartDate())));
 			
 			setDateStr(selectedYear + "-" + selectedMonth);
+
+			/*Display only users with Referee profile role*/
+			users.removeIf(usr -> (((User)usr).getUserRole() == User.ADMIN));
 
 			return SUCCESS;
 

@@ -19,7 +19,6 @@ import com.myproject.model.Address;
 import com.myproject.model.PasswordChangeRequest;
 import com.myproject.model.User;
 import com.myproject.model.UserProfile;
-import com.myproject.model.UserRole;
 import com.myproject.service.GenericService;
 import com.myproject.tools.FieldCondition;
 import com.opensymphony.xwork2.ActionContext;
@@ -42,7 +41,7 @@ public class AddEditUser extends ActionSupport implements SessionAware, ServletC
 	private boolean currentPicture;
 	private File picture;
 	private String pictureContentType, pictureFileName;
-	private String idUserRole;
+	private int userRole;
 		
 	private GenericService service;
 
@@ -113,7 +112,7 @@ public class AddEditUser extends ActionSupport implements SessionAware, ServletC
 			setEmail(user.getEmail());
 			setEmail2(user.getUserProfile().getEmail2());
 			if(((User)session.get("user")).isAdmin()) /*Referee updating his profile*/
-				setIdUserRole(user.getUserRole().getIdUserRole());
+				setUserRole(user.getUserRole());
 
 			return NONE;
 
@@ -218,21 +217,13 @@ public class AddEditUser extends ActionSupport implements SessionAware, ServletC
 					firstName.trim(), lastName1.trim(), lastName2.trim(),address, homePhone.trim(), mobilePhone.trim(), email2.trim(), bPicture);
 			user.setUserProfile(userProfile);
 			
-			UserRole userRole;
 
 			if(!((User)session.get("user")).isAdmin()) /*Referee updating his profile*/
 				userRole = user.getUserRole();
 			else{
-				switch(idUserRole) {
-					case "1":	userRole = new UserRole("1","Admin");
-								break;
-					case "2":	userRole = new UserRole("2", "Referee");
-								break;
-					case "3":	userRole = new UserRole("3", "All");
-								break;
-					default:	userRole = user.getUserRole();
-								break;
-				}
+
+				if(userRole != User.REFEREE && userRole != User.BOTH)
+					userRole = User.ADMIN;
 			}
 			
 			user.setUserRole(userRole);
@@ -296,17 +287,9 @@ public class AddEditUser extends ActionSupport implements SessionAware, ServletC
 		
 		UserProfile userProfile = new UserProfile(firstName.trim(), lastName1.trim(), lastName2.trim(),address, homePhone.trim(), mobilePhone.trim(), email2.trim(), bPicture);
 
-		UserRole userRole;
 
-		switch(idUserRole) {
-		
-			case "2":	userRole = new UserRole("2", "Referee");
-						break;
-			case "3":	userRole = new UserRole("3", "All");
-						break;
-			default:	userRole = new UserRole("1","Admin");
-						break;
-		}
+		if(userRole != User.REFEREE && userRole != User.BOTH)
+			userRole = User.ADMIN;
 		
 		User user = new User(userName,email.trim(),userRole,userProfile);
 		service.SaveOrUpdateModelData(user);
@@ -537,12 +520,12 @@ public class AddEditUser extends ActionSupport implements SessionAware, ServletC
 		this.pictureFileName = pictureFileName;
 	}
 	
-	public String getIdUserRole() {
-		return idUserRole;
+	public int getUserRole() {
+		return userRole;
 	}
 
-	public void setIdUserRole(String idUserRole) {
-		this.idUserRole = idUserRole;
+	public void setUserRole(int userRole) {
+		this.userRole = userRole;
 	}
 	
 	@Override

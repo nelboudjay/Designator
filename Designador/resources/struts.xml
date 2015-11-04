@@ -163,6 +163,16 @@
 			<result name="not found" type="redirectAction">users</result>
 			<result name="error" type="redirectAction">homePage</result>
 		</action>
+		
+		<action name="allAvailability" class="com.myproject.action.GetAllAvailability">
+			<result name="success">allAvailability.jsp</result>
+			<result name="error" type="redirectAction">homePage</result>
+		</action>
+		
+		<action name="games">
+			<result name="success">games.jsp</result>
+			<result name="error" type="redirectAction">homePage</result>
+		</action>
 	
 	</package>
 </struts>

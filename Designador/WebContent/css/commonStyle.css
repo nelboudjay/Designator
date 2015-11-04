@@ -26,8 +26,6 @@ th {
 
 td {
 	height: 3.5em;
-	vertical-align: top;
-	width: 14%;
 	border: 1px solid #ddd;
 	padding: 8px;
 }
@@ -104,7 +102,7 @@ h3, h4, h5 {
 	margin: 0;
 }
 
-.btn {
+.btn{
 	background: url("../images/btn_bg.png")  0 0 repeat-x;
     border: 1px solid #dedede;
     border-radius: 3px;
@@ -113,10 +111,21 @@ h3, h4, h5 {
     cursor: pointer;
     font-weight: 500;
     padding: 0 12px;
-    height: 28px;
+    line-height: 26px;
 }
 
-.btn:hover {
+.btn-link{
+	display: inline-block;
+    float: left;
+    line-height: 28px;
+    margin-right: -1px;
+    text-align: center;
+}
+
+.btn-link:hover{
+	text-decoration:none;
+}
+.btn:hover{
 	color: #464647;
 	background-image: -webkit-linear-gradient(top, #fdfdfd, #eaeaea);
     background-image: -moz-linear-gradient(top, #fdfdfd, #eaeaea);
@@ -154,7 +163,7 @@ ul {
 }
 
 .link-2:hover {
-	color:#c1461c;
+	color:#c1461c !important;
 	text-decoration: none;
 }
 #login a {
@@ -212,6 +221,12 @@ ul {
 	height: 14px;
 	width: 14px;
 	padding-right: 5px;
+}
+
+.very-small-icon{
+	height: 8px;
+	width: 8px;
+	vertical-align:middle;
 }
 
 .userName:hover, .dropdown-menu:hover, .shine {
@@ -364,14 +379,14 @@ ul {
 	width:227px;
 }
 
-#leftMenu ul {
+#leftMenu > ul {
 	margin: 0;
 	margin-left: 5px;
 	padding: 0;
 	
 }
 
-#leftMenu li {
+#leftMenu > ul > li {
 	background-color: #252528;
 	transition: all 0.5s ease 0s;
 	border-bottom: 1px solid #373737;
@@ -379,17 +394,17 @@ ul {
 	position: relative;
 }
 
-#leftMenu li:hover {
-	background-color: #1b1b1b;
+#leftMenu li:hover, .dark-nav-active {
+	background-color: #1b1b1b !important;
 }
 
-#leftMenu li a {
+#leftMenu > ul > li > a {
 	font-weight: normal;
 	padding: 10px 60px;
 	display: block;
 }
 
-#leftMenu li:hover a {
+#leftMenu > ul > li:hover > a, .dark-nav-active > ul > li:hover > a{
 	text-decoration:none;
 	color:#ffffff;	
 	
@@ -427,6 +442,18 @@ li.active .glow{
 #leftMenu .arrow {
 	margin-left:10px;
 }
+
+#leftMenu .dark-nav ul li{
+	font-size:11px;
+	border-top:1px solid #373737;
+}
+
+#leftMenu .dark-nav ul li a{
+	display:block;
+	padding: 5px 10px;	
+	
+}
+
 
 /****************Main content***************************/
 
@@ -534,9 +561,12 @@ form > div {
 	padding:10px;
 }
 
-.user-menu > span {
+.user-menu > a {
 	font-size:18px;
 	vertical-align: sub;
+}
+.user-menu > a:hover {
+	text-decoration:none;
 }
 
 .user-menu > img {
@@ -583,4 +613,20 @@ form > div {
 	border:1px solid #e3e3e3;
 	border-radius:4px;
 	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05) inset;
+}
+
+.dark {
+	color:#5b5b5b;
+}
+.footer{
+	margin: 20px;
+    text-align: right;
+}
+
+.footer > h3{
+	display:inline;
+}
+.footer > div{
+	color:#aeaeae;
+	margin: 5px 0;
 }

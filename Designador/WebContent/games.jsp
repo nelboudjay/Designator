@@ -12,7 +12,7 @@
 <script type="text/javascript" src="js/commonScript.js"></script>
 <script type="text/javascript" src="js/users.js"></script>
 
-<title>Miembros</title>
+<title>Partidos</title>
 
 <s:head />
 </head>
@@ -24,20 +24,25 @@
 	<div class="main-content">
 		<div class="content-title">
 			<h3>
-				<img class="black-icon" src="images/users-black-icon.png">
-				Miembros
+				<img class="black-icon" src="images/game-black-icon.png">
+				Partidos
 			</h3>
-			<span>Todos los miembros</span>
+			<span>Todos los partidos</span>
 		</div>
 		
 		<jsp:include page="errorMessages.jsp"/>
 		
 		<div class="container">
 			<br>	
-			<s:if test="#session.user.isAdmin()">
-				<h4 class="new-record"><a href="addUser"><img src="images/add-icon.png" class="small-icon">Añadir un nuevo miembro</a></h4>
-			</s:if>
+			<h4 class="new-record"><a href="addGame"><img src="images/add-icon.png" class="small-icon">Añadir un partido</a></h4>
 			<br>
+			
+			<div class="panel-info">
+				<div class="panel-body">
+					No hay partidos programados todavía. ¿Quieres <a class="link" href="addGame">Añadir</a> partidos?
+				</div>
+			</div>
+			
 			<table class="members">
 				<tr>
 					<th>Nombre</th>
@@ -47,7 +52,11 @@
 					<th>Contactar</th>	
 				</tr>
 				
-				<s:iterator value="#attr.users" >
+				<s:set var="users" value="users"/>
+				<s:if test="#users == null">
+					<s:set var="users" value="#attr.users"/>
+				</s:if>
+				<s:iterator value="users" >
 					<tr>
 						<td><a class="link" href="user?idUser=${idUser}"><s:property value="userFullName"/></a></td>
 						<td>
