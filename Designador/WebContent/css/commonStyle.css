@@ -181,6 +181,13 @@ ul {
     
 }
 
+.left-menu-icon-small{
+	margin-right: 5px;
+	vertical-align:sub;
+    height: 16px;
+    left: 16px;
+}
+
 .logo {
 	width: 100%;
 	padding-left: 0;
@@ -379,12 +386,6 @@ ul {
 	width:227px;
 }
 
-#leftMenu > ul {
-	margin: 0;
-	margin-left: 5px;
-	padding: 0;
-	
-}
 
 #leftMenu > ul > li {
 	background-color: #252528;
@@ -404,7 +405,7 @@ ul {
 	display: block;
 }
 
-#leftMenu > ul > li:hover > a, .dark-nav-active > ul > li:hover > a{
+#leftMenu > ul > li:hover > a, .dark-nav > ul > li:hover > a{
 	text-decoration:none;
 	color:#ffffff;	
 	
@@ -419,7 +420,6 @@ ul {
     top: 0;
     transition: all 0.5s ease 0s;
     width: 5px;
-    margin-left: -5px;
 }
 
 li.active .glow{
@@ -444,13 +444,13 @@ li.active .glow{
 }
 
 #leftMenu .dark-nav ul li{
-	font-size:11px;
+	font-size:12px;
 	border-top:1px solid #373737;
 }
 
 #leftMenu .dark-nav ul li a{
 	display:block;
-	padding: 5px 10px;	
+	padding: 5px;	
 	
 }
 

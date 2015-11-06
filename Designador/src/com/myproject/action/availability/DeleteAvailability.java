@@ -1,4 +1,4 @@
-package com.myproject.action;
+package com.myproject.action.availability;
 
 import java.sql.Timestamp;
 import java.text.ParseException;

@@ -9,6 +9,8 @@
 <link rel="stylesheet" type="text/css" href="css/availability.css" />
 
 <script type="text/javascript" src="js/jquery.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script src="js/datepicker-es.js"></script>
 <script type="text/javascript" src="js/commonScript.js"></script>
 <script type="text/javascript" src="js/availability.js"></script>
 
@@ -17,9 +19,9 @@
 <s:head />
 </head>
 <body>
-	<jsp:include page="header.jsp"/>
+	<jsp:include page="../header.jsp"/>
 
-	<jsp:include page="leftMenu.jsp"/>
+	<jsp:include page="../leftMenu.jsp"/>
 	
 	<div class="main-content">
 		<div class="content-title">
@@ -30,7 +32,7 @@
 			<span>Disponibilidad</span>
 		</div>
 		
-		<jsp:include page="errorMessages.jsp"/>
+		<jsp:include page="../errorMessages.jsp"/>
 		
 		<br/>
 		
@@ -193,7 +195,7 @@
 											
 		</div>
 		
-		<jsp:include page="footer.jsp"/>
+		<jsp:include page="../footer.jsp"/>
 		
 	</div>
 

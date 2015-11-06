@@ -169,6 +169,21 @@
 			<result name="error" type="redirectAction">homePage</result>
 		</action>
 		
+		<!-- Leagues -->
+		<action name="allLeagues">
+			<result name="success">allLeagues.jsp</result>
+			<result name="error" type="redirectAction">homePage</result>
+		</action>
+		
+		<action name="addLeague">
+			<result>addEditLeague.jsp</result>
+			<!--  <result name="none">addEditLeague.jsp</result>
+			<result name="input">addEditLeague.jsp</result>
+			<result name="success" type="redirectAction">leagues</result>
+			<result name="error" type="redirectAction">homePage</result>-->
+		</action>
+		
+		
 		<action name="games">
 			<result name="success">games.jsp</result>
 			<result name="error" type="redirectAction">homePage</result>

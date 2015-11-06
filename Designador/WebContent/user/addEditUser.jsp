@@ -11,14 +11,14 @@
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="js/commonScript.js"></script>
 
-<title>Mi perfil</title>
+<title>Perfil</title>
 
 <s:head />
 </head>
 <body>
-	<jsp:include page="header.jsp"/>
+	<jsp:include page="../header.jsp"/>
 
-	<jsp:include page="leftMenu.jsp"/>
+	<jsp:include page="../leftMenu.jsp"/>
 	
 	 <div class="main-content">
 		<div class="content-title">
@@ -34,7 +34,7 @@
 			<span>Perfil</span>
 		</div>
 		
-		<jsp:include page="errorMessages.jsp"/>
+		<jsp:include page="../errorMessages.jsp"/>
 		
 		<div class="container">
 			<form action="${idUser == null || idUser == '' ? 'addUser' : 'editUser' }" method="post" enctype="multipart/form-data">
@@ -244,7 +244,7 @@
 			</form>	
 			
 		</div>
-		<jsp:include page="footer.jsp"/>
+		<jsp:include page="../footer.jsp"/>
 	</div> 
 
 </body>

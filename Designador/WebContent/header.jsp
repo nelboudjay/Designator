@@ -5,9 +5,9 @@
 <nav>
 	<ul class="logo">
 		<li><s:if test="#session.user == null">
-				<img src="images/Logo.png" width="12%" height="90%">
+				<img src="${pageContext.request.contextPath}/images/Logo.png" width="12%" height="90%">
 			</s:if> <s:else>
-				<a href="homePage"><img src="images/Logo.png" width="12%"
+				<a href="${pageContext.request.contextPath}/homePage"><img src="${pageContext.request.contextPath}/images/Logo.png" width="12%"
 					height="90%"></a>
 			</s:else></li>
 	</ul>
@@ -21,9 +21,9 @@
 					(${session.user.userName}) <span class="arrow"></span> 
 				</span>
 			</li>
-			<li id="profile" class="dropdown-menu"><a href="user?idUser=${session.user.idUser}"><img class="small-icon" src="images/profile-icon.png"><span>Perfil</span></a></li>
-			<li id="messages" class="dropdown-menu"><a><img class="small-icon" src="images/messages-icon.png"><span>Mensajes</span></a></li>
-			<li id="logout" class="dropdown-menu"><a href="logout"><img class="small-icon" src="images/logout-icon.png"><span>Cerrar
+			<li id="profile" class="dropdown-menu"><a href="user?idUser=${session.user.idUser}"><img class="small-icon" src="${pageContext.request.contextPath}/images/profile-icon.png"><span>Perfil</span></a></li>
+			<li id="messages" class="dropdown-menu"><a><img class="small-icon" src="${pageContext.request.contextPath}/images/messages-icon.png"><span>Mensajes</span></a></li>
+			<li id="logout" class="dropdown-menu"><a href="logout"><img class="small-icon" src="${pageContext.request.contextPath}/images/logout-icon.png"><span>Cerrar
 					sesión</span></a></li>
 
 		</ul>

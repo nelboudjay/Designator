@@ -1,4 +1,4 @@
-package com.myproject.action;
+package com.myproject.action.comment;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;

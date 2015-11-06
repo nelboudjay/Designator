@@ -1,4 +1,4 @@
-package com.myproject.action;
+package com.myproject.action.user;
 
 import java.io.File;
 import java.io.FileInputStream;

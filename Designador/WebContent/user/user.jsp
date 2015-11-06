@@ -16,9 +16,9 @@
 <s:head />
 </head>
 <body>
-	<jsp:include page="header.jsp"/>
+	<jsp:include page="../header.jsp"/>
 
-	<jsp:include page="leftMenu.jsp"/>
+	<jsp:include page="../leftMenu.jsp"/>
 	
 	<div class="main-content">
 		<div class="content-title">
@@ -29,7 +29,7 @@
 			<span>Perfil</span>
 		</div>
 		
-		<jsp:include page="errorMessages.jsp"/>
+		<jsp:include page="../errorMessages.jsp"/>
 		
 		<br/>
 		
@@ -128,7 +128,7 @@
 				
 			</p>
 		</div>
-		<jsp:include page="footer.jsp"/>
+		<jsp:include page="../footer.jsp"/>
 		
 	</div>
 

@@ -17,9 +17,9 @@
 <s:head />
 </head>
 <body>
-	<jsp:include page="header.jsp"/>
+	<jsp:include page="../header.jsp"/>
 
-	<jsp:include page="leftMenu.jsp"/>
+	<jsp:include page="../leftMenu.jsp"/>
 	
 	<div class="main-content">
 		<div class="content-title">
@@ -30,7 +30,7 @@
 			<span>Todos los miembros</span>
 		</div>
 		
-		<jsp:include page="errorMessages.jsp"/>
+		<jsp:include page="../errorMessages.jsp"/>
 		
 		<div class="container">
 			<br>	
@@ -53,7 +53,7 @@
 						<td>
 						<div class="btn-group"><a class="btn btn-link" href="games?idUser=${idUser}">Partidos</a>
 							<button class="btn">
-								<img class="small-icon" src="images/setting-icon.png">
+								<img class="small-icon" src="images/settings-dropdown-icon.png">
 								<img class="very-small-icon" src="images/arrowhead-icon.png">
 							</button>
 							<ul	style="display:none;">
@@ -78,7 +78,7 @@
 				</s:iterator>
 			</table>
 		</div>
-		<jsp:include page="footer.jsp"/>
+		<jsp:include page="../footer.jsp"/>
 		
 	</div>
 </body>
