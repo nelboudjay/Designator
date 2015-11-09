@@ -7,7 +7,8 @@ $(function() {
 	
 				minimazeAddCommentForm();
 				var commentContent = $(this).parents(".content");
-				var currentCommentBodyText = $.trim($("> .comment-body", commentContent).html()).replace(/<br>/g,"\n");
+				var currentCommentBodyText = $.trim($("> .comment-body", commentContent).html()).
+						replace(/<br>/g,"\n").replace(/&lt;/g,"<").replace(/&gt;/g,">").replace(/&amp;/g,"&");
 				
 				var currentCommentContent = commentContent.children();
 				
@@ -47,7 +48,7 @@ $(function() {
 				var deleteComment = $(this);
 				var confirmBox = deleteComment.next();
 				var commentId = deleteComment.parents(".content").attr("id");
-				var removeCommentlink = "deleteComment?commentId=" + commentId;
+				var removeCommentlink = "comment/deleteComment?commentId=" + commentId;
 				var comment = deleteComment.parents("li");
 				$("> .message", confirmBox).text(
 						"¿Estás seguro que quieres eliminar este mensaje?");
@@ -84,7 +85,7 @@ $(function() {
 	
 			$.ajax({
 				type : "POST",
-				url : "addComment",
+				url : "comment/addComment",
 				dataType : "html",
 				data : {
 					commentBody : $("#commentBody").val().trim(),

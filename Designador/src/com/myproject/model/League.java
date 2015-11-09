@@ -17,6 +17,11 @@ public class League {
 		this.leagueName = leagueName;
 	}
 
+	public League(String leagueName) {
+		super();
+		this.leagueName = leagueName;
+	}
+	
 	public League(){
 	}
 	
@@ -26,7 +31,7 @@ public class League {
 	@GeneratedValue
 	private String idLeague;
 	
-	@Column(name="LEAGUE_NAME", nullable = false, unique = true, length = 45)
+	@Column(name="LEAGUE_NAME", nullable = false, unique = true, length = 128)
 	private String leagueName;
 
 	public String getIdLeague() {

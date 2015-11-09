@@ -1,7 +1,5 @@
 package com.myproject.model;
 
-import java.io.Serializable;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.JoinColumn;
@@ -19,9 +17,9 @@ import com.opensymphony.xwork2.ActionSupport;
 
 @Entity
 @Table(name="USER")
-public class User extends ActionSupport implements Serializable{
+public class User extends ActionSupport{
 
-	private static final long serialVersionUID = -4142991539282053208L;
+	private static final long serialVersionUID = 8526068046627838886L;
 	
 	public static final int ADMIN = 1;
 	public static final int REFEREE = 2;

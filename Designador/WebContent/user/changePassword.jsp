@@ -5,24 +5,24 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-<link rel="stylesheet" type="text/css" href="css/changePassword.css" />
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/changePassword.css" />
 
-<script type="text/javascript" src="js/jquery.js"></script>
-<script type="text/javascript" src="js/commonScript.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/commonScript.js"></script>
 
 <title>Cambiar contraseña</title>
 <s:head />
 </head>
 <body>
 
-	<jsp:include page="header.jsp" />
+	<jsp:include page="../header.jsp" />
 	
 	<s:if test="#session.user != null">
-		<jsp:include page="leftMenu.jsp"/>
+		<jsp:include page="../leftMenu.jsp"/>
 	</s:if>	
 
 	<div ${session.user != null ? "class='main-content'" : ""}> 
-	<jsp:include page="errorMessages.jsp" />
+	<jsp:include page="../errorMessages.jsp" />
 
 	<div class="change-password-box">
 		<s:if test="#attr.user.password == ''">
@@ -54,7 +54,7 @@
 				name="method:changePassword">
 		</form>
 	</div>
-	<jsp:include page="footer.jsp"/>
+	<jsp:include page="../footer.jsp"/>
 	
 	</div>
 </body>

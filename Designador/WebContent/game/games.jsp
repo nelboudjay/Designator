@@ -6,35 +6,35 @@
 <html>
 <head>
 
-<link rel="stylesheet" type="text/css" href="css/users.css" />
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/users.css" />
 
-<script type="text/javascript" src="js/jquery.js"></script>
-<script type="text/javascript" src="js/commonScript.js"></script>
-<script type="text/javascript" src="js/users.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/commonScript.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/users.js"></script>
 
 <title>Partidos</title>
 
 <s:head />
 </head>
 <body>
-	<jsp:include page="header.jsp"/>
+	<jsp:include page="../header.jsp"/>
 
-	<jsp:include page="leftMenu.jsp"/>
+	<jsp:include page="../leftMenu.jsp"/>
 	
 	<div class="main-content">
 		<div class="content-title">
 			<h3>
-				<img class="black-icon" src="images/game-black-icon.png">
+				<img class="black-icon" src="${pageContext.request.contextPath}/images/game-black-icon.png">
 				Partidos
 			</h3>
 			<span>Todos los partidos</span>
 		</div>
 		
-		<jsp:include page="errorMessages.jsp"/>
+		<jsp:include page="../errorMessages.jsp"/>
 		
 		<div class="container">
 			<br>	
-			<h4 class="new-record"><a href="addGame"><img src="images/add-icon.png" class="small-icon">Añadir un partido</a></h4>
+			<h4 class="new-record"><a href="addGame"><img src="${pageContext.request.contextPath}/images/add-icon.png" class="small-icon">Añadir un partido</a></h4>
 			<br>
 			
 			<div class="panel-info">
@@ -87,7 +87,7 @@
 				</s:iterator>
 			</table>
 		</div>
-		<jsp:include page="footer.jsp"/>
+		<jsp:include page="../footer.jsp"/>
 		
 	</div>
 </body>

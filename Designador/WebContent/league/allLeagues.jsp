@@ -6,7 +6,7 @@
 <html>
 <head>
 
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/users.css" />
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/league.css" />
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/commonScript.js"></script>
@@ -34,14 +34,34 @@
 		
 		<div class="container">
 			<br>	
-			<h4 class="new-record"><a href="addLeague"><img src="${pageContext.request.contextPath}/images/add-icon.png" class="small-icon">Añadir una competición</a></h4>
+			<h4 class="new-record"><a href="addEditLeague"><img src="${pageContext.request.contextPath}/images/add-icon.png" class="small-icon">Añadir una competición</a></h4>
 			<br>
 			
-			<div class="panel-info">
-				<div class="panel-body">
-					No hay ninguna competición disponible en el sistema. ¿Quieres <a class="link" href="addLeague">Añadir</a> una competición?
+			<s:if test="#attr.leagues.size() == 0">
+				<div class="panel-info">
+					<div class="panel-body">
+						No hay ninguna competición disponible en el sistema. ¿Quieres <a class="link" href="addEditLeague">Añadir</a> una competición?
+					</div>
 				</div>
-			</div>
+			</s:if>
+			<s:else>
+				<table id="leagues">
+					<tr><th colspan="2">Nombre de Competición</th></tr>	
+					<s:iterator value="#attr.leagues">
+						<tr>
+							<td><a class="link" href="addEditLeague?idLeague=${idLeague}">${leagueName}</a></td>
+							<td><a class="link delete" href="deleteLeague?idLeague=${idLeague}&method:deleteLeague">Eliminar</a>
+								<span class="confirm-box">
+									<span class="message">¿Estás seguro que quieres
+										eliminar esta competición? </span> <span class="btn yes">Sí</span> 
+										<span class="btn no">No</span>
+								</span>	
+							</td>
+						</tr>	
+					</s:iterator>
+				</table>
+			</s:else>
+			
 			
 		</div>
 		<jsp:include page="../footer.jsp"/>

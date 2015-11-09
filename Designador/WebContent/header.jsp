@@ -21,9 +21,9 @@
 					(${session.user.userName}) <span class="arrow"></span> 
 				</span>
 			</li>
-			<li id="profile" class="dropdown-menu"><a href="user?idUser=${session.user.idUser}"><img class="small-icon" src="${pageContext.request.contextPath}/images/profile-icon.png"><span>Perfil</span></a></li>
+			<li id="profile" class="dropdown-menu"><a href="${pageContext.request.contextPath}/user/user?idUser=${session.user.idUser}"><img class="small-icon" src="${pageContext.request.contextPath}/images/profile-icon.png"><span>Perfil</span></a></li>
 			<li id="messages" class="dropdown-menu"><a><img class="small-icon" src="${pageContext.request.contextPath}/images/messages-icon.png"><span>Mensajes</span></a></li>
-			<li id="logout" class="dropdown-menu"><a href="logout"><img class="small-icon" src="${pageContext.request.contextPath}/images/logout-icon.png"><span>Cerrar
+			<li id="logout" class="dropdown-menu"><a href="${pageContext.request.contextPath}/logout"><img class="small-icon" src="${pageContext.request.contextPath}/images/logout-icon.png"><span>Cerrar
 					sesión</span></a></li>
 
 		</ul>

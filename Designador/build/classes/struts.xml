@@ -21,13 +21,13 @@
 
 	<!-- Enabling Developer mode -->
 	<constant name="struts.devMode" value="true" />
-
+	
 	<package name="default" extends="struts-default">
-
+	
 		<result-types>
-        	<result-type name="displayImage" class="com.myproject.action.DisplayImage" />
+        	<result-type name="displayImage" class="com.myproject.action.image.DisplayImage" />
     	</result-types>
-    	
+	
 		<interceptors>
 			<interceptor class="com.myproject.interceptor.AuthenticationInterceptor"
 				name="AuthenticationInterceptor"></interceptor>
@@ -40,17 +40,37 @@
 			</interceptor-stack>
 
 		</interceptors>
-
+		
 		<default-interceptor-ref name="secureStack"></default-interceptor-ref>
 		
+		
 		<global-results>
-			<result name="login" type="redirectAction">login</result>
+			<result name="login" type="redirectAction">
+				<param name="actionName">login</param>
+        		<param name="namespace">/</param>
+			</result>
 		</global-results>
 		
+		<action name="getImage" class="com.myproject.action.image.GetImage" >
+			<result name="success" type="displayImage"></result>
+			<result name="input" type="redirectAction">homePage</result>
+		</action>
+	
 		<action name="/*">
+			<result type="redirectAction">
+				<param name="actionName">404Error</param>
+        		<param name="namespace">/</param>
+			</result>
+		</action>
+		
+		<action name="404Error">
 			<result>404Error.jsp</result>
 		</action>
-
+		
+	</package>	
+	
+	<package name="root"  extends="struts-default, default">
+		
 		<action name="index.html">
 			<result type="redirectAction">login</result>
 		</action>
@@ -75,40 +95,44 @@
 			<result name="input">passwordForgot.jsp</result>
 			<result name="success" type="redirectAction">login</result>
 		</action>
-
-
-		<action name="changePassword" class="com.myproject.action.ChangePassword">
-			<result name="error" type="redirectAction">login</result>
+		
+		<action name="games">
+			<result name="success">games.jsp</result>
+			<result name="error" type="redirectAction">homePage</result>
+		</action>
+	
+	</package>
+	
+	<package name="user"  namespace="/user" extends="struts-default, default">
+	
+		<action name="changePassword" class="com.myproject.action.user.ChangePassword">
+			<result name="error" type="redirectAction">
+				<param name="actionName">login</param>
+        		<param name="namespace">/</param>
+			</result>
 			<result name="none">changePassword.jsp</result>
 			<result name="input">changePassword.jsp</result>
-			<result name="success" type="redirectAction">homePage</result>
+			<result name="success" type="redirectAction">
+				<param name="actionName">homePage</param>
+        		<param name="namespace">/</param>
+        	</result>
 		</action>
-
-		<action name="addComment" class="com.myproject.action.AddComment">
-			<result name="error" type="redirectAction">homePage</result>
-			<result name="input" type="redirectAction">homePage</result>
-			<result name="success" type="redirectAction">homePage</result>
-			
-		</action>
-
-		<action name="deleteComment" class="com.myproject.action.DeleteComment">
-			<result name="error" type="redirectAction">homePage</result>
-			<result name="input" type="redirectAction">homePage</result>
-			<result name="success" type="redirectAction">homePage</result>
-		</action>
-
-		<action name="users" class="com.myproject.action.GetUsers" >
+		
+		<action name="users" class="com.myproject.action.user.GetUsers" >
 			<result name="success">users.jsp</result>
 			<result name="input">users.jsp</result>
 		</action>
 		
-	    <action name="user" class="com.myproject.action.GetUser">
+	    <action name="user" class="com.myproject.action.user.GetUser">
 			<result name="none">user.jsp</result>
 			<result name="not found" type="redirectAction">users</result>
 		</action> 
 		
-		<action name="editUser" class="com.myproject.action.AddEditUser">
-			<result name="error" type="redirectAction">homePage</result>
+		<action name="editUser" class="com.myproject.action.user.AddEditUser">
+			<result name="error" type="redirectAction">
+				<param name="actionName">homePage</param>
+        		<param name="namespace">/</param>
+        	</result>
 			<result name="none">addEditUser.jsp</result>
 			<result name="input">addEditUser.jsp</result>
 			<result name="not found" type="redirectAction">users</result>
@@ -118,8 +142,11 @@
 			</result>
 		</action>
 	
-		  <action name="addUser" class="com.myproject.action.AddEditUser" >
-			<result name="error" type="redirectAction">homePage</result>
+		  <action name="addUser" class="com.myproject.action.user.AddEditUser" >
+			<result name="error" type="redirectAction">
+				<param name="actionName">homePage</param>
+        		<param name="namespace">/</param>
+        	</result>
 			<result name="none">addEditUser.jsp</result>
 			<result name="input">addEditUser.jsp</result>
 			<result name="success" type="redirectAction">
@@ -128,66 +155,169 @@
 			</result>		
 		</action>
 		
-		<action name="deleteUser" class="com.myproject.action.DeleteUser">
-			<result name="error" type="redirectAction">homePage</result>
+		<action name="deleteUser" class="com.myproject.action.user.DeleteUser">
+			<result name="error" type="redirectAction">
+				<param name="actionName">homePage</param>
+        		<param name="namespace">/</param>
+        	</result>
 			<result name="success" type="redirectAction">users</result>
 			<result name="input" type="redirectAction">users</result>	
 		</action>
-		
-		<action name="getImage" class="com.myproject.action.GetImage" >
-			<result name="success" type="displayImage"></result>
-			<result name="input" type="redirectAction">homePage</result>
+	
+	</package>
+	
+	<package name="comment"  namespace="/comment" extends="struts-default, default">
+	
+		<action name="addComment" class="com.myproject.action.comment.AddComment">
+			<result name="error" type="redirectAction">
+				<param name="actionName">homePage</param>
+        		<param name="namespace">/</param>
+        	</result>
+        	<result name="input" type="redirectAction">
+				<param name="actionName">homePage</param>
+        		<param name="namespace">/</param>
+        	</result>
+        	<result name="success" type="redirectAction">
+				<param name="actionName">homePage</param>
+        		<param name="namespace">/</param>
+        	</result>
 		</action>
-		
-		<action name="availability" class="com.myproject.action.GetAvailability">
-			<result name="success">availability.jsp</result>
-			<result name="not found" type="redirectAction">users</result>
-			<result name="error" type="redirectAction">homePage</result>
-			<result name="input">availability.jsp</result>
-		</action>
-		
-		<action name="addAvailability" class="com.myproject.action.AddAvailability">
-			<result name="success" type="redirectAction">
-				<param name="actionName">availability</param>
-			    <param name="idUser">${idUser}</param>
-			</result>
-			<result name="not found" type="redirectAction">users</result>
-			<result name="error" type="redirectAction">homePage</result>
-		</action>
-		
-		<action name="deleteAvailability" class="com.myproject.action.DeleteAvailability">
-			<result name="success" type="redirectAction">
-				<param name="actionName">availability</param>
-			    <param name="idUser">${idUser}</param>
-			</result>
-			<result name="not found" type="redirectAction">users</result>
-			<result name="error" type="redirectAction">homePage</result>
-		</action>
-		
-		<action name="allAvailability" class="com.myproject.action.GetAllAvailability">
-			<result name="success">allAvailability.jsp</result>
-			<result name="error" type="redirectAction">homePage</result>
-		</action>
-		
-		<!-- Leagues -->
-		<action name="allLeagues">
-			<result name="success">allLeagues.jsp</result>
-			<result name="error" type="redirectAction">homePage</result>
-		</action>
-		
-		<action name="addLeague">
-			<result>addEditLeague.jsp</result>
-			<!--  <result name="none">addEditLeague.jsp</result>
-			<result name="input">addEditLeague.jsp</result>
-			<result name="success" type="redirectAction">leagues</result>
-			<result name="error" type="redirectAction">homePage</result>-->
-		</action>
-		
-		
-		<action name="games">
-			<result name="success">games.jsp</result>
-			<result name="error" type="redirectAction">homePage</result>
+
+		<action name="deleteComment" class="com.myproject.action.comment.DeleteComment">
+			<result name="error" type="redirectAction">
+				<param name="actionName">homePage</param>
+        		<param name="namespace">/</param>
+        	</result>
+        	<result name="input" type="redirectAction">
+				<param name="actionName">homePage</param>
+        		<param name="namespace">/</param>
+        	</result>
+        	<result name="success" type="redirectAction">
+				<param name="actionName">homePage</param>
+        		<param name="namespace">/</param>
+        	</result>
 		</action>
 	
 	</package>
+	
+	<package name="availability"  namespace="/availability" extends="struts-default, default">
+	
+		<action name="availability" class="com.myproject.action.availability.GetAvailability">
+			<result name="success">availability.jsp</result>
+			<result name="not found" type="redirectAction">
+				<param name="actionName">users</param>
+        		<param name="namespace">/user</param>
+        	</result>
+			<result name="error" type="redirectAction">
+				<param name="actionName">homePage</param>
+        		<param name="namespace">/</param>
+        	</result>
+			<result name="input">availability.jsp</result>
+		</action>
+		
+		<action name="addAvailability" class="com.myproject.action.availability.AddAvailability">
+			<result name="success" type="redirectAction">
+				<param name="actionName">availability</param>
+			    <param name="idUser">${idUser}</param>
+			</result>
+			<result name="not found" type="redirectAction">
+				<param name="actionName">users</param>
+        		<param name="namespace">/user</param>
+        	</result>
+			<result name="error" type="redirectAction">
+				<param name="actionName">homePage</param>
+        		<param name="namespace">/</param>
+        	</result>
+		</action>
+		
+		<action name="deleteAvailability" class="com.myproject.action.availability.DeleteAvailability">
+			<result name="success" type="redirectAction">
+				<param name="actionName">availability</param>
+			    <param name="idUser">${idUser}</param>
+			</result>
+			<result name="not found" type="redirectAction">
+				<param name="actionName">users</param>
+        		<param name="namespace">/user</param>
+        	</result>
+			<result name="error" type="redirectAction">
+				<param name="actionName">homePage</param>
+        		<param name="namespace">/</param>
+        	</result>
+		</action>
+		
+		<action name="allAvailability" class="com.myproject.action.availability.GetAllAvailability">
+			<result name="success">allAvailability.jsp</result>
+			<result name="error" type="redirectAction">
+				<param name="actionName">homePage</param>
+        		<param name="namespace">/</param>
+        	</result>
+		</action>
+	</package>
+	
+	
+	<package name="league" namespace="/league" extends="struts-default, default">
+	
+		<action name="allLeagues" class="com.myproject.action.league.CRUDLeague">
+			<result name="success">allLeagues.jsp</result>
+			<result name="input">allLeagues.jsp</result>
+			<result name="error" type="redirectAction">
+				<param name="actionName">homePage</param>
+        		<param name="namespace">/</param>
+        	</result>
+		</action>
+		
+		<action name="addEditLeague" class="com.myproject.action.league.CRUDLeague">
+			<result name="none">addEditLeague.jsp</result>
+			<result name="input">addEditLeague.jsp</result>
+			<result name="success" type="redirectAction">allLeagues</result>
+			<result name="error" type="redirectAction">
+				<param name="actionName">homePage</param>
+        		<param name="namespace">/</param>
+        	</result>
+		</action>
+		
+		<action name="deleteLeague" class="com.myproject.action.league.CRUDLeague">
+			<result name="input" type="redirectAction">allLeagues</result>
+			<result name="success" type="redirectAction">allLeagues</result>
+			<result name="error" type="redirectAction">
+				<param name="actionName">homePage</param>
+        		<param name="namespace">/</param>
+        	</result>
+		</action>
+	
+	</package>
+	
+	
+	<package name="category" namespace="/category" extends="struts-default, default">
+	
+		<action name="allCategories" class="com.myproject.action.category.CRUDCategory">
+			<result name="success">allCategories.jsp</result>
+			<result name="input">allCategories.jsp</result>
+			<result name="error" type="redirectAction">
+				<param name="actionName">homePage</param>
+        		<param name="namespace">/</param>
+        	</result>
+		</action>
+		
+		<action name="addEditCategory" class="com.myproject.action.category.CRUDCategory">
+			<result name="none">addEditCategory.jsp</result>
+			<result name="input">addEditCategory.jsp</result>
+			<result name="success" type="redirectAction">allCategories</result>
+			<result name="error" type="redirectAction">
+				<param name="actionName">homePage</param>
+        		<param name="namespace">/</param>
+        	</result>
+		</action>
+		
+		<action name="deleteCategory" class="com.myproject.action.category.CRUDCategory">
+			<result name="input" type="redirectAction">allCategories</result>
+			<result name="success" type="redirectAction">allCategories</result>
+			<result name="error" type="redirectAction">
+				<param name="actionName">homePage</param>
+        		<param name="namespace">/</param>
+        	</result>
+		</action>
+	
+	</package>
+	
 </struts>

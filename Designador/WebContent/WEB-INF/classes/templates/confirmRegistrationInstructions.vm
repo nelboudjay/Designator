@@ -7,7 +7,7 @@
 			<img src="cid:logoImage">
 		</div>
 		<table
-			style="background-color: #ffffff; margin: 20px; padding: 20px 10px;">
+			style="background-color:#ffffff;margin:0 auto;padding:20px 10px; width:95%;">
 			<tr>
 				<td><h2>Hola $firstName,</h2></td>
 			</tr>
@@ -37,7 +37,7 @@
 			</tr>
 			<tr>
 				<td><b><a style="color: #c1461c;"
-						href="http://localhost:8080/Designador/changePassword?id=$token">Crear
+						href="http://localhost:8080/Designador/user/changePassword?id=$token">Crear
 							una nueva contraseña</a></b></td>
 			</tr>
 			<tr>

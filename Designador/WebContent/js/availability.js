@@ -23,7 +23,7 @@ $(function() {
 					calendarCell.prev().addClass("check");
 					calendarCell.attr("data-available",1);
 					$("#availableDates .no-dates").after("<div data-day='" + calendarCell.data("day") + "' data-date='" + calendarCell.data("date") + 
-							"'><img title='Eliminar esta fecha' class='garbage' src='images/garbage-icon.png'>"
+							"'><img title='Eliminar esta fecha' class='garbage' src='../images/garbage-icon.png'>"
 							+ calendarCell.data("dayname") + " " + calendarCell.data("day")
 							 				+ " de " + calendarCell.data("month") + "</div>");
 					
@@ -83,6 +83,9 @@ $(function() {
 			if($("td:nth-child(2)",this).hasClass("cross"))
 				$(this).hide();
 		})
+		
+		$(".available-referees > tbody  tr:visible").filter(":odd").css("background","inherit");
+		$(".available-referees > tbody  tr:visible").filter(":even").css("background","#e8e7e6 none repeat scroll 0 0");
 	});
 	
 	$(".show-all-referees").click(function(){
@@ -94,6 +97,8 @@ $(function() {
 			if($("td:nth-child(2)",this).hasClass("cross"))
 				$(this).show();
 		})
+		$(".available-referees > tbody  tr").filter(":odd").css("background","inherit");
+		$(".available-referees > tbody  tr").filter(":even").css("background","#e8e7e6 none repeat scroll 0 0");
 	});
 	
 	$(function () {

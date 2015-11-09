@@ -6,10 +6,10 @@
 <html>
 <head>
 
-<link rel="stylesheet" type="text/css" href="css/user.css" />
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/user.css" />
 
-<script type="text/javascript" src="js/jquery.js"></script>
-<script type="text/javascript" src="js/commonScript.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/commonScript.js"></script>
 
 <title>Perfil</title>
 
@@ -23,7 +23,7 @@
 	<div class="main-content">
 		<div class="content-title">
 			<h3>
-				<img class="black-icon" src="images/profile-black-icon.png">
+				<img class="black-icon" src="${pageContext.request.contextPath}/images/profile-black-icon.png">
 				<s:property value="userFullName"/>
 			</h3>
 			<span>Perfil</span>
@@ -56,18 +56,18 @@
 				<a href="user?idUser=${idUser}"><s:property value="#attr.userFullName"/></a>
 				<ul>
 					<li><a>Partidos</a></li>
-					<li><a href="availability?idUser=${idUser}">Disponibilidad</a></li>
+					<li><a href="${pageContext.request.contextPath}/availability/availability?idUser=${idUser}">Disponibilidad</a></li>
 					<li><a>Conflictos</a></li>
 				</ul>
 			</div>
 			<div class="user-paginate">
 				
 				<s:if test="#previousUserFullName != null ">
-					<a class="btn" href="user?idUser=${previousIdUser}"><img src="images/back-icon.png"><s:property value="#previousUserFullName"/></a>						
+					<a class="btn" href="user?idUser=${previousIdUser}"><img src="${pageContext.request.contextPath}/images/back-icon.png"><s:property value="#previousUserFullName"/></a>						
 				</s:if>
 				
 				<s:if test="#nextUserFullName != null ">
-					<a class="btn" href="user?idUser=${nextIdUser}"><s:property value="#nextUserFullName"/><img src="images/forward-icon.png"></a>						
+					<a class="btn" href="user?idUser=${nextIdUser}"><s:property value="#nextUserFullName"/><img src="${pageContext.request.contextPath}/images/forward-icon.png"></a>						
 				</s:if>
 				
 			</div>

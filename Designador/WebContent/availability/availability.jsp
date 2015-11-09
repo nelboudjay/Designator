@@ -6,13 +6,13 @@
 <html>
 <head>
 
-<link rel="stylesheet" type="text/css" href="css/availability.css" />
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/availability.css" />
 
-<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.js"></script>
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-<script src="js/datepicker-es.js"></script>
-<script type="text/javascript" src="js/commonScript.js"></script>
-<script type="text/javascript" src="js/availability.js"></script>
+<script src="${pageContext.request.contextPath}/js/datepicker-es.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/commonScript.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/availability.js"></script>
 
 <title>Disponibilidad</title>
 
@@ -26,7 +26,7 @@
 	<div class="main-content">
 		<div class="content-title">
 			<h3>
-				<img class="black-icon" src="images/profile-black-icon.png">
+				<img class="black-icon" src="${pageContext.request.contextPath}/images/profile-black-icon.png">
 				<s:property value="#attr.userFullName"/>
 			</h3>
 			<span>Disponibilidad</span>
@@ -56,7 +56,7 @@
 			</s:if>	
 			<div id="${idUser}" class="user-menu">
 				<img  src="getImage?idUser=${idUser}" >
-				<a href="user?idUser=${idUser}"><s:property value="#attr.userFullName"/></a>
+				<a href="${pageContext.request.contextPath}/user/user?idUser=${idUser}"><s:property value="#attr.userFullName"/></a>
 				<ul>
 					<li><a>Partidos</a></li>
 					<li><a href="availability?idUser=${idUser}">Disponibilidad</a></li>
@@ -66,11 +66,11 @@
 			<div class="user-paginate">
 				
 				<s:if test="#previousUserFullName != null ">
-					<a class="btn" href="availability?idUser=${previousIdUser}&dateStr=${dateStr}"><img src="images/back-icon.png"><s:property value="#previousUserFullName"/></a>						
+					<a class="btn" href="availability?idUser=${previousIdUser}&dateStr=${dateStr}"><img src="${pageContext.request.contextPath}/images/back-icon.png"><s:property value="#previousUserFullName"/></a>						
 				</s:if>
 				
 				<s:if test="#nextUserFullName != null ">
-					<a class="btn" href="availability?idUser=${nextIdUser}&dateStr=${dateStr}"><s:property value="#nextUserFullName"/><img src="images/forward-icon.png"></a>						
+					<a class="btn" href="availability?idUser=${nextIdUser}&dateStr=${dateStr}"><s:property value="#nextUserFullName"/><img src="${pageContext.request.contextPath}/images/forward-icon.png"></a>						
 				</s:if>
 				
 			</div>
@@ -168,7 +168,7 @@
 				
 				<s:iterator value="#attr.availableDates">
 					<div data-day="<s:date name="startDate" format="d" />" data-date="<s:date name="startDate" format="yyyy-MM-d" />">
-						<img src="images/garbage-icon.png" class="garbage" title="Eliminar esta fecha">
+						<img src="${pageContext.request.contextPath}/images/garbage-icon.png" class="garbage" title="Eliminar esta fecha">
 						<s:date name="startDate" format="EEEE" var="dayName"/>
 						<s:property value="@com.opensymphony.xwork2.inject.util.Strings@capitalize(#dayName)"/>
 						<s:date name="startDate" format="d" /> de 

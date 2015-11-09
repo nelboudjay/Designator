@@ -6,10 +6,10 @@
 <html>
 <head>
 
-<link rel="stylesheet" type="text/css" href="css/user.css" />
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/user.css" />
 
-<script type="text/javascript" src="js/jquery.js"></script>
-<script type="text/javascript" src="js/commonScript.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/commonScript.js"></script>
 
 <title>Perfil</title>
 
@@ -23,7 +23,7 @@
 	 <div class="main-content">
 		<div class="content-title">
 			<h3>
-				<img class="black-icon" src="images/profile-black-icon.png">
+				<img class="black-icon" src="${pageContext.request.contextPath}/images/profile-black-icon.png">
 				<s:if test="idUser == null || idUser == ''">
 					Nuevo Miembro
 				</s:if>
@@ -162,19 +162,19 @@
 								<div class="error-field">Usuario no puede estar en blanco.</div>
 						</div>
 						
-							<div>
-								<label class="required"><strong>Contraseña</strong></label> <input id="password"
-									type="password" class="text-input-2 required-field identical-field" name="password" 
-									value="${password}">
-								<div class="error-field">Introduce tu contraseña.</div>
-							
-							</div>
-							
-							<div>
-								<label class="required"><strong>Confirmar Contraseña</strong></label> <input id="repassword"
-									type="password" class="text-input-2 required-field identical-field" name="repassword">	
-								<div class="error-field">Las contraseñas deben ser iguales.</div>
-							</div>
+						<div>
+							<label class="required"><strong>Contraseña</strong></label> <input id="password"
+								type="password" class="text-input-2 required-field identical-field" name="password" 
+								value="${password}">
+							<div class="error-field">Introduce tu contraseña.</div>
+						
+						</div>
+						
+						<div>
+							<label class="required"><strong>Confirmar Contraseña</strong></label> <input id="repassword"
+								type="password" class="text-input-2 required-field identical-field" name="repassword">	
+							<div class="error-field">Las contraseñas deben ser iguales.</div>
+						</div>
 						
 					</div> 
 				</s:if>
@@ -217,7 +217,7 @@
 							<input type="radio" value="1" name="userRole" ${currentUserRole == 1 ? 'checked' : ''}>
 							
 							<label><b>Árbitro</b></label>
-							<input type="radio" value="2" name="userRole" ${currentUserRole == 2 ? 'checked' : ''}>
+							<input type="radio" value="2" name="userRole" ${currentUserRole == 2 || currentUserRole == 0 ? 'checked' : ''}>
 							
 							<label><b>Designador y Árbitro</b></label>
 							<input  type="radio" value="3" name="userRole" ${currentUserRole == 3 ? 'checked' : ''}>
@@ -230,11 +230,13 @@
 				<div class="row">
 					<div>				
 						<s:if test="idUser == null || idUser == ''">
-							<input type="submit" class="btn" value="Añadir Miembro" name="method:addUser"> o 
+							<input type="submit" class="btn" value="Añadir Miembro" name="method:addUser"> 
+							o 
 							<a href="users">Cancelar</a>
 						</s:if>
 						<s:else>
-							<input type="submit" class="btn" value="Actualizar Perfil" name="method:editUser"> o 
+							<input type="submit" class="btn" value="Actualizar Perfil" name="method:editUser">
+							 o 
 							<a href="user?idUser=${idUser}">Cancelar</a>
 						</s:else>						
 						

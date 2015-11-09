@@ -1,0 +1,33 @@
+@import url("commonStyle.css");
+
+form > div,.row  {
+	margin:0;
+}
+
+.select-div {
+	width: 240px;
+   	height: 23px;
+   	overflow: hidden;
+   	background: url("../images/dropdown-icon.png")  no-repeat right #fff;
+   	border-color: #dedede;
+   	border-style: solid none solid solid;
+    border-width: 1px 0 1px 1px;
+}
+
+#categoryGender {
+	background: transparent;
+   	width: 300px;
+   	font-size: 11px;
+   	border: 0;
+   	height: 25px;
+   	color:inherit;
+}
+
+#categories td {
+	height:auto;
+}
+
+#categories tr> td:nth-child(3) {
+	max-width:50px;
+	white-space: nowrap;
+}

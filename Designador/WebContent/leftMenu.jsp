@@ -25,15 +25,15 @@
 					<s:if test="#context['struts.actionMapping'].name in {'availability','allAvailability'}">block</s:if>
 					<s:else>none</s:else>
 				">
-					<li><a href="${pageContext.request.contextPath}/allAvailability">Toda La Disponibilidad</a></li>
-					<li><a href="${pageContext.request.contextPath}/availability?idUser=${session.user.idUser}">Mi Disponibilidad</a></li>
+					<li><a href="${pageContext.request.contextPath}/availability/allAvailability">Toda La Disponibilidad</a></li>
+					<li><a href="${pageContext.request.contextPath}/availability/availability?idUser=${session.user.idUser}">Mi Disponibilidad</a></li>
 				</ul>
 			</li>
 		</s:if>
 		<s:elseif test="#session.user.userRole == 1">
 			<li class="${context['struts.actionMapping'].name == 'allAvailability' ? 'active' : '' }">
 				<span class="glow"></span>
-				<a href="${pageContext.request.contextPath}/allAvailability"><img class="left-menu-icon"
+				<a href="${pageContext.request.contextPath}/availability/allAvailability"><img class="left-menu-icon"
 				src="${pageContext.request.contextPath}/images/calendar-icon.png">Disponibilidad
 				</a>
 			</li>
@@ -41,13 +41,13 @@
 		<s:else>
 			<li class="${context['struts.actionMapping'].name == 'availability' ? 'active' : '' }">
 				<span class="glow"></span>
-				<a href="${pageContext.request.contextPath}/availability?idUser=${session.user.idUser}"><img class="left-menu-icon"
+				<a href="${pageContext.request.contextPath}/availability/availability?idUser=${session.user.idUser}"><img class="left-menu-icon"
 				src="${pageContext.request.contextPath}/images/calendar-icon.png">Disponibilidad
 				</a>
 			</li>
 		</s:else>
 		<li class="${context['struts.actionMapping'].name == 'users' ? 'active' : '' }"><span class="glow"></span>
-			<a href="${pageContext.request.contextPath}/users"><img class="left-menu-icon"
+			<a href="${pageContext.request.contextPath}/user/users"><img class="left-menu-icon"
 			src="${pageContext.request.contextPath}/images/users-icon.png">Miembros</a></li>
 		
 		<s:if test="#session.user.userRole != 2">
@@ -63,8 +63,16 @@
 					<s:if test="#context['struts.actionMapping'].name in {'allLeagues','addLeague'}">block</s:if>
 					<s:else>none</s:else>
 				">
-					<li><a href="${pageContext.request.contextPath}/league/allLeagues"><img class="left-menu-icon-small" src="${pageContext.request.contextPath}/images/league-icon.png">Competiciones</a></li>
-					<li><a>Categorías</a></li>
+					<li><a href="${pageContext.request.contextPath}/league/allLeagues">
+						<img class="left-menu-icon-small" src="${pageContext.request.contextPath}/images/league-icon.png">
+							Competiciones
+						</a>
+					</li>
+					<li><a href="${pageContext.request.contextPath}/category/allCategories">
+						<img class="left-menu-icon-small" src="${pageContext.request.contextPath}/images/category-icon.png">
+							Categorías
+						</a>
+					</li>
 				</ul>
 			</li>
 		</s:if>

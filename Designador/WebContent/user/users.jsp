@@ -6,11 +6,11 @@
 <html>
 <head>
 
-<link rel="stylesheet" type="text/css" href="css/users.css" />
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/users.css" />
 
-<script type="text/javascript" src="js/jquery.js"></script>
-<script type="text/javascript" src="js/commonScript.js"></script>
-<script type="text/javascript" src="js/users.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/commonScript.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/users.js"></script>
 
 <title>Miembros</title>
 
@@ -24,7 +24,7 @@
 	<div class="main-content">
 		<div class="content-title">
 			<h3>
-				<img class="black-icon" src="images/users-black-icon.png">
+				<img class="black-icon" src="${pageContext.request.contextPath}/images/users-black-icon.png">
 				Miembros
 			</h3>
 			<span>Todos los miembros</span>
@@ -35,7 +35,7 @@
 		<div class="container">
 			<br>	
 			<s:if test="#session.user.isAdmin()">
-				<h4 class="new-record"><a href="addUser"><img src="images/add-icon.png" class="small-icon">Añadir un nuevo miembro</a></h4>
+				<h4 class="new-record"><a href="addUser"><img src="${pageContext.request.contextPath}/images/add-icon.png" class="small-icon">Añadir un nuevo miembro</a></h4>
 			</s:if>
 			<br>
 			<table class="members">
@@ -51,15 +51,15 @@
 					<tr>
 						<td><a class="link" href="user?idUser=${idUser}"><s:property value="userFullName"/></a></td>
 						<td>
-						<div class="btn-group"><a class="btn btn-link" href="games?idUser=${idUser}">Partidos</a>
+						<div class="btn-group"><a class="btn btn-link" href="${pageContext.request.contextPath}/game/games?idUser=${idUser}">Partidos</a>
 							<button class="btn">
-								<img class="small-icon" src="images/settings-dropdown-icon.png">
-								<img class="very-small-icon" src="images/arrowhead-icon.png">
+								<img class="small-icon" src="${pageContext.request.contextPath}/images/settings-dropdown-icon.png">
+								<img class="very-small-icon" src="${pageContext.request.contextPath}/images/arrowhead-icon.png">
 							</button>
 							<ul	style="display:none;">
-								<li><a href="user?idUser=${idUser}">Info</a></li>
-								<li><a href="availability?idUser=${idUser}">Disponibilidad</a></li>
-								<li><a href="user?idUser=${idUser}">Conflictos</a></li>
+								<li><a href="${pageContext.request.contextPath}/user/user?idUser=${idUser}">Info</a></li>
+								<li><a href="${pageContext.request.contextPath}/availability/availability?idUser=${idUser}">Disponibilidad</a></li>
+								<li><a href="${pageContext.request.contextPath}/user/user?idUser=${idUser}">Conflictos</a></li>
 							</ul>
 						</div>
 							

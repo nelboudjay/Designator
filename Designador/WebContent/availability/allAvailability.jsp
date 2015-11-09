@@ -6,14 +6,14 @@
 <html>
 <head>
 
-<link rel="stylesheet" type="text/css" href="css/allAvailability.css" />
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/allAvailability.css" />
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 
-<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.js"></script>
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-<script src="js/datepicker-es.js"></script>
-<script type="text/javascript" src="js/commonScript.js"></script>
-<script type="text/javascript" src="js/availability.js"></script>
+<script src="${pageContext.request.contextPath}/js/datepicker-es.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/commonScript.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/availability.js"></script>
 
 <title>Partidos y Disponibilidad</title>
 
@@ -27,7 +27,7 @@
 	<div class="main-content">
 		<div class="content-title">
 			<h3>
-				<img class="black-icon" src="images/calendar-black-icon.png">
+				<img class="black-icon" src="${pageContext.request.contextPath}/images/calendar-black-icon.png">
 				Partidos y Disponibilidad
 			</h3>
 			<span><s:date name="date" format="d" /> de 	

@@ -1,0 +1,31 @@
+<html>
+<head>
+</head>
+<body style="background-color: #e8e7e6;">
+	<div>
+		<div style="margin-left: 12px;">
+			<img src="cid:logoImage">
+		</div>
+		<table  style="background-color:#ffffff;margin:0 auto;padding:20px 10px; width:95%;">
+			<tr>
+				<td><h2>Hola a todos,</h2></td>
+			</tr>
+			<tr>
+				<td><h2 style="color: #ffffff; padding: 20px; background-color: #c1461c;">
+					$emailbodyTitle</h2></td>
+			</tr>
+			<tr>
+				<td style="padding-bottom: 25px;">$commentBody</td>
+			</tr>
+			<tr>
+				<td>Gracias por utilizar <a style="color: #c1461c;"
+					href="http://localhost:8080/Designador">Designador</a></td>
+			</tr>
+			<tr>
+				<td>$firstName</td>
+			</tr>
+		</table>
+		<div style="color: #e8e7e6">end</div>
+	</div>
+</body>
+</html>

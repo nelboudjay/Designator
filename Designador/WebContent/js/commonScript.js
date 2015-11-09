@@ -185,8 +185,8 @@ $(document).ready(function() {
         e.preventDefault();
 		e.stopPropagation();
 
-		$(".delete").hide();
-		$(".confirm-box").css("display", "inline");
+		$(this).hide();
+		$(this).next(".confirm-box").css("display", "inline");
 		
 		var deleteLink = $(this).attr("href");
 		
