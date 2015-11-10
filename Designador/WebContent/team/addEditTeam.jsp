@@ -6,12 +6,12 @@
 <html>
 <head>
 
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/category.css" />
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/maintenance.css" />
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/commonScript.js"></script>
 
-<title>Añadir Categorías</title>
+<title>Añadir Equipos</title>
 
 <s:head />
 </head>
@@ -23,44 +23,38 @@
 	 <div class="main-content">
 		<div class="content-title">
 			<h3>
-				<img class="black-icon" src="${pageContext.request.contextPath}/images/category-black-icon.png">
-				Categorías
+				<img class="black-icon" src="${pageContext.request.contextPath}/images/users-black-icon.png">
+				Equipos
 			</h3>
-			<span>Nueva Categoría</span>
+			<span>Nuevo Equipo</span>
 		</div>
 		
 		<jsp:include page="../errorMessages.jsp"/>
 		
 		<div class="container">
 			<br/>
-			<form action="addEditCategory" method="post" >
+			<form action="addEditTeam" method="post" >
 							
 				<div class="row">
 					<div>
-						<label class="required"><strong>Nombre de Categoría</strong></label> <input id="categoryName"
-							type="text" class="text-input-2 required-field" name="categoryName" 
-								value="${categoryName}">
-						<div class="error-field">Nombre no puede estar en blanco.</div>	
+						<label class="required"><strong>Nombre del Equipo</strong></label> <input id="teamName"
+							type="text" class="text-input-2 required-field" name="teamName" 
+								value="${teamName}">
+						<div class="error-field">Nombre del equipo no puede estar en blanco.</div>	
 					</div>
 					<div>
-						<label class="required"><strong>Sexo</strong></label> 
-						<div class="select-div">
-							<select id="categoryGender" name="categoryGender">
-								<option value="1" ${categoryGender == 1 ? 'selected' : ''}>Masculino</option>
-								<option value="2" ${categoryGender == 2 ? 'selected' : ''}>Femenino</option>
-								<option value="3" ${categoryGender == 3 ? 'selected' : ''}>Mixto</option>
-							</select>
-						</div>
+						<label><strong>Localidad</strong>
+						</label> <input id="teamLocation" type="text" class="text-input-2" name="teamLocation" value="${teamLocation}">
 					</div>
 					
-					<div><input name="idCategory" value="${idCategory}" type="hidden"></div>
+					<div><input name="idTeam" value="${idTeam}" type="hidden"></div>
 					   
 				</div>
 				
 				<div>
 					<div>				
-						<input type="submit" class="btn" value="${categoryName == null || categoryName == '' ? 'Crear' : 'Actualizar'} Competición" name="method:addEditCategory"> o 
-						<a href="allCategories">Cancelar</a>						
+						<input type="submit" class="btn" value="${teamName == null || teamName == '' ? 'Crear' : 'Actualizar'} Equipo" name="method:addEditTeam"> o 
+						<a href="allTeams">Cancelar</a>						
 						
 					</div>
 				</div>

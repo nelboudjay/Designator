@@ -6,7 +6,7 @@
 <html>
 <head>
 
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/league.css" />
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/maintenance.css" />
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/commonScript.js"></script>

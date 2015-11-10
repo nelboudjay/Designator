@@ -320,4 +320,68 @@
 	
 	</package>
 	
+	<package name="team" namespace="/team" extends="struts-default, default">
+	
+		<action name="allTeams" class="com.myproject.action.team.CRUDTeam">
+			<result name="success">allTeams.jsp</result>
+			<result name="input">allTeams.jsp</result>
+			<result name="error" type="redirectAction">
+				<param name="actionName">homePage</param>
+        		<param name="namespace">/</param>
+        	</result>
+		</action>
+		
+		<action name="addEditTeam" class="com.myproject.action.team.CRUDTeam">
+			<result name="none">addEditTeam.jsp</result>
+			<result name="input">addEditTeam.jsp</result>
+			<result name="success" type="redirectAction">allTeams</result>
+			<result name="error" type="redirectAction">
+				<param name="actionName">homePage</param>
+        		<param name="namespace">/</param>
+        	</result>
+		</action>
+		
+		<action name="deleteTeam" class="com.myproject.action.team.CRUDTeam">
+			<result name="input" type="redirectAction">allTeams</result>
+			<result name="success" type="redirectAction">allTeams</result>
+			<result name="error" type="redirectAction">
+				<param name="actionName">homePage</param>
+        		<param name="namespace">/</param>
+        	</result>
+		</action>
+	
+	</package>
+	
+	<package name="venue" namespace="/venue" extends="struts-default, default">
+	
+		<action name="allVenues" class="com.myproject.action.venue.CRUDVenue">
+			<result name="success">allVenues.jsp</result>
+			<result name="input">allVenues.jsp</result>
+			<result name="error" type="redirectAction">
+				<param name="actionName">homePage</param>
+        		<param name="namespace">/</param>
+        	</result>
+		</action>
+
+		<action name="addEditVenue" class="com.myproject.action.venue.CRUDVenue">
+			<result name="none">addEditVenue.jsp</result>
+			<result name="input">addEditVenue.jsp</result>
+			<result name="success" type="redirectAction">allVenues</result>
+			<result name="error" type="redirectAction">
+				<param name="actionName">homePage</param>
+        		<param name="namespace">/</param>
+        	</result>
+		</action>
+		
+		<action name="deleteVenue" class="com.myproject.action.venue.CRUDVenue">
+			<result name="input" type="redirectAction">allVenues</result>
+			<result name="success" type="redirectAction">allVenues</result>
+			<result name="error" type="redirectAction">
+				<param name="actionName">homePage</param>
+        		<param name="namespace">/</param>
+        	</result>
+		</action>
+		
+	</package>
+	
 </struts>

@@ -104,7 +104,8 @@ public class AuthenticationInterceptor implements Interceptor {
 		
 		List<String> actionsLoginNames = Arrays.asList("login", "homePage");
 		List<String> actionsAdminNames = Arrays.asList("addComment", "deleteComment","addUser",
-				"deleteUser","allAvailability", "games", "allLeagues","addEditLeague","deleteLeague");
+				"deleteUser","allAvailability", "allLeagues","addEditLeague","deleteLeague"
+				, "allTeams","addEditTeam","deleteTeam", "allVenues","addEditVenue","deleteVenue");
 		
 		if (actionsLoginNames.contains( actionInvocation.getInvocationContext().getName()) ){
 

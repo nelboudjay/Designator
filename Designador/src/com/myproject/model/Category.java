@@ -39,7 +39,7 @@ public class Category {
 	@GeneratedValue
 	private String idCategory;
 	
-	@Column(name="CATEGORY_NAME", nullable = false, unique = true, length = 128)
+	@Column(name="CATEGORY_NAME", nullable = false, length = 128)
 	private String categoryName;
 
 	@Column(name="CATEGORY_GENDER", nullable = false)

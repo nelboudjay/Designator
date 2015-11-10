@@ -114,5 +114,21 @@ public class Address implements Serializable{
 	public void setZipcode(String zipcode) {
 		this.zipcode = zipcode;
 	}
+	
+	@Override
+	public boolean equals(Object o){
+		
+		boolean result = false;
+		if(o instanceof Address){
+			Address add = (Address)o;
+			result = add.getAddress1().equalsIgnoreCase(this.address1)
+					&& add.getAddress2().equalsIgnoreCase(this.address2)
+					&& add.getCity().equalsIgnoreCase(this.city)
+					&& add.getProvince().equalsIgnoreCase(this.province)
+					&& add.getZipcode().equals(this.zipcode);
+		}
+
+		return result;
+	}
 
 }

@@ -20,3 +20,11 @@
 input[type="radio"]{
 	margin-right:15px;
 }
+
+#profileImage{
+	position:relative;
+}
+
+.profile-image {
+	padding-bottom:5px;
+}

@@ -6,7 +6,7 @@
 <html>
 <head>
 
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/category.css" />
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/maintenance.css" />
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/commonScript.js"></script>
@@ -40,7 +40,7 @@
 						<label class="required"><strong>Nombre de Categoría</strong></label> <input id="categoryName"
 							type="text" class="text-input-2 required-field" name="categoryName" 
 								value="${categoryName}">
-						<div class="error-field">Nombre no puede estar en blanco.</div>	
+						<div class="error-field">Nombre de categoría no puede estar en blanco.</div>	
 					</div>
 					<div>
 						<label class="required"><strong>Sexo</strong></label> 

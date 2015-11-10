@@ -114,6 +114,7 @@ public class AddEditUser extends ActionSupport implements SessionAware, ServletC
 			if(((User)session.get("user")).isAdmin()) /*Referee updating his profile*/
 				setUserRole(user.getUserRole());
 
+			setCurrentPicture(user.getUserProfile().getPicture() != null);
 			return NONE;
 
 		}

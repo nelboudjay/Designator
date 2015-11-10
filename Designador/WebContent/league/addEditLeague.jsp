@@ -6,7 +6,7 @@
 <html>
 <head>
 
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/league.css" />
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/maintenance.css" />
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/commonScript.js"></script>
@@ -40,7 +40,7 @@
 						<label class="required"><strong>Nombre de Competición</strong></label> <input id="leagueName"
 							type="text" class="text-input-2 required-field" name="leagueName" 
 								value="${leagueName}">
-						<div class="error-field">Nombre no puede estar en blanco.</div>	
+						<div class="error-field">Nombre de competición no puede estar en blanco.</div>	
 					</div>
 					 <div><input name="idLeague" value="${idLeague}" type="hidden"></div>
 					   

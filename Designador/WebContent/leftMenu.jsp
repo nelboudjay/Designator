@@ -52,7 +52,10 @@
 		
 		<s:if test="#session.user.userRole != 2">
 			<li class="dark-nav 
-				<s:if test="#context['struts.actionMapping'].name in {'allLeagues','addLeague'}">active dark-nav-active
+				<s:if test="#context['struts.actionMapping'].name in 
+						{'allLeagues','addEditLeague','allCategories','addEditCategory', 
+						'allTeams','addEditTeam', 'allVenues','addEditVenue'}">
+						active dark-nav-active
 				</s:if>
 			">
 				<span class="glow"></span>
@@ -60,7 +63,11 @@
 				<span class="arrow"></span>
 				</a>
 				<ul style="display:
-					<s:if test="#context['struts.actionMapping'].name in {'allLeagues','addLeague'}">block</s:if>
+					<s:if test="#context['struts.actionMapping'].name in 
+						{'allLeagues','addEditLeague','allCategories','addEditCategory', 
+						'allTeams','addEditTeam', 'allVenues','addEditVenue'}">
+						block
+					</s:if>
 					<s:else>none</s:else>
 				">
 					<li><a href="${pageContext.request.contextPath}/league/allLeagues">
@@ -71,6 +78,16 @@
 					<li><a href="${pageContext.request.contextPath}/category/allCategories">
 						<img class="left-menu-icon-small" src="${pageContext.request.contextPath}/images/category-icon.png">
 							Categorías
+						</a>
+					</li>
+					<li><a href="${pageContext.request.contextPath}/team/allTeams">
+						<img class="left-menu-icon-small" src="${pageContext.request.contextPath}/images/users-icon.png">
+							Equipos
+						</a>
+					</li>
+					<li><a href="${pageContext.request.contextPath}/venue/allVenues">
+						<img class="left-menu-icon-small" src="${pageContext.request.contextPath}/images/venue-icon.png">
+							Pistas
 						</a>
 					</li>
 				</ul>

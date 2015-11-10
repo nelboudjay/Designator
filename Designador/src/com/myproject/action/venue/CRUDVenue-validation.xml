@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE validators PUBLIC "-//Apache Struts//XWork Validator 1.0.2//EN" "http://struts.apache.org/dtds/xwork-validator-1.0.2.dtd">
+
+<validators>
+	<field name="venueName">
+		<field-validator type="requiredstring">
+			<message>El nombre de la pista no puede estar en blanco.</message>
+		</field-validator>
+	</field>
+	
+	<field name="venueContactPhone">
+	    <field-validator type="regex">
+	        <param name="regex"><![CDATA[^\+?(\d{9,}|)$]]></param>
+	        <message>Número de teléfono fijo no válido.</message>
+	    </field-validator>
+	</field>
+	
+	<field name="zipcode">
+	    <field-validator type="regex">
+	        <param name="regex"><![CDATA[^(\d{5}|)$]]></param>
+	        <message>Código postal incorrecto.</message>
+	    </field-validator>
+	</field>
+</validators> 

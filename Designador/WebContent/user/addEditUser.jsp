@@ -179,16 +179,11 @@
 					</div> 
 				</s:if>
 			
-				<h3 class="title-1">Foto de Perfil 
+				<h3 class="title-1" class="${currentPicture ? 'profile-image' : '' }">Foto de Perfil 
 					<span  id="profileImage">
 						<button type="button" class="close2" title="Eliminar foto">×</button>
 						<img  src="getImage?idUser=${idUser}"   width="24px" height="24px"> 
-						<s:if test="picture != null">
-							<input type="hidden" name="currentPicture"  value="true">
-						</s:if>		
-						<s:else>
-							<input type="hidden" name="currentPicture"  value="false">
-						</s:else>
+						<input type="hidden" name="currentPicture"  value="${currentPicture}">
 					</span>
 				</h3>
 					

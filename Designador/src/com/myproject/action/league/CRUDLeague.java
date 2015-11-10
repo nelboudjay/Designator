@@ -79,11 +79,8 @@ public class CRUDLeague  extends ActionSupport implements ServletContextAware{
 		}
 		
 		/*Adding a new League*/
-		eqRestrictions.clear();
-		eqRestrictions.put("leagueName", new FieldCondition(leagueName.trim()));
-		league = (League) service.GetUniqueModelData(League.class, eqRestrictions);
 		
-		if(league != null){
+		if(leagueAlreadyExists(leagueName.trim())){
 			addFieldError("leagueName","El nombre de la competición ya existe. Por favor, elige otro.");
 			return INPUT;
 		}
