@@ -59,6 +59,11 @@ function validate(){
 				noEmpty =  warn($("#picture"));
 			}
 		}
+		
+		if(!$("[id^=refereeType]").is(":checked")){
+			$(".referee-types  .error-field").css("display", "block");
+			noEmpty = false;
+		}
 		return noEmpty;
 }
 
@@ -134,13 +139,6 @@ $(document).ready(function() {
 	);
 	
 	
-	/*$('#leftMenu li').click(function() {
-		if(!$(this).hasClass("active") && !$(this).hasClass("dark-nav")){
-			
-			$('#leftMenu .active').removeClass("active");
-			$(this).addClass("active");
-		}
-	});*/
 	
 	$('#leftMenu li, .dropdown-menu').hover(
 			function() {

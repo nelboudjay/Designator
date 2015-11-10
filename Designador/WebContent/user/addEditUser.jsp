@@ -10,6 +10,7 @@
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/commonScript.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/users.js"></script>
 
 <title>Perfil</title>
 
@@ -219,7 +220,35 @@
 						</div>
 					</div>
 				
+					<s:if test="currentUserRole != 1">
+					
+						<div class="row referee-types">
+						<div>
+							<label><b>Principal</b></label>
+							<input id="refereeType1" type="checkbox" value="1" name="refereeType1" checked>
+							
+							<label><b>Auxiliar</b></label>
+							<input id="refereeType2" type="checkbox" value="2" name="refereeType2" >
+							
+							<label><b>Anotador</b></label>
+							<input id="refereeType3" type="checkbox" value="3" name="refereeType3" >
+							
+							<label><b>Cronometrador</b></label>
+							<input id="refereeType4" type="checkbox" value="4" name="refereeType4" >
+							
+							<label><b>Operador 30"</b></label>
+							<input id="refereeType5" type="checkbox" value="5" name="refereeType5" >
+							
+							<label><b>Coche</b></label>
+							<input id="refereeType6" type="checkbox" value="6" name="refereeType6" >
+							<div class="error-field">Debes seleccionar al menos un tipo de árbitro</div>
+							
+						</div>
+					</div>
+					</s:if>
+				
 				</s:if>
+				
 				
 				<input name="idUser" value="${idUser}" type="hidden">
 				<div class="row">

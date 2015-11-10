@@ -87,7 +87,49 @@ public class Address implements Serializable{
 	}
 	
 	public String getFullAddress() {
-		return getAddress1() + " " + getAddress2();
+		boolean empty = true;
+		String fullAddress = "";
+		
+		if(!getAddress1().equals("")){
+			fullAddress = getAddress1();
+			empty = false;
+		}
+
+		
+		if(!getAddress2().equals("")){
+			if(empty){
+				fullAddress = getAddress2();
+				empty = false;
+			}else
+				fullAddress += ", " + getAddress2();
+		}
+			
+		if(!getCity().equals("")){
+			if(empty){
+				fullAddress = getCity();
+				empty = false;
+			}else
+				fullAddress += ", " + getCity();
+		}
+		
+		if(!getProvince().equals("")){
+			if(empty){
+				fullAddress = getProvince();
+				empty = false;
+			}else
+				fullAddress += ", " + getProvince();
+		}
+		
+		if(!getZipcode().equals("")){
+			if(empty){
+				fullAddress = getZipcode();
+				empty = false;
+			}else
+				fullAddress += ", " + getZipcode();
+		}
+		
+
+		return fullAddress;
 	}
 
 

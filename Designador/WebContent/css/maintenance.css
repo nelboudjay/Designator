@@ -50,6 +50,11 @@ form > div,.row  {
 }
 
 
+#venues tr> td:nth-child(5) {
+	max-width:50px;
+	white-space: nowrap;
+	text-align:right;
+}
 .venue-form > .row{
 	margin-bottom:15px;
 }

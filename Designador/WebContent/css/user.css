@@ -17,9 +17,12 @@
 }
 
 
-input[type="radio"]{
+input[type="radio"],input[type="checkbox"]{
 	margin-right:15px;
 }
+
+
+
 
 #profileImage{
 	position:relative;
@@ -28,3 +31,5 @@ input[type="radio"]{
 .profile-image {
 	padding-bottom:5px;
 }
+
+

@@ -42,7 +42,8 @@ public class AddEditUser extends ActionSupport implements SessionAware, ServletC
 	private File picture;
 	private String pictureContentType, pictureFileName;
 	private int userRole;
-		
+	private boolean refereeType1, refereeType2, refereeType3, refereeType4, refereeType5, refereeType6;
+	
 	private GenericService service;
 
 	private MailService mailService;
@@ -529,6 +530,54 @@ public class AddEditUser extends ActionSupport implements SessionAware, ServletC
 		this.userRole = userRole;
 	}
 	
+	public boolean isRefereeType1() {
+		return refereeType1;
+	}
+
+	public void setRefereeType1(boolean refereeType1) {
+		this.refereeType1 = refereeType1;
+	}
+
+	public boolean isRefereeType2() {
+		return refereeType2;
+	}
+
+	public void setRefereeType2(boolean refereeType2) {
+		this.refereeType2 = refereeType2;
+	}
+
+	public boolean isRefereeType3() {
+		return refereeType3;
+	}
+
+	public void setRefereeType3(boolean refereeType3) {
+		this.refereeType3 = refereeType3;
+	}
+
+	public boolean isRefereeType4() {
+		return refereeType4;
+	}
+
+	public void setRefereeType4(boolean refereeType4) {
+		this.refereeType4 = refereeType4;
+	}
+
+	public boolean isRefereeType5() {
+		return refereeType5;
+	}
+
+	public void setRefereeType5(boolean refereeType5) {
+		this.refereeType5 = refereeType5;
+	}
+
+	public boolean isRefereeType6() {
+		return refereeType6;
+	}
+
+	public void setRefereeType6(boolean refereeType6) {
+		this.refereeType6 = refereeType6;
+	}
+
 	@Override
 	public void setSession(Map<String, Object> session) {
 		this.session = session;

@@ -59,7 +59,7 @@
 					<s:iterator value="#attr.venues">
 						<tr>
 							<td><a class="link" href="addEditVenue?idVenue=${idVenue}">${venueName}</a></td>
-							<td>Address</td>
+							<td>${venueAddress != null ? venueAddress.getFullAddress() : ''}</td>
 							<td>${venueContactName}</td>
 							<td>${venueContactPhone}</td>
 							<td><a class="link delete" href="deleteVenue?idVenue=${idVenue}&method:deleteVenue">Eliminar</a>

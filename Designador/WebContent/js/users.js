@@ -9,4 +9,11 @@ $(function() {
 		$('.btn-group ul').hide();
 	});
 	
+	$('input:radio[name="userRole"]').change(function (){
+	if($(this).val() == 1)
+		$('.referee-types').hide();
+	else
+		$('.referee-types').show();
+	});
+	
 });
