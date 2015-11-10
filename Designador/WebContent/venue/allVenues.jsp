@@ -49,10 +49,12 @@
 			</s:if>
 			<s:else>
 				<table id="venues">
-					<tr><th>Nombre de Pista</th>
-						<th>Dirección<th>
+					<tr>
+						<th>Nombre de Pista</th>
+						<th>Dirección</th>
 						<th>Nombre de Responsable</th>
 						<th>Teléfono de Contacto</th>
+						<th></th>
 					</tr>	
 					<s:iterator value="#attr.venues">
 						<tr>

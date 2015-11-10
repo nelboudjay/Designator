@@ -27,7 +27,7 @@ form > div,.row  {
 	height:auto;
 }
 
-#categories tr> td:nth-child(3) {
+#categories tr > td:nth-child(3) {
 	max-width:50px;
 	white-space: nowrap;
 }

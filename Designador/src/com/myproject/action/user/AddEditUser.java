@@ -193,8 +193,7 @@ public class AddEditUser extends ActionSupport implements SessionAware, ServletC
 					address = new Address(user.getUserProfile().getAddress().getIdAddress(),address1.trim(), address2.trim(), province.trim(), city.trim(), zipcode);
 
 			}
-			else if (user.getUserProfile().getAddress() != null)
-					service.DeleteModelData(user.getUserProfile().getAddress());	
+			
 			
 			//save image into database
 			byte[] bPicture = null;
@@ -230,6 +229,7 @@ public class AddEditUser extends ActionSupport implements SessionAware, ServletC
 			user.setUserRole(userRole);
 			
 			service.SaveOrUpdateModelData(user);
+				
 			
 			if(user.getIdUser().equals(((User)session.get("user")).getIdUser())){
 				session.put("user", user);

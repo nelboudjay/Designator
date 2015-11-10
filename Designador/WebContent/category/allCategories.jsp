@@ -50,7 +50,8 @@
 			<s:else>
 				<table id="categories">
 					<tr><th>Nombre de Categoría</th>
-						<th>Sexo<th>
+						<th>Sexo</th>
+						<th></th>
 					</tr>	
 					<s:iterator value="#attr.categories">
 						<tr>

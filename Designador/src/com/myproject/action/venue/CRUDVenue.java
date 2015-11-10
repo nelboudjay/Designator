@@ -89,7 +89,7 @@ public class CRUDVenue  extends ActionSupport implements ServletContextAware{
 					venue.setVenueContactName(WordUtils.capitalize(venueContactName.trim()));
 					venue.setVenueContactPhone(venueContactPhone.trim());
 					
-					if(venue.getVenueAddress() != null){
+					if(venue.getVenueAddress() != null && address != null){
 					
 						address = venue.getVenueAddress();
 						address.setAddress1(address1.trim());
