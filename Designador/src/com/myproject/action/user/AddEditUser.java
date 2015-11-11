@@ -44,7 +44,7 @@ public class AddEditUser extends ActionSupport implements SessionAware, ServletC
 	private String pictureContentType, pictureFileName;
 	private int userRole;
 	private boolean refereeType1, refereeType2, refereeType3, refereeType4, refereeType5, refereeType6;
-	
+	private boolean[] refereeTypes = {false, false, false, false, false, false};
 	private GenericService service;
 
 	private MailService mailService;
@@ -120,7 +120,10 @@ public class AddEditUser extends ActionSupport implements SessionAware, ServletC
 
 				List<?> userRefereeTypes = service.GetModelDataList(UserRefereeType.class, eqRestrictions, null, null);	
 				for(Object userRefereeType : userRefereeTypes){
-					switch (((UserRefereeType)userRefereeType).getRefereeType()){
+					
+					refereeTypes[((UserRefereeType)userRefereeType).getRefereeType() - 1] = true;
+			
+					/*switch (((UserRefereeType)userRefereeType).getRefereeType()){
 					case UserRefereeType.PRINCIPAL: 	setRefereeType1(true);
 														break;
 					case UserRefereeType.AUXILIAR: 		setRefereeType2(true);
@@ -133,7 +136,7 @@ public class AddEditUser extends ActionSupport implements SessionAware, ServletC
 														break;
 					case UserRefereeType.COCHE: 		setRefereeType6(true);
 														break;
-					}
+					}*/
 				}
 					
 			}
@@ -147,11 +150,12 @@ public class AddEditUser extends ActionSupport implements SessionAware, ServletC
 	public String editUser(){
 		
 		User user;
+		Map<String, FieldCondition> eqRestrictions = new HashMap<String, FieldCondition>();
+
 		if (idUser == null || idUser.equals("")){
 			
 			addActionError("Por favor, introduce el id del usuario que quieres editar.");
 			
-			Map<String, FieldCondition> eqRestrictions = new HashMap<String, FieldCondition>();
 			List<?> users = service.GetModelDataList(User.class, eqRestrictions, "firstName", true);
 			context.setAttribute("users", users);
 			
@@ -180,14 +184,13 @@ public class AddEditUser extends ActionSupport implements SessionAware, ServletC
 			}
 			else{
 
-				Map<String, FieldCondition> eqRestrictions = new HashMap<String, FieldCondition>();	
 				eqRestrictions.put("idUser", new FieldCondition(idUser));
 				user = (User) service.GetUniqueModelData(User.class, eqRestrictions);
 				
 				if(user == null){
 					
 					addActionError("El usuario que has introducido no existe o ya se ha eliminado");
-					
+					eqRestrictions.clear();
 					List<?> users = service.GetModelDataList(User.class, eqRestrictions, "firstName", true);	
 					context.setAttribute("users", users);
 					
@@ -248,6 +251,28 @@ public class AddEditUser extends ActionSupport implements SessionAware, ServletC
 
 				if(userRole != User.REFEREE && userRole != User.BOTH)
 					userRole = User.ADMIN;
+				if(user.getUserRole() != User.ADMIN){
+					
+					eqRestrictions.clear();
+					eqRestrictions.put("user", new FieldCondition(user));
+
+					List<?> userRefereeTypes = service.GetModelDataList(UserRefereeType.class, eqRestrictions, null, null);	
+
+					for(int i= 0; i < UserRefereeType.REFEREETYPES; i++){
+						
+						
+						int refereeType = i + 1;
+						if(userRefereeTypes.stream().filter(userRefereeType -> 
+							((UserRefereeType)userRefereeType).getRefereeType() == refereeType ).count() == 1){
+							
+						}
+							System.out.println("hi");
+					}
+					
+					for(boolean refereeType : refereeTypes)
+					   System.out.println("hi: " + refereeType);
+						
+				}
 			}
 			
 			user.setUserRole(userRole);
@@ -553,6 +578,14 @@ public class AddEditUser extends ActionSupport implements SessionAware, ServletC
 		this.userRole = userRole;
 	}
 	
+	public boolean[] getRefereeTypes() {
+		return refereeTypes;
+	}
+
+	public void setRefereeTypes(boolean[] refereeTypes) {
+		this.refereeTypes = refereeTypes;
+	}
+
 	public boolean isRefereeType1() {
 		return refereeType1;
 	}

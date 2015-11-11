@@ -106,6 +106,15 @@
 					<td>Previlegios </td>
 					<td>
 						<s:property value="userRoleName"/>
+						<s:if test="userRole != 1">
+							(<s:iterator value="userRefereeTypesNames" status="status">
+								<s:if test="#status.count > 1">
+									${status.count < userRefereeTypesNames.size() ? ', ' : ' y '}
+									
+								</s:if>
+								<s:property/>
+							</s:iterator>)
+						</s:if>						
 					</td>
 				</tr>
 			</table>

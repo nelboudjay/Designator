@@ -26,7 +26,8 @@ public class User extends ActionSupport{
 	public static final int REFEREE = 2;
 	public static final int BOTH = 3;
 
-
+	public static final int USERROLES = 3;
+	
 	public User(User user){
 		super();
 		this.idUser = user.getIdUser();

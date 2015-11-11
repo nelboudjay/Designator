@@ -67,6 +67,7 @@ public class DAOImpl implements DAO {
 
 		session.getTransaction().commit();
 	}
+	
 
 	@Override
 	public Object GetUniqueModelData(Class<?> t,

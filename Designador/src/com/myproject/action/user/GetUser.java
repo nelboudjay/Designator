@@ -2,6 +2,7 @@ package com.myproject.action.user;
 
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -11,6 +12,7 @@ import org.apache.struts2.interceptor.SessionAware;
 import org.apache.struts2.util.ServletContextAware;
 
 import com.myproject.model.User;
+import com.myproject.model.UserRefereeType;
 import com.myproject.service.GenericService;
 import com.myproject.tools.FieldCondition;
 import com.opensymphony.xwork2.ActionSupport;
@@ -24,8 +26,10 @@ public class GetUser extends ActionSupport implements SessionAware, ServletConte
 
 	private String idUser;
 	private String email, userFullName, userRoleName, homePhone, mobilePhone;
+	private int userRole;
 	private boolean confirmed;
-	
+	private List<String> userRefereeTypesNames;
+
 	
 	private GenericService service;
 
@@ -61,6 +65,15 @@ public class GetUser extends ActionSupport implements SessionAware, ServletConte
 			setUserRoleName(user.getUserRoleName());
 			setHomePhone(user.getUserProfile().getHomePhone());
 			setMobilePhone(user.getUserProfile().getMobilePhone());
+			if(user.getUserRole() != User.ADMIN){
+				setUserRole(user.getUserRole());
+				eqRestrictions.clear();
+				eqRestrictions.put("user", new FieldCondition(user));
+				List<?> userRefereeTypes = service.GetModelDataList(UserRefereeType.class, eqRestrictions, null, null);	
+				userRefereeTypesNames = new LinkedList<String>();
+				userRefereeTypes.forEach(userRefereeType -> 
+						userRefereeTypesNames.add(((UserRefereeType)userRefereeType).getRefereeTypeName()));
+			}
 			
 			return NONE;
 			
@@ -107,7 +120,14 @@ public class GetUser extends ActionSupport implements SessionAware, ServletConte
 		this.confirmed = confirmed;
 	}
 
-	
+	public int getUserRole() {
+		return userRole;
+	}
+
+	public void setUserRole(int userRole) {
+		this.userRole = userRole;
+	}
+
 	public String getHomePhone() {
 		return homePhone;
 	}
@@ -122,6 +142,14 @@ public class GetUser extends ActionSupport implements SessionAware, ServletConte
 
 	public void setMobilePhone(String mobilePhone) {
 		this.mobilePhone = mobilePhone;
+	}
+	
+	public List<String> getUserRefereeTypesNames() {
+		return userRefereeTypesNames;
+	}
+
+	public void setUserRefereeTypesNames(List<String> userRefereeTypesNames) {
+		this.userRefereeTypesNames = userRefereeTypesNames;
 	}
 
 	@Override

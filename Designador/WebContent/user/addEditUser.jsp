@@ -225,22 +225,30 @@
 						<div class="row referee-types">
 						<div>
 							<label><b>Principal</b></label>
-							<input id="refereeType1" type="checkbox" value="1" name="refereeType1" ${refereeType1 || idUser == null || idUser == '' ? 'checked' : ''}>
+							<input id="refereeType1" type="checkbox" ${refereeTypes[0] || idUser == null || idUser == '' ? 'checked' : ''}>
+							<input type="hidden" value="${idUser == null || idUser == '' ? true : refereeTypes[0]}"  name="refereeTypes">
 							
 							<label><b>Auxiliar</b></label>
-							<input id="refereeType2" type="checkbox" value="2" name="refereeType2" ${refereeType2 ? 'checked' : ''}>
+							<input id="refereeType2" type="checkbox" ${refereeTypes[1] ? 'checked' : ''}>
+							<input  type="hidden" value="${refereeTypes[1]}" name="refereeTypes">
 							
 							<label><b>Anotador</b></label>
-							<input id="refereeType3" type="checkbox" value="3" name="refereeType3" ${refereeType3 ? 'checked' : ''}>
+							<input id="refereeType3" type="checkbox" ${refereeTypes[2] ? 'checked' : ''}>
+							<input  type="hidden" value="${refereeTypes[2]}" name="refereeTypes">
 							
 							<label><b>Cronometrador</b></label>
-							<input id="refereeType4" type="checkbox" value="4" name="refereeType4" ${refereeType4 ? 'checked' : ''}>
+							<input id="refereeType4" type="checkbox"  ${refereeTypes[3] ? 'checked' : ''}>
+							<input  type="hidden" value="${refereeTypes[3]}" name="refereeTypes">
+							
 							
 							<label><b>Operador 30"</b></label>
-							<input id="refereeType5" type="checkbox" value="5" name="refereeType5" ${refereeType5 ? 'checked' : ''}>
+							<input id="refereeType5" type="checkbox" ${refereeTypes[4] ? 'checked' : ''}>
+							<input  type="hidden" value="${refereeTypes[4]}" name="refereeTypes">
 							
 							<label><b>Coche</b></label>
-							<input id="refereeType6" type="checkbox" value="6" name="refereeType6" ${refereeType6 ? 'checked' : ''}>
+							<input id="refereeType6" type="checkbox" ${refereeTypes[5] ? 'checked' : ''}>
+							<input  type="hidden" value="${refereeTypes[5]}" name="refereeTypes">
+							
 							<div class="error-field">Debes seleccionar al menos un tipo de árbitro</div>
 							
 						</div>

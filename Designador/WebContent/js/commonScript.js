@@ -60,9 +60,21 @@ function validate(){
 			}
 		}
 		
-		if($("[id^=refereeType]").length && !$("[id^=refereeType]").is(":checked")){
-			$(".referee-types  .error-field").css("display", "block");
-			noEmpty = false;
+		if($(".referee-types [id^=refereeType]").length){
+			if(!$("[id^=refereeType]").is(":checked")){
+				$(".referee-types  .error-field").css("display", "block");
+				noEmpty = false;
+			}
+			else{
+				$("[id^=refereeType]").each(function(){
+					if($(this).is(":checked"))
+						$(this).next().val(true);
+					else
+						$(this).next().val(false);
+					
+				});
+			}
+		
 		}
 		return noEmpty;
 }
