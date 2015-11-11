@@ -38,6 +38,8 @@
 			<br>
 			
 			<s:if test="#attr.leagues.size() == 0">
+			
+			
 				<div class="panel-info">
 					<div class="panel-body">
 						No hay ninguna competición disponible en el sistema. ¿Quieres <a class="link" href="addEditLeague">Añadir</a> una competición?

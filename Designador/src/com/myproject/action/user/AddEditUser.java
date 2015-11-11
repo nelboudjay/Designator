@@ -19,6 +19,7 @@ import com.myproject.model.Address;
 import com.myproject.model.PasswordChangeRequest;
 import com.myproject.model.User;
 import com.myproject.model.UserProfile;
+import com.myproject.model.UserRefereeType;
 import com.myproject.service.GenericService;
 import com.myproject.tools.FieldCondition;
 import com.opensymphony.xwork2.ActionContext;
@@ -53,6 +54,8 @@ public class AddEditUser extends ActionSupport implements SessionAware, ServletC
 	@SkipValidation
 	public String execute() {
 
+		Map<String, FieldCondition> eqRestrictions = new HashMap<String, FieldCondition>();
+
 		if( ActionContext.getContext().getName().equalsIgnoreCase("addUser")){			
 			setIdUser(null); /*If the link is addUser?idUser=xxx*/
 			return NONE;
@@ -60,7 +63,6 @@ public class AddEditUser extends ActionSupport implements SessionAware, ServletC
 			
 			addActionError("Por favor, introduce el id del usuario que quieres editar.");
 
-			Map<String, FieldCondition> eqRestrictions = new HashMap<String, FieldCondition>();
 			List<?> users = service.GetModelDataList(User.class, eqRestrictions, "firstName", true);
 			context.setAttribute("users", users);
 			
@@ -81,7 +83,6 @@ public class AddEditUser extends ActionSupport implements SessionAware, ServletC
 			}
 			else{
 				
-				Map<String, FieldCondition> eqRestrictions = new HashMap<String, FieldCondition>();	
 				eqRestrictions.put("idUser", new FieldCondition(idUser));
 				user = (User) service.GetUniqueModelData(User.class, eqRestrictions);
 				
@@ -112,9 +113,31 @@ public class AddEditUser extends ActionSupport implements SessionAware, ServletC
 			setHomePhone(user.getUserProfile().getHomePhone());
 			setEmail(user.getEmail());
 			setEmail2(user.getUserProfile().getEmail2());
-			if(((User)session.get("user")).isAdmin()) /*Referee updating his profile*/
+			if(((User)session.get("user")).isAdmin()){
 				setUserRole(user.getUserRole());
+				eqRestrictions.clear();
+				eqRestrictions.put("user", new FieldCondition(user));
 
+				List<?> userRefereeTypes = service.GetModelDataList(UserRefereeType.class, eqRestrictions, null, null);	
+				for(Object userRefereeType : userRefereeTypes){
+					switch (((UserRefereeType)userRefereeType).getRefereeType()){
+					case UserRefereeType.PRINCIPAL: 	setRefereeType1(true);
+														break;
+					case UserRefereeType.AUXILIAR: 		setRefereeType2(true);
+														break;
+					case UserRefereeType.ANOTADOR: 		setRefereeType3(true);
+														break;
+					case UserRefereeType.CRONOMETRADOR: setRefereeType4(true);
+														break;
+					case UserRefereeType.OPERADOR30: 	setRefereeType5(true);
+														break;
+					case UserRefereeType.COCHE: 		setRefereeType6(true);
+														break;
+					}
+				}
+					
+			}
+			
 			setCurrentPicture(user.getUserProfile().getPicture() != null);
 			return NONE;
 

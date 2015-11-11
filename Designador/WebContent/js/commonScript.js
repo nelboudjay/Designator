@@ -60,7 +60,7 @@ function validate(){
 			}
 		}
 		
-		if(!$("[id^=refereeType]").is(":checked")){
+		if($("[id^=refereeType]").length && !$("[id^=refereeType]").is(":checked")){
 			$(".referee-types  .error-field").css("display", "block");
 			noEmpty = false;
 		}
