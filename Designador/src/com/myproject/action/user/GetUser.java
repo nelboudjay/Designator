@@ -65,8 +65,8 @@ public class GetUser extends ActionSupport implements SessionAware, ServletConte
 			setUserRoleName(user.getUserRoleName());
 			setHomePhone(user.getUserProfile().getHomePhone());
 			setMobilePhone(user.getUserProfile().getMobilePhone());
+			setUserRole(user.getUserRole());
 			if(user.getUserRole() != User.ADMIN){
-				setUserRole(user.getUserRole());
 				eqRestrictions.clear();
 				eqRestrictions.put("user", new FieldCondition(user));
 				List<?> userRefereeTypes = service.GetModelDataList(UserRefereeType.class, eqRestrictions, null, null);	

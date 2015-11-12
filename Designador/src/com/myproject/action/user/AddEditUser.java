@@ -2,6 +2,7 @@ package com.myproject.action.user;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,7 +45,7 @@ public class AddEditUser extends ActionSupport implements SessionAware, ServletC
 	private String pictureContentType, pictureFileName;
 	private int userRole;
 	private boolean refereeType1, refereeType2, refereeType3, refereeType4, refereeType5, refereeType6;
-	private boolean[] refereeTypes = {false, false, false, false, false, false};
+	private Boolean[] refereeTypes = {false, false, false, false, false, false};
 	private GenericService service;
 
 	private MailService mailService;
@@ -253,24 +254,34 @@ public class AddEditUser extends ActionSupport implements SessionAware, ServletC
 					userRole = User.ADMIN;
 				if(user.getUserRole() != User.ADMIN){
 					
+					
+					if(!Arrays.asList(refereeTypes).contains(true)){
+						addActionError( "Debes seleccionar al menos un tipo de árbitro.");
+						return INPUT;
+					}
+					
 					eqRestrictions.clear();
 					eqRestrictions.put("user", new FieldCondition(user));
 
 					List<?> userRefereeTypes = service.GetModelDataList(UserRefereeType.class, eqRestrictions, null, null);	
-
+					boolean urtAlreadyExist;
 					for(int i= 0; i < UserRefereeType.REFEREETYPES; i++){
-						
-						
-						int refereeType = i + 1;
-						if(userRefereeTypes.stream().filter(userRefereeType -> 
-							((UserRefereeType)userRefereeType).getRefereeType() == refereeType ).count() == 1){
+						urtAlreadyExist = false;
+						for(Object userRefereeType : userRefereeTypes){
+							
+							if(((UserRefereeType)userRefereeType).getRefereeType() == i + 1){
+								if(!refereeTypes[i])
+									service.DeleteModelData(userRefereeType);
+								urtAlreadyExist = true;
+								break;
+							}
 							
 						}
-							System.out.println("hi");
+						if(!urtAlreadyExist && refereeTypes[i])
+								service.SaveOrUpdateModelData(new UserRefereeType(user, i + 1));
+						
 					}
 					
-					for(boolean refereeType : refereeTypes)
-					   System.out.println("hi: " + refereeType);
 						
 				}
 			}
@@ -341,8 +352,31 @@ public class AddEditUser extends ActionSupport implements SessionAware, ServletC
 		if(userRole != User.REFEREE && userRole != User.BOTH)
 			userRole = User.ADMIN;
 		
+		
 		User user = new User(userName,email.trim(),userRole,userProfile);
-		service.SaveOrUpdateModelData(user);
+		
+
+		if(userRole != User.ADMIN){
+
+			if(!Arrays.asList(refereeTypes).contains(true)){
+				addActionError( "Debes seleccionar al menos un tipo de árbitro.");
+				return INPUT;
+			}
+			else
+				service.SaveOrUpdateModelData(user);
+
+			
+			for(int i= 0; i < UserRefereeType.REFEREETYPES; i++){
+				if(refereeTypes[i])
+						service.SaveOrUpdateModelData(new UserRefereeType(user, i + 1));				
+			}
+			
+		}
+		else
+			service.SaveOrUpdateModelData(user);
+
+		
+		
 		setIdUser(user.getIdUser());
 		
 		Map<String, FieldCondition> eqRestrictions = new HashMap<String, FieldCondition>();
@@ -578,11 +612,11 @@ public class AddEditUser extends ActionSupport implements SessionAware, ServletC
 		this.userRole = userRole;
 	}
 	
-	public boolean[] getRefereeTypes() {
+	public Boolean[] getRefereeTypes() {
 		return refereeTypes;
 	}
 
-	public void setRefereeTypes(boolean[] refereeTypes) {
+	public void setRefereeTypes(Boolean[] refereeTypes) {
 		this.refereeTypes = refereeTypes;
 	}
 

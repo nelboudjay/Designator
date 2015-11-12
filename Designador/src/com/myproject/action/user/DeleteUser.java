@@ -11,6 +11,7 @@ import org.apache.struts2.util.ServletContextAware;
 
 import com.myproject.model.PasswordChangeRequest;
 import com.myproject.model.User;
+import com.myproject.model.UserRefereeType;
 import com.myproject.service.GenericService;
 import com.myproject.tools.FieldCondition;
 import com.opensymphony.xwork2.ActionSupport;
@@ -62,6 +63,13 @@ public class DeleteUser extends ActionSupport implements  SessionAware, ServletC
 						service.DropEvent("DELETE_PASSWORD_CHANGE_REQUEST_" + idUser);
 						service.DeleteModelData(passwordChangeRequest);	
 					}
+					
+					eqRestrictions.clear();
+					eqRestrictions.put("user", new FieldCondition(user));
+
+					List<?> userRefereeTypes = service.GetModelDataList(UserRefereeType.class, eqRestrictions, null, null);	
+					userRefereeTypes.forEach(userRefereeType -> service.DeleteModelData(userRefereeType));
+					
 					
 					service.DeleteModelData(user);	
 					addActionMessage("El miembro ha sido eliminado con exito");
