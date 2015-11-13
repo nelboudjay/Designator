@@ -118,14 +118,14 @@
 					</td>
 				</tr>
 			</table>
-			<p><a href="users" class="link">« Todos los Miembros</a> · 
+			<p><a href="users" class="link">« Todos los Miembros</a>
 			
 				<s:if test="idUser == #session.user.idUser">
-					<a class="link" href="editUser?idUser=${idUser}">Editar</a> · 
+					· <a class="link" href="editUser?idUser=${idUser}">Editar</a> · 
 					<a class="link" href="changePassword">Cambiar contraseña</a> 
 				</s:if>
 				<s:elseif test="#session.user.isAdmin()">
-					<a class="link" href="editUser?idUser=${idUser}">Editar</a> · 
+					. <a class="link" href="editUser?idUser=${idUser}">Editar</a> · 
 					<a class="link delete" href="deleteUser?idUser=${idUser}">Eliminar</a>
 					<span class="confirm-box">
 						<span class="message">¿Estás seguro que quieres

@@ -200,6 +200,19 @@
 	
 	</package>
 	
+	<package name="game" namespace="/game" extends="struts-default, default">
+	
+		<action name="allGames" class="com.myproject.action.game.CRUDGame">
+			<result name="success">allGames.jsp</result>
+			<result name="input">allGames.jsp</result>
+			<result name="error" type="redirectAction">
+				<param name="actionName">homePage</param>
+        		<param name="namespace">/</param>
+        	</result>
+		</action>
+		
+	</package>
+	
 	<package name="availability"  namespace="/availability" extends="struts-default, default">
 	
 		<action name="availability" class="com.myproject.action.availability.GetAvailability">

@@ -7,10 +7,33 @@
 			<span class="glow"></span>
 			<a href="${pageContext.request.contextPath}/homePage"><img class="left-menu-icon" src="${pageContext.request.contextPath}/images/home-icon.png">Inicio</a>
 		</li>
-		<li class="${context['struts.actionMapping'].name == 'games' ? 'active' : '' }"><span class="glow"></span>
-			<a href="${pageContext.request.contextPath}/games"><img class="left-menu-icon" src="${pageContext.request.contextPath}/images/game-icon.png">
-				Partidos<span class="arrow"></span></a>
-		</li>
+			<li class="dark-nav
+				<s:if test="#context['struts.actionMapping'].name in 
+					{'allGames','myGames','myUnconfirmedGames', 'UnassignedGames', 'UnpublishedGames'}">active dark-nav-active
+				</s:if>
+			">
+				<span class="glow"></span>
+				<a><img class="left-menu-icon" src="${pageContext.request.contextPath}/images/game-icon.png">Partidos
+				<span class="arrow"></span>
+				</a>
+				<ul style="display:
+					<s:if test="#context['struts.actionMapping'].name in 
+						{'allGames','myGames','myUnconfirmedGames', 'UnassignedGames', 'UnpublishedGames'}">block</s:if>
+					<s:else>none</s:else>
+				">
+					<s:if test="#session.user.userRole != 2">
+						<li><a href="${pageContext.request.contextPath}/game/allGames">Todos Los Partidos</a></li>
+					</s:if>
+					<s:if test="#session.user.userRole != 1">
+						<li><a href="${pageContext.request.contextPath}/game/myGames?idUser=${session.user.idUser}">Mis Partidos</a></li>
+						<li><a href="${pageContext.request.contextPath}/game/myUnconfirmedGames=${session.user.idUser}">Mis Partidos no Confirmados</a></li>
+					</s:if>
+					<s:if test="#session.user.userRole != 2">
+						<li><a href="${pageContext.request.contextPath}/game/unassignedGames">Partidos no Asignados</a></li>
+						<li><a href="${pageContext.request.contextPath}/game/unpublishedGames">Partidos no Publicados</a></li>
+					</s:if>
+				</ul>
+			</li>
 		
 		<s:if test="#session.user.userRole == 3">
 			<li class="dark-nav 
