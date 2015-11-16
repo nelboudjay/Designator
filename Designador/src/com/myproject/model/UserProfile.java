@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.apache.commons.lang3.text.WordUtils;
 import org.hibernate.annotations.ForeignKey;
 
 @Entity
@@ -92,7 +93,7 @@ public class UserProfile implements Serializable{
 	}
 
 	public String getFirstName() {
-		return firstName;
+		return WordUtils.capitalize(firstName);
 	}
 
 	public void setFirstName(String firstName) {
@@ -100,7 +101,7 @@ public class UserProfile implements Serializable{
 	}
 
 	public String getLastName1() {
-		return lastName1;
+		return WordUtils.capitalize(lastName1);
 	}
 
 	public void setLastName1(String lastName1) {
@@ -108,7 +109,7 @@ public class UserProfile implements Serializable{
 	}
 
 	public String getLastName2() {
-		return lastName2;
+		return WordUtils.capitalize(lastName2);
 	}
 
 	public void setLastName2(String lastName2) {

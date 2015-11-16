@@ -119,25 +119,9 @@ public class AddEditUser extends ActionSupport implements SessionAware, ServletC
 				eqRestrictions.put("user", new FieldCondition(user));
 
 				List<?> userRefereeTypes = service.GetModelDataList(UserRefereeType.class, eqRestrictions, null, null);	
-				for(Object userRefereeType : userRefereeTypes){
-					
+				for(Object userRefereeType : userRefereeTypes)		
 					refereeTypes[((UserRefereeType)userRefereeType).getRefereeType() - 1] = true;
 			
-					/*switch (((UserRefereeType)userRefereeType).getRefereeType()){
-					case UserRefereeType.PRINCIPAL: 	setRefereeType1(true);
-														break;
-					case UserRefereeType.AUXILIAR: 		setRefereeType2(true);
-														break;
-					case UserRefereeType.ANOTADOR: 		setRefereeType3(true);
-														break;
-					case UserRefereeType.CRONOMETRADOR: setRefereeType4(true);
-														break;
-					case UserRefereeType.OPERADOR30: 	setRefereeType5(true);
-														break;
-					case UserRefereeType.COCHE: 		setRefereeType6(true);
-														break;
-					}*/
-				}
 					
 			}
 			

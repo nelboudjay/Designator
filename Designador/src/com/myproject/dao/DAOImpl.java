@@ -168,7 +168,7 @@ public class DAOImpl implements DAO {
 					cr.addOrder(Order.desc(attribute));
 			}
 			
-			obj = cr.list();
+			obj = cr.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
 
 		} catch (HibernateException e) {
 			e.printStackTrace();

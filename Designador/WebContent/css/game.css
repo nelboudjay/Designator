@@ -1,0 +1,108 @@
+@import url("commonStyle.css");
+
+
+.show-future-games {
+	display:none;
+}
+
+.games{
+	width:100%;
+}
+.games th{
+	text-align:center;
+	border:0;
+}
+
+.games td {
+	height:0;
+	border:0;
+	padding: 0 6px;
+	white-space:nowrap;
+}
+
+.games tr{
+	background: #f8f8f8 ;
+}
+
+.games b {
+	color:#5b5b5b;
+}
+
+.games tr:nth-child(2n + 2) > td:first-child{
+	max-width:65px;
+	color:#5b5b5b;
+	font-size:12px;
+	white-space:normal;
+}
+
+.games tr:nth-child(2n + 2) > td:nth-child(2){
+	color: #5b5b5b;
+    font-family: "Open Sans",HelveticaNeue,Helvetica,Arial;
+    font-size: 18px;
+    font-style: italic;
+    font-weight: 400;
+    text-align: center;
+}
+
+.games tr:nth-child(2n + 2) > td:nth-child(2) > div{
+	display:inline;
+}
+
+.games tr:nth-child(2n + 2) > td:nth-child(2) > span{
+    font-size: 10px;
+}
+
+.games tr:nth-child(2n + 2) > td:nth-child(3){
+    text-align: center;
+}
+.games tr:nth-child(2n + 2) > td:nth-child(3) > div{
+    text-align: left;
+    display:inline-block;
+}
+
+.games tr:nth-child(2n + 2) > td:nth-child(6) div{
+	margin:5px 0;
+	color:#5b5b5b;
+	font-size:12px;
+}
+
+
+.games tr:nth-child(2n + 3) > td:nth-child(2), .games tr:nth-child(2n + 3) >  td:nth-child(3){
+    text-align: center;
+}
+.games tr:nth-child(2n + 3) > td:nth-child(2) > div, .games tr:nth-child(2n + 3) > td:nth-child(3) > div{
+    text-align: left;
+    display:inline-block;
+}
+
+tr:nth-child(4n + 4), tr:nth-child(4n + 5){
+	background: #e8e7e6 !important;
+}
+
+.published{
+	background-color: #5cb85c;
+    border-radius: 0.25em;
+    color: #fff;
+    text-align: center;
+    padding: 2px 4px;
+    
+}
+
+.not-assigned{
+	background-color: #f0ad4e;
+    border-radius: 0.25em;
+    color: #fff;
+    text-align: center;
+    font-size:12px;
+    padding: 2px 4px;
+}
+
+.row{
+	display:table-row;
+}
+
+.row > div{
+	padding: 0 4px;
+}
+
+

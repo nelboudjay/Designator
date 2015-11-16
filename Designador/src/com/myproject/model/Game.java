@@ -2,12 +2,15 @@ package com.myproject.model;
 
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -21,16 +24,20 @@ public class Game {
 	
 	public static final boolean PUBLISHED = true;
 	public static final boolean UNPUBLISHED = false;
-	
+
 	public Game(Team homeTeam, Team awayTeam, Timestamp gameDate,
-			Venue gameVenue, boolean gameStatus, League gameLeague) {
+			Venue gameVenue, League gameLeague, Category gameCategory,
+			boolean gameStatus, User lastUpdaterUser, Timestamp lastUpdatedDate) {
 		super();
 		this.homeTeam = homeTeam;
 		this.awayTeam = awayTeam;
 		this.gameDate = gameDate;
 		this.gameVenue = gameVenue;
-		this.gameStatus = gameStatus;
 		this.gameLeague = gameLeague;
+		this.gameCategory = gameCategory;
+		this.gameStatus = gameStatus;
+		this.lastUpdaterUser = lastUpdaterUser;
+		this.lastUpdatedDate = lastUpdatedDate;
 	}
 
 	public Game(){
@@ -65,10 +72,27 @@ public class Game {
 	@JoinColumn(name = "GAME_LEAGUE", nullable = false)
 	private League gameLeague;
 	
+	@OneToOne
+	@ForeignKey (name = "FK_GAME__CATEGORY")
+	@JoinColumn(name = "GAME_CATEGORY", nullable = false)
+	private Category gameCategory;
+	
 	@Type(type = "org.hibernate.type.NumericBooleanType")
 	@Column(name = "GAME_STATUS", nullable = false)
 	private boolean gameStatus;
 
+	@OneToOne
+	@ForeignKey (name = "FK_GAME__USER")
+	@JoinColumn(name = "LAST_UPDATER_USER", nullable = false)
+	private User lastUpdaterUser;
+	
+	@Column(name = "LAST_UPDATED_DATE", nullable = false)
+	private Timestamp lastUpdatedDate;
+	
+
+	@OneToMany(fetch = FetchType.EAGER, mappedBy="game")
+    private List<RefereeGame> refereesGame;
+	
 	public String getIdGame() {
 		return idGame;
 	}
@@ -125,5 +149,55 @@ public class Game {
 		this.gameLeague = gameLeague;
 	}
 
+	public Category getGameCategory() {
+		return gameCategory;
+	}
+
+	public void setGameCategory(Category gameCategory) {
+		this.gameCategory = gameCategory;
+	}
+
+	public User getLastUpdaterUser() {
+		return lastUpdaterUser;
+	}
+
+	public void setLastUpdaterUser(User lastUpdaterUser) {
+		this.lastUpdaterUser = lastUpdaterUser;
+	}
+
+	public Timestamp getLastUpdatedDate() {
+		return lastUpdatedDate;
+	}
+
+	public void setLastUpdatedDate(Timestamp lastUpdatedDate) {
+		this.lastUpdatedDate = lastUpdatedDate;
+	}
+
+	public List<RefereeGame> getRefereesGame() {
+		return refereesGame;
+	}
+
+	public void setRefereesGame(List<RefereeGame> refereesGame) {
+		this.refereesGame = refereesGame;
+	}
+	
+	
+	public User getRefereeGame(int refereeType){
+		
+		User user = null;
+		
+		if(refereesGame != null){
+			
+			for(RefereeGame refereeGame : refereesGame){
+				if(refereeGame.getUserRefereeType().getRefereeType() == refereeType){
+					user = refereeGame.getUserRefereeType().getUser();
+					break;
+				}
+			}
+		}
+		
+		return user;
+	}
+	
 }
 

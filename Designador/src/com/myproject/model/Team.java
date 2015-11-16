@@ -1,15 +1,51 @@
 package com.myproject.model;
 
 
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
 @Table(name="TEAM")
-public class Team {
+public class Team implements Serializable{
+
+	private static final long serialVersionUID = 2607356364780984918L;
+	
+	@Id
+	@Column(name = "idTEAM")
+	@GeneratedValue
+	private String idTeam;
+	
+	@Column(name="TEAM_NAME", nullable = false, unique = true, length = 128)
+	private String teamName;
+
+	@Column(name="TEAM_LOCATION", length = 45)
+	private String teamLocation;
+	
+	
+	@ManyToMany
+	@JoinTable(name = "TEAM_CATEGORY", 
+				joinColumns = { @JoinColumn( name = "idTEAM")},
+				inverseJoinColumns = { @JoinColumn(name = "idCATEGORY") })
+	
+	private Set<Category> categories = new HashSet<Category>();
+
+	
+	public Team(Set<Category> categories, String teamName, String teamLocation) {
+		super();
+		this.categories = categories;
+		this.teamName = teamName;
+		this.teamLocation = teamLocation;
+	}
 
 	public Team(String idTeam, String teamName, String teamLocation) {
 		super();
@@ -28,17 +64,6 @@ public class Team {
 	public Team(){
 	}
 	
-	
-	@Id
-	@Column(name = "idTEAM")
-	@GeneratedValue
-	private String idTeam;
-	
-	@Column(name="TEAM_NAME", nullable = false, unique = true, length = 128)
-	private String teamName;
-
-	@Column(name="TEAM_LOCATION", length = 45)
-	private String teamLocation;
 	
 	public String getIdTeam() {
 		return idTeam;
@@ -63,6 +88,15 @@ public class Team {
 	public void setTeamLocation(String teamLocation) {
 		this.teamLocation = teamLocation;
 	}
+
+	public Set<Category> getCategories() {
+		return categories;
+	}
+
+	public void setCategories(Set<Category> categories) {
+		this.categories = categories;
+	}
+	
 	
 	@Override
 	public boolean equals(Object o){

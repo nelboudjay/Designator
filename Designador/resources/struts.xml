@@ -211,6 +211,16 @@
         	</result>
 		</action>
 		
+		<action name="publishGame" class="com.myproject.action.game.CRUDGame">
+			<result name="success" type="redirectAction">allGames</result>
+			<result name="input" type="redirectAction">allGames</result>
+			<result name="error" type="redirectAction">
+				<param name="actionName">homePage</param>
+        		<param name="namespace">/</param>
+        	</result>
+		</action>
+		
+		
 	</package>
 	
 	<package name="availability"  namespace="/availability" extends="struts-default, default">
