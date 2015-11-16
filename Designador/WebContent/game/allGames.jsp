@@ -37,6 +37,7 @@
 			<h4 class="new-record"><a href="addGame"><img src="${pageContext.request.contextPath}/images/add-icon.png" class="small-icon">Añadir un partido</a></h4>
 			
 			<s:if test="#attr.games.size() == 0">
+				<br>
 				<div class="panel-info">
 					<div class="panel-body">
 						No hay partidos programados todavía. ¿Quieres <a class="link" href="addGame">Añadir</a> partidos?

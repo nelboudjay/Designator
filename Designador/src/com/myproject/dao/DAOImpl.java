@@ -136,6 +136,8 @@ public class DAOImpl implements DAO {
 								break;
 					case  1:	cr.add(Restrictions.ge(key, value.getField()));
 								break;
+					case  2:	cr.add(Restrictions.like(key, value.getField()));
+								break;
 				}
 
 			}

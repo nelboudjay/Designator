@@ -1,9 +1,12 @@
 package com.myproject.action.game;
 
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +17,7 @@ import org.apache.struts2.interceptor.validation.SkipValidation;
 import org.apache.struts2.util.ServletContextAware;
 
 import com.myproject.model.Game;
+import com.myproject.model.RefereeAvailability;
 import com.myproject.model.User;
 import com.myproject.service.GenericService;
 import com.myproject.tools.FieldCondition;
@@ -29,9 +33,12 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 	private List<?> games;
 	private List<?> refereesGame;
 	
+    private Date date;
 	private String dateStr;
-	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	private Calendar calendar = Calendar.getInstance();
 
+	
 	
 	private GenericService service;
 	
@@ -49,8 +56,26 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 			return NONE;
 			
 		}else{
-			games = service.GetModelDataList(Game.class, eqRestrictions, "gameDate", true);
 			
+			setSelectedDate();
+	
+			
+			if(date == null){
+				calendar.set(Calendar.HOUR_OF_DAY, 0);
+				calendar.set(Calendar.MINUTE, 0);
+				calendar.set(Calendar.SECOND, 0);
+				calendar.set(Calendar.MILLISECOND, 0);
+				eqRestrictions.put("gameDate", new FieldCondition (new Timestamp(calendar.getTime().getTime()),1));
+
+			}else if (!date.equals(new Date(Long.MIN_VALUE)))
+				eqRestrictions.put("gameDate", new FieldCondition (new Timestamp(date.getTime()),1));
+			
+			System.out.println(date);
+			System.out.println(new Date(Long.MIN_VALUE));
+			games = service.GetModelDataList(Game.class, eqRestrictions, "gameDate", true);
+
+			
+						
 			return SUCCESS;
 		}
 	}
@@ -101,6 +126,25 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 		}
 	}
 	
+	
+	public void setSelectedDate(){
+			
+		sdf.setLenient(false);
+
+        try {
+			date = sdf.parse(dateStr);
+		} catch (ParseException e) {
+			if(dateStr.trim().equalsIgnoreCase("all"))
+				date = new Date(Long.MIN_VALUE);
+			else
+				date = null;
+		} catch (NullPointerException e){
+			date = null;
+		}
+		
+	
+	}
+
 	public String getIdGame() {
 		return idGame;
 	}
@@ -123,6 +167,14 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 
 	public void setService(GenericService service) {
 		this.service = service;
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
 	}
 
 	public String getDateStr() {
