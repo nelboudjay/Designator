@@ -182,21 +182,21 @@ public class Game {
 	}
 	
 	
-	public User getRefereeGame(int refereeType){
+	public RefereeGame getRefereeGame(int refereeType){
 		
-		User user = null;
+		RefereeGame refereeGame = null;
 		
 		if(refereesGame != null){
 			
-			for(RefereeGame refereeGame : refereesGame){
-				if(refereeGame.getUserRefereeType().getRefereeType() == refereeType){
-					user = refereeGame.getUserRefereeType().getUser();
+			for(RefereeGame rg : refereesGame){
+				if(rg.getUserRefereeType().getRefereeType() == refereeType){
+					refereeGame = rg;
 					break;
 				}
 			}
 		}
 		
-		return user;
+		return refereeGame;
 	}
 	
 }

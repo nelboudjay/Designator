@@ -1,43 +1,38 @@
 package com.myproject.tools;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class FieldCondition {
 	
-	private Object field;
-	private int condition; //-1 = Lower, 0 = Equal, 1 = Greater
+	private Map<Integer,Object> fieldConditions; //-1 = Lower, 0 = Equal, 1 = Greater, 2 = Like
 	
-	
-	public FieldCondition(Object field, int condition) {
+	public FieldCondition(Map<Integer,Object> fieldConditions) {
 		super();
-		this.field = field;
-		this.condition = condition;
+		this.setFieldConditions(fieldConditions);
 	}
 
 
 	public FieldCondition(Object field) {
 		super();
-		this.field = field;
-		this.condition = 0;
-
+		fieldConditions = new HashMap<Integer,Object>();
+		fieldConditions.put(0, field);
+	}
+	
+	public FieldCondition(Object field, int condition) {
+		super();
+		fieldConditions = new HashMap<Integer,Object>();
+		fieldConditions.put(condition, field);
 	}
 
 
-	public Object getField() {
-		return field;
+	public Map<Integer,Object> getFieldConditions() {
+		return fieldConditions;
 	}
 
 
-	public void setField(Object field) {
-		this.field = field;
-	}
-
-
-	public int getCondition() {
-		return condition;
-	}
-
-
-	public void setCondition(int condition) {
-		this.condition = condition;
+	public void setFieldConditions(Map<Integer,Object> fieldConditions) {
+		this.fieldConditions = fieldConditions;
 	}
 
 }

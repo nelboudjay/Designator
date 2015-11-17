@@ -6,7 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -17,7 +17,6 @@ import org.apache.struts2.interceptor.validation.SkipValidation;
 import org.apache.struts2.util.ServletContextAware;
 
 import com.myproject.model.Game;
-import com.myproject.model.RefereeAvailability;
 import com.myproject.model.User;
 import com.myproject.service.GenericService;
 import com.myproject.tools.FieldCondition;
@@ -30,7 +29,8 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 	
 	private String idGame;
 	private Game game;
-	private List<?> games;
+	private List<?> allGames;
+	private List<Game> games;
 	private List<?> refereesGame;
 	
     private Date date;
@@ -57,25 +57,28 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 			
 		}else{
 			
-			setSelectedDate();
+			allGames = service.GetModelDataList(Game.class, eqRestrictions, "gameDate", true);
+			
+			if(allGames != null){
+				games = new LinkedList<Game>();
 	
+				setSelectedDate();
+		
 			
-			if(date == null){
-				calendar.set(Calendar.HOUR_OF_DAY, 0);
-				calendar.set(Calendar.MINUTE, 0);
-				calendar.set(Calendar.SECOND, 0);
-				calendar.set(Calendar.MILLISECOND, 0);
-				eqRestrictions.put("gameDate", new FieldCondition (new Timestamp(calendar.getTime().getTime()),1));
-
-			}else if (!date.equals(new Date(Long.MIN_VALUE)))
-				eqRestrictions.put("gameDate", new FieldCondition (new Timestamp(date.getTime()),1));
+				if(date == null || date.equals(new Date(Long.MIN_VALUE))){
+					calendar.set(Calendar.HOUR_OF_DAY, 0);
+					calendar.set(Calendar.MINUTE, 0);
+					calendar.set(Calendar.SECOND, 0);
+					calendar.set(Calendar.MILLISECOND, 0);
+					allGames.stream().filter(game -> ((Game)game).getGameDate().after(calendar.getTime())).
+					forEach(game -> games.add((Game)game));
+	
+				}else 
+					allGames.stream().filter(game -> ((Game)game).getGameDate().after(date) 
+								&& ((Game)game).getGameDate().before(new Timestamp(date.getTime() + (1000 * 60 * 60 * 24)))).
+								forEach(game -> games.add((Game)game));
+			}
 			
-			System.out.println(date);
-			System.out.println(new Date(Long.MIN_VALUE));
-			games = service.GetModelDataList(Game.class, eqRestrictions, "gameDate", true);
-
-			
-						
 			return SUCCESS;
 		}
 	}
@@ -88,7 +91,19 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 			
 			addActionError("Por favor, introduce el id del partido que quieres publicar.");
 
-			List<?> games = service.GetModelDataList(Game.class, eqRestrictions, "gameDate", true);
+			allGames = service.GetModelDataList(Game.class, eqRestrictions, "gameDate", true);
+			context.setAttribute("allGames", allGames);
+
+			games = new LinkedList<Game>();
+
+			calendar.set(Calendar.HOUR_OF_DAY, 0);
+			calendar.set(Calendar.MINUTE, 0);
+			calendar.set(Calendar.SECOND, 0);
+			calendar.set(Calendar.MILLISECOND, 0);
+			
+			allGames.stream().filter(game -> ((Game)game).getGameDate().after(calendar.getTime())).
+			forEach(game -> games.add((Game)game));
+			
 			context.setAttribute("games", games);
 			
 			return INPUT;
@@ -103,7 +118,19 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 				addActionError("El partido que quieres eliminar no existe o ya se ha eliminado.");
 				
 				eqRestrictions.clear();
-				List<?> games = service.GetModelDataList(Game.class, eqRestrictions, "gameDate", true);
+				allGames = service.GetModelDataList(Game.class, eqRestrictions, "gameDate", true);
+				context.setAttribute("allGames", allGames);
+
+				games = new LinkedList<Game>();
+
+				calendar.set(Calendar.HOUR_OF_DAY, 0);
+				calendar.set(Calendar.MINUTE, 0);
+				calendar.set(Calendar.SECOND, 0);
+				calendar.set(Calendar.MILLISECOND, 0);
+				
+				allGames.stream().filter(game -> ((Game)game).getGameDate().after(calendar.getTime())).
+				forEach(game -> games.add((Game)game));
+				
 				context.setAttribute("games", games);
 				
 				return INPUT;	
@@ -153,7 +180,7 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 		this.idGame = idGame;
 	}
 	
-	public List<?> getGames() {
+	public List<Game> getGames() {
 		return games;
 	}
 
@@ -194,5 +221,13 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 	public void setSession(Map<String, Object> session) {
 		this.session = session;
 		
+	}
+
+	public List<?> getAllGames() {
+		return allGames;
+	}
+
+	public void setAllGames(List<?> allGames) {
+		this.allGames = allGames;
 	}
 }

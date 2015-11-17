@@ -87,13 +87,19 @@ public class DAOImpl implements DAO {
 				// get value
 				FieldCondition value = entry.getValue();
 				
-				switch (value.getCondition()){
-					case -1:	cr.add(Restrictions.le(key, value.getField()));
-								break;
-					case  0:	cr.add(Restrictions.eq(key, value.getField()));
-								break;
-					case  1:	cr.add(Restrictions.ge(key, value.getField()));
-								break;
+				for(Entry<Integer, Object> fcEntry : value.getFieldConditions().entrySet()){
+					
+	
+					switch (fcEntry.getKey()){
+						case -1:	cr.add(Restrictions.le(key, fcEntry.getValue()));
+									break;
+						case  0:	cr.add(Restrictions.eq(key, fcEntry.getValue()));
+									break;
+						case  1:	cr.add(Restrictions.ge(key, fcEntry.getValue()));
+									break;
+						case  2:	cr.add(Restrictions.ge(key, fcEntry.getValue()));
+									break;
+					}
 				}
 
 			}
@@ -129,15 +135,19 @@ public class DAOImpl implements DAO {
 				// get value
 				FieldCondition value = entry.getValue();
 				
-				switch (value.getCondition()){
-					case -1:	cr.add(Restrictions.le(key, value.getField()));
-								break;
-					case  0:	cr.add(Restrictions.eq(key, value.getField()));
-								break;
-					case  1:	cr.add(Restrictions.ge(key, value.getField()));
-								break;
-					case  2:	cr.add(Restrictions.like(key, value.getField()));
-								break;
+				for(Entry<Integer, Object> fcEntry : value.getFieldConditions().entrySet()){
+					
+	
+					switch (fcEntry.getKey()){
+						case -1:	cr.add(Restrictions.le(key, fcEntry.getValue()));
+									break;
+						case  0:	cr.add(Restrictions.eq(key, fcEntry.getValue()));
+									break;
+						case  1:	cr.add(Restrictions.ge(key, fcEntry.getValue()));
+									break;
+						case  2:	cr.add(Restrictions.ge(key, fcEntry.getValue()));
+									break;
+					}
 				}
 
 			}
@@ -181,6 +191,7 @@ public class DAOImpl implements DAO {
 
 		return obj;
 	}
+	
 	
 	@Override
 	public void DropEvent(String eventName) {
