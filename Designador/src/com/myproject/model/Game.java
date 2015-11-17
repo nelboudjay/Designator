@@ -189,7 +189,7 @@ public class Game {
 		if(refereesGame != null){
 			
 			for(RefereeGame rg : refereesGame){
-				if(rg.getUserRefereeType().getRefereeType() == refereeType){
+				if(rg.getRefereeType() == refereeType){
 					refereeGame = rg;
 					break;
 				}

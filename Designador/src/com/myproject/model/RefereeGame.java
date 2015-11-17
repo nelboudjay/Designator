@@ -47,6 +47,9 @@ public class RefereeGame {
 	@JoinColumn(name = "USER_REFEREE_TYPE")
 	private UserRefereeType userRefereeType;
 	
+	@Column(name="REFEREE_TYPE", nullable = false)
+	private int refereeType;
+
 	
 	@Type(type = "org.hibernate.type.NumericBooleanType")
 	@Column(name = "CONFIRMED", nullable = false)
@@ -82,6 +85,13 @@ public class RefereeGame {
 		this.userRefereeType = userRefereeType;
 	}
 
+	public int getRefereeType() {
+		return refereeType;
+	}
+
+	public void setRefereeType(int refereeType) {
+		this.refereeType = refereeType;
+	}
 
 	public boolean isConfirmed() {
 		return confirmed;

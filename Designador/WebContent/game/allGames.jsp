@@ -56,7 +56,9 @@
 					</s:if>
 					<s:else>
 						<s:set var="usedGames" value="#attr.allGames"/>
-						<a href="allGames" class="link-2 dark"> Mostrar Sólo Los Futuros Partidos (<s:property value="#attr.games.size()"/>)</a>
+						<s:if test="#attr.games.size() > 0">
+							<a href="allGames" class="link-2 dark"> Mostrar Sólo Los Futuros Partidos (<s:property value="#attr.games.size()"/>)</a>
+						</s:if>
 					</s:else>
 					</b>
 				</p>
@@ -115,14 +117,25 @@
 								</div>
 							</td>
 							<td rowspan="2">
-								<div class="row">
-									<div><b>Principal:</b></div>
+							<s:iterator value="{'Principal','Auxiliar','Anotador','Cronometrador','Operador 30\"','Coche'}"  status="status">
+								
+								<s:if test="#status.index == 3">
+									<td rowspan="2">
+								</s:if>
+									<div class="row">
+									<div><b><s:property/>:</b></div>
 									<div>
-										<s:if test="getRefereeGame(1) != null">
-											<a class="link" href="${pageContext.request.contextPath}/user/user?idUser=<s:property value="getRefereeGame(1).userRefereeType.user.idUser"/>"> 
-												<s:property value="getRefereeGame(1).userRefereeType.user.userProfile.firstName"/>
-												<s:property value="getRefereeGame(1).userRefereeType.user.userProfile.lastName1"/></a>
-											<s:if test="getRefereeGame(1).isConfirmed()">
+										<s:if test="getRefereeGame(#status.index + 1) == null">
+											<div class="not-required">No Requerido</div>
+										</s:if>
+										<s:elseif test="getRefereeGame(#status.index + 1).userRefereeType == null">
+											<div class="not-assigned">No Designado</div>
+										</s:elseif>
+										<s:else>
+											<a class="link" href="${pageContext.request.contextPath}/user/user?idUser=<s:property value="getRefereeGame(#status.index + 1).userRefereeType.user.idUser"/>"> 
+												<s:property value="getRefereeGame(#status.index + 1).userRefereeType.user.userProfile.firstName"/>
+												<s:property value="getRefereeGame(#status.index + 1).userRefereeType.user.userProfile.lastName1"/></a>
+											<s:if test="getRefereeGame(#status.index + 1).isConfirmed()">
 												<img  class="confirmation" title="El árbitro ha confirmado su designación a este partido"
 													src="${pageContext.request.contextPath}/images/check-icon.png">
 											</s:if>
@@ -130,119 +143,11 @@
 												<img  class="confirmation" title="El árbitro aún no ha confirmado su designación a este partido"
 													src="${pageContext.request.contextPath}/images/warning-icon.png">
 											</s:else>
-										</s:if>
-										<s:else>
-											<div class="not-assigned">No designado</div>
 										</s:else>
 									</div>
 								</div>
-								<div class="row">
-									<div><b>Auxiliar:</b></div>
-									<div>
-										<s:if test="getRefereeGame(2) != null">
-											<a class="link" href="${pageContext.request.contextPath}/user/user?idUser=<s:property value="getRefereeGame(2).userRefereeType.user.idUser"/>"> 
-												<s:property value="getRefereeGame(2).userRefereeType.user.userProfile.firstName"/>
-												<s:property value="getRefereeGame(2).userRefereeType.user.userProfile.lastName1"/></a>
-											<s:if test="getRefereeGame(2).isConfirmed()">
-												<img  class="confirmation" title="El árbitro ha confirmado su designación a este partido"
-													src="${pageContext.request.contextPath}/images/check-icon.png">
-											</s:if>
-											<s:else>
-												<img  class="confirmation" title="El árbitro aún no ha confirmado su designación a este partido"
-													src="${pageContext.request.contextPath}/images/warning-icon.png">
-											</s:else>
-										</s:if>
-										<s:else>
-											<div class="not-assigned" style="display:inline;">No designado</div>
-										</s:else>
-									</div>
-								</div> 
-								<div class="row">
-									<div><b>Anotador:</b></div>
-									<div>
-										<s:if test="getRefereeGame(3) != null">
-											<a class="link" href="${pageContext.request.contextPath}/user/user?idUser=<s:property value="getRefereeGame(3).userRefereeType.user.idUser"/>"> 
-												<s:property value="getRefereeGame(3).userRefereeType.user.userProfile.firstName"/>
-												<s:property value="getRefereeGame(3).userRefereeType.user.userProfile.lastName1"/></a>
-											<s:if test="getRefereeGame(3).isConfirmed()">
-												<img  class="confirmation" title="El árbitro ha confirmado su designación a este partido"
-													src="${pageContext.request.contextPath}/images/check-icon.png">
-											</s:if>
-											<s:else>
-												<img  class="confirmation" title="El árbitro aún no ha confirmado su designación a este partido"
-													src="${pageContext.request.contextPath}/images/warning-icon.png">
-											</s:else>
-										</s:if>
-										<s:else>
-											<div class="not-assigned" style="display:inline;">No designado</div>
-										</s:else>
-									</div>
-								</div>
-							</td>
-							<td rowspan="2">
-								<div class="row">
-									<div><b>Cronometrador:</b></div>
-									<div>
-										<s:if test="getRefereeGame(4) != null">
-											<a class="link" href="${pageContext.request.contextPath}/user/user?idUser=<s:property value="getRefereeGame(4).userRefereeType.user.idUser"/>"> 
-												<s:property value="getRefereeGame(4).userRefereeType.user.userProfile.firstName"/>
-												<s:property value="getRefereeGame(4).userRefereeType.user.userProfile.lastName1"/></a>
-											<s:if test="getRefereeGame(4).isConfirmed()">
-												<img  class="confirmation" title="El árbitro ha confirmado su designación a este partido"
-													src="${pageContext.request.contextPath}/images/check-icon.png">
-											</s:if>
-											<s:else>
-												<img  class="confirmation" title="El árbitro aún no ha confirmado su designación a este partido"
-													src="${pageContext.request.contextPath}/images/warning-icon.png">
-											</s:else>
-										</s:if>
-										<s:else>
-											<div class="not-assigned" style="display:inline;">No designado</div>
-										</s:else>
-									</div>
-								</div>
-								<div class="row">
-									<div><b>Operador 30":</b></div>
-									<div>
-										<s:if test="getRefereeGame(5) != null">
-											<a class="link" href="${pageContext.request.contextPath}/user/user?idUser=<s:property value="getRefereeGame(5).userRefereeType.user.idUser"/>"> 
-												<s:property value="getRefereeGame(5).userRefereeType.user.userProfile.firstName"/>
-												<s:property value="getRefereeGame(5).userRefereeType.user.userProfile.lastName1"/></a>
-											<s:if test="getRefereeGame(5).isConfirmed()">
-												<img  class="confirmation" title="El árbitro ha confirmado su designación a este partido"
-													src="${pageContext.request.contextPath}/images/check-icon.png">
-											</s:if>
-											<s:else>
-												<img  class="confirmation" title="El árbitro aún no ha confirmado su designación a este partido"
-													src="${pageContext.request.contextPath}/images/warning-icon.png">
-											</s:else>
-										</s:if>
-										<s:else>
-											<div class="not-assigned" style="display:inline;">No designado</div>
-										</s:else>
-									</div>
-								</div>
-								<div class="row">
-									<div><b>Coche:</b></div>
-									<div>
-										<s:if test="getRefereeGame(6) != null">
-											<a class="link" href="${pageContext.request.contextPath}/user/user?idUser=<s:property value="getRefereeGame(6).userRefereeType.user.idUser"/>"> 
-												<s:property value="getRefereeGame(6).userRefereeType.user.userProfile.firstName"/>
-												<s:property value="getRefereeGame(6).userRefereeType.user.userProfile.lastName1"/></a>
-											<s:if test="getRefereeGame(6).isConfirmed()">
-												<img  class="confirmation" title="El árbitro ha confirmado su designación a este partido"
-													src="${pageContext.request.contextPath}/images/check-icon.png">
-											</s:if>
-											<s:else>
-												<img  class="confirmation" title="El árbitro aún no ha confirmado su designación a este partido"
-													src="${pageContext.request.contextPath}/images/warning-icon.png">
-											</s:else>
-										</s:if>
-										<s:else>
-											<div class="not-assigned" style="display:inline;">No designado</div>
-										</s:else>
-									</div>
-								</div>
+								
+							</s:iterator>
 							</td>
 							<td rowspan="2">
 								<div><a class="link">Designar</a></div>
