@@ -30,7 +30,14 @@
 				<img class="black-icon" src="${pageContext.request.contextPath}/images/game-black-icon.png">
 				Partidos
 			</h3>
-			<span>Todos los partidos</span>
+			<span>
+				<s:if test="is == 'unassigned'">
+					Partidos No Asignados
+				</s:if>
+				<s:else>
+					Todos los partidos
+				</s:else>
+			</span>
 		</div>
 		
 		<jsp:include page="../errorMessages.jsp"/>
@@ -43,7 +50,7 @@
 				<br>
 				<div class="panel-info">
 					<div class="panel-body">
-						No hay partidos programados todavía. ¿Quieres <a class="link" href="addGame">Añadir</a> partidos?
+						No hay partidos programados todavía. ¿Quieres <a class="link" href="addGame">Añadir</a> nuevos partidos?
 					</div>
 				</div>
 			</s:if>
@@ -52,18 +59,17 @@
 					<b>
 					<s:if test="dateStr != 'all'">
 						<s:set var="usedGames" value="#attr.games"/>
-						<a href="allGames?dateStr=all" class="link dark"> Mostrar Todos Los Partidos (<s:property value="#attr.allGames.size()"/>)</a>
+						<a href="games?dateStr=all" class="link dark"> Mostrar Todos Los Partidos (<s:property value="#attr.allGames.size()"/>)</a>
 					</s:if>
 					<s:else>
 						<s:set var="usedGames" value="#attr.allGames"/>
 						<s:if test="#attr.games.size() > 0">
-							<a href="allGames" class="link-2 dark"> Mostrar Sólo Los Futuros Partidos (<s:property value="#attr.games.size()"/>)</a>
+							<a href="games" class="link-2 dark"> Mostrar Sólo Los Futuros Partidos (<s:property value="#attr.games.size()"/>)</a>
 						</s:if>
 					</s:else>
 					</b>
 				</p>
 				<form action="allGames" method="get" >
-				
 					<div>
 						<label><b>Fecha: </b></label>
 						<input type="text" id="datepicker" name="dateStr" value="${dateStr != 'all' ? dateStr : ''}">
@@ -71,11 +77,10 @@
 					</div>
 				</form>
 				<s:if test="#usedGames.size() == 0">
-					<br>
 					<div class="panel-info">
 						<div class="panel-body">
 							<s:if test="dateStr == null || dateStr == ''">
-								No hay partidos programados todavía. ¿Quieres <a class="link" href="addGame">Añadir</a> partidos?
+								No hay partidos programados que coinciden con tus criterios. ¿Quieres <a class="link" href="addGame">Añadir</a> nuevos partidos?
 							</s:if>
 							<s:else>
 								No hay partidos programados para esta fecha.
@@ -90,7 +95,7 @@
 						<th></th>
 						<th colspan="2">Partido</th>
 						<th>Fecha</th>	
-						<th colspan="4">Grupo Arbitral</th>
+						<th colspan="2">Grupo Arbitral</th>
 						<th></th>
 					</tr>
 					<s:iterator value="#usedGames">

@@ -34,7 +34,7 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 	private List<?> refereesGame;
 	
     private Date date;
-	private String dateStr;
+	private String dateStr, is;
 	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	private Calendar calendar = Calendar.getInstance();
 
@@ -62,14 +62,30 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 			if(allGames != null){
 				games = new LinkedList<Game>();
 	
+				calendar.set(Calendar.HOUR_OF_DAY, 0);
+				calendar.set(Calendar.MINUTE, 0);
+				calendar.set(Calendar.SECOND, 0);
+				calendar.set(Calendar.MILLISECOND, 0);
+				
+				if(is != null){	
+					if(is.equalsIgnoreCase("unassigned")){
+						allGames.stream().filter(game -> ((Game)game).getGameDate().after(calendar.getTime()) 
+								&& ((Game)game).isUnassigned()).
+						forEach(game -> games.add((Game)game));
+						return SUCCESS;
+					}
+					else if(is.equalsIgnoreCase("unpublished")){
+						allGames.stream().filter(game -> ((Game)game).getGameDate().after(calendar.getTime()) 
+								&& !((Game)game).isGameStatus()).
+						forEach(game -> games.add((Game)game));
+						return SUCCESS;
+					}
+				}
+				
 				setSelectedDate();
-		
-			
+				
 				if(date == null || date.equals(new Date(Long.MIN_VALUE))){
-					calendar.set(Calendar.HOUR_OF_DAY, 0);
-					calendar.set(Calendar.MINUTE, 0);
-					calendar.set(Calendar.SECOND, 0);
-					calendar.set(Calendar.MILLISECOND, 0);
+					
 					allGames.stream().filter(game -> ((Game)game).getGameDate().after(calendar.getTime())).
 					forEach(game -> games.add((Game)game));
 	
@@ -207,6 +223,16 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 	public String getDateStr() {
 		return dateStr;
 	}
+
+	public String getIs() {
+		return is;
+	}
+
+	public void setIs(String is) {
+		this.is = is;
+	}
+
+
 
 	public void setDateStr(String dateStr) {
 		this.dateStr = dateStr;

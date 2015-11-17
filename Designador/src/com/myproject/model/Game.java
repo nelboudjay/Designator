@@ -199,5 +199,24 @@ public class Game {
 		return refereeGame;
 	}
 	
+	public boolean isUnassigned(){
+		
+		boolean result = false;
+		
+		if(refereesGame != null && refereesGame.size() > 0){
+			
+			for(RefereeGame refereeGame : refereesGame){
+				if(refereeGame.getUserRefereeType() == null){
+					result = true;
+					break;
+				}
+			}
+		}
+		else
+			result = true;
+		
+		return result;
+	}
+	
 }
 

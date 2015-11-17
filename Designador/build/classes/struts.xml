@@ -202,9 +202,9 @@
 	
 	<package name="game" namespace="/game" extends="struts-default, default">
 	
-		<action name="allGames" class="com.myproject.action.game.CRUDGame">
-			<result name="success">allGames.jsp</result>
-			<result name="input">allGames.jsp</result>
+		<action name="games" class="com.myproject.action.game.CRUDGame">
+			<result name="success">games.jsp</result>
+			<result name="input">games.jsp</result>
 			<result name="error" type="redirectAction">
 				<param name="actionName">homePage</param>
         		<param name="namespace">/</param>
@@ -212,8 +212,8 @@
 		</action>
 		
 		<action name="publishGame" class="com.myproject.action.game.CRUDGame">
-			<result name="success" type="redirectAction">allGames</result>
-			<result name="input" type="redirectAction">allGames</result>
+			<result name="success" type="redirectAction">games</result>
+			<result name="input" type="redirectAction">games</result>
 			<result name="error" type="redirectAction">
 				<param name="actionName">homePage</param>
         		<param name="namespace">/</param>
