@@ -59,20 +59,23 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 			
 			allGames = service.GetModelDataList(Game.class, eqRestrictions, "gameDate", true);
 
-			System.out.println(allGames);
 			if(allGames != null){
 				
 				if(is != null){
 					
 					if(is.equalsIgnoreCase("unassigned"))
 						allGames.removeIf(game -> !((Game)game).isUnassigned());
+					else if(is.equalsIgnoreCase("published"))
+						allGames.removeIf(game -> !((Game)game).isGameStatus());
 					else if(is.equalsIgnoreCase("unpublished"))
 						allGames.removeIf(game -> ((Game)game).isGameStatus());
-					
+					else if(is.equalsIgnoreCase("confirmed"))
+						allGames.removeIf(game -> !((Game)game).isConfirmed());
+					else if(is.equalsIgnoreCase("unconfirmed"))
+						allGames.removeIf(game -> !((Game)game).isUnconfirmed());
+
 				}
 			
-				System.out.println(allGames);
-
 				games = new LinkedList<Game>();
 	
 				setSelectedDate();
@@ -99,28 +102,29 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 	}
 
 
+	public String getGame(){
+		
+		if (idGame == null || idGame.equals("")){
+			
+			User user = (User)session.get("user");
+
+			if(user.isAdmin()){
+				
+			}
+			
+		}
+
+		
+		
+		return SUCCESS;
+	}
 	
 	public String publishGame(){
 		
 		if (idGame == null || idGame.equals("")){
 			
 			addActionError("Por favor, introduce el id del partido que quieres publicar.");
-
-			allGames = service.GetModelDataList(Game.class, eqRestrictions, "gameDate", true);
-			context.setAttribute("allGames", allGames);
-
-			games = new LinkedList<Game>();
-
-			calendar.set(Calendar.HOUR_OF_DAY, 0);
-			calendar.set(Calendar.MINUTE, 0);
-			calendar.set(Calendar.SECOND, 0);
-			calendar.set(Calendar.MILLISECOND, 0);
-			
-			allGames.stream().filter(game -> ((Game)game).getGameDate().after(calendar.getTime())).
-			forEach(game -> games.add((Game)game));
-			
-			context.setAttribute("games", games);
-			
+			setContextGames();
 			return INPUT;
 		}
 		else{
@@ -131,23 +135,7 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 			if(game == null){
 				
 				addActionError("El partido que quieres eliminar no existe o ya se ha eliminado.");
-				
-				eqRestrictions.clear();
-				allGames = service.GetModelDataList(Game.class, eqRestrictions, "gameDate", true);
-				context.setAttribute("allGames", allGames);
-
-				games = new LinkedList<Game>();
-
-				calendar.set(Calendar.HOUR_OF_DAY, 0);
-				calendar.set(Calendar.MINUTE, 0);
-				calendar.set(Calendar.SECOND, 0);
-				calendar.set(Calendar.MILLISECOND, 0);
-				
-				allGames.stream().filter(game -> ((Game)game).getGameDate().after(calendar.getTime())).
-				forEach(game -> games.add((Game)game));
-				
-				context.setAttribute("games", games);
-				
+				setContextGames();
 				return INPUT;	
 			}
 			else{
@@ -183,10 +171,31 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 		} catch (NullPointerException e){
 			date = null;
 		}
-		
-	
 	}
 
+	public void setContextGames(){
+		
+		eqRestrictions.clear();
+		allGames = service.GetModelDataList(Game.class, eqRestrictions, "gameDate", true);
+		
+		context.setAttribute("allGames", allGames);
+
+		if(allGames != null){
+			games = new LinkedList<Game>();
+
+			calendar.set(Calendar.HOUR_OF_DAY, 0);
+			calendar.set(Calendar.MINUTE, 0);
+			calendar.set(Calendar.SECOND, 0);
+			calendar.set(Calendar.MILLISECOND, 0);
+			
+			allGames.stream().filter(game -> ((Game)game).getGameDate().after(calendar.getTime())).
+			forEach(game -> games.add((Game)game));
+			
+			context.setAttribute("games", games);
+		}
+		
+	}
+	
 	public String getIdGame() {
 		return idGame;
 	}

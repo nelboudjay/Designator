@@ -214,6 +214,43 @@ public class Game {
 		}
 		else
 			result = true;
+
+		return result;
+	}
+	
+	
+	public boolean isUnconfirmed(){
+		
+		boolean result = false;
+		
+		if(!isUnassigned()){
+			for(RefereeGame refereeGame : refereesGame){
+				if(!refereeGame.isConfirmed()){
+					result = true;
+					break;
+				}
+			}
+		}
+		else
+			result = false;
+		
+		return result;
+	}
+	
+	public boolean isConfirmed(){
+		
+		boolean result = true;
+
+		if(!isUnassigned()){
+			for(RefereeGame refereeGame : refereesGame){
+				if(!refereeGame.isConfirmed()){
+					result = false;
+					break;
+				}
+			}
+		}
+		else
+			result = false;
 		
 		return result;
 	}

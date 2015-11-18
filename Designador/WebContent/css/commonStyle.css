@@ -454,6 +454,22 @@ li.active .glow{
 	
 }
 
+#leftMenu .dark-nav ul li a > span {
+    border-radius: 10px;
+    color: #fff;
+    float: right;
+    padding: 0 8px;
+}
+
+.normal{
+	background-color: #999;
+}
+.warning{
+	background-color: #f0ad4e;
+}
+.success{
+	background-color: #5cb85c;
+}
 
 /****************Main content***************************/
 
@@ -628,8 +644,6 @@ form > div {
 	color:#aeaeae;
 	margin: 5px 0;
 }
-
-
 
 #datePicker {
 	height:28px;

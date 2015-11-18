@@ -12,7 +12,7 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/commonScript.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/game.js"></script>
 
-<title>Perfil</title>
+<title>Partidos</title>
 
 <s:head />
 </head>
@@ -24,10 +24,10 @@
 	<div class="main-content">
 		<div class="content-title">
 			<h3>
-				<img class="black-icon" src="${pageContext.request.contextPath}/images/profile-black-icon.png">
-				<s:property value="userFullName"/>
+				<img class="black-icon" src="${pageContext.request.contextPath}/images/game-black-icon.png">
+				Partidos
 			</h3>
-			<span>Perfil</span>
+			<span>Barça vs Madrid</span>
 		</div>
 		
 		<jsp:include page="../errorMessages.jsp"/>
@@ -36,40 +36,9 @@
 		
 		<div class="container">
 				
-				<s:set var="currentIdUser" value="idUser"/>
-
-				<s:iterator value="#attr.users" status="status" >
-					<s:if test="idUser == #currentIdUser">
-						<s:if test="#status.count > 1">
-							<s:set var="previousUserFullName" value="#attr.users[#status.index-1].userFullName"/>
-							<s:set var="previousIdUser" value="#attr.users[#status.index-1].idUser"/>	
-						</s:if>
-												
-						<s:if test="#status.count < #attr.users.size">
-							<s:set var="nextUserFullName" value="#attr.users[#status.index+1].userFullName"/>	
-							<s:set var="nextIdUser" value="#attr.users[#status.index+1].idUser"/>									
-						</s:if>
-					</s:if>
-				</s:iterator>
 
 			<div class="user-menu">
-				<img  src="getImage?idUser=${idUser}" >
-				<a href="user?idUser=${idUser}"><s:property value="#attr.userFullName"/></a>
-				<ul>
-					<li><a>Partidos</a></li>
-					<li><a href="${pageContext.request.contextPath}/availability/availability?idUser=${idUser}">Disponibilidad</a></li>
-					<li><a>Conflictos</a></li>
-				</ul>
-			</div>
-			<div class="user-paginate">
-				
-				<s:if test="#previousUserFullName != null ">
-					<a class="btn" href="user?idUser=${previousIdUser}"><img src="${pageContext.request.contextPath}/images/back-icon.png"><s:property value="#previousUserFullName"/></a>						
-				</s:if>
-				
-				<s:if test="#nextUserFullName != null ">
-					<a class="btn" href="user?idUser=${nextIdUser}"><s:property value="#nextUserFullName"/><img src="${pageContext.request.contextPath}/images/forward-icon.png"></a>						
-				</s:if>
+				<a href="">Fecha</a>
 				
 			</div>
 			

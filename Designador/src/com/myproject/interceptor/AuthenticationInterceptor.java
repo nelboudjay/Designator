@@ -1,7 +1,9 @@
 package com.myproject.interceptor;
 
 import java.net.URLDecoder;
+import java.sql.Timestamp;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.struts2.StrutsStatics;
 
 import com.myproject.model.Comment;
+import com.myproject.model.Game;
 import com.myproject.model.User;
 import com.myproject.model.UserCookie;
 import com.myproject.service.GenericService;
@@ -87,8 +90,8 @@ public class AuthenticationInterceptor implements Interceptor {
 				}
 			}
 			
-			/*Return LOGIN except for 'login', 'passwordForgot' and 'changePassword' actions*/
-			List<String> excludedActionsNames = Arrays.asList("login", "passwordForgot", "changePassword");
+			/*Return LOGIN except for 'login', 'logout', 'passwordForgot' and 'changePassword' actions*/
+			List<String> excludedActionsNames = Arrays.asList("login", "logout", "passwordForgot", "changePassword");
 			
 
 			if(excludedActionsNames.contains(actionInvocation.getInvocationContext().getName()))
@@ -104,10 +107,13 @@ public class AuthenticationInterceptor implements Interceptor {
 		
 		List<String> actionsLoginNames = Arrays.asList("login", "homePage");
 		List<String> actionsAdminNames = Arrays.asList("addComment", "deleteComment","addUser","deleteUser",
-				"games", "UnassignedGames", "UnpublishedGames", "publishGame",
+				"games", "publishGame",
 				"allAvailability", "allLeagues","addEditLeague","deleteLeague",
 				"allTeams","addEditTeam","deleteTeam", "allVenues","addEditVenue","deleteVenue");
 		
+		if(user.isAdmin() && !actionInvocation.getInvocationContext().getName().equals("logout"))
+			StoreGamesInSession(session);
+
 		if (actionsLoginNames.contains( actionInvocation.getInvocationContext().getName()) ){
 
 			if (actionInvocation.getInvocationContext().getName().equals("homePage")  ){
@@ -118,11 +124,10 @@ public class AuthenticationInterceptor implements Interceptor {
 				session.put("comments",comments);
 			}
 			return ActionSupport.SUCCESS;
-		}else if (actionsAdminNames.contains( actionInvocation.getInvocationContext().getName()) 
-				&&  (!user.isAdmin()))
-		{
-			addActionError(actionInvocation ,"No tienes permiso para ver esta página");
-			return ActionSupport.ERROR;
+		}
+		else if (actionsAdminNames.contains( actionInvocation.getInvocationContext().getName()) && (!user.isAdmin())){
+				addActionError(actionInvocation ,"No tienes permiso para ver esta página");
+				return ActionSupport.ERROR;
 		}
 		
 		return actionInvocation.invoke();
@@ -136,6 +141,35 @@ public class AuthenticationInterceptor implements Interceptor {
 		}
 	}
 
+	public void StoreGamesInSession(Map<String, Object> session){
+		
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(Calendar.HOUR_OF_DAY, 0);
+		calendar.set(Calendar.MINUTE, 0);
+		calendar.set(Calendar.SECOND, 0);
+		calendar.set(Calendar.MILLISECOND, 0);
+		
+		Timestamp gameDate = new Timestamp(calendar.getTime().getTime());
+		
+		eqRestrictions.clear();
+		eqRestrictions.put("gameDate", new FieldCondition(gameDate, 1));
+		List<?> allGames = service.GetModelDataList(Game.class, eqRestrictions, "gameDate", true);
+		
+		if(allGames != null){
+			session.put("futureGames",allGames.size());
+			
+			session.put("unassignedGames",allGames.stream().filter(game -> ((Game)game).isUnassigned()).count());
+
+			session.put("unpublishedGames",allGames.stream().filter(game -> !((Game)game).isGameStatus()).count());
+			
+			session.put("confirmedGames",allGames.stream().filter(game -> ((Game)game).isConfirmed()).count());
+
+			session.put("unconfirmedGames",allGames.stream().filter(game -> ((Game)game).isUnconfirmed()).count());
+
+		}
+		
+	}
+	
 	public User getUser() {
 		return user;
 	}

@@ -160,7 +160,7 @@
 							</td>
 							<td rowspan="2">
 								<div><a class="link">Designar</a></div>
-								<div><a class="link">Mostrar</a></div>
+								<div><a href="game?idGame=${idGame}" class="link">Mostrar</a></div>
 								<div><a class="link">Editar</a></div>
 								<div><a class="link">Eliminar</a></div>
 							</td>

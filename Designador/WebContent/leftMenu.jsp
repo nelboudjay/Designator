@@ -9,7 +9,7 @@
 		</li>
 			<li class="dark-nav
 				<s:if test="#context['struts.actionMapping'].name in 
-					{'games','myGames','myUnconfirmedGames', 'UnassignedGames', 'UnpublishedGames'}">active dark-nav-active
+					{'games','myGames','myUnconfirmedGames'}">active dark-nav-active
 				</s:if>
 			">
 				<span class="glow"></span>
@@ -18,19 +18,55 @@
 				</a>
 				<ul style="display:
 					<s:if test="#context['struts.actionMapping'].name in 
-						{'games','myGames','myUnconfirmedGames', 'UnassignedGames', 'UnpublishedGames'}">block</s:if>
+						{'games','myGames','myUnconfirmedGames'}">block</s:if>
 					<s:else>none</s:else>
 				">
 					<s:if test="#session.user.userRole != 2">
-						<li><a href="${pageContext.request.contextPath}/game/games">Todos Los Partidos</a></li>
+						<li><a href="${pageContext.request.contextPath}/game/games">Todos Los Partidos
+								<span class="normal"><s:property value="#session.futureGames"/></span>
+							</a>
+						</li>
 					</s:if>
 					<s:if test="#session.user.userRole != 1">
 						<li><a href="${pageContext.request.contextPath}/game/myGames?idUser=${session.user.idUser}">Mis Partidos</a></li>
 						<li><a href="${pageContext.request.contextPath}/game/myUnconfirmedGames=${session.user.idUser}">Mis Partidos no Confirmados</a></li>
 					</s:if>
 					<s:if test="#session.user.userRole != 2">
-						<li><a href="${pageContext.request.contextPath}/game/games?is=unassigned">Partidos no Asignados</a></li>
-						<li><a href="${pageContext.request.contextPath}/game/games?is=unpublished">Partidos no Publicados</a></li>
+						<s:if test="#session.unassignedGames != null && #session.unassignedGames > 0">
+							<li><a href="${pageContext.request.contextPath}/game/games?is=unassigned">No Designados
+									<span class="warning"><s:property value="#session.unassignedGames"/></span>
+								</a>
+							</li>
+						</s:if>
+						<s:if test="#session.confirmedGames != null && #session.confirmedGames > 0">
+							<li><a href="${pageContext.request.contextPath}/game/games?is=confirmed">Confirmados
+									<span  class="success">
+										<s:property value="#session.confirmedGames"/>
+									</span>
+								</a>
+							</li>
+						</s:if>
+						<s:if test="#session.unconfirmedGames != null && #session.unconfirmedGames > 0">
+							<li><a href="${pageContext.request.contextPath}/game/games?is=unconfirmed">No Confirmados
+									<span class="warning"><s:property value="#session.unconfirmedGames"/></span>
+								</a>
+							</li>
+						</s:if>
+						<s:if test="#session.unpublishedGames != null 
+											&& #session.futureGames - #session.unpublishedGames > 0">
+							<li class="published-num"><a href="${pageContext.request.contextPath}/game/games?is=published">Publicados
+									<span  class="success">
+										<s:property value="#session.futureGames - #session.unpublishedGames"/>
+									</span>
+								</a>
+							</li>
+						</s:if>
+						<s:if test="#session.unpublishedGames != null && #session.unpublishedGames > 0">
+							<li class="unpublished-num"><a href="${pageContext.request.contextPath}/game/games?is=unpublished">No Publicados
+									<span  class="warning"><s:property value="#session.unpublishedGames"/></span>
+								</a>
+							</li>
+						</s:if>
 					</s:if>
 				</ul>
 			</li>
