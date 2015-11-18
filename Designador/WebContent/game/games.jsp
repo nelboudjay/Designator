@@ -34,6 +34,9 @@
 				<s:if test="is == 'unassigned'">
 					Partidos No Asignados
 				</s:if>
+				<s:elseif test="is == 'unpublished'">
+					Partidos No Publicados
+				</s:elseif>
 				<s:else>
 					Todos los partidos
 				</s:else>
@@ -59,20 +62,21 @@
 					<b>
 					<s:if test="dateStr != 'all'">
 						<s:set var="usedGames" value="#attr.games"/>
-						<a href="games?dateStr=all" class="link dark"> Mostrar Todos Los Partidos (<s:property value="#attr.allGames.size()"/>)</a>
+						<a href="games?dateStr=all&is=${is}" class="link dark"> Mostrar Todos Los Partidos (<s:property value="#attr.allGames.size()"/>)</a>
 					</s:if>
 					<s:else>
 						<s:set var="usedGames" value="#attr.allGames"/>
 						<s:if test="#attr.games.size() > 0">
-							<a href="games" class="link-2 dark"> Mostrar Sólo Los Futuros Partidos (<s:property value="#attr.games.size()"/>)</a>
+							<a href="games?is=${is}" class="link-2 dark"> Mostrar Sólo Los Futuros Partidos (<s:property value="#attr.games.size()"/>)</a>
 						</s:if>
 					</s:else>
 					</b>
 				</p>
-				<form action="allGames" method="get" >
+				<form action="games" method="get" >
 					<div>
 						<label><b>Fecha: </b></label>
 						<input type="text" id="datepicker" name="dateStr" value="${dateStr != 'all' ? dateStr : ''}">
+						<input type="hidden" name="is" value="${is}">
 						<input type="submit" class="btn" value="Mostrar Partidos" >
 					</div>
 				</form>

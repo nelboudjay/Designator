@@ -58,33 +58,32 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 		}else{
 			
 			allGames = service.GetModelDataList(Game.class, eqRestrictions, "gameDate", true);
-			
+
+			System.out.println(allGames);
 			if(allGames != null){
+				
+				if(is != null){
+					
+					if(is.equalsIgnoreCase("unassigned"))
+						allGames.removeIf(game -> !((Game)game).isUnassigned());
+					else if(is.equalsIgnoreCase("unpublished"))
+						allGames.removeIf(game -> ((Game)game).isGameStatus());
+					
+				}
+			
+				System.out.println(allGames);
+
 				games = new LinkedList<Game>();
 	
-				calendar.set(Calendar.HOUR_OF_DAY, 0);
-				calendar.set(Calendar.MINUTE, 0);
-				calendar.set(Calendar.SECOND, 0);
-				calendar.set(Calendar.MILLISECOND, 0);
-				
-				if(is != null){	
-					if(is.equalsIgnoreCase("unassigned")){
-						allGames.stream().filter(game -> ((Game)game).getGameDate().after(calendar.getTime()) 
-								&& ((Game)game).isUnassigned()).
-						forEach(game -> games.add((Game)game));
-						return SUCCESS;
-					}
-					else if(is.equalsIgnoreCase("unpublished")){
-						allGames.stream().filter(game -> ((Game)game).getGameDate().after(calendar.getTime()) 
-								&& !((Game)game).isGameStatus()).
-						forEach(game -> games.add((Game)game));
-						return SUCCESS;
-					}
-				}
-				
 				setSelectedDate();
-				
+
+		
 				if(date == null || date.equals(new Date(Long.MIN_VALUE))){
+					
+					calendar.set(Calendar.HOUR_OF_DAY, 0);
+					calendar.set(Calendar.MINUTE, 0);
+					calendar.set(Calendar.SECOND, 0);
+					calendar.set(Calendar.MILLISECOND, 0);
 					
 					allGames.stream().filter(game -> ((Game)game).getGameDate().after(calendar.getTime())).
 					forEach(game -> games.add((Game)game));
