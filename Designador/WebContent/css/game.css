@@ -20,7 +20,7 @@
 	background: #f8f8f8 ;
 }
 
-.games b {
+.games b, .game-info td b {
 	color:#5b5b5b;
 }
 

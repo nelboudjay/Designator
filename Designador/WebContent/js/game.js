@@ -6,7 +6,7 @@ $(function() {
 		unpublishedGame.hide();
 		$.ajax({
 			type : "GET",
-			url : "publishGame?method:publishGame",
+			url : "publishGame",
 			data : {
 				idGame	: $(this).parents("tr").attr("id")
 			},

@@ -10,7 +10,6 @@
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/commonScript.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/js/users.js"></script>
 
 <title>Categorías</title>
 
@@ -67,7 +66,7 @@
 									Masculino
 								</s:else>
 							</td>
-							<td><a class="link delete" href="deleteCategory?idCategory=${idCategory}&method:deleteCategory">Eliminar</a>
+							<td><a class="link delete" href="deleteCategory?idCategory=${idCategory}">Eliminar</a>
 								<span class="confirm-box">
 									<span class="message">¿Estás seguro que quieres
 										eliminar esta categoría? </span> <span class="btn yes">Sí</span> 

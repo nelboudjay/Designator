@@ -4,6 +4,7 @@ package com.myproject.model;
 import java.sql.Timestamp;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -64,17 +65,17 @@ public class Game {
 
 	@OneToOne
 	@ForeignKey (name = "FK_GAME__VENUE")
-	@JoinColumn(name = "GAME_VENUE", nullable = false)
+	@JoinColumn(name = "GAME_VENUE")
 	private Venue gameVenue;
 	
 	@OneToOne
 	@ForeignKey (name = "FK_GAME__LEAGUE")
-	@JoinColumn(name = "GAME_LEAGUE", nullable = false)
+	@JoinColumn(name = "GAME_LEAGUE")
 	private League gameLeague;
 	
 	@OneToOne
 	@ForeignKey (name = "FK_GAME__CATEGORY")
-	@JoinColumn(name = "GAME_CATEGORY", nullable = false)
+	@JoinColumn(name = "GAME_CATEGORY")
 	private Category gameCategory;
 	
 	@Type(type = "org.hibernate.type.NumericBooleanType")
@@ -90,7 +91,7 @@ public class Game {
 	private Timestamp lastUpdatedDate;
 	
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy="game")
+	@OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, mappedBy="game")
     private List<RefereeGame> refereesGame;
 	
 	public String getIdGame() {

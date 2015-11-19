@@ -2,16 +2,11 @@ package com.myproject.model;
 
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -32,7 +27,7 @@ public class Team implements Serializable{
 	private String teamLocation;
 	
 	
-	@ManyToMany
+	/*@ManyToMany
 	@JoinTable(name = "TEAM_CATEGORY", 
 				joinColumns = { @JoinColumn( name = "idTEAM")},
 				inverseJoinColumns = { @JoinColumn(name = "idCATEGORY") })
@@ -45,7 +40,7 @@ public class Team implements Serializable{
 		this.categories = categories;
 		this.teamName = teamName;
 		this.teamLocation = teamLocation;
-	}
+	}*/
 
 	public Team(String idTeam, String teamName, String teamLocation) {
 		super();
@@ -89,14 +84,14 @@ public class Team implements Serializable{
 		this.teamLocation = teamLocation;
 	}
 
-	public Set<Category> getCategories() {
+	/*public Set<Category> getCategories() {
 		return categories;
 	}
 
 	public void setCategories(Set<Category> categories) {
 		this.categories = categories;
 	}
-	
+	*/
 	
 	@Override
 	public boolean equals(Object o){

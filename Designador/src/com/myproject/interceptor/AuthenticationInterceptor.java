@@ -107,7 +107,7 @@ public class AuthenticationInterceptor implements Interceptor {
 		
 		List<String> actionsLoginNames = Arrays.asList("login", "homePage");
 		List<String> actionsAdminNames = Arrays.asList("addComment", "deleteComment","addUser","deleteUser",
-				"games", "publishGame",
+				"games", "publishGame", "deleteGame",
 				"allAvailability", "allLeagues","addEditLeague","deleteLeague",
 				"allTeams","addEditTeam","deleteTeam", "allVenues","addEditVenue","deleteVenue");
 		
@@ -153,7 +153,7 @@ public class AuthenticationInterceptor implements Interceptor {
 		
 		eqRestrictions.clear();
 		eqRestrictions.put("gameDate", new FieldCondition(gameDate, 1));
-		List<?> allGames = service.GetModelDataList(Game.class, eqRestrictions, "gameDate", true);
+		List<?> allGames = service.GetModelDataList(Game.class, eqRestrictions, "gameDate", false);
 		
 		if(allGames != null){
 			session.put("futureGames",allGames.size());

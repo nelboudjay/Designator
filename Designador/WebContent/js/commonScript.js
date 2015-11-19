@@ -196,7 +196,12 @@ $(document).ready(function() {
 		e.stopPropagation();
 
 		$(this).hide();
-		$(this).next(".confirm-box").css("display", "inline");
+		
+		if($(this).next(".confirm-box").hasClass("important"))
+			$(this).next(".confirm-box").css("display", "inline-block");
+		else
+			$(this).next(".confirm-box").css("display", "inline");
+
 		
 		var deleteLink = $(this).attr("href");
 		

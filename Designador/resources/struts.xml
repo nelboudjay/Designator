@@ -155,7 +155,7 @@
 			</result>		
 		</action>
 		
-		<action name="deleteUser" class="com.myproject.action.user.DeleteUser">
+		<action name="deleteUser" class="com.myproject.action.user.DeleteUser" method="deleteUser">
 			<result name="error" type="redirectAction">
 				<param name="actionName">homePage</param>
         		<param name="namespace">/</param>
@@ -211,7 +211,7 @@
         	</result>
 		</action>
 		
-		<action name="publishGame" class="com.myproject.action.game.CRUDGame">
+		<action name="publishGame" class="com.myproject.action.game.CRUDGame" method="publishGame">
 			<result name="success" type="redirectAction">games</result>
 			<result name="input" type="redirectAction">games</result>
 			<result name="error" type="redirectAction">
@@ -220,8 +220,18 @@
         	</result>
 		</action>
 		
-		<action name="game" class="com.myproject.action.game.CRUDGame">
+		<action name="game" class="com.myproject.action.game.CRUDGame" method="getSelectedGame">
 			<result name="success">game.jsp</result>
+			<result name="input" type="redirectAction">games</result>
+			<result name="not found" type="redirectAction">games</result>
+			<result name="error" type="redirectAction">
+				<param name="actionName">homePage</param>
+        		<param name="namespace">/</param>
+        	</result>
+		</action>
+		
+		<action name="deleteGame" class="com.myproject.action.game.CRUDGame" method="deleteGame">
+			<result name="success" type="redirectAction">games</result>
 			<result name="input" type="redirectAction">games</result>
 			<result name="not found" type="redirectAction">games</result>
 			<result name="error" type="redirectAction">
@@ -298,7 +308,7 @@
         	</result>
 		</action>
 		
-		<action name="addEditLeague" class="com.myproject.action.league.CRUDLeague">
+		<action name="addEditLeague" class="com.myproject.action.league.CRUDLeague" >
 			<result name="none">addEditLeague.jsp</result>
 			<result name="input">addEditLeague.jsp</result>
 			<result name="success" type="redirectAction">allLeagues</result>
@@ -308,7 +318,7 @@
         	</result>
 		</action>
 		
-		<action name="deleteLeague" class="com.myproject.action.league.CRUDLeague">
+		<action name="deleteLeague" class="com.myproject.action.league.CRUDLeague" method="deleteLeague">
 			<result name="input" type="redirectAction">allLeagues</result>
 			<result name="success" type="redirectAction">allLeagues</result>
 			<result name="error" type="redirectAction">
@@ -341,7 +351,7 @@
         	</result>
 		</action>
 		
-		<action name="deleteCategory" class="com.myproject.action.category.CRUDCategory">
+		<action name="deleteCategory" class="com.myproject.action.category.CRUDCategory" method="deleteCategory">
 			<result name="input" type="redirectAction">allCategories</result>
 			<result name="success" type="redirectAction">allCategories</result>
 			<result name="error" type="redirectAction">
@@ -363,7 +373,7 @@
         	</result>
 		</action>
 		
-		<action name="addEditTeam" class="com.myproject.action.team.CRUDTeam">
+		<action name="addEditTeam" class="com.myproject.action.team.CRUDTeam" >
 			<result name="none">addEditTeam.jsp</result>
 			<result name="input">addEditTeam.jsp</result>
 			<result name="success" type="redirectAction">allTeams</result>
@@ -373,7 +383,7 @@
         	</result>
 		</action>
 		
-		<action name="deleteTeam" class="com.myproject.action.team.CRUDTeam">
+		<action name="deleteTeam" class="com.myproject.action.team.CRUDTeam" method="deleteTeam">
 			<result name="input" type="redirectAction">allTeams</result>
 			<result name="success" type="redirectAction">allTeams</result>
 			<result name="error" type="redirectAction">
@@ -405,7 +415,7 @@
         	</result>
 		</action>
 		
-		<action name="deleteVenue" class="com.myproject.action.venue.CRUDVenue">
+		<action name="deleteVenue" class="com.myproject.action.venue.CRUDVenue" method="deleteVenue">
 			<result name="input" type="redirectAction">allVenues</result>
 			<result name="success" type="redirectAction">allVenues</result>
 			<result name="error" type="redirectAction">

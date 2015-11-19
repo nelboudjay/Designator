@@ -10,7 +10,6 @@
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/commonScript.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/js/users.js"></script>
 
 <title>Competiciones</title>
 
@@ -52,7 +51,7 @@
 					<s:iterator value="#attr.leagues">
 						<tr>
 							<td><a class="link" href="addEditLeague?idLeague=${idLeague}">${leagueName}</a></td>
-							<td><a class="link delete" href="deleteLeague?idLeague=${idLeague}&method:deleteLeague">Eliminar</a>
+							<td><a class="link delete" href="deleteLeague?idLeague=${idLeague}">Eliminar</a>
 								<span class="confirm-box">
 									<span class="message">¿Estás seguro que quieres
 										eliminar esta competición? </span> <span class="btn yes">Sí</span> 

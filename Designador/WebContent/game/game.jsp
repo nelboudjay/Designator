@@ -70,27 +70,33 @@
 						</s:else>
 					</td>
 				</tr>
-			
-				<tr>
-					<td>Categoría</td>
-					<td colspan="2"><s:property value="game.GameCategory.CategoryName"/> <s:property value="game.GameCategory.CategoryGenderName"/></td>
-				</tr>
-				<tr>
-					<td>Competición</td>
-					<td colspan="2"><s:property value="game.GameLeague.LeagueName"/></td>
-				</tr>
-				<tr>
-					<td>Pista</td>
-					<td colspan="2"><a class="link-2" href="${pageContext.request.contextPath}/venue/addEditVenue?idVenue=${game.gameVenue.idVenue}"><s:property value="game.GameVenue.venueName"/></a></td>
-				</tr>
-				<s:if test="game.GameVenue.venueAddress.city != ''">
+				<s:if test="game.GameCategory != null">
 					<tr>
-						<td>Localidad</td>
-						<td colspan="2"><s:property value="game.GameVenue.venueAddress.City"/></td>
+						<td>Categoría</td>
+						<td colspan="2"><s:property value="game.GameCategory.CategoryName"/> <s:property value="game.GameCategory.CategoryGenderName"/></td>
 					</tr>
 				</s:if>
+				<s:if test="game.GameLeague != null">
+					<tr>
+						<td>Competición</td>
+						<td colspan="2"><s:property value="game.GameLeague.LeagueName"/></td>
+					</tr>
+				</s:if>
+				<s:if test="game.GameVenue != null">
+					<tr>
+						<td>Pista</td>
+						<td colspan="2"><a class="link-2" href="${pageContext.request.contextPath}/venue/addEditVenue?idVenue=${game.gameVenue.idVenue}"><s:property value="game.GameVenue.venueName"/></a></td>
+					</tr>
+					
+					<s:if test="game.GameVenue.venueAddress.city != ''">
+						<tr>
+							<td>Localidad</td>
+							<td colspan="2"><s:property value="game.GameVenue.venueAddress.City"/></td>
+						</tr>
+					</s:if>
+				</s:if>
 				<tr>
-					<td rowspan="2">Equipo Arbitral</td>
+					<td>Equipo Arbitral</td>
 					<td>
 						<s:iterator value="{'Principal','Auxiliar','Anotador','Cronometrador','Operador 30\"','Coche'}"  status="status">
 									
@@ -122,23 +128,38 @@
 						</s:iterator>
 					</td>
 				</tr>
+				<tr>
+					<td>Última Actualización</td>
+					<td colspan="2">
+						<s:date name="game.lastUpdatedDate" format="EEE" var="lastUpdatedDay"/>
+						<s:property value="@com.opensymphony.xwork2.inject.util.Strings@capitalize(#lastUpdatedDay)"/>, 
+						<s:date name="game.lastUpdatedDate" format="d"/> de 
+						<s:date name="game.lastUpdatedDate" format="MMM" var="lastUpdatedDayMonth"/>
+						<s:property value="@com.opensymphony.xwork2.inject.util.Strings@capitalize(#lastUpdatedDayMonth)"/> de 
+						<s:date name="game.lastUpdatedDate" format="yyyy"/> a las
+						<s:date name="game.lastUpdatedDate" format="HH:mm"/> horas 
+										
+					</td>
+				</tr>
+				<tr>
+					<td>Autor</td>
+					<td>
+						<a class="link-2" href="${pageContext.request.contextPath}/user/user?idUser=${game.lastUpdaterUser.idUser}">
+							<s:property value="game.lastUpdaterUser.userProfile.firstName"/>
+							<s:property value="game.lastUpdaterUser.userProfile.lastName1"/>
+						</a>
+					</td>
+				</tr>
 			</table>
-			<p><a href="users" class="link">« Todos los Miembros</a>
-			
-				<s:if test="idUser == #session.user.idUser">
-					· <a class="link" href="editUser?idUser=${idUser}">Editar</a> · 
-					<a class="link" href="changePassword">Cambiar contraseña</a> 
-				</s:if>
-				<s:elseif test="#session.user.isAdmin()">
-					. <a class="link" href="editUser?idUser=${idUser}">Editar</a> · 
-					<a class="link delete" href="deleteUser?idUser=${idUser}">Eliminar</a>
+			<p><a href="games" class="link">« Todos los Partidos</a>
+					· <a class="link" href="addEditGame?idGame=${idGame}">Editar</a> · 
+					<a class="link delete" href="deleteGame?idGame=${idGame}">Eliminar</a>
 					<span class="confirm-box">
 						<span class="message">¿Estás seguro que quieres
-							eliminar este miembro? </span> <span class="btn yes">Sí</span> 
+							eliminar este partido? </span> <span class="btn yes">Sí</span> 
 							<span class="btn no">No</span>
 					</span>	 
 					
-				</s:elseif>
 				
 			</p>
 		</div>

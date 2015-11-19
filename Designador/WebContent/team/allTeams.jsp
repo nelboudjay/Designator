@@ -10,7 +10,6 @@
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/commonScript.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/js/users.js"></script>
 
 <title>Equipos</title>
 
@@ -57,9 +56,10 @@
 						<tr>
 							<td><a class="link" href="addEditTeam?idTeam=${idTeam}">${teamName}</a></td>
 							<td>${teamLocation}</td>
-							<td><a class="link delete" href="deleteTeam?idTeam=${idTeam}&method:deleteTeam">Eliminar</a>
-								<span class="confirm-box">
-									<span class="message">¿Estás seguro que quieres
+							<td><a class="link delete " href="deleteTeam?idTeam=${idTeam}">Eliminar</a>
+								<span class="confirm-box important">
+									<span class="message">
+										IMPORTANTE: Cualquier partido que esta programado para este equipo se va a eliminar del sistema ¿Estás seguro que quieres
 										eliminar este equipo? </span> <span class="btn yes">Sí</span> 
 										<span class="btn no">No</span>
 								</span>	

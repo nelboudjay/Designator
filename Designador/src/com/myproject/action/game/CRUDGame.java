@@ -57,7 +57,7 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 			
 		}else{
 			
-			allGames = service.GetModelDataList(Game.class, eqRestrictions, "gameDate", true);
+			allGames = service.GetModelDataList(Game.class, eqRestrictions, "gameDate", false);
 
 			if(allGames != null){
 				
@@ -109,7 +109,7 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 			User user = (User)session.get("user");
 
 			if(user.isAdmin()){
-				addActionError("Por favor, introduce el id del partido que quieres publicar.");
+				addActionError("Por favor, introduce el id del partido que quieres mostrar.");
 				setContextGames();
 				return INPUT;
 			}
@@ -150,7 +150,7 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 			
 			if(game == null){
 				
-				addActionError("El partido que quieres eliminar no existe o ya se ha eliminado.");
+				addActionError("El partido que quieres publicar no existe o ya se ha eliminado.");
 				setContextGames();
 				return INPUT;	
 			}
@@ -172,6 +172,32 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 		}
 	}
 	
+	public String deleteGame(){
+		
+		if (idGame == null || idGame.equals("")){
+			
+			addActionError("Por favor, introduce el id del partido que quieres eliminar.");
+			setContextGames();
+			return INPUT;
+		}
+		else{
+			eqRestrictions.put("idGame", new FieldCondition(idGame));
+			game = (Game) service.GetUniqueModelData(Game.class, eqRestrictions);			
+			
+			if(game == null){
+				
+				addActionError("El partido que quieres eliminar no existe o ya se ha eliminado.");
+				setContextGames();
+				return INPUT;	
+			}
+			else{
+				service.DeleteModelData(game);
+				addActionMessage("El partido ha sido eliminado con exito.");
+				return SUCCESS;
+			
+			}
+		}
+	}
 	
 	public void setSelectedDate(){
 			
@@ -192,7 +218,7 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 	public void setContextGames(){
 		
 		eqRestrictions.clear();
-		allGames = service.GetModelDataList(Game.class, eqRestrictions, "gameDate", true);
+		allGames = service.GetModelDataList(Game.class, eqRestrictions, "gameDate", false);
 		
 		context.setAttribute("allGames", allGames);
 

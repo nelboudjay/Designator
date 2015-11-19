@@ -10,7 +10,6 @@
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/commonScript.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/js/users.js"></script>
 
 <title>Pistas</title>
 
@@ -62,9 +61,10 @@
 							<td>${venueAddress != null ? venueAddress.getFullAddress() : ''}</td>
 							<td>${venueContactName}</td>
 							<td>${venueContactPhone}</td>
-							<td><a class="link delete" href="deleteVenue?idVenue=${idVenue}&method:deleteVenue">Eliminar</a>
-								<span class="confirm-box">
-									<span class="message">¿Estás seguro que quieres
+							<td style="direction:rtl;"> <a class="link delete" href="deleteVenue?idVenue=${idVenue}">Eliminar</a>
+							
+								<span class="confirm-box" >
+									<span class="message"> Estás seguro que quieres
 										eliminar esta pista? </span> <span class="btn yes">Sí</span> 
 										<span class="btn no">No</span>
 								</span>	

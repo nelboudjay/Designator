@@ -3,14 +3,11 @@ package com.myproject.model;
 
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -36,8 +33,8 @@ public class Category implements Serializable{
 	@Column(name="CATEGORY_GENDER", nullable = false)
 	private int categoryGender;
 	
-	@ManyToMany(mappedBy="categories")
-	private Set<Team> teams = new HashSet<Team>();
+	/*@ManyToMany(mappedBy="categories")
+	private Set<Team> teams = new HashSet<Team>();*/
 	
 	
 	public Category(String idCategory, String categoryName, int categoryGender) {
@@ -56,12 +53,12 @@ public class Category implements Serializable{
 	public Category(){
 	}
 	
-	public Category(Set<Team> teams, String categoryName, int categoryGender) {
+	/*public Category(Set<Team> teams, String categoryName, int categoryGender) {
 		super();
 		this.teams = teams;
 		this.categoryName = categoryName;
 		this.categoryGender = categoryGender;
-	}
+	}*/
 	
 	public String getIdCategory() {
 		return idCategory;
@@ -87,14 +84,14 @@ public class Category implements Serializable{
 		this.categoryGender = categoryGender;
 	}
 	
-	@ManyToMany( targetEntity=Team.class, mappedBy = "categories")
+	/*@ManyToMany( targetEntity=Team.class, mappedBy = "categories")
 	public Set<Team> getTeams() {
 		return teams;
 	}
 
 	public void setTeams(Set<Team> teams) {
 		this.teams = teams;
-	}
+	}*/
 
 	public String getCategoryGenderShortName(){
 		

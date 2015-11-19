@@ -9,7 +9,7 @@
 		</li>
 			<li class="dark-nav
 				<s:if test="#context['struts.actionMapping'].name in 
-					{'games','myGames','myUnconfirmedGames'}">active dark-nav-active
+					{'games'}">active dark-nav-active
 				</s:if>
 			">
 				<span class="glow"></span>
@@ -18,7 +18,7 @@
 				</a>
 				<ul style="display:
 					<s:if test="#context['struts.actionMapping'].name in 
-						{'games','myGames','myUnconfirmedGames'}">block</s:if>
+						{'games'}">block</s:if>
 					<s:else>none</s:else>
 				">
 					<s:if test="#session.user.userRole != 2">
