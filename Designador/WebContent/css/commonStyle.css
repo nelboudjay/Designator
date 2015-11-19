@@ -564,7 +564,7 @@ form > div {
 
 
 
-.user-menu {
+.user-menu, .game-menu{
   	background-color: #f0f0f0;
     border: 1px solid #ddd;
     border-radius: 4px;  
@@ -575,7 +575,10 @@ form > div {
 	padding:10px;
 }
 
-.user-menu > a {
+.game-menu{
+	padding:15px;	
+}
+.user-menu > a, .game-menu {
 	font-size:18px;
 	vertical-align: sub;
 }

@@ -64,7 +64,7 @@ public class AuthenticationInterceptor implements Interceptor {
 				for (Cookie cookie : cookies) {
 					if (cookie.getName().equals("MYJSESSIONID")) {
 						String encryptedCookieValue = cookie.getValue();
-
+						eqRestrictions.clear();
 						eqRestrictions
 								.put("idUserCookie", new FieldCondition(encryptedCookieValue));
 

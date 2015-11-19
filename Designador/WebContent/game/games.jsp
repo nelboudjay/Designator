@@ -99,7 +99,7 @@
 						<th></th>
 						<th colspan="2">Partido</th>
 						<th>Fecha</th>	
-						<th colspan="2">Grupo Arbitral</th>
+						<th colspan="2">Equipo Arbitral</th>
 						<th></th>
 					</tr>
 					<s:iterator value="#usedGames">
@@ -160,7 +160,7 @@
 							</td>
 							<td rowspan="2">
 								<div><a class="link">Designar</a></div>
-								<div><a href="game?idGame=${idGame}" class="link">Mostrar</a></div>
+								<div><a href="game?idGame=${idGame}&method:getSelectedGame" class="link">Mostrar</a></div>
 								<div><a class="link">Editar</a></div>
 								<div><a class="link">Eliminar</a></div>
 							</td>

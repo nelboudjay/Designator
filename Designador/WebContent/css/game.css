@@ -71,7 +71,7 @@
     display:inline-block;
 }
 
-tr:nth-child(4n + 4), tr:nth-child(4n + 5){
+.games tr:nth-child(4n + 4), .games tr:nth-child(4n + 5){
 	background: #e8e7e6 !important;
 }
 
@@ -112,4 +112,38 @@ tr:nth-child(4n + 4), tr:nth-child(4n + 5){
 .confirmation {
 	width:14px;
 	vertical-align:text-top;
+}
+
+.game-info tr:nth-child(even) {
+	background: #e8e7e6;
+}
+
+.game-info tr:nth-child(odd) {
+	background: #f8f8f8;
+}
+.game-info th {
+	text-align:center;
+	background-color:#f8f8f8;
+	border: 0;
+}
+
+.game-info th > a {
+	padding: 0 5px;
+}
+.game-info td{
+	
+	width:auto;
+	border-top:1px solid #ddd;
+	border-style: solid none none;
+}
+
+.game-info  tr > td:first-child {
+	font-weight: bold;
+	color:#333;
+}
+
+.warning, .success {
+    border-radius: 0.25em;
+    color: white;
+    padding: 4px;
 }

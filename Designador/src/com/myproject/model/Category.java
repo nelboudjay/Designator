@@ -101,8 +101,19 @@ public class Category implements Serializable{
 		switch (categoryGender){
 		
 		case FEMALE: 	return "F";
-		case MIXED:	return "MIX";
+		case MIXED:		return "MIX";
 		default:		return "M";
+			
+		}
+	}
+	
+	public String getCategoryGenderName(){
+		
+		switch (categoryGender){
+		
+		case FEMALE: 	return "Femenino";
+		case MIXED:		return "Mixto";
+		default:		return "Masculino";
 			
 		}
 	}

@@ -102,21 +102,37 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 	}
 
 
-	public String getGame(){
+	public String getSelectedGame(){
 		
 		if (idGame == null || idGame.equals("")){
 			
 			User user = (User)session.get("user");
 
 			if(user.isAdmin()){
-				
+				addActionError("Por favor, introduce el id del partido que quieres publicar.");
+				setContextGames();
+				return INPUT;
+			}
+			else{
+				addActionError("No tienes permiso para ver esta página");
+				return ERROR;	
 			}
 			
 		}
+		else{
+			
+			eqRestrictions.put("idGame", new FieldCondition(idGame));
 
-		
-		
-		return SUCCESS;
+			game = (Game)service.GetUniqueModelData(Game.class, eqRestrictions);
+			
+			if(game == null){
+				addActionError("El partido que quieres mostrar no existe o ya se ha eliminado.");
+				setContextGames();
+				return INPUT;
+			}
+			else
+				return SUCCESS;
+		}		
 	}
 	
 	public String publishGame(){
@@ -204,6 +220,10 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 		this.idGame = idGame;
 	}
 	
+	public Game getGame() {
+		return game;
+	}
+
 	public List<Game> getGames() {
 		return games;
 	}
@@ -239,8 +259,6 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 	public void setIs(String is) {
 		this.is = is;
 	}
-
-
 
 	public void setDateStr(String dateStr) {
 		this.dateStr = dateStr;
