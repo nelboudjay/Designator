@@ -9,7 +9,7 @@
 		</li>
 			<li class="dark-nav
 				<s:if test="#context['struts.actionMapping'].name in 
-					{'games'}">active dark-nav-active
+					{'games', 'game', 'addEditGame'}">active dark-nav-active
 				</s:if>
 			">
 				<span class="glow"></span>
@@ -18,7 +18,7 @@
 				</a>
 				<ul style="display:
 					<s:if test="#context['struts.actionMapping'].name in 
-						{'games'}">block</s:if>
+						{'games', 'game', 'addEditGame'}">block</s:if>
 					<s:else>none</s:else>
 				">
 					<s:if test="#session.user.userRole != 2">
@@ -105,7 +105,12 @@
 				</a>
 			</li>
 		</s:else>
-		<li class="${context['struts.actionMapping'].name == 'users' ? 'active' : '' }"><span class="glow"></span>
+		<li class="
+				<s:if test="#context['struts.actionMapping'].name in  {'users','user','editUser','addUser'}">
+						active
+				</s:if>		
+		">
+			<span class="glow"></span>
 			<a href="${pageContext.request.contextPath}/user/users"><img class="left-menu-icon"
 			src="${pageContext.request.contextPath}/images/users-icon.png">Miembros</a></li>
 		

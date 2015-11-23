@@ -59,7 +59,7 @@
 							<td><a class="link delete " href="deleteTeam?idTeam=${idTeam}">Eliminar</a>
 								<span class="confirm-box important">
 									<span class="message">
-										IMPORTANTE: Cualquier partido que esta programado para este equipo se va a eliminar del sistema ¿Estás seguro que quieres
+										IMPORTANTE: Cualquier partido que está programado para este equipo se va a eliminar del sistema ¿Estás seguro que quieres
 										eliminar este equipo? </span> <span class="btn yes">Sí</span> 
 										<span class="btn no">No</span>
 								</span>	

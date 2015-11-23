@@ -5,7 +5,6 @@ form > div,.row  {
 }
 
 .select-div {
-	width: 240px;
    	height: 23px;
    	overflow: hidden;
    	background: url("../images/dropdown-icon.png")  no-repeat right #fff;
@@ -16,11 +15,14 @@ form > div,.row  {
 
 #categoryGender {
 	background: transparent;
-   	width: 300px;
+   	width: 100%;
    	font-size: 11px;
    	border: 0;
    	height: 25px;
    	color:inherit;
+   	-webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
 }
 
 #categories td {

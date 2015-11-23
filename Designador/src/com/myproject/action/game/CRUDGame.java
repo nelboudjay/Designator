@@ -16,8 +16,12 @@ import org.apache.struts2.interceptor.SessionAware;
 import org.apache.struts2.interceptor.validation.SkipValidation;
 import org.apache.struts2.util.ServletContextAware;
 
+import com.myproject.model.Category;
 import com.myproject.model.Game;
+import com.myproject.model.League;
+import com.myproject.model.Team;
 import com.myproject.model.User;
+import com.myproject.model.Venue;
 import com.myproject.service.GenericService;
 import com.myproject.tools.FieldCondition;
 import com.opensymphony.xwork2.ActionContext;
@@ -33,9 +37,13 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 	private List<Game> games;
 	private List<?> refereesGame;
 	
+	private List<?> teams, leagues, categories, venues, referees;
+	
     private Date date;
-	private String dateStr, is;
+	private String dateStr, timeStr, is;
 	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	private SimpleDateFormat timeFormat = new SimpleDateFormat("H:mm");
+
 	private Calendar calendar = Calendar.getInstance();
 
 	
@@ -53,6 +61,24 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 		
 		if( ActionContext.getContext().getName().equalsIgnoreCase("addEditGame")){
 			
+			teams = service.GetModelDataList(Team.class, eqRestrictions, "teamName", true);
+			leagues = service.GetModelDataList(League.class, eqRestrictions, "leagueName", true);
+			categories = service.GetModelDataList(Category.class, eqRestrictions, "categoryName", true);
+			venues = service.GetModelDataList(Venue.class, eqRestrictions, "venueName", true);
+			
+			eqRestrictions.put("userRole", new FieldCondition(User.REFEREE,1));
+			referees = service.GetModelDataList(User.class, eqRestrictions, "firstName", true);
+			
+			if (idGame != null && !idGame.equals("")){
+				eqRestrictions.clear();
+				eqRestrictions.put("idGame", new FieldCondition(idGame));
+				game = (Game) service.GetUniqueModelData(Game.class, eqRestrictions);
+				if(game != null){
+					setDateStr(sdf.format(game.getGameDate()));
+					setTimeStr(timeFormat.format(game.getGameDate()));
+				//	setCategoryName(category.getCategoryName());
+				}
+			}
 			return NONE;
 			
 		}else{
@@ -307,5 +333,65 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 
 	public void setAllGames(List<?> allGames) {
 		this.allGames = allGames;
+	}
+
+
+	public String getTimeStr() {
+		return timeStr;
+	}
+
+
+	public void setTimeStr(String timeStr) {
+		this.timeStr = timeStr;
+	}
+
+
+	public List<?> getTeams() {
+		return teams;
+	}
+
+
+	public void setTeams(List<?> teams) {
+		this.teams = teams;
+	}
+
+
+	public List<?> getLeagues() {
+		return leagues;
+	}
+
+
+	public void setLeagues(List<?> leagues) {
+		this.leagues = leagues;
+	}
+
+
+	public List<?> getVenues() {
+		return venues;
+	}
+
+
+	public void setVenues(List<?> venues) {
+		this.venues = venues;
+	}
+
+
+	public List<?> getCategories() {
+		return categories;
+	}
+
+
+	public void setCategories(List<?> categories) {
+		this.categories = categories;
+	}
+
+
+	public List<?> getReferees() {
+		return referees;
+	}
+
+
+	public void setReferees(List<?> referees) {
+		this.referees = referees;
 	}
 }

@@ -29,10 +29,29 @@ $(function() {
 		});
 	});
 	
+	$(".select-div").click(function(){
+
+		if($("option:selected",this).val() == 0){
+			$(this).next().show();
+			$(this).nextAll(".select-div").show();
+		}else{
+			$(this).next().hide();
+			$(this).nextAll(".select-div").hide();
+		}
+	});
+	
+
+
+	
 	$(function () {
 		$.datepicker.setDefaults($.datepicker.regional["es"]);
 		
 		$("#datepicker").datepicker();
+		
+		$("#datepicker").click(function(){
+			$('#ui-datepicker-div').css("top",$(this).position().top);
+
+		})
 	});
 	
 	

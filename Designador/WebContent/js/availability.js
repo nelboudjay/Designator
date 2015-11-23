@@ -105,6 +105,11 @@ $(function() {
 		$.datepicker.setDefaults($.datepicker.regional["es"]);
 		
 		$("#datepicker").datepicker();
+		
+		$("#datepicker").click(function(){
+			$('#ui-datepicker-div').css("top",$(this).position().top);
+
+		})
 	});
 	
 	function sortAvailableDates(){

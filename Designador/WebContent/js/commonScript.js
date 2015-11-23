@@ -1,6 +1,16 @@
 function warn(e){
-	e.next().css("display", "block");
-	e.css({"border-color" : "#b94a48", "border-style" : "solid"});	
+	if(e.parent(".select-div").length){
+		e.parent(".select-div").next(".error-field").css("display", "block");
+		e.parent(".select-div").css({
+				"border-color" : "#b94a48",
+				"border-style" : "solid",
+				"border-width" : "1px"});
+	}
+	else{
+		e.next().css("display", "block");
+		e.css({"border-color" : "#b94a48", "border-style" : "solid"});	
+	}
+	
 	return false;
 }
 
@@ -76,6 +86,7 @@ function validate(){
 			}
 		
 		}
+		
 		return noEmpty;
 }
 
@@ -195,10 +206,15 @@ $(document).ready(function() {
         e.preventDefault();
 		e.stopPropagation();
 
+		if($(this).closest("div.games-list").length)
+			$(this).closest("div.games-list").css("direction","rtl");
+		
 		$(this).hide();
 		
 		if($(this).next(".confirm-box").hasClass("important"))
 			$(this).next(".confirm-box").css("display", "inline-block");
+		else if($(this).next(".confirm-box").hasClass("important-2"))
+			$(this).next(".confirm-box").css("display", "inline-table");
 		else
 			$(this).next(".confirm-box").css("display", "inline");
 
@@ -214,6 +230,8 @@ $(document).ready(function() {
 			if ($(this).hasClass("no")) {
 				$(".confirm-box").hide();
 				$(".delete").show();
+				if($(this).closest("div.games-list").length)
+					$(this).closest("div.games-list").css("direction","");
 			} else if ($(this).hasClass("yes")) 
 			    window.location = deleteLink;
 			

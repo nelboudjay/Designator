@@ -45,12 +45,14 @@
 					<div>
 						<label class="required"><strong>Sexo</strong></label> 
 						<div class="select-div">
-							<select id="categoryGender" name="categoryGender">
+							<select id="categoryGender" class="required-field" name="categoryGender">
+							    <option selected disabled>Elige El sexo</option>
 								<option value="1" ${categoryGender == 1 ? 'selected' : ''}>Masculino</option>
 								<option value="2" ${categoryGender == 2 ? 'selected' : ''}>Femenino</option>
 								<option value="3" ${categoryGender == 3 ? 'selected' : ''}>Mixto</option>
 							</select>
 						</div>
+						<div class="error-field">El sexo de la categoría no puede estar en blanco.</div>	
 					</div>
 					
 					<div><input name="idCategory" value="${idCategory}" type="hidden"></div>

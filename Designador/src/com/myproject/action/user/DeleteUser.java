@@ -1,5 +1,7 @@
 package com.myproject.action.user;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +11,7 @@ import javax.servlet.ServletContext;
 import org.apache.struts2.interceptor.SessionAware;
 import org.apache.struts2.util.ServletContextAware;
 
+import com.myproject.model.Game;
 import com.myproject.model.PasswordChangeRequest;
 import com.myproject.model.User;
 import com.myproject.model.UserRefereeType;
@@ -71,7 +74,25 @@ public class DeleteUser extends ActionSupport implements  SessionAware, ServletC
 					userRefereeTypes.forEach(userRefereeType -> service.DeleteModelData(userRefereeType));
 					
 					
+					if(user.isAdmin()){
+						
+						eqRestrictions.clear();
+						eqRestrictions.put("lastUpdaterUser", new FieldCondition(user));
+						List<?> games = service.GetModelDataList(Game.class, eqRestrictions, null, null);	
+						
+						User sessionUser = (User)session.get("user");
+						Date date = new Date();
+
+						games.forEach(game -> {
+								((Game)game).setLastUpdaterUser(sessionUser);
+								((Game)game).setLastUpdatedDate(new Timestamp(date.getTime()));
+								service.SaveOrUpdateModelData(game);
+								}
+						);
+					}
+					
 					service.DeleteModelData(user);	
+
 					addActionMessage("El miembro ha sido eliminado con exito");
 					return SUCCESS;
 				}

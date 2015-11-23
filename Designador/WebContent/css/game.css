@@ -60,6 +60,7 @@
 	margin:5px 0;
 	color:#5b5b5b;
 	font-size:12px;
+	max-width:50px;
 }
 
 
@@ -146,4 +147,33 @@
     border-radius: 0.25em;
     color: white;
     padding: 4px;
+}
+
+.select-div {
+   	height: 23px;
+   	overflow: hidden;
+   	background: url("../images/dropdown-icon.png")  no-repeat right #fff;
+   	border-color: #dedede;
+   	border-style: solid none solid solid;
+    border-width: 1px 0 1px 1px;
+}
+
+.select-div > select {
+	background: transparent;
+   	width: 100%;
+   	font-size: 11px;
+   	border: 0;
+   	height: 25px;
+   	color:inherit;
+   	-webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+#gameForm .row{
+	display:table;
+}
+
+#gameForm .row > div {
+	padding-right:20px;
 }

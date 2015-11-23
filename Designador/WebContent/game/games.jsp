@@ -161,8 +161,16 @@
 							<td rowspan="2">
 								<div><a class="link">Designar</a></div>
 								<div><a href="game?idGame=${idGame}" class="link">Mostrar</a></div>
-								<div><a class="link">Editar</a></div>
-								<div><a class="link">Eliminar</a></div>
+								<div><a class="link" href="addEditGame?idGame=${idGame}">Editar</a></div>
+								<div class="games-list">
+									<a class="link delete" href="deleteGame?idGame=${idGame}">Eliminar</a>
+									
+									<span class="confirm-box" >
+										<span class="message"> Estás seguro que quieres
+											eliminar este partido? </span> <span class="btn yes">Sí</span> 
+											<span class="btn no">No</span>
+									</span>	
+								</div>
 							</td>
 						</tr>
 						<tr>

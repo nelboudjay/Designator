@@ -13,7 +13,7 @@ import org.hibernate.annotations.ForeignKey;
 import org.hibernate.annotations.Type;
 
 @Entity
-@Table(name="REFEREE_GAME", uniqueConstraints = {@UniqueConstraint(columnNames={"GAME", "USER_REFEREE_TYPE"})})
+@Table(name="REFEREE_GAME", uniqueConstraints = {@UniqueConstraint(columnNames={"GAME", "REFEREE_TYPE"})})
 public class RefereeGame {
 	
 	public static final boolean CONFIRMED = true;

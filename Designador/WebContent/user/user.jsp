@@ -127,9 +127,10 @@
 				<s:elseif test="#session.user.isAdmin()">
 					. <a class="link" href="editUser?idUser=${idUser}">Editar</a> · 
 					<a class="link delete" href="deleteUser?idUser=${idUser}">Eliminar</a>
-					<span class="confirm-box">
-						<span class="message">¿Estás seguro que quieres
-							eliminar este miembro? </span> <span class="btn yes">Sí</span> 
+					<span class="confirm-box important-2">
+						<span class="message">
+						IMPORTANTE: Si este miembro tiene partidos designados, habrá que volver a designarlos a otro miembro
+						¿Estás seguro que quieres eliminar este miembro? </span> <span class="btn yes">Sí</span> 
 							<span class="btn no">No</span>
 					</span>	 
 					

@@ -155,7 +155,7 @@
 			</result>		
 		</action>
 		
-		<action name="deleteUser" class="com.myproject.action.user.DeleteUser" method="deleteUser">
+		<action name="deleteUser" class="com.myproject.action.user.DeleteUser">
 			<result name="error" type="redirectAction">
 				<param name="actionName">homePage</param>
         		<param name="namespace">/</param>
@@ -224,6 +224,19 @@
 			<result name="success">game.jsp</result>
 			<result name="input" type="redirectAction">games</result>
 			<result name="not found" type="redirectAction">games</result>
+			<result name="error" type="redirectAction">
+				<param name="actionName">homePage</param>
+        		<param name="namespace">/</param>
+        	</result>
+		</action>
+		
+		<action name="addEditGame" class="com.myproject.action.game.CRUDGame">
+			<result name="none">addEditGame.jsp</result>
+			<result name="input">addEditGame.jsp</result>
+			<result name="success" type="redirectAction">
+			   <param name="actionName">game</param>
+			   <param name="idGame">${idGame}</param>
+			</result>	
 			<result name="error" type="redirectAction">
 				<param name="actionName">homePage</param>
         		<param name="namespace">/</param>

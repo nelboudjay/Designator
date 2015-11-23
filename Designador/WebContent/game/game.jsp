@@ -10,7 +10,6 @@
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/commonScript.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/js/game.js"></script>
 
 <title><s:property value="game.HomeTeam.TeamName"/> vs <s:property value="game.AwayTeam.TeamName"/></title>
 
