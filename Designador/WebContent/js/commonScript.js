@@ -20,7 +20,7 @@ function validate(){
 		$("input", this).css("border-color" , "");
 		$('.error-field').css("display","none");
 		$('.required-field').each(function(){
-			if ($.trim($(this).val()) == '') {
+			if ($.trim($(this).val()) == '' && $(this).is(":visible")) {
 				if($(this).hasClass("email"))
 					$(this).next().text("Correo Electrónico principal no puede estar en blanco.");
 				noEmpty = warn($(this));
@@ -87,7 +87,8 @@ function validate(){
 		
 		}
 		
-		return noEmpty;
+		return false;
+		//return noEmpty;
 }
 
 $(document).ready(function() {

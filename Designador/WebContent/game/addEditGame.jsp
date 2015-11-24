@@ -52,7 +52,7 @@
 		
 		<div class="container">
 			<br/>
-			<form id="gameForm" action="addEditCategory" method="post" >
+			<form id="gameForm" action="addEditGame" method="post" >
 			
 				<div><input name="idGame" value="${idGame}" type="hidden"></div>
 			
@@ -85,9 +85,10 @@
 								<option value="0">Nuevo Equipo</option>
 							</select>
 						</div>
-						<input style="display:none;" id="homeTeam" placeholder="Introduce aquí el nombre del equipo"
+						<input style="display:none;" id="homeTeamName" placeholder="Introduce aquí el nombre del equipo"
 							type="text" class="text-input-2 required-field" name="homeTeam" value="">
-						<div class="error-field">El equipo local no puede estar en blanco</div>			
+						<div class="error-field">El equipo local no puede estar en blanco</div>	
+								
 					</div>
 					
 					<div>
@@ -101,9 +102,11 @@
 								<option value="0">Nuevo Equipo</option>
 							</select>
 						</div>
-						<input style="display:none;" id="awayTeam" placeholder="Introduce aquí el nombre del equipo"
+						<input style="display:none;" id="awayTeamName" placeholder="Introduce aquí el nombre del equipo"
 							type="text" class="text-input-2 required-field" name="awayTeam" value="">
-						<div class="error-field">El equipo visitante no puede estar en blanco</div>		
+						<div class="error-field">El equipo visitante no puede estar en blanco</div>	
+						<div class="error-field-2">Los dos equipos no deben ser iguales</div>		
+							
 					</div>
 				
 					<div></div>
@@ -114,7 +117,7 @@
 						<label><strong>Categoría</strong></label> 
 						<div class="select-div">
 							<select id="categoryName" name="categoryName">
-								<option selected disabled>Elige la categoría</option>
+								<option selected >Elige la categoría</option>
 								<s:iterator value="categories">
 									<option value="${idCategory}" ${game.gameCategory.idCategory == idCategory ? 'selected' : ''}>${categoryName} ${categoryGenderName}</option>
 								</s:iterator>
@@ -123,16 +126,14 @@
 						</div>
 						<input style="display:none;" id="categoryName" placeholder="Introduce aquí el nombre de la categoría"
 							type="text" class="text-input-2" name="categoryName" value="">
-						<div class="error-field">El nombre de la categoría no puede estar en blanco</div>	
 						<div style="display:none;" class="select-div">
-							<select id="categoryGender" class="required-field" name="categoryGender">
-							    <option selected disabled>Elige el sexo</option>
+							<select id="categoryGender" name="categoryGender">
+							    <option selected >Elige el sexo</option>
 								<option value="1">Masculino</option>
 								<option value="2">Femenino</option>
 								<option value="3">Mixto</option>
 							</select>
 						</div>	
-						<div class="error-field">El sexo de la categoría no puede estar en blanco.</div>		
 						
 					</div>
 					
@@ -140,7 +141,7 @@
 						<label><strong>Competición</strong></label> 
 						<div class="select-div">
 							<select id="leagueName" name="leagueName">
-								<option selected disabled>Elige la competición</option>
+								<option selected >Elige la competición</option>
 								<s:iterator value="leagues">
 									<option value="${idLeague}" ${game.gameLeague.idLeague == idLeague ? 'selected' : ''}>${leagueName}</option>
 								</s:iterator>
@@ -156,7 +157,7 @@
 						<label><strong>Pista</strong></label> 
 						<div class="select-div">
 							<select id="venueName" name="venueName">
-								<option selected disabled>Elige la pista</option>								
+								<option selected >Elige la pista</option>								
 								<s:iterator value="venues">
 									<option value="${idVenue}" ${game.gameVenue.idVenue == idVenue ? 'selected' : ''}>${venueName}</option>
 								</s:iterator>
@@ -177,9 +178,9 @@
 					</div>		
 				</div>
 				
-				<h3 class="title-1 required">Equipo Arbitral</h3>
+				<h3 class="title-1">Equipo Arbitral</h3>
 				
-				<div class="row">
+				<div class="row referee-types">
 				<s:iterator value="{'Principal','Auxiliar','Anotador','Cronometrador','Operador 30\"','Coche'}"  
 					status="status">
 					<div>
@@ -190,22 +191,22 @@
 							</s:if>
 						>
 						<input  type="hidden" value="${game.getRefereeGame(status.index + 1) != null}" name="refereeTypes">
-						<div class="select-div">
+						<div class="select-div" style="display:${game.getRefereeGame(status.index + 1) == null ? 'none' : ''}">
 							<select id="refereeName${status.index + 1}" name="refereesGame">
-								<option selected disabled>Elige un árbitro</option>	
+								<option selected >Elige un árbitro</option>	
 								<s:iterator value="referees">
 									<option value="${idUser}" 
 										${game.getRefereeGame(status.index + 1).userRefereeType.user.idUser == idUser ? 'selected' : ''}>
-										${userRefereeType.user.userProfile.firstName}
-										${userRefereeType.user.userProfile.lastName1}
+										${userProfile.firstName}
+										${userProfile.lastName1}
 									</option>
 								</s:iterator>
 							</select>
 						</div>						
 					</div>
 				</s:iterator>
-				</div>
 				
+				</div>
 				<div>
 					<div>				
 						<input type="submit" class="btn" value="${idGame == null || idGame == '' ? 'Crear' : 'Actualizar'} Equipo" name="method:addEditGame"> o 

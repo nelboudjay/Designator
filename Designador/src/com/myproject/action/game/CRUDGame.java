@@ -126,8 +126,14 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 			return SUCCESS;
 		}
 	}
+	
+	
+	public String addEditGame(){
+		
+		return SUCCESS;
+	}
 
-
+	@SkipValidation
 	public String getSelectedGame(){
 		
 		if (idGame == null || idGame.equals("")){
@@ -161,6 +167,7 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 		}		
 	}
 	
+	@SkipValidation
 	public String publishGame(){
 		
 		if (idGame == null || idGame.equals("")){
@@ -198,6 +205,7 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 		}
 	}
 	
+	@SkipValidation
 	public String deleteGame(){
 		
 		if (idGame == null || idGame.equals("")){

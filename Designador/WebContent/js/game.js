@@ -40,8 +40,58 @@ $(function() {
 		}
 	});
 	
+	$(".referee-types [id^=refereeType]").click(function(){
+		if($(this).is(":checked"))
+			$(this).nextAll(".select-div").css("display","");
+		else
+			$(this).nextAll(".select-div").css("display","none");
 
+	});
 
+	
+	$("#homeTeam, #awayTeam").click(function(){
+		$(this).parent().nextAll(".error-field").css("display", "none");
+		$(this).parent().next().css({"border-color" : ""});
+	});
+	
+	
+	$('form').on('submit',function(){
+		
+		var noWarn = true;
+		
+		if($("#homeTeam").val() != 0){
+			
+			if($("#homeTeam").val() == $("#awayTeam").val() )
+				noWarn = warnEqualTeams($("#awayTeam"));
+				
+			else if($("#homeTeam option:selected").text().toLowerCase() == $.trim($("#awayTeamName").val().toLowerCase()))
+				noWarn = warnEqualTeams($("#awayTeam"));
+		}
+		else{
+			
+			if($("#awayTeam").val() == 0){
+			
+				if($.trim($("#homeTeamName").val()).length && $.trim($("#awayTeamName").val()).length  &&
+						($.trim($("#homeTeamName").val().toLowerCase()) == $.trim($("#awayTeamName").val().toLowerCase())))
+					noWarn = warnEqualTeams($("#awayTeam"));
+			}
+			else if($.trim($("#homeTeamName").val().toLowerCase()) == $("#awayTeam option:selected").text().toLowerCase())
+				noWarn = warnEqualTeams($("#homeTeam"));
+		}
+		
+		return noWarn;
+	});	
+
+	function warnEqualTeams(e){
+		
+		e.parent().nextAll(".error-field-2").css("display", "block");
+		e.parent().css({
+					"border-color" : "#b94a48",
+					"border-style" : "solid",
+					"border-width" : "1px"});
+		
+		return false;
+	}
 	
 	$(function () {
 		$.datepicker.setDefaults($.datepicker.regional["es"]);
@@ -51,7 +101,7 @@ $(function() {
 		$("#datepicker").click(function(){
 			$('#ui-datepicker-div').css("top",$(this).position().top);
 
-		})
+		});
 	});
 	
 	
