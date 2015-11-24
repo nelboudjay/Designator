@@ -62,10 +62,10 @@ $(function() {
 		if($("#homeTeam").val() != 0){
 			
 			if($("#homeTeam").val() == $("#awayTeam").val() )
-				noWarn = warnEqualTeams($("#awayTeam"));
+				noWarn = warnEqualTeams();
 				
 			else if($("#homeTeam option:selected").text().toLowerCase() == $.trim($("#awayTeamName").val().toLowerCase()))
-				noWarn = warnEqualTeams($("#awayTeam"));
+				noWarn = warnEqualTeams();
 		}
 		else{
 			
@@ -73,19 +73,19 @@ $(function() {
 			
 				if($.trim($("#homeTeamName").val()).length && $.trim($("#awayTeamName").val()).length  &&
 						($.trim($("#homeTeamName").val().toLowerCase()) == $.trim($("#awayTeamName").val().toLowerCase())))
-					noWarn = warnEqualTeams($("#awayTeam"));
+					noWarn = warnEqualTeams();
 			}
 			else if($.trim($("#homeTeamName").val().toLowerCase()) == $("#awayTeam option:selected").text().toLowerCase())
-				noWarn = warnEqualTeams($("#homeTeam"));
+				noWarn = warnEqualTeams();
 		}
 		
 		return noWarn;
 	});	
 
-	function warnEqualTeams(e){
+	function warnEqualTeams(){
 		
-		e.parent().nextAll(".error-field-2").css("display", "block");
-		e.parent().css({
+		$("#awayTeam").parent().nextAll(".error-field-2").css("display", "block");
+		$("#awayTeam").parent().css({
 					"border-color" : "#b94a48",
 					"border-style" : "solid",
 					"border-width" : "1px"});

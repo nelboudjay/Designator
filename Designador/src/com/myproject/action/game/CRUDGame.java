@@ -31,7 +31,7 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 
 	private static final long serialVersionUID = -4438495252365119204L;
 	
-	private String idGame;
+	private String idGame, idHomeTeam, idAwayTeam;
 	private Game game;
 	private List<?> allGames;
 	private List<Game> games;
@@ -76,7 +76,6 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 				if(game != null){
 					setDateStr(sdf.format(game.getGameDate()));
 					setTimeStr(timeFormat.format(game.getGameDate()));
-				//	setCategoryName(category.getCategoryName());
 				}
 			}
 			return NONE;
@@ -129,6 +128,40 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 	
 	
 	public String addEditGame(){
+		
+		setSelectedDate();
+		
+		System.out.println(date);
+		if(date == null || date.equals(new Date(Long.MIN_VALUE))){
+			
+			addFieldError("datepicker", "La fecha del partido no es correcta");
+			return INPUT;
+		}
+		
+		/*Editing an existing Category*/
+		if(idGame != null && !idGame.equals("")){
+			eqRestrictions.put("idCategory", new FieldCondition(idGame));
+			game = (Game) service.GetUniqueModelData(Game.class, eqRestrictions);			
+			
+			if(game != null){
+				
+				/*if(!new Category(categoryName.trim(),categoryGender).equals(category)){
+					if (categoryAlreadyExists(new Category(categoryName.trim(),categoryGender))){
+						addActionError("Esta categoría ya existe. Por favor, añade otra.");
+						return INPUT;
+					}
+					else{
+						category.setategoryGender(categoryGender);
+						category.setCategoryName(categoryName.trim().substring(0,1).toUpperCase() + categoryName.trim().substring(1));
+						service.SaveOrUpdateModelData(category);
+					}
+				}*/
+		
+				addActionMessage("Se ha actualizado el nombre de la categoría con exito.");
+				return SUCCESS;
+	
+			}
+		}
 		
 		return SUCCESS;
 	}
@@ -401,5 +434,25 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 
 	public void setReferees(List<?> referees) {
 		this.referees = referees;
+	}
+
+
+	public String getIdHomeTeam() {
+		return idHomeTeam;
+	}
+
+
+	public void setIdHomeTeam(String idHomeTeam) {
+		this.idHomeTeam = idHomeTeam;
+	}
+
+
+	public String getIdAwayTeam() {
+		return idAwayTeam;
+	}
+
+
+	public void setIdAwayTeam(String idAwayTeam) {
+		this.idAwayTeam = idAwayTeam;
 	}
 }

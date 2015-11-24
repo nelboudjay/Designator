@@ -59,13 +59,13 @@
 				<div class="row">
 					<div>
 						<label class="required"><strong>Fecha</strong></label> 
-						<input id="datepicker" type="text" class="text-input-2 required-field" name="gameDate" 
+						<input id="datepicker" type="text" class="text-input-2 required-field" name="dateStr" 
 								value="${dateStr}">
 						<div class="error-field">La fecha no puede estar en blanco.</div>	
 					</div>
 					<div>
 						<label class="required"><strong>Hora</strong></label> 
-						<input id="datepicker" placeholder="Introduce la hora con el siguiente formato HH:MM" type="text" class="text-input-2 required-field" name="gameTime" 
+						<input id="datepicker" placeholder="Introduce la hora con el siguiente formato HH:MM" type="text" class="text-input-2 required-field" name="timeStr" 
 								value="${timeStr}">
 						<div class="error-field">La hora no puede estar en blanco.</div>	
 					</div>
@@ -208,9 +208,16 @@
 				
 				</div>
 				<div>
-					<div>				
-						<input type="submit" class="btn" value="${idGame == null || idGame == '' ? 'Crear' : 'Actualizar'} Equipo" name="method:addEditGame"> o 
-						<a href="games">Cancelar</a>						
+					<div>
+						<s:if test="idGame == null || idGame == ''">
+							<input type="submit" class="btn" value="Crear Equipo" name="method:addEditGame"> o 
+							<a href="games">Cancelar</a>
+						
+						</s:if>
+						<s:else>
+							<input type="submit" class="btn" value="Actualizar Equipo" name="method:addEditGame"> o 
+							<a href="game?idGame=${idGame}">Cancelar</a>
+						</s:else>			
 						
 					</div>
 				</div>

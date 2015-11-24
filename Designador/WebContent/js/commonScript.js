@@ -87,8 +87,7 @@ function validate(){
 		
 		}
 		
-		return false;
-		//return noEmpty;
+		return noEmpty;
 }
 
 $(document).ready(function() {
