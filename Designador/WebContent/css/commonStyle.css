@@ -157,10 +157,24 @@ ul {
 	padding: 0;
 }
 
-.link,.link-2 {
+.link,.link-2, .link-3, .link-4 {
 	cursor: pointer;
     text-decoration: underline;
 }
+
+.link-3 {
+	color:#c1461c;
+}
+
+.link-3:hover{
+	color:inherit;
+}
+
+.link-4:hover {
+	color:#e8e7e6;
+}
+
+
 
 .link-2:hover {
 	color:#c1461c !important;
@@ -650,6 +664,10 @@ form > div {
 
 #datePicker {
 	height:28px;
+}
+
+.row #datePicker {
+	height:25px;
 }
 
 .ui-datepicker-calendar tr {

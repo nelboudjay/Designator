@@ -40,7 +40,7 @@ $(function() {
 		}
 	});
 	
-	$(".referee-types [id^=refereeType]").click(function(){
+	$("[id^=refereeType]").click(function(){
 		if($(this).is(":checked"))
 			$(this).nextAll(".select-div").css("display","");
 		else
@@ -59,25 +59,34 @@ $(function() {
 		
 		var noWarn = true;
 		
-		if($("#homeTeam").val() != 0){
-			
-			if($("#homeTeam").val() == $("#awayTeam").val() )
-				noWarn = warnEqualTeams();
+		if($("#homeTeam").length){
+			if($("#homeTeam").val() != 0){
 				
-			else if($("#homeTeam option:selected").text().toLowerCase() == $.trim($("#awayTeamName").val().toLowerCase()))
-				noWarn = warnEqualTeams();
-		}
-		else{
-			
-			if($("#awayTeam").val() == 0){
-			
-				if($.trim($("#homeTeamName").val()).length && $.trim($("#awayTeamName").val()).length  &&
-						($.trim($("#homeTeamName").val().toLowerCase()) == $.trim($("#awayTeamName").val().toLowerCase())))
+				if($("#homeTeam").val() == $("#awayTeam").val() )
+					noWarn = warnEqualTeams();
+					
+				else if($("#homeTeam option:selected").text().toLowerCase() == $.trim($("#awayTeamName").val().toLowerCase()))
 					noWarn = warnEqualTeams();
 			}
-			else if($.trim($("#homeTeamName").val().toLowerCase()) == $("#awayTeam option:selected").text().toLowerCase())
-				noWarn = warnEqualTeams();
+			else{
+				
+				if($("#awayTeam").val() == 0){
+				
+					if($.trim($("#homeTeamName").val()).length && $.trim($("#awayTeamName").val()).length  &&
+							($.trim($("#homeTeamName").val().toLowerCase()) == $.trim($("#awayTeamName").val().toLowerCase())))
+						noWarn = warnEqualTeams();
+				}
+				else if($.trim($("#homeTeamName").val().toLowerCase()) == $("#awayTeam option:selected").text().toLowerCase())
+					noWarn = warnEqualTeams();
+			}
 		}
+		
+		$("[id^=refereeType]").each(function(){
+			if($(this).is(":checked"))
+				$(this).next().val(true);
+			else
+				$(this).next().val(false);
+		});
 		
 		return noWarn;
 	});	
@@ -92,6 +101,23 @@ $(function() {
 		
 		return false;
 	}
+	
+	$(".assign").click(function(){
+		$(this).nextAll().hide();
+		$(this).children("a").replaceWith("Conflictos");
+		$(this).removeClass("assign");
+		$(this).addClass("conflicts");
+		$(this).css("position","relative");
+	});
+	
+	$(document).on("mouseover", ".conflicts", function(){
+		$(this).children(".conflicts-types").show();
+	});
+	
+
+	$(document).on("mouseout", ".conflicts", function(){
+		$(this).children(".conflicts-types").hide();		
+	});
 	
 	$(function () {
 		$.datepicker.setDefaults($.datepicker.regional["es"]);

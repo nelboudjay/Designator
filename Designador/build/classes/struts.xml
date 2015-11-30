@@ -95,11 +95,6 @@
 			<result name="input">passwordForgot.jsp</result>
 			<result name="success" type="redirectAction">login</result>
 		</action>
-		
-		<action name="games">
-			<result name="success">games.jsp</result>
-			<result name="error" type="redirectAction">homePage</result>
-		</action>
 	
 	</package>
 	

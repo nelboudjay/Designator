@@ -73,7 +73,7 @@ public class CRUDCategory  extends ActionSupport implements ServletContextAware{
 						return INPUT;
 					}
 					else{
-						category.setategoryGender(categoryGender);
+						category.setCategoryGender(categoryGender);
 						category.setCategoryName(categoryName.trim().substring(0,1).toUpperCase() + categoryName.trim().substring(1));
 						service.SaveOrUpdateModelData(category);
 					}
@@ -114,6 +114,9 @@ public class CRUDCategory  extends ActionSupport implements ServletContextAware{
 			eqRestrictions.put("idCategory", new FieldCondition(idCategory));
 			category = (Category) service.GetUniqueModelData(Category.class, eqRestrictions);			
 			
+			//(System.out.println("hello " + idCategory);
+			//System.out.println("hi " + category);
+
 			if(category != null){
 				service.DeleteModelData(category);
 				addActionMessage("La categoría ha sido eliminada con exito.");

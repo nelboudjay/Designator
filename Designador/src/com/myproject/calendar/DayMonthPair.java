@@ -6,7 +6,7 @@ public class DayMonthPair {
 	private int month;
 	private String monthName;
 	private int today; /* 0 is today, negative is past and positive is future */
-	
+	private int year;
 
 	public DayMonthPair() {
 		super();
@@ -14,12 +14,17 @@ public class DayMonthPair {
 
 
 	
-	public DayMonthPair(int day, int month, String monthName, int today) {
+	public DayMonthPair(int day, int month, String monthName, int today,
+			int year) {
+		super();
 		this.day = day;
 		this.month = month;
 		this.monthName = monthName;
 		this.today = today;
+		this.year = year;
 	}
+
+	
 	
 	public DayMonthPair(int day) {
 		this.day = day;
@@ -31,6 +36,7 @@ public class DayMonthPair {
 		this.month = dayMonth.getMonth();
 		this.monthName = dayMonth.getMonthName();
 		this.today = dayMonth.getToday();
+		this.year = dayMonth.getYear();
 	}
 
 	public int getDay() {
@@ -46,6 +52,14 @@ public class DayMonthPair {
 	}
 	public int getToday() {
 		return today;
+	}
+
+	public int getYear() {
+		return year;
+	}
+
+	public void setYear(int year) {
+		this.year = year;
 	}
 
 }

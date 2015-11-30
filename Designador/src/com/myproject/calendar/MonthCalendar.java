@@ -59,7 +59,7 @@ public class MonthCalendar {
 					calDay = calendar.getTime().getTime();
 					diffDays = (calDay - today)/ (1000 * 60 * 60 * 24);
 					monthCalendar[0][i] = new DayMonthPair(i - dayOfWeek + 1, calendar.get(Calendar.MONTH) + 1,
-							WordUtils.capitalize(monthFormat.format(calendar.getTime())),(int)diffDays);
+							WordUtils.capitalize(monthFormat.format(calendar.getTime())),(int)diffDays, calendar.get(Calendar.YEAR) );
 				}
 			}
 			
@@ -70,7 +70,7 @@ public class MonthCalendar {
 						calDay = calendar.getTime().getTime();
 						diffDays = (calDay - today)/ (1000 * 60 * 60 * 24);
 						monthCalendar[i][j] =    new DayMonthPair(i*7 - dayOfWeek + 1 + j, calendar.get(Calendar.MONTH) + 1,
-								WordUtils.capitalize(monthFormat.format(calendar.getTime())),(int)diffDays);
+								WordUtils.capitalize(monthFormat.format(calendar.getTime())),(int)diffDays, calendar.get(Calendar.YEAR));
 					}else
 						monthCalendar[i][j] = null;
 				}
@@ -94,7 +94,7 @@ public class MonthCalendar {
 					calDay = calendar.getTime().getTime();
 					diffDays = (calDay - today)/ (1000 * 60 * 60 * 24);
 					monthCalendar[0][i] = new DayMonthPair(i - dayOfWeek + 1,calendar.get(Calendar.MONTH) + 1,
-							WordUtils.capitalize(monthFormat.format(calendar.getTime())),(int)diffDays);
+							WordUtils.capitalize(monthFormat.format(calendar.getTime())),(int)diffDays, calendar.get(Calendar.YEAR));
 				}
 			}
 
@@ -105,7 +105,7 @@ public class MonthCalendar {
 						calDay = calendar.getTime().getTime();
 						diffDays = (calDay - today)/ (1000 * 60 * 60 * 24);
 						monthCalendar[i][j] = new DayMonthPair(i*7 - dayOfWeek + 1 + j,calendar.get(Calendar.MONTH) + 1,
-								WordUtils.capitalize(monthFormat.format(calendar.getTime())),(int)diffDays);
+								WordUtils.capitalize(monthFormat.format(calendar.getTime())),(int)diffDays, calendar.get(Calendar.YEAR));
 					}else
 						monthCalendar[i][j] = null;
 				}

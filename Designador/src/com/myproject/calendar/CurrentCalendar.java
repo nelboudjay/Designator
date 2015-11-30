@@ -29,7 +29,7 @@ public class CurrentCalendar {
 	public DayMonthPair getDayMonthByIndex(int i, int j){
 		
 
-		SimpleDateFormat monthFormat = new SimpleDateFormat("MMMM",new Locale("es","ES"));
+		SimpleDateFormat monthFormat = new SimpleDateFormat("MMM",new Locale("es","ES"));
 		Calendar calendar = Calendar.getInstance();
 		
 		int dayOfWeek = (calendar.get(Calendar.DAY_OF_WEEK) + 5) % 7 + 1;
@@ -38,7 +38,7 @@ public class CurrentCalendar {
 		
 		return new DayMonthPair(calendar.get(Calendar.DAY_OF_MONTH),calendar.get(Calendar.MONTH) + 1,
 				WordUtils.capitalize(monthFormat.format(calendar.getTime())),
-				(1 - dayOfWeek + i*7 + j));
+				(1 - dayOfWeek + i*7 + j), calendar.get(Calendar.YEAR));
 	}
 	
 	

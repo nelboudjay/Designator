@@ -68,6 +68,20 @@ public class CRUDVenue  extends ActionSupport implements ServletContextAware{
 
 	public String addEditVenue(){
 		
+		venueName = venueName.trim().substring(0,1).toUpperCase() + venueName.trim().substring(1);
+		
+		if(venueContactName != null && venueContactName.trim().equals(""))
+			venueContactName = null;
+		else
+			venueContactName = WordUtils.capitalize(venueContactName.trim());
+		
+		if(venueContactPhone != null && venueContactPhone.trim().equals(""))
+			venueContactPhone = null;
+		else
+			venueContactPhone = venueContactPhone.trim();
+		
+		
+		
 		Address address = null;
 		if(!address1.trim().equals("")  || !address2.trim().equals("") || !province.trim().equals("") 
 				|| !city.trim().equals("") || !zipcode.equals(""))
@@ -79,15 +93,15 @@ public class CRUDVenue  extends ActionSupport implements ServletContextAware{
 			venue = (Venue) service.GetUniqueModelData(Venue.class, eqRestrictions);			
 			
 			if(venue != null){
-				if(!new Venue(venueName.trim(),venueContactName.trim(),venueContactPhone.trim(), address).equals(venue)){
-					if (!venueName.trim().equalsIgnoreCase(venue.getVenueName()) && venueNameAlreadyExists(venueName.trim())){
+				if(!new Venue(venueName,venueContactName,venueContactPhone, address).equals(venue)){
+					if (!venueName.equalsIgnoreCase(venue.getVenueName()) && venueNameAlreadyExists(venueName.trim())){
 						addFieldError("venueName","El nombre del equipo ya existe. Por favor, elige otro.");
 						return INPUT;
 					 }
 											
-					venue.setVenueName(venueName.trim().substring(0,1).toUpperCase() + venueName.trim().substring(1));
-					venue.setVenueContactName(WordUtils.capitalize(venueContactName.trim()));
-					venue.setVenueContactPhone(venueContactPhone.trim());
+					venue.setVenueName(venueName);
+					venue.setVenueContactName(venueContactName);
+					venue.setVenueContactPhone(venueContactPhone);
 					
 					if(venue.getVenueAddress() != null && address != null){
 					
@@ -113,14 +127,13 @@ public class CRUDVenue  extends ActionSupport implements ServletContextAware{
 		
 		/*Adding a new Venue*/
 		
-		if(venueNameAlreadyExists(venueName.trim())){
+		if(venueNameAlreadyExists(venueName)){
 			addFieldError("venueName","El nombre de la pista ya existe. Por favor, elige otro.");
 			return INPUT;
 		}
 		else{
 			
-			venue = new Venue(venueName.trim().substring(0,1).toUpperCase() + venueName.trim().substring(1),
-					WordUtils.capitalize(venueContactName.trim()),venueContactPhone, address);
+			venue = new Venue(venueName, venueContactName,venueContactPhone, address);
 			service.SaveOrUpdateModelData(venue);
 			addActionMessage("Se ha sido añadido una nueva pista con exito.");
 			return SUCCESS;

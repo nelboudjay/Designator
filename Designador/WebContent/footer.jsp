@@ -2,7 +2,7 @@
 
 
 <div class="footer">
-	<h3 class="title-2">Designador</h3> © <s:date name="%{new java.util.Date()}" format="yyyy"/> by Nabil El Boudjay
+	<h3 class="title-2">Designator</h3> © <s:date name="%{new java.util.Date()}" format="yyyy"/> by Nabil El Boudjay
 	<div> <s:date name="%{new java.util.Date()}" format="EEEE" var="todayDay"/>
 		<s:property value="@com.opensymphony.xwork2.inject.util.Strings@capitalize(#todayDay)"/>,
 		<s:date name="%{new java.util.Date()}" format="d"/> de 

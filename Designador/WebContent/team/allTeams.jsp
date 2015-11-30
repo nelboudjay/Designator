@@ -49,12 +49,14 @@
 			<s:else>
 				<table id="teams">
 					<tr><th>Nombre del Equipo</th>
+						<th>Nombre Corto</th>
 						<th>Localidad</th>
 						<th></th>
 					</tr>	
 					<s:iterator value="#attr.teams">
 						<tr>
 							<td><a class="link" href="addEditTeam?idTeam=${idTeam}">${teamName}</a></td>
+							<td>${teamShortName}</td>
 							<td>${teamLocation}</td>
 							<td><a class="link delete " href="deleteTeam?idTeam=${idTeam}">Eliminar</a>
 								<span class="confirm-box important">

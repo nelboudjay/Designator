@@ -27,7 +27,7 @@
 	<div class="change-password-box">
 		<s:if test="#attr.user.password == ''">
 			<h3 class="title-1">Crear Mi Cuenta</h3>
-			<div>Bienvenido a <b><a class="link" href="login">Designador</a></b>, una aplicación web que se utiliza para ayudar a los arbitros y a los designadores para la gestión de la designación de árbitros en competiciones de baloncesto.</div>
+			<div>Bienvenido a <b><a class="link" href="login">Designator</a></b>, una aplicación web que se utiliza para ayudar a los arbitros y a los designadores para la gestión de la designación de árbitros en competiciones de baloncesto.</div>
 			<div>Para empzar, por favor crea una contraseña:</div>
 		</s:if>
 		<s:else>

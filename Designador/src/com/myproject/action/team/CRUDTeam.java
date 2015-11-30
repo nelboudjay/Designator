@@ -22,6 +22,7 @@ public class CRUDTeam  extends ActionSupport implements ServletContextAware{
 	
 	private String idTeam;
 	private String teamName;
+	private String teamShortName;
 	private String teamLocation;
 	private List<?> teams;
 	private Team team;
@@ -44,6 +45,7 @@ public class CRUDTeam  extends ActionSupport implements ServletContextAware{
 				if(team != null){
 					setIdTeam(team.getIdTeam());
 					setTeamName(team.getTeamName());
+					setTeamShortName(team.getTeamShortName());
 					setTeamLocation(team.getTeamLocation());
 				}
 			}
@@ -58,24 +60,42 @@ public class CRUDTeam  extends ActionSupport implements ServletContextAware{
 
 	public String addEditTeam(){
 		
+		teamName = teamName.trim().substring(0,1).toUpperCase() + teamName.trim().substring(1);
+		if(teamShortName != null && teamShortName.trim().equals(""))
+			teamShortName = null;
+		else
+			teamShortName = teamShortName.trim().toUpperCase().substring(0, 3);
+		
+		if(teamLocation != null && teamLocation.trim().equals(""))
+			teamLocation = null;
+		else
+			teamLocation = WordUtils.capitalize(teamLocation.trim());
+		
 		/*Editing an existing Team*/
 		if(idTeam != null && !idTeam.equals("")){
 			eqRestrictions.put("idTeam", new FieldCondition(idTeam));
 			team = (Team) service.GetUniqueModelData(Team.class, eqRestrictions);			
 			
 			if(team != null){
-				if(!new Team(teamName.trim(),teamLocation.trim()).equals(team)){
-					if (!teamName.trim().equalsIgnoreCase(team.getTeamName()) && teamNameAlreadyExists(teamName.trim())){
+				if(!new Team(teamName,teamShortName,teamLocation).equals(team)){
+					
+					if (!teamName.equalsIgnoreCase(team.getTeamName()) && fieldAlreadyExists("teamName",teamName)){
 						addFieldError("teamName","El nombre del equipo ya existe. Por favor, elige otro.");
 						return INPUT;
 					 }
-											
-					team.setTeamName(teamName.trim().substring(0,1).toUpperCase() + teamName.trim().substring(1));
-					team.setTeamLocation(WordUtils.capitalize(teamLocation.trim()));
 					
-					service.SaveOrUpdateModelData(team);
-					
-				}
+					if (teamShortName != null && !teamShortName.equalsIgnoreCase(team.getTeamShortName()) 
+							&& fieldAlreadyExists("teamShortName", teamShortName)){
+						addFieldError("teamShortName","El nombre corto del equipo ya existe. Por favor, elige otro.");
+						return INPUT;
+					 }
+				}							
+				
+				team.setTeamName(teamName);
+				team.setTeamShortName(teamShortName);
+				team.setTeamLocation(teamLocation);
+				
+				service.SaveOrUpdateModelData(team);
 				
 				addActionMessage("Se ha actualizado el nombre del equipo con exito.");
 				return SUCCESS;
@@ -85,18 +105,21 @@ public class CRUDTeam  extends ActionSupport implements ServletContextAware{
 		
 		/*Adding a new Team*/
 		
-		if(teamNameAlreadyExists(teamName.trim())){
+		if(fieldAlreadyExists("teamName", teamName)){
 			addFieldError("teamName","El nombre del equipo ya existe. Por favor, elige otro.");
 			return INPUT;
 		}
-		else{
-			
-			team = new Team(teamName.trim().substring(0,1).toUpperCase() + teamName.trim().substring(1),
-					WordUtils.capitalize(teamLocation.trim()));
-			service.SaveOrUpdateModelData(team);
-			addActionMessage("Se ha sido añadido un nuevo equipo con exito.");
-			return SUCCESS;
+		
+		if (teamShortName != null && fieldAlreadyExists("teamShortName", teamShortName)){
+			addFieldError("teamShortName","El nombre corto del equipo ya existe. Por favor, elige otro.");
+			return INPUT;
 		}
+			
+		team = new Team(teamName, teamShortName, teamLocation);
+		service.SaveOrUpdateModelData(team);
+		addActionMessage("Se ha sido añadido un nuevo equipo con exito.");
+		return SUCCESS;
+		
 	}
 	
 	@SkipValidation
@@ -130,11 +153,11 @@ public class CRUDTeam  extends ActionSupport implements ServletContextAware{
 		}
 	}
 	
-	public Boolean teamNameAlreadyExists(String teamName){
+	public Boolean fieldAlreadyExists(String fieldName, String fieldValue){
 		
 		eqRestrictions.clear();
-		eqRestrictions.put("teamName", new FieldCondition(teamName));
-			
+		eqRestrictions.put(fieldName, new FieldCondition(fieldValue));
+		
 		return (Team) service.GetUniqueModelData(Team.class, eqRestrictions) != null;
 		
 	}
@@ -174,5 +197,13 @@ public class CRUDTeam  extends ActionSupport implements ServletContextAware{
 	@Override
 	public void setServletContext(ServletContext context) {
 		this.context = context;
+	}
+
+	public String getTeamShortName() {
+		return teamShortName;
+	}
+
+	public void setTeamShortName(String teamShortName) {
+		this.teamShortName = teamShortName;
 	}
 }

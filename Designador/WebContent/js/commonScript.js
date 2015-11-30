@@ -81,7 +81,6 @@ function validate(){
 						$(this).next().val(true);
 					else
 						$(this).next().val(false);
-					
 				});
 			}
 		
@@ -148,6 +147,8 @@ $(document).ready(function() {
 		$('.dropdown-menu').slideUp(function() {
 			$('.userName').removeClass("shine");
 		});
+		
+		$("div.games-list").css("direction","");
 	});
 	
 	$('.new-record > a').hover(
@@ -203,6 +204,8 @@ $(document).ready(function() {
 		$("#profileImage").hide();
 	
 	$(".delete").click(function(e){
+		$(".confirm-box").hide();
+		$(".delete").show();
         e.preventDefault();
 		e.stopPropagation();
 
@@ -218,24 +221,30 @@ $(document).ready(function() {
 		else
 			$(this).next(".confirm-box").css("display", "inline");
 
-		
-		var deleteLink = $(this).attr("href");
-		
-		$(document).click(function() {
-			$(".confirm-box").hide();
-			$(".delete").show();
-		});
-		
-		$(".confirm-box > .no, .confirm-box > .yes").click(function() {
+	});
+	
+
+	$(document).click(function() {
+		$(".confirm-box").hide();
+		$(".delete").show();
+	});
+	
+	$(".confirm-box > .no, .confirm-box > .yes").click(function() {
+
+		if(!$(this).parents(".comments-list").length){
 			if ($(this).hasClass("no")) {
 				$(".confirm-box").hide();
 				$(".delete").show();
 				if($(this).closest("div.games-list").length)
 					$(this).closest("div.games-list").css("direction","");
-			} else if ($(this).hasClass("yes")) 
-			    window.location = deleteLink;
-			
-		});
+			} else if ($(this).hasClass("yes")) {
+				var deleteLink = $(this).parent().prev().attr("href");
+				console.log(deleteLink);
+				window.location = deleteLink;
+			}
+		}r
+	
 	});
+	
 	
 });

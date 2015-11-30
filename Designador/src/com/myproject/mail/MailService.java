@@ -20,17 +20,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Service;
 
 @Service("mailService")
+@EnableAsync
 public class MailService {
 
 	@Autowired
 	private JavaMailSender mailSender;
 
+
+	@Async
 	public void sendMail(String[] to, String subject, String path, Map<String,String> templateData) {
 
 		MimeMessage mimeMessage = mailSender.createMimeMessage();
+
 		try {
 			MimeMessageHelper helper = new MimeMessageHelper(mimeMessage,
 					true, "UTF-8");
@@ -67,11 +73,13 @@ public class MailService {
 		}
 		
 		mailSender.send(mimeMessage);
+		
 	}
 
 	public void setMailSender(JavaMailSender mailSender) {
 		this.mailSender = mailSender;
 	}
+
 
 	public String readFile(String path, Charset encoding) throws IOException {
 		byte[] encoded = Files.readAllBytes(Paths.get(path));

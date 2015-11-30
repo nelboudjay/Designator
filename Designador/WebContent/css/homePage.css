@@ -20,6 +20,18 @@
 	text-align:right;
 	background-color: #f8f8f8;
 	vertical-align:top;
+	width:14%;
+	padding:5px;
+}
+
+.calendar td > div:first-child{
+	/*float:right;*/
+}
+
+.calendar td > div:nth-child(n + 2){
+	float:left;
+	font-weight:normal;
+	font-size:12px;
 }
 
 

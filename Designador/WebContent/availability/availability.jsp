@@ -58,7 +58,7 @@
 				<img  src="getImage?idUser=${idUser}" >
 				<a href="${pageContext.request.contextPath}/user/user?idUser=${idUser}"><s:property value="#attr.userFullName"/></a>
 				<ul>
-					<li><a>Partidos</a></li>
+					<li><a href="${pageContext.request.contextPath}/game/games?idUser=${idUser}">Partidos</a></li>
 					<li><a href="availability?idUser=${idUser}">Disponibilidad</a></li>
 					<li><a>Conflictos</a></li>
 				</ul>

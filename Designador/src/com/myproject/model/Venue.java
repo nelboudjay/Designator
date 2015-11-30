@@ -1,6 +1,8 @@
 package com.myproject.model;
 
 
+import java.io.Serializable;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
@@ -14,7 +16,9 @@ import org.hibernate.annotations.ForeignKey;
 
 @Entity
 @Table(name="VENUE")
-public class Venue {
+public class Venue implements Serializable{
+
+	private static final long serialVersionUID = -1685008510554148755L;
 
 	public Venue(String venueName, String venueContactName,
 				String venueContactPhone, Address venueAddress) {
@@ -100,8 +104,12 @@ public class Venue {
 		if(o instanceof Venue){
 			Venue v = (Venue)o;
 			result = v.getVenueName().equalsIgnoreCase(this.venueName)
-					&& v.getVenueContactName().equalsIgnoreCase(this.venueContactName)
-					&& v.getVenueContactPhone().equals(this.venueContactPhone)
+					&& ((v.getVenueContactName() == null && this.venueContactName == null)
+							|| (v.getVenueContactName() != null && this.venueContactName != null
+								&& v.getVenueContactName().equalsIgnoreCase(this.venueContactName)))
+					&& ((v.getVenueContactPhone() == null && this.venueContactPhone == null)
+						|| (v.getVenueContactPhone() != null && this.venueContactPhone != null
+							&& v.getVenueContactPhone().equalsIgnoreCase(this.venueContactPhone)))
 					&& ((v.getVenueAddress() == null && this.venueAddress == null)
 					||  (v.getVenueAddress() != null && this.venueAddress != null && v.getVenueAddress().equals(this.venueAddress)));
 		}

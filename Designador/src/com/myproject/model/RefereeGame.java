@@ -1,5 +1,7 @@
 package com.myproject.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Entity;
@@ -14,16 +16,29 @@ import org.hibernate.annotations.Type;
 
 @Entity
 @Table(name="REFEREE_GAME", uniqueConstraints = {@UniqueConstraint(columnNames={"GAME", "REFEREE_TYPE"})})
-public class RefereeGame {
+public class RefereeGame implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
 	
 	public static final boolean CONFIRMED = true;
 	public static final boolean UNCONFIRMED = false;
 
-	public RefereeGame(Game game, UserRefereeType userRefereeType,
+	
+	
+	public RefereeGame(Game game, User user,
+			int refereeType, boolean confirmed) {
+		super();
+		this.game = game;
+		this.user = user;
+		this.refereeType = refereeType;
+		this.confirmed = confirmed;
+	}
+
+	public RefereeGame(Game game, User user,
 			boolean confirmed) {
 		super();
 		this.game = game;
-		this.userRefereeType = userRefereeType;
+		this.user = user;
 		this.confirmed = confirmed;
 	}
 
@@ -43,9 +58,9 @@ public class RefereeGame {
 
 	
 	@ManyToOne
-	@ForeignKey (name = "FK_REFEREE_GAME__USER_REFEREE_TYPE")
-	@JoinColumn(name = "USER_REFEREE_TYPE")
-	private UserRefereeType userRefereeType;
+	@ForeignKey (name = "FK_REFEREE_GAME__USER")
+	@JoinColumn(name = "USER")
+	private User user;
 	
 	@Column(name="REFEREE_TYPE", nullable = false)
 	private int refereeType;
@@ -75,14 +90,12 @@ public class RefereeGame {
 		this.game = game;
 	}
 
-
-	public UserRefereeType getUserRefereeType() {
-		return userRefereeType;
+	public User getUser() {
+		return user;
 	}
 
-
-	public void setUserRefereeType(UserRefereeType userRefereeType) {
-		this.userRefereeType = userRefereeType;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public int getRefereeType() {

@@ -12,7 +12,7 @@
 <script type="text/javascript" src="js/commonScript.js"></script>
 <script type="text/javascript" src="js/homePage.js"></script>
 
-<title>Designador</title>
+<title>Designator</title>
 
 <s:head />
 </head>
@@ -34,8 +34,10 @@
 		<jsp:include page="errorMessages.jsp"/>
 
 		<div class="container">
-		
-			<p>¿Quieres añadir partidos?</p>
+			<s:if test="#session.user.isAdmin()">
+				<p>¿Quieres <a class="link" href="game/addEditGame">Añadir</a> nuevos partidos?</p>
+			</s:if>
+			
 	
 			<table class="calendar">
 				<thead>
@@ -53,12 +55,42 @@
 						<tr>
 							<c:forEach var="column" items="${row}" varStatus="columnStatus">
 								<td
-									${column.today == 0 ? 'class=\"active\"' : column.today > 0 ? 'class=\"future\"' : ''}>${column.day}
-									<c:if
-										test="${rowStatus.index == 0 && columnStatus.index == 0
-														|| column.day == 1}">
-										<span>de </span>${column.monthName} 
-									</c:if>
+									${column.today == 0 ? 'class=\"active\"' : column.today > 0 ? 'class=\"future\"' : ''}>
+									<div>${column.day}
+										<c:if
+											test="${rowStatus.index == 0 && columnStatus.index == 0
+															|| column.day == 1}">
+											de ${column.monthName} 
+										</c:if>
+									</div>
+									
+									<s:set var="counter" value="0"/>
+									<s:set var="currentDate" >${column.year}-${column.month}-${column.day}</s:set>
+									<s:iterator value="#session.futureGames">
+										<s:set var="gameDate"><s:date name="gameDate" format="yyyy-MM-d" /></s:set>
+										<s:if test='#currentDate == #gameDate'>			
+											<s:if test="#counter < 2">
+												<div>
+													<a class="link-${column.today == 0 ? '4' : '3' }" 
+														href="${pageContext.request.contextPath}/game/game?idGame=${idGame}">
+												 	
+														<s:property value="homeTeam.TeamShortName"/> vs 
+														<s:property value="awayTeam.TeamShortName"/> - 
+														<s:date name="gameDate" format="HH:mm"/>
+											 		</a>
+											 	</div>
+										 	</s:if>
+										 	<s:set var="counter" value="%{#counter+1}"/>
+										 </s:if>	
+									</s:iterator>
+									<s:if test="#counter > 2">
+										<div>
+											<a class="link-${column.today == 0 ? '4' : '3' }" 
+												href="${pageContext.request.contextPath}/game/games?dateStr=${gameDate}">
+										 		${counter - 2} más...
+									 		</a>
+									 	</div>
+									</s:if>
 								</td>
 							</c:forEach>
 						</tr>

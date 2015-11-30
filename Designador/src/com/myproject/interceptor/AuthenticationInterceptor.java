@@ -7,6 +7,8 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -107,11 +109,11 @@ public class AuthenticationInterceptor implements Interceptor {
 		
 		List<String> actionsLoginNames = Arrays.asList("login", "homePage");
 		List<String> actionsAdminNames = Arrays.asList("addComment", "deleteComment","addUser","deleteUser",
-				"games", "addEditGame", "publishGame", "deleteGame",
+				"addEditGame", "publishGame", "deleteGame",
 				"allAvailability", "allLeagues","addEditLeague","deleteLeague",
-				"allTeams","addEditTeam","deleteTeam", "allVenues","addEditVenue","deleteVenue");
+				"allTeams","addEditTeam","deleteTeam", "addEditVenue","deleteVenue");
 		
-		if(user.isAdmin() && !actionInvocation.getInvocationContext().getName().equals("logout"))
+		if(!actionInvocation.getInvocationContext().getName().equals("logout"))
 			StoreGamesInSession(session);
 
 		if (actionsLoginNames.contains( actionInvocation.getInvocationContext().getName()) ){
@@ -153,11 +155,28 @@ public class AuthenticationInterceptor implements Interceptor {
 		
 		eqRestrictions.clear();
 		eqRestrictions.put("gameDate", new FieldCondition(gameDate, 1));
-		List<?> allGames = service.GetModelDataList(Game.class, eqRestrictions, "gameDate", false);
+		List<?> allGames = service.GetModelDataList(Game.class, eqRestrictions, "gameDate", true);
 		
 		if(allGames != null){
-			session.put("futureGames",allGames.size());
 			
+			if(!user.isAdmin())
+				allGames.removeIf(game -> !((Game)game).isGameStatus());
+
+			
+			session.put("futureGames",allGames);
+
+			Stream<?> myFutureGamesStream = allGames.stream().filter(game -> ((Game)game).getRefereesGame().
+						stream().filter(refereeGame ->  refereeGame.getUser() != null &&
+						refereeGame.getUser().getIdUser().equals(user.getIdUser())).count() > 0);
+			
+			List<?> myFutureGames = myFutureGamesStream.collect(Collectors.toList());
+			
+			session.put("myFutureGames",myFutureGames.size());
+			
+			session.put("myConfirmedGames",myFutureGames.stream().filter(game -> ((Game)game).isConfirmedByReferee(user.getIdUser())).count());
+
+			session.put("myUnconfirmedGames",myFutureGames.stream().filter(game -> !((Game)game).isConfirmedByReferee(user.getIdUser())).count());
+
 			session.put("unassignedGames",allGames.stream().filter(game -> ((Game)game).isUnassigned()).count());
 
 			session.put("unpublishedGames",allGames.stream().filter(game -> !((Game)game).isGameStatus()).count());

@@ -14,19 +14,19 @@
 			<tr>
 				<td><h2
 						style="color: #ffffff; padding: 20px; background-color: #c1461c;">Inforamción
-						para tu nueva cuenta en Designador</h2></td>
+						para tu nueva cuenta en Designator</h2></td>
 			</tr>
 			<tr>
 				<td style="padding-bottom: 10px;">Se ha creado una cuenta de
 					usuario en <a style="color: #c1461c;"
-					href="http://localhost:8080/Designador">Designador</a> por parte de
+					href="http://localhost:8080/Designator">Designator</a> por parte de
 					tu administrador. Recuerda que si en los proximos 7 días no confirmas tu registro, tu cuenta se eliminará
 					automaticamente.
 				</td>
 			</tr>
 			<tr>
 				<td style="padding-bottom: 10px;"><a style="color: #c1461c;"
-					href="http://localhost:8080/Designador">Designador</a> es una
+					href="http://localhost:8080/Designator">Designator</a> es una
 					aplicación web que se utiliza para ayudar a los arbitros y a los
 					designadores para la gestión de la designación de árbitros en
 					competiciones de baloncesto.</td>
@@ -37,7 +37,7 @@
 			</tr>
 			<tr>
 				<td><b><a style="color: #c1461c;"
-						href="http://localhost:8080/Designador/user/changePassword?id=$token">Crear
+						href="http://localhost:8080/Designator/user/changePassword?id=$token">Crear
 							una nueva contraseña</a></b></td>
 			</tr>
 			<tr>
@@ -59,12 +59,12 @@
 				<td style="padding-bottom: 25px;">Si tienes cualquier problema
 					para entrar en el sistema, ponte en contacto con nosotros en <a
 					target="_blank" style="color: #c1461c;"
-					href="mailto:soporte@designador.com"> soporte@designador.com</a>.
+					href="mailto:soporte@designator.com"> soporte@designator.com</a>.
 				</td>
 			</tr>
 			<tr>
 				<td>Gracias por utilizar <a style="color: #c1461c;"
-					href="http://localhost:8080/Designador">Designador</a></td>
+					href="http://localhost:8080/Designator">Designator</a></td>
 			</tr>
 			<tr>
 				<td>$adminFirstName</td>

@@ -80,7 +80,7 @@ public class Category implements Serializable{
 		return categoryGender;
 	}
 
-	public void setategoryGender(int categoryGender) {
+	public void setCategoryGender(int categoryGender) {
 		this.categoryGender = categoryGender;
 	}
 	

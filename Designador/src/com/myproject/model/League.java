@@ -1,6 +1,8 @@
 package com.myproject.model;
 
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Entity;
@@ -9,7 +11,9 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="LEAGUE")
-public class League {
+public class League implements Serializable{
+
+	private static final long serialVersionUID = 9210813917132442031L;
 
 	public League(String idLeague, String leagueName) {
 		super();

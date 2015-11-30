@@ -25,7 +25,10 @@
 		var key = 	"<s:property value='#keys.substring(1)' />";
 		
 		 $(document).ready(function() {
-			 $("" + key).css({"border-color" : "#b94a48", "border-style" : "solid"});
+			 if($("" + key).is("select"))
+				 $("" + key).parent().css({"border-color" : "#b94a48", "border-style" : "solid", "border-width" : "1px"});
+			 else
+			 	$("" + key).css({"border-color" : "#b94a48", "border-style" : "solid"});
 		 });
 	 </script> 
     

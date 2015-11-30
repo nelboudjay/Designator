@@ -23,6 +23,9 @@ public class Team implements Serializable{
 	@Column(name="TEAM_NAME", nullable = false, unique = true, length = 128)
 	private String teamName;
 
+	@Column(name="TEAM_SHORT_NAME", unique = true, length = 128)
+	private String teamShortName;
+	
 	@Column(name="TEAM_LOCATION", length = 45)
 	private String teamLocation;
 	
@@ -41,11 +44,20 @@ public class Team implements Serializable{
 		this.teamName = teamName;
 		this.teamLocation = teamLocation;
 	}*/
-
+	
 	public Team(String idTeam, String teamName, String teamLocation) {
 		super();
 		this.idTeam = idTeam;
 		this.teamName = teamName;
+		this.teamLocation = teamLocation;
+	}
+
+	public Team(String idTeam, String teamName, String teamShortName,
+			String teamLocation) {
+		super();
+		this.idTeam = idTeam;
+		this.teamName = teamName;
+		this.teamShortName = teamShortName;
 		this.teamLocation = teamLocation;
 	}
 
@@ -56,6 +68,11 @@ public class Team implements Serializable{
 
 	}
 	
+	public Team(String teamName) {
+		super();
+		this.teamName = teamName;
+	}
+
 	public Team(){
 	}
 	
@@ -74,6 +91,17 @@ public class Team implements Serializable{
 
 	public void setTeamName(String teamName) {
 		this.teamName = teamName;
+	}
+	
+	public String getTeamShortName() {
+		if(teamShortName == null || teamShortName.equals(""))
+			return this.teamName.toUpperCase().substring(0, 3);
+		else
+			return teamShortName;
+	}
+
+	public void setTeamShortName(String teamShortName) {
+		this.teamShortName = teamShortName;
 	}
 
 	public String getTeamLocation() {
@@ -100,9 +128,15 @@ public class Team implements Serializable{
 		if(o instanceof Team){
 			Team t = (Team)o;
 			result = t.getTeamName().equalsIgnoreCase(this.teamName)
-					&& t.getTeamLocation().equalsIgnoreCase(this.teamLocation);
+					&& ((t.getTeamShortName() == null && this.teamShortName == null ) 
+						|| (t.getTeamShortName() != null && this.teamShortName != null 
+							&& t.getTeamShortName().equalsIgnoreCase(this.teamShortName)))
+					&& ((t.getTeamLocation() == null && this.teamLocation == null ) 
+							|| (t.getTeamLocation() != null && this.teamLocation != null 
+								&& t.getTeamLocation().equalsIgnoreCase(this.teamLocation)));
 		}
 
+		System.out.println(result);
 		return result;
 	}
 

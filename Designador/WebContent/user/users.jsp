@@ -41,7 +41,9 @@
 			<table class="members">
 				<tr>
 					<th>Nombre</th>
-					<th>Mostrar</th>
+					<s:if test="#session.user.isAdmin()">
+						<th>Mostrar</th>
+					</s:if>
 					<th>Teléfono fijo</th>
 					<th>Teléfono móvil</th>
 					<th>Contactar</th>	
@@ -50,20 +52,22 @@
 				<s:iterator value="#attr.users" >
 					<tr>
 						<td><a class="link" href="user?idUser=${idUser}"><s:property value="userFullName"/></a></td>
-						<td>
-						<div class="btn-group"><a class="btn btn-link" href="${pageContext.request.contextPath}/game/games?idUser=${idUser}">Partidos</a>
-							<button class="btn">
-								<img class="small-icon" src="${pageContext.request.contextPath}/images/settings-dropdown-icon.png">
-								<img class="very-small-icon" src="${pageContext.request.contextPath}/images/arrowhead-icon.png">
-							</button>
-							<ul	style="display:none;">
-								<li><a href="${pageContext.request.contextPath}/user/user?idUser=${idUser}">Info</a></li>
-								<li><a href="${pageContext.request.contextPath}/availability/availability?idUser=${idUser}">Disponibilidad</a></li>
-								<li><a href="${pageContext.request.contextPath}/user/user?idUser=${idUser}">Conflictos</a></li>
-							</ul>
-						</div>
-							
-						</td>
+						<s:if test="#session.user.isAdmin()">
+							<td>
+							<div class="btn-group"><a class="btn btn-link" href="${pageContext.request.contextPath}/game/games?idUser=${idUser}">Partidos</a>
+								<button class="btn">
+									<img class="small-icon" src="${pageContext.request.contextPath}/images/settings-dropdown-icon.png">
+									<img class="very-small-icon" src="${pageContext.request.contextPath}/images/arrowhead-icon.png">
+								</button>
+								<ul	style="display:none;">
+									<li><a href="${pageContext.request.contextPath}/user/user?idUser=${idUser}">Info</a></li>
+									<li><a href="${pageContext.request.contextPath}/availability/availability?idUser=${idUser}">Disponibilidad</a></li>
+									<li><a href="${pageContext.request.contextPath}/user/user?idUser=${idUser}">Conflictos</a></li>
+								</ul>
+							</div>
+								
+							</td>
+						</s:if>
 						<td><s:property value="userProfile.homePhone"/></td>
 						<td><s:property value="userProfile.mobilePhone"/></td>
 						<td>
@@ -71,7 +75,7 @@
 								<span class="unconfirmed">Sin confirmar</span>
 							</s:if>
 							<s:else>
-								<a class="link">Por Correo</a>
+								<a class="link" href="mailto:${email}">Por Correo</a>
 							</s:else>	
 						</td>
 					</tr>

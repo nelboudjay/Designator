@@ -219,10 +219,8 @@
 							<input  type="radio" value="3" name="userRole" ${currentUserRole == 3 ? 'checked' : ''}>
 						</div>
 					</div>
-				
-					<s:if test="currentUserRole != 1">
-					
-						<div class="row referee-types">
+									
+					<div class="row referee-types" style="display:${currentUserRole == 1 ? 'none' : ''};">
 						<div>
 							<label><b>Principal</b></label>
 							<input id="refereeType1" type="checkbox" ${refereeTypes[0] || idUser == null || idUser == '' ? 'checked' : ''}>
@@ -253,10 +251,17 @@
 							
 						</div>
 					</div>
-					</s:if>
 				
 				</s:if>
 				
+				<h3 class="title-1">Privacidad</h3>
+				
+				<div class="row">
+					<div>
+						<label><b>Ocultar Perfil de otros árbitros</b></label>
+						<input type="checkbox" value="true" name="privacy" ${privacy ? 'checked' : ''}>
+					</div>
+				</div>
 				
 				<input name="idUser" value="${idUser}" type="hidden">
 				<div class="row">

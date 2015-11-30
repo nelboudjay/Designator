@@ -25,7 +25,7 @@
 }
 
 .games tr:nth-child(2n + 2) > td:first-child{
-	max-width:65px;
+	max-width:70px;
 	color:#5b5b5b;
 	font-size:12px;
 	white-space:normal;
@@ -54,9 +54,37 @@
 .games tr:nth-child(2n + 2) > td:nth-child(3) > div{
     text-align: left;
     display:inline-block;
+    margin: 5px 0;
 }
 
-.games tr:nth-child(2n + 2) > td:nth-child(6) div{
+.conflicts-types{
+	background-color: #000;
+    border-radius: 5px;
+    color: #fff !important;
+    display: none;
+    left: -140px;
+    max-width: 200px !important;
+    padding: 5px 10px;
+    position: absolute;
+    top: -45px;
+}
+
+.conflicts-types:after {
+	left: 100%;
+	top: 50%;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+	border-color: rgba(0, 0, 0, 0);
+	border-left-color: #000;
+	border-width: 5px;
+	margin-top: -5px;
+}
+
+.games tr:nth-child(2n + 2) > td:nth-child(6)  > div{
 	margin:5px 0;
 	color:#5b5b5b;
 	font-size:12px;
@@ -76,13 +104,19 @@
 	background: #e8e7e6 !important;
 }
 
-.published{
-	background-color: #5cb85c;
+.published, .no-published{
     border-radius: 0.25em;
     color: #fff;
     text-align: center;
     padding: 2px 4px;
-    
+}
+
+.published {
+	background-color: #5cb85c;
+}
+
+.no-published{
+	background-color: #f0ad4e;
 }
 
 .not-assigned, .not-required{
@@ -177,3 +211,4 @@
 #gameForm .row > div {
 	padding-right:20px;
 }
+

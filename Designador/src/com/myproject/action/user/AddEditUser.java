@@ -18,6 +18,7 @@ import org.apache.struts2.util.ServletContextAware;
 import com.myproject.mail.MailService;
 import com.myproject.model.Address;
 import com.myproject.model.PasswordChangeRequest;
+import com.myproject.model.RefereeGame;
 import com.myproject.model.User;
 import com.myproject.model.UserProfile;
 import com.myproject.model.UserRefereeType;
@@ -45,6 +46,8 @@ public class AddEditUser extends ActionSupport implements SessionAware, ServletC
 	private String pictureContentType, pictureFileName;
 	private int userRole;
 	private Boolean[] refereeTypes = {false, false, false, false, false, false};
+	private boolean privacy;
+	
 	private GenericService service;
 
 	private MailService mailService;
@@ -126,6 +129,7 @@ public class AddEditUser extends ActionSupport implements SessionAware, ServletC
 			}
 			
 			setCurrentPicture(user.getUserProfile().getPicture() != null);
+			setPrivacy(user.isPrivacy());
 			return NONE;
 
 		}
@@ -235,9 +239,22 @@ public class AddEditUser extends ActionSupport implements SessionAware, ServletC
 
 				if(userRole != User.REFEREE && userRole != User.BOTH)
 					userRole = User.ADMIN;
-				if(user.getUserRole() != User.ADMIN){
-					
-					
+				
+				
+				if(userRole == User.ADMIN){
+					if(user.getUserRole() != User.ADMIN){
+
+						eqRestrictions.clear();
+						eqRestrictions.put("user", new FieldCondition(user));
+						List<?> refereeGames = service.GetModelDataList(RefereeGame.class, eqRestrictions, null, null);	
+						
+						refereeGames.forEach(refereeGame -> {
+							((RefereeGame)refereeGame).setUser(null);
+							service.SaveOrUpdateModelData(refereeGame);
+						});
+					}
+				}
+				else{
 					if(!Arrays.asList(refereeTypes).contains(true)){
 						addActionError( "Debes seleccionar al menos un tipo de árbitro.");
 						return INPUT;
@@ -261,15 +278,14 @@ public class AddEditUser extends ActionSupport implements SessionAware, ServletC
 							
 						}
 						if(!urtAlreadyExist && refereeTypes[i])
-								service.SaveOrUpdateModelData(new UserRefereeType(user, i + 1));
-						
+								service.SaveOrUpdateModelData(new UserRefereeType(user, i + 1));	
 					}
-					
-						
-				}
+				}			
 			}
 			
 			user.setUserRole(userRole);
+			
+			user.setPrivacy(privacy);
 			
 			service.SaveOrUpdateModelData(user);
 				
@@ -331,12 +347,10 @@ public class AddEditUser extends ActionSupport implements SessionAware, ServletC
 		
 		UserProfile userProfile = new UserProfile(firstName.trim(), lastName1.trim(), lastName2.trim(),address, homePhone.trim(), mobilePhone.trim(), email2.trim(), bPicture);
 
-
 		if(userRole != User.REFEREE && userRole != User.BOTH)
 			userRole = User.ADMIN;
 		
-		
-		User user = new User(userName,email.trim(),userRole,userProfile);
+		User user = new User(userName,email.trim(),userRole,userProfile,privacy);
 		
 
 		if(userRole != User.ADMIN){
@@ -400,7 +414,7 @@ public class AddEditUser extends ActionSupport implements SessionAware, ServletC
 		templateData.put("firstName",WordUtils.capitalize(firstName.trim()));
 		templateData.put("adminFirstName", WordUtils.capitalize(((User)session.get("user")).getUserProfile().getFirstName()));
 		
-		mailService.sendMail(new String[]{email},"Instrucciones para completar tu registro en Designador",
+		mailService.sendMail(new String[]{email},"Instrucciones para completar tu registro en Designator",
 				"confirmRegistrationInstructions.vm", templateData);
 		
 		addActionMessage("Se ha sido añadido un nuevo miembro con exito. Un correo electrónico ha sido enviado a él para confirmar su registro.");
@@ -619,6 +633,14 @@ public class AddEditUser extends ActionSupport implements SessionAware, ServletC
 	
 	public void setMailService(MailService mailService) {
 		this.mailService = mailService;
+	}
+
+	public boolean isPrivacy() {
+		return privacy;
+	}
+
+	public void setPrivacy(boolean privacy) {
+		this.privacy = privacy;
 	}
 	
 }

@@ -43,6 +43,10 @@
 						<div class="error-field">Nombre del equipo no puede estar en blanco.</div>	
 					</div>
 					<div>
+						<label><strong>Nombre Corto</strong>
+						</label> <input id="teamShortName" type="text" class="text-input-2" name="teamShortName" value="${teamShortName}">
+					</div>
+					<div>
 						<label><strong>Localidad</strong>
 						</label> <input id="teamLocation" type="text" class="text-input-2" name="teamLocation" value="${teamLocation}">
 					</div>

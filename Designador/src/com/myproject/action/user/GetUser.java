@@ -11,6 +11,7 @@ import javax.servlet.ServletContext;
 import org.apache.struts2.interceptor.SessionAware;
 import org.apache.struts2.util.ServletContextAware;
 
+import com.myproject.model.Address;
 import com.myproject.model.User;
 import com.myproject.model.UserRefereeType;
 import com.myproject.service.GenericService;
@@ -26,8 +27,10 @@ public class GetUser extends ActionSupport implements SessionAware, ServletConte
 
 	private String idUser;
 	private String email, userFullName, userRoleName, homePhone, mobilePhone;
+	private Address address;
 	private int userRole;
 	private boolean confirmed;
+	private boolean privacy;
 	private List<String> userRefereeTypesNames;
 
 	
@@ -60,6 +63,7 @@ public class GetUser extends ActionSupport implements SessionAware, ServletConte
 			}
 			
 			setUserFullName(user.getUserFullName());
+			setAddress(user.getUserProfile().getAddress());
 			setEmail(user.getEmail());
 			setConfirmed(!user.getPassword().equals(""));
 			setUserRoleName(user.getUserRoleName());
@@ -75,6 +79,7 @@ public class GetUser extends ActionSupport implements SessionAware, ServletConte
 						userRefereeTypesNames.add(((UserRefereeType)userRefereeType).getRefereeTypeName()));
 			}
 			
+			setPrivacy(user.isPrivacy());
 			return NONE;
 			
 		}
@@ -164,6 +169,22 @@ public class GetUser extends ActionSupport implements SessionAware, ServletConte
 	@Override
 	public void setServletContext(ServletContext context) {
 		this.context = context;
+	}
+
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+
+	public boolean isPrivacy() {
+		return privacy;
+	}
+
+	public void setPrivacy(boolean privacy) {
+		this.privacy = privacy;
 	}
 
 	

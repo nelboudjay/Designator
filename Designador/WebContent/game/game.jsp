@@ -57,18 +57,19 @@
 						<a href="${pageContext.request.contextPath}/team/addEditTeam?idTeam=${game.awayTeam.idTeam}"><b class="title-2"><s:property value="game.AwayTeam.TeamName"/></b></a>
 					</th>
 				</tr>
-				
-				<tr>
-					<td>Estado</td>
-					<td colspan="2">
-						<s:if test="game.isGameStatus()">
-							<span class="success" title="El partido ya está publicado.">Publicado</span>
-						</s:if>
-						<s:else>
-							<span class="warning" title="El partido aún no está publicado.">No Publicado</span>
-						</s:else>
-					</td>
-				</tr>
+				<s:if test="#session.user.isAdmin()">
+					<tr>
+						<td>Estado</td>
+						<td colspan="2">
+							<s:if test="game.isGameStatus()">
+								<span class="success" title="El partido ya está publicado.">Publicado</span>
+							</s:if>
+							<s:else>
+								<span class="warning" title="El partido aún no está publicado.">No Publicado</span>
+							</s:else>
+						</td>
+					</tr>
+				</s:if>
 				<s:if test="game.GameCategory != null">
 					<tr>
 						<td>Categoría</td>
@@ -84,13 +85,13 @@
 				<s:if test="game.GameVenue != null">
 					<tr>
 						<td>Pista</td>
-						<td colspan="2"><a class="link-2" href="${pageContext.request.contextPath}/venue/addEditVenue?idVenue=${game.gameVenue.idVenue}"><s:property value="game.GameVenue.venueName"/></a></td>
+						<td colspan="2"><s:property value="game.GameVenue.venueName"/></td>
 					</tr>
 					
-					<s:if test="game.GameVenue.venueAddress.city != ''">
+					<s:if test="game.GameVenue.venueAddress != null">
 						<tr>
-							<td>Localidad</td>
-							<td colspan="2"><s:property value="game.GameVenue.venueAddress.City"/></td>
+							<td>Dirección</td>
+							<td colspan="2"><s:property value="game.GameVenue.venueAddress.fullAddress"/></td>
 						</tr>
 					</s:if>
 				</s:if>
@@ -105,19 +106,27 @@
 								<s:if test="game.getRefereeGame(#status.index + 1) == null">
 									<div class="not-required">No Requerido</div>
 								</s:if>
-								<s:elseif test="game.getRefereeGame(#status.index + 1).userRefereeType == null">
+								<s:elseif test="game.getRefereeGame(#status.index + 1).user== null">
 									<div class="not-assigned">No Designado</div>
 								</s:elseif>
 								<s:else>
-									<a class="link" href="${pageContext.request.contextPath}/user/user?idUser=<s:property value="game.getRefereeGame(#status.index + 1).userRefereeType.user.idUser"/>"> 
-										<s:property value="game.getRefereeGame(#status.index + 1).userRefereeType.user.userProfile.firstName"/>
-										<s:property value="game.getRefereeGame(#status.index + 1).userRefereeType.user.userProfile.lastName1"/></a>
+									<s:if test="!#session.user.isAdmin() && game.getRefereeGame(#status.index + 1).user.idUser != #session.user.idUser 
+																&& game.getRefereeGame(#status.index + 1).user.privacy">
+										<s:property value="game.getRefereeGame(#status.index + 1).user.userProfile.firstName"/>
+										<s:property value="game.getRefereeGame(#status.index + 1).user.userProfile.lastName1"/>		
+									</s:if>
+									<s:else>
+										<a class="link" href="${pageContext.request.contextPath}/user/user?idUser=<s:property value="game.getRefereeGame(#status.index + 1).user.idUser"/>"> 
+											<s:property value="game.getRefereeGame(#status.index + 1).user.userProfile.firstName"/>
+											<s:property value="game.getRefereeGame(#status.index + 1).user.userProfile.lastName1"/></a>
+									</s:else>
+									
 									<s:if test="game.getRefereeGame(#status.index + 1).isConfirmed()">
 										<img  class="confirmation" title="El árbitro ha confirmado su designación a este partido"
 											src="${pageContext.request.contextPath}/images/check-icon.png">
 									</s:if>
 									<s:else>
-										<img  class="confirmation" title="El árbitro aún no ha confirmado su designación a este partido"
+										<img  class="confirmation" title="El árbitro aún no ha confirmado su designación para este partido"
 											src="${pageContext.request.contextPath}/images/warning-icon.png">
 									</s:else>
 								</s:else>
@@ -127,30 +136,37 @@
 						</s:iterator>
 					</td>
 				</tr>
-				<tr>
-					<td>Última Actualización</td>
-					<td colspan="2">
-						<s:date name="game.lastUpdatedDate" format="EEE" var="lastUpdatedDay"/>
-						<s:property value="@com.opensymphony.xwork2.inject.util.Strings@capitalize(#lastUpdatedDay)"/>, 
-						<s:date name="game.lastUpdatedDate" format="d"/> de 
-						<s:date name="game.lastUpdatedDate" format="MMM" var="lastUpdatedDayMonth"/>
-						<s:property value="@com.opensymphony.xwork2.inject.util.Strings@capitalize(#lastUpdatedDayMonth)"/> de 
-						<s:date name="game.lastUpdatedDate" format="yyyy"/> a las
-						<s:date name="game.lastUpdatedDate" format="HH:mm"/> horas 
-										
-					</td>
-				</tr>
-				<tr>
-					<td>Autor</td>
-					<td>
-						<a class="link-2" href="${pageContext.request.contextPath}/user/user?idUser=${game.lastUpdaterUser.idUser}">
-							<s:property value="game.lastUpdaterUser.userProfile.firstName"/>
-							<s:property value="game.lastUpdaterUser.userProfile.lastName1"/>
-						</a>
-					</td>
-				</tr>
+				<s:if test="#session.user.isAdmin()">
+					<tr>
+						<td>Última Actualización</td>
+						<td colspan="2">
+							<s:date name="game.lastUpdatedDate" format="EEE" var="lastUpdatedDay"/>
+							<s:property value="@com.opensymphony.xwork2.inject.util.Strings@capitalize(#lastUpdatedDay)"/>, 
+							<s:date name="game.lastUpdatedDate" format="d"/> de 
+							<s:date name="game.lastUpdatedDate" format="MMM" var="lastUpdatedDayMonth"/>
+							<s:property value="@com.opensymphony.xwork2.inject.util.Strings@capitalize(#lastUpdatedDayMonth)"/> de 
+							<s:date name="game.lastUpdatedDate" format="yyyy"/> a las
+							<s:date name="game.lastUpdatedDate" format="HH:mm"/> horas 
+											
+						</td>
+					</tr>
+					<tr>
+						<td>Autor</td>
+						<td>
+							<a class="link-2" href="${pageContext.request.contextPath}/user/user?idUser=${game.lastUpdaterUser.idUser}">
+								<s:property value="game.lastUpdaterUser.userProfile.firstName"/>
+								<s:property value="game.lastUpdaterUser.userProfile.lastName1"/>
+							</a>
+						</td>
+					</tr>
+				</s:if>
+				
 			</table>
 			<p><a href="games" class="link">« Todos los Partidos</a>
+				<s:if test="#session.user.idUser != '1'">
+					· <a class="link" href="games?idUser=${session.user.idUser}">Mis Partidos</a>		
+				</s:if>
+				<s:if test="#session.user.isAdmin()">
 					· <a class="link" href="addEditGame?idGame=${idGame}">Editar</a> · 
 					<a class="link delete" href="deleteGame?idGame=${idGame}">Eliminar</a>
 					<span class="confirm-box">
@@ -158,8 +174,7 @@
 							eliminar este partido? </span> <span class="btn yes">Sí</span> 
 							<span class="btn no">No</span>
 					</span>	 
-					
-				
+				</s:if>
 			</p>
 		</div>
 		<jsp:include page="../footer.jsp"/>

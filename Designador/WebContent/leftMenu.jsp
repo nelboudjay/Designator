@@ -3,10 +3,10 @@
 <div class="sidebar-background"></div>
 <div id="leftMenu">
 		<ul>
-		<li class="${context['struts.actionMapping'].name == 'homePage' ? 'active' : '' }">
-			<span class="glow"></span>
-			<a href="${pageContext.request.contextPath}/homePage"><img class="left-menu-icon" src="${pageContext.request.contextPath}/images/home-icon.png">Inicio</a>
-		</li>
+			<li class="${context['struts.actionMapping'].name == 'homePage' ? 'active' : '' }">
+				<span class="glow"></span>
+				<a href="${pageContext.request.contextPath}/homePage"><img class="left-menu-icon" src="${pageContext.request.contextPath}/images/home-icon.png">Inicio</a>
+			</li>
 			<li class="dark-nav
 				<s:if test="#context['struts.actionMapping'].name in 
 					{'games', 'game', 'addEditGame'}">active dark-nav-active
@@ -21,25 +21,33 @@
 						{'games', 'game', 'addEditGame'}">block</s:if>
 					<s:else>none</s:else>
 				">
-					<s:if test="#session.user.userRole != 2">
-						<li><a href="${pageContext.request.contextPath}/game/games">Todos Los Partidos
-								<span class="normal"><s:property value="#session.futureGames"/></span>
+					<li><a href="${pageContext.request.contextPath}/game/games">Todos Los Partidos
+							<span class="normal"><s:property value="#session.futureGames.size()"/></span>
+						</a>
+					</li>
+					<s:if test="#session.user.userRole != 1">
+						<li><a href="${pageContext.request.contextPath}/game/games?idUser=${session.user.idUser}">Mis Partidos
+								<span class="normal"><s:property value="#session.myFutureGames"/></span>
+							</a>
+						</li>
+						<li><a href="${pageContext.request.contextPath}/game/games?idUser=${session.user.idUser}&is=confirmed">Mis Partidos Confirmados
+								<span class="success"><s:property value="#session.myConfirmedGames"/></span>
+							</a>
+						</li>
+						<li><a href="${pageContext.request.contextPath}/game/games?idUser=${session.user.idUser}&is=unconfirmed">Mis Partidos no Confirmados
+								<span class="warning"><s:property value="#session.myUnconfirmedGames"/></span>
 							</a>
 						</li>
 					</s:if>
-					<s:if test="#session.user.userRole != 1">
-						<li><a href="${pageContext.request.contextPath}/game/myGames?idUser=${session.user.idUser}">Mis Partidos</a></li>
-						<li><a href="${pageContext.request.contextPath}/game/myUnconfirmedGames=${session.user.idUser}">Mis Partidos no Confirmados</a></li>
+					<s:if test="#session.unassignedGames != null && #session.unassignedGames > 0">
+						<li><a href="${pageContext.request.contextPath}/game/games?is=unassigned">Partidos No Designados
+								<span class="warning"><s:property value="#session.unassignedGames"/></span>
+							</a>
+						</li>
 					</s:if>
 					<s:if test="#session.user.userRole != 2">
-						<s:if test="#session.unassignedGames != null && #session.unassignedGames > 0">
-							<li><a href="${pageContext.request.contextPath}/game/games?is=unassigned">No Designados
-									<span class="warning"><s:property value="#session.unassignedGames"/></span>
-								</a>
-							</li>
-						</s:if>
 						<s:if test="#session.confirmedGames != null && #session.confirmedGames > 0">
-							<li><a href="${pageContext.request.contextPath}/game/games?is=confirmed">Confirmados
+							<li><a href="${pageContext.request.contextPath}/game/games?is=confirmed">Partidos Confirmados
 									<span  class="success">
 										<s:property value="#session.confirmedGames"/>
 									</span>
@@ -47,22 +55,22 @@
 							</li>
 						</s:if>
 						<s:if test="#session.unconfirmedGames != null && #session.unconfirmedGames > 0">
-							<li><a href="${pageContext.request.contextPath}/game/games?is=unconfirmed">No Confirmados
+							<li><a href="${pageContext.request.contextPath}/game/games?is=unconfirmed">Partidos No Confirmados
 									<span class="warning"><s:property value="#session.unconfirmedGames"/></span>
 								</a>
 							</li>
 						</s:if>
 						<s:if test="#session.unpublishedGames != null 
-											&& #session.futureGames - #session.unpublishedGames > 0">
-							<li class="published-num"><a href="${pageContext.request.contextPath}/game/games?is=published">Publicados
+											&& #session.futureGames.size() - #session.unpublishedGames > 0">
+							<li class="published-num"><a href="${pageContext.request.contextPath}/game/games?is=published">Partidos Publicados
 									<span  class="success">
-										<s:property value="#session.futureGames - #session.unpublishedGames"/>
+										<s:property value="#session.futureGames.size() - #session.unpublishedGames"/>
 									</span>
 								</a>
 							</li>
 						</s:if>
 						<s:if test="#session.unpublishedGames != null && #session.unpublishedGames > 0">
-							<li class="unpublished-num"><a href="${pageContext.request.contextPath}/game/games?is=unpublished">No Publicados
+							<li class="unpublished-num"><a href="${pageContext.request.contextPath}/game/games?is=unpublished">Partidos No Publicados
 									<span  class="warning"><s:property value="#session.unpublishedGames"/></span>
 								</a>
 							</li>
@@ -105,14 +113,15 @@
 				</a>
 			</li>
 		</s:else>
-		<li class="
+			<li class="
 				<s:if test="#context['struts.actionMapping'].name in  {'users','user','editUser','addUser'}">
 						active
 				</s:if>		
-		">
-			<span class="glow"></span>
-			<a href="${pageContext.request.contextPath}/user/users"><img class="left-menu-icon"
-			src="${pageContext.request.contextPath}/images/users-icon.png">Miembros</a></li>
+			">
+				<span class="glow"></span>
+				<a href="${pageContext.request.contextPath}/user/users"><img class="left-menu-icon"
+				src="${pageContext.request.contextPath}/images/users-icon.png">Miembros</a>
+			</li>
 		
 		<s:if test="#session.user.userRole != 2">
 			<li class="dark-nav 
@@ -157,6 +166,18 @@
 				</ul>
 			</li>
 		</s:if>
+		<s:else>
+			<li class="
+				<s:if test="#context['struts.actionMapping'].name ==  'allVenues'">
+						active
+				</s:if>		
+			">
+				<span class="glow"></span>
+				<a href="${pageContext.request.contextPath}/venue/allVenues">
+					<img class="left-menu-icon" src="${pageContext.request.contextPath}/images/venue-icon.png">Pistas</a>
+			</li>
+		
+		</s:else>
 		
 	</ul>
 </div>

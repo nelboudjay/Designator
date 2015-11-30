@@ -1,7 +1,10 @@
 package com.myproject.model;
 
 
+import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -21,10 +24,13 @@ import org.hibernate.annotations.Type;
 
 @Entity
 @Table(name="GAME", uniqueConstraints = {@UniqueConstraint(columnNames={"HOME_TEAM", "AWAY_TEAM","GAME_DATE"})})
-public class Game {
+public class Game implements Serializable{
+	
+	private static final long serialVersionUID = 1889018466788086979L;
 	
 	public static final boolean PUBLISHED = true;
 	public static final boolean UNPUBLISHED = false;
+
 
 	public Game(Team homeTeam, Team awayTeam, Timestamp gameDate,
 			Venue gameVenue, League gameLeague, Category gameCategory,
@@ -39,6 +45,7 @@ public class Game {
 		this.gameStatus = gameStatus;
 		this.lastUpdaterUser = lastUpdaterUser;
 		this.lastUpdatedDate = lastUpdatedDate;
+		this.refereesGame = new LinkedList<RefereeGame>();
 	}
 
 	public Game(){
@@ -91,7 +98,7 @@ public class Game {
 	private Timestamp lastUpdatedDate;
 	
 
-	@OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, mappedBy="game")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy="game")
     private List<RefereeGame> refereesGame;
 	
 	public String getIdGame() {
@@ -182,6 +189,14 @@ public class Game {
 		this.refereesGame = refereesGame;
 	}
 	
+	public Timestamp getGameEndDate(){
+		
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(this.gameDate);
+		cal.add(Calendar.HOUR, 2);
+		return new Timestamp(cal.getTime().getTime());
+		
+	}
 	
 	public RefereeGame getRefereeGame(int refereeType){
 		
@@ -207,7 +222,7 @@ public class Game {
 		if(refereesGame != null && refereesGame.size() > 0){
 			
 			for(RefereeGame refereeGame : refereesGame){
-				if(refereeGame.getUserRefereeType() == null){
+				if(refereeGame.getUser() == null){
 					result = true;
 					break;
 				}
@@ -255,6 +270,38 @@ public class Game {
 		
 		return result;
 	}
+	
+	public boolean isConfirmedByReferee(String idUser){
+		
+		boolean result = true;
+
+		for(RefereeGame refereeGame : refereesGame){
+			if(refereeGame.getUser() != null && refereeGame.getUser().getIdUser().equals(idUser)){
+				if(!refereeGame.isConfirmed()){
+					result = false;
+					break;
+				}
+			}
+		}
+		return result;
+	}
+	
+	public void deleteRefereeGame(RefereeGame refereeGame){
+		refereesGame.removeIf(rg -> rg.getIdRefereeGame().equals(refereeGame.getIdRefereeGame()));
+	}
+	
+	public boolean isAvailable(User user){
+		
+		if(user.getUserRole() == User.ADMIN)
+			return false; /*This user is not a referee*/
+		else
+			return (user.getRefereeAvailability().stream().filter(refereeAvailability 
+				-> refereeAvailability.getStartDate().compareTo(this.gameDate) <= 0 &&
+				refereeAvailability.getEndDate().compareTo(this.gameDate) >= 0).count() > 0);
+
+	}
+	
+
 	
 }
 

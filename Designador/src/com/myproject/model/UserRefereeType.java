@@ -1,6 +1,8 @@
 package com.myproject.model;
 
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Entity;
@@ -14,7 +16,9 @@ import org.hibernate.annotations.ForeignKey;
 
 @Entity
 @Table(name="USER_REFEREE_TYPE", uniqueConstraints = {@UniqueConstraint(columnNames={"USER", "REFEREE_TYPE"})})
-public class UserRefereeType {
+public class UserRefereeType implements Serializable{
+	
+	private static final long serialVersionUID = 7141061081920779112L;
 	
 	public static final int PRINCIPAL = 1;
 	public static final int AUXILIAR = 2;

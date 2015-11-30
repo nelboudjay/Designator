@@ -47,8 +47,6 @@ $(function() {
 				$(".delete-comment").show();
 				var deleteComment = $(this);
 				var confirmBox = deleteComment.next();
-				var commentId = deleteComment.parents(".content").attr("id");
-				var removeCommentlink = "comment/deleteComment?commentId=" + commentId;
 				var comment = deleteComment.parents("li");
 				$("> .message", confirmBox).text(
 						"¿Estás seguro que quieres eliminar este mensaje?");
@@ -63,19 +61,23 @@ $(function() {
 					deleteComment.show();
 				});
 				
-				$("> .no, .yes", confirmBox).click(function() {
-					if ($(this).hasClass("no")) {
-						confirmBox.hide();
-						deleteComment.show();
-					} else if ($(this).hasClass("yes")) {
-						$.ajax({
-							url : removeCommentlink,
-						});
-						comment.remove();
-					}
-				});
 			});
 
+	$(".comments-list").on(
+			"click", ".confirm-box > .no, .confirm-box > .yes", function() {
+		if ($(this).hasClass("no")) {
+			$(".confirm-box").hide();
+			$(".delete-comment").show();
+		} else if ($(this).hasClass("yes")) {
+			var commentId = $(this).parents(".content").attr("id");
+			var removeCommentlink = "comment/deleteComment?commentId=" + commentId;
+			var comment = $(this).parents("li");
+			$.ajax({
+				url : removeCommentlink,
+			});
+			comment.remove();
+		}
+	});
 
 	$("#comments").on("click","#addComment",function(){
 

@@ -33,16 +33,21 @@
 		
 		<div class="container">
 			<br>	
-			<h4 class="new-record"><a href="addEditVenue">
-				<img src="${pageContext.request.contextPath}/images/add-icon.png" class="small-icon">
-					Añadir una Pista</a>
-			</h4>
-			<br>
+			<s:if test="#session.user.isAdmin()">
+				<h4 class="new-record"><a href="addEditVenue">
+					<img src="${pageContext.request.contextPath}/images/add-icon.png" class="small-icon">
+						Añadir una Pista</a>
+				</h4>
+				<br>
+			</s:if>
 			
 			<s:if test="#attr.venues.size() == 0">
 				<div class="panel-info">
 					<div class="panel-body">
-						No hay ninguna pista disponible en el sistema. ¿Quieres <a class="link" href="addEditVenue">Añadir</a> una pista?
+						No hay ninguna pista disponible en el sistema. 
+						<s:if test="#session.user.isAdmin()">
+							¿Quieres <a class="link" href="addEditVenue">Añadir</a> una pista?
+						</s:if>
 					</div>
 				</div>
 			</s:if>
@@ -53,22 +58,35 @@
 						<th>Dirección</th>
 						<th>Nombre de Responsable</th>
 						<th>Teléfono de Contacto</th>
-						<th></th>
+						<s:if test="#session.user.isAdmin()">
+							<th></th>
+						</s:if>
 					</tr>	
 					<s:iterator value="#attr.venues">
 						<tr>
-							<td><a class="link" href="addEditVenue?idVenue=${idVenue}">${venueName}</a></td>
+							<td>
+								<s:if test="#session.user.isAdmin()">
+									<a class="link" href="addEditVenue?idVenue=${idVenue}">${venueName}</a>
+								</s:if>
+								<s:else>
+									${venueName}
+								</s:else>
+							
+							</td>
 							<td>${venueAddress != null ? venueAddress.getFullAddress() : ''}</td>
 							<td>${venueContactName}</td>
 							<td>${venueContactPhone}</td>
-							<td style="direction:rtl;"> <a class="link delete" href="deleteVenue?idVenue=${idVenue}">Eliminar</a>
+							<s:if test="#session.user.isAdmin()">
+								<td style="direction:rtl;"> <a class="link delete" href="deleteVenue?idVenue=${idVenue}">Eliminar</a>
+								
+									<span class="confirm-box" >
+										<span class="message"> Estás seguro que quieres
+											eliminar esta pista? </span> <span class="btn yes">Sí</span> 
+											<span class="btn no">No</span>
+									</span>	
+								</td>
+							</s:if>
 							
-								<span class="confirm-box" >
-									<span class="message"> Estás seguro que quieres
-										eliminar esta pista? </span> <span class="btn yes">Sí</span> 
-										<span class="btn no">No</span>
-								</span>	
-							</td>
 						</tr>	
 					</s:iterator>
 				</table>

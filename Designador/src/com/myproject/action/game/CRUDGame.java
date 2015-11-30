@@ -9,6 +9,9 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.servlet.ServletContext;
 
@@ -19,8 +22,10 @@ import org.apache.struts2.util.ServletContextAware;
 import com.myproject.model.Category;
 import com.myproject.model.Game;
 import com.myproject.model.League;
+import com.myproject.model.RefereeGame;
 import com.myproject.model.Team;
 import com.myproject.model.User;
+import com.myproject.model.UserRefereeType;
 import com.myproject.model.Venue;
 import com.myproject.service.GenericService;
 import com.myproject.tools.FieldCondition;
@@ -31,18 +36,27 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 
 	private static final long serialVersionUID = -4438495252365119204L;
 	
-	private String idGame, idHomeTeam, idAwayTeam;
+	private String idUser;
+	private String idGame;
+	private String idHomeTeam, homeTeamName, idAwayTeam, awayTeamName;
+	private String idCategory, categoryName;
+	private int categoryGender;
+	private String idLeague, leagueName;
+	private String idVenue, venueName;
+	private Boolean gameStatus;
 	private Game game;
 	private List<?> allGames;
 	private List<Game> games;
-	private List<?> refereesGame;
-	
+	private Boolean[] refereeTypes = {false, false, false, false, false, false};
+	private String[] idUsers = {"0", "0", "0", "0", "0", "0"};
+
 	private List<?> teams, leagues, categories, venues, referees;
 	
-    private Date date;
+    private Date date, dateTime;
 	private String dateStr, timeStr, is;
 	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	private SimpleDateFormat timeFormat = new SimpleDateFormat("H:mm");
+	private SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd H:mm");
 
 	private Calendar calendar = Calendar.getInstance();
 
@@ -61,30 +75,90 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 		
 		if( ActionContext.getContext().getName().equalsIgnoreCase("addEditGame")){
 			
-			teams = service.GetModelDataList(Team.class, eqRestrictions, "teamName", true);
-			leagues = service.GetModelDataList(League.class, eqRestrictions, "leagueName", true);
-			categories = service.GetModelDataList(Category.class, eqRestrictions, "categoryName", true);
-			venues = service.GetModelDataList(Venue.class, eqRestrictions, "venueName", true);
-			
-			eqRestrictions.put("userRole", new FieldCondition(User.REFEREE,1));
-			referees = service.GetModelDataList(User.class, eqRestrictions, "firstName", true);
+			generateGameForm();
 			
 			if (idGame != null && !idGame.equals("")){
 				eqRestrictions.clear();
 				eqRestrictions.put("idGame", new FieldCondition(idGame));
 				game = (Game) service.GetUniqueModelData(Game.class, eqRestrictions);
-				if(game != null){
+				if(game == null)
+					setIdGame(null);
+				else
+				{
 					setDateStr(sdf.format(game.getGameDate()));
 					setTimeStr(timeFormat.format(game.getGameDate()));
+					setIdHomeTeam(game.getHomeTeam().getIdTeam());
+					setHomeTeamName(game.getHomeTeam().getTeamName());
+					setIdAwayTeam(game.getAwayTeam().getIdTeam());
+					setAwayTeamName(game.getAwayTeam().getTeamName());
+					if(game.getGameCategory() != null)
+						setIdCategory(game.getGameCategory().getIdCategory());
+					if(game.getGameLeague() != null)
+						setIdLeague(game.getGameLeague().getIdLeague());
+					if(game.getGameVenue() != null)
+						setIdVenue(game.getGameVenue().getIdVenue());
+					setGameStatus(game.isGameStatus());
+					
+					for(RefereeGame refereeGame : game.getRefereesGame()){
+						refereeTypes[refereeGame.getRefereeType() - 1] = true;
+						if(refereeGame.getUser() != null)
+							idUsers[refereeGame.getRefereeType() - 1] = refereeGame.getUser().getIdUser();
+					}
+					
 				}
 			}
 			return NONE;
 			
 		}else{
-			
+	
 			allGames = service.GetModelDataList(Game.class, eqRestrictions, "gameDate", false);
-
+			
 			if(allGames != null){
+				
+				if(!((User)session.get("user")).isAdmin())
+					allGames.removeIf(game -> !((Game)game).isGameStatus());
+				else{
+					eqRestrictions.put("userRole", new FieldCondition(User.REFEREE,1));
+					referees = service.GetModelDataList(User.class, eqRestrictions, "firstName", true);
+				}
+
+				
+				if(idUser != null){
+					
+					if(idUser.equals(((User)session.get("user")).getIdUser())){
+	
+						if (((User)session.get("user")).getUserRole() == User.ADMIN){
+							addActionError("No dispones de partidos designados para tí dado que no tienes perfil de Árbitro.");
+							idUser = null;
+						}else{
+							Stream<?> stream;	
+							stream = allGames.stream().filter(game -> ((Game)game).getRefereesGame().
+										stream().filter(refereeGame -> refereeGame.getUser() != null &&
+											refereeGame.getUser().getIdUser().equals(idUser)).count() > 0);
+							allGames = stream.collect(Collectors.toList());
+						}
+					}
+					else{
+						eqRestrictions.clear();
+						eqRestrictions.put("idUser", new FieldCondition(idUser));
+						User user = (User) service.GetUniqueModelData(User.class, eqRestrictions);
+						
+						if(user == null){
+							addActionError("El usuario que has introducido para mostrar sus partidos no existe o ya se ha eliminado");
+							idUser = null;
+						}else if(user.getUserRole() == User.ADMIN){
+							addActionError("Este usuario no dispone de partidos designados para él dado que no tiene perfil de Árbitro.");
+							idUser = null;
+						}else{
+							Stream<?> stream;	
+							stream = allGames.stream().filter(game -> ((Game)game).getRefereesGame().
+										stream().filter(refereeGame ->  refereeGame.getUser() != null &&
+										refereeGame.getUser().getIdUser().equals(idUser)).count() > 0);
+							allGames = stream.collect(Collectors.toList());
+						}	
+					}	
+				}
+
 				
 				if(is != null){
 					
@@ -94,10 +168,18 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 						allGames.removeIf(game -> !((Game)game).isGameStatus());
 					else if(is.equalsIgnoreCase("unpublished"))
 						allGames.removeIf(game -> ((Game)game).isGameStatus());
-					else if(is.equalsIgnoreCase("confirmed"))
-						allGames.removeIf(game -> !((Game)game).isConfirmed());
-					else if(is.equalsIgnoreCase("unconfirmed"))
-						allGames.removeIf(game -> !((Game)game).isUnconfirmed());
+					else if(idUser != null){
+						if(is.equalsIgnoreCase("confirmed"))
+							allGames.removeIf(game -> !((Game)game).isConfirmedByReferee(idUser));
+						else if(is.equalsIgnoreCase("unconfirmed"))
+							allGames.removeIf(game -> ((Game)game).isConfirmedByReferee(idUser));
+					}
+					else{
+						if(is.equalsIgnoreCase("confirmed"))
+							allGames.removeIf(game -> !((Game)game).isConfirmed());
+						else if(is.equalsIgnoreCase("unconfirmed"))
+							allGames.removeIf(game -> !((Game)game).isUnconfirmed());
+					}
 
 				}
 			
@@ -130,39 +212,241 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 	public String addEditGame(){
 		
 		setSelectedDate();
-		
-		System.out.println(date);
 		if(date == null || date.equals(new Date(Long.MIN_VALUE))){
-			
+			generateGameForm();
 			addFieldError("datepicker", "La fecha del partido no es correcta");
 			return INPUT;
 		}
 		
-		/*Editing an existing Category*/
-		if(idGame != null && !idGame.equals("")){
-			eqRestrictions.put("idCategory", new FieldCondition(idGame));
-			game = (Game) service.GetUniqueModelData(Game.class, eqRestrictions);			
-			
-			if(game != null){
-				
-				/*if(!new Category(categoryName.trim(),categoryGender).equals(category)){
-					if (categoryAlreadyExists(new Category(categoryName.trim(),categoryGender))){
-						addActionError("Esta categoría ya existe. Por favor, añade otra.");
-						return INPUT;
-					}
-					else{
-						category.setategoryGender(categoryGender);
-						category.setCategoryName(categoryName.trim().substring(0,1).toUpperCase() + categoryName.trim().substring(1));
-						service.SaveOrUpdateModelData(category);
-					}
-				}*/
+		setSelectedTime();
+		if(dateTime == null){
+			generateGameForm();
+			addFieldError("gameTime", "La hora del partido no es correcta");
+			return INPUT;
+		}
 		
-				addActionMessage("Se ha actualizado el nombre de la categoría con exito.");
-				return SUCCESS;
-	
+		Team homeTeam;
+		eqRestrictions.clear();
+		if(idHomeTeam.equals("0")){
+			eqRestrictions.put("teamName", new FieldCondition(homeTeamName.trim()));
+			homeTeam = (Team) service.GetUniqueModelData(Team.class, eqRestrictions);	
+			if(homeTeam == null)
+				homeTeam = new Team(homeTeamName.trim());
+		}
+		else{
+			eqRestrictions.put("idTeam", new FieldCondition(idHomeTeam));
+			homeTeam = (Team) service.GetUniqueModelData(Team.class, eqRestrictions);	
+			if(homeTeam == null){
+				generateGameForm();
+				addFieldError("homeTeam", "El equipo local que has elegido no existe o ya se ha eliminado." +
+						" Por favor, crea un nuevo equipo");
+				return INPUT;
 			}
 		}
 		
+		Team awayTeam;
+		eqRestrictions.clear();
+		if(idAwayTeam.equals("0")){
+			if(awayTeamName.trim().equalsIgnoreCase(homeTeam.getTeamName())){
+				generateGameForm();
+				addFieldError("awayTeamName", "Los dos equipos no deben ser iguales");
+				return INPUT;
+			}
+			else{
+				eqRestrictions.put("teamName", new FieldCondition(awayTeamName.trim()));
+				awayTeam = (Team) service.GetUniqueModelData(Team.class, eqRestrictions);
+				if(awayTeam == null)
+					awayTeam = new Team(awayTeamName.trim());
+			}
+		}
+		else{
+			eqRestrictions.put("idTeam", new FieldCondition(idAwayTeam));
+			awayTeam = (Team) service.GetUniqueModelData(Team.class, eqRestrictions);	
+			if(awayTeam == null){
+				generateGameForm();
+				addFieldError("awayTeam", "El equipo visitante que has elegido no existe o ya se ha eliminado." +
+						" Por favor, crea un nuevo equipo");
+				return INPUT;
+			}
+			else if (awayTeam.getTeamName().equalsIgnoreCase(homeTeam.getTeamName())){
+				generateGameForm();
+				addFieldError("awayTeam", "Los dos equipos no deben ser iguales");
+				return INPUT;
+			}
+		}
+		
+		Category category = null;
+		eqRestrictions.clear();
+
+		if(categoryGender < Category.MALE || categoryGender > Category.MIXED)
+			categoryGender = Category.MALE;
+		
+		if(idCategory.equals("0") && categoryName != null && !categoryName.trim().equals("")){
+			eqRestrictions.put("categoryName", new FieldCondition(categoryName.trim()));
+			eqRestrictions.put("categoryGender", new FieldCondition(categoryGender));
+
+			category = (Category) service.GetUniqueModelData(Category.class, eqRestrictions);
+			if(category == null)
+				category = new Category(categoryName.trim(), categoryGender);
+		}
+		else{
+			eqRestrictions.put("idCategory", new FieldCondition(idCategory));
+			category = (Category) service.GetUniqueModelData(Category.class, eqRestrictions);	
+		}
+		
+		League league = null;
+		eqRestrictions.clear();
+		
+		if(idLeague.equals("0") && leagueName != null && !leagueName.trim().equals("")){
+			eqRestrictions.put("leagueName", new FieldCondition(leagueName.trim()));
+			league = (League) service.GetUniqueModelData(League.class, eqRestrictions);
+			if(league == null)
+				league = new League(leagueName.trim());
+		}
+		else{
+			eqRestrictions.put("idLeague", new FieldCondition(idLeague));
+			league = (League) service.GetUniqueModelData(League.class, eqRestrictions);	
+		}
+		
+		Venue venue = null;
+		eqRestrictions.clear();
+		
+		if(idVenue.equals("0") && venueName != null && !venueName.trim().equals("")){
+			eqRestrictions.put("venueName", new FieldCondition(venueName.trim()));
+			venue = (Venue) service.GetUniqueModelData(Venue.class, eqRestrictions);
+			if(venue == null)
+				venue = new Venue(venueName.trim());
+		}
+		else{
+			eqRestrictions.put("idVenue", new FieldCondition(idVenue));
+			venue = (Venue) service.GetUniqueModelData(Venue.class, eqRestrictions);	
+		}
+		
+		gameStatus = gameStatus != null;
+		
+		eqRestrictions.clear();
+		eqRestrictions.put("userRole", new FieldCondition(User.REFEREE,1));
+		referees = service.GetModelDataList(User.class, eqRestrictions, "firstName", true);
+		
+		/*Editing an existing Game*/
+		if(idGame != null && !idGame.equals("")){
+			eqRestrictions.clear();
+			eqRestrictions.put("idGame", new FieldCondition(idGame));
+			game = (Game) service.GetUniqueModelData(Game.class, eqRestrictions);			
+			
+			if(game != null){
+
+				game.setGameDate(new Timestamp(dateTime.getTime()));
+				
+				if(homeTeam.getIdTeam() == null)
+					service.SaveOrUpdateModelData(homeTeam);
+				game.setHomeTeam(homeTeam);
+				
+				if(awayTeam.getIdTeam() == null)
+					service.SaveOrUpdateModelData(awayTeam);
+				game.setAwayTeam(awayTeam);
+				
+				if(category != null && category.getIdCategory() == null)
+					service.SaveOrUpdateModelData(category);
+				game.setGameCategory(category);
+				
+				if(league != null && league.getIdLeague() == null)
+					service.SaveOrUpdateModelData(league);
+				game.setGameLeague(league);
+				
+				if(venue != null && venue.getIdVenue() == null)
+					service.SaveOrUpdateModelData(venue);
+				game.setGameVenue(venue);
+				
+				game.setGameStatus(gameStatus);
+				
+				for(int i = 0; i < UserRefereeType.REFEREETYPES; i++){
+					
+					if(game.getRefereeGame(i + 1) != null){
+						if(!refereeTypes[i]){
+							service.DeleteModelData(game.getRefereeGame(i + 1));
+							game.getRefereesGame().remove(game.getRefereeGame(i + 1));
+						}else{
+							if(game.getRefereeGame(i + 1).getUser() != null){
+								if(idUsers[i].equals("0"))
+									game.getRefereeGame(i + 1).setUser(null);
+								else if(!idUsers[i].equals(game.getRefereeGame(i + 1).getUser().getIdUser())){
+									String idUser = idUsers[i];
+									Optional<?> opt = referees.stream().
+											filter(referee -> ((User)referee).getIdUser().equals(idUser)).findFirst();
+									if(opt.isPresent())
+										game.getRefereeGame(i + 1).setUser((User)opt.get());	
+								}
+							}
+							else{
+								if(!idUsers[i].equals("0")){
+									String idUser = idUsers[i];
+									Optional<?> opt = referees.stream().
+											filter(referee -> ((User)referee).getIdUser().equals(idUser)).findFirst();
+									if(opt.isPresent())
+										game.getRefereeGame(i + 1).setUser((User)opt.get());
+								}
+							}						
+						}
+					}
+					else{
+						if(refereeTypes[i]){
+							RefereeGame refereeGame = new RefereeGame(game, null, i + 1, RefereeGame.UNCONFIRMED);
+
+							if(!idUsers[i].equals("0")){
+								String idUser = idUsers[i];
+								Optional<?> opt = referees.stream().
+										filter(referee -> ((User)referee).getIdUser().equals(idUser)).findFirst();
+								if(opt.isPresent())
+									refereeGame.setUser((User)opt.get());	
+							}
+							service.SaveOrUpdateModelData(refereeGame);
+							game.getRefereesGame().add(refereeGame);
+						}
+					}
+				}
+			
+				
+				User user = (User)session.get("user");
+				game.setLastUpdaterUser(user);
+		
+				date = new Date();
+				game.setLastUpdatedDate(new Timestamp(date.getTime()));
+				
+				service.SaveOrUpdateModelData(game);
+				addActionMessage("Se ha actualizado el partido con exito.");
+				return SUCCESS;
+			}
+		}
+		
+		
+		/*Adding a new user*/
+		User user = (User)session.get("user");
+		date = new Date();
+		
+		game = new Game(homeTeam, awayTeam, new Timestamp(dateTime.getTime()), venue, league, category, 
+				gameStatus, user, new Timestamp(date.getTime()));
+		
+		for(int i = 0; i < UserRefereeType.REFEREETYPES; i++){
+			
+			if(refereeTypes[i]){
+				RefereeGame refereeGame = new RefereeGame(game, null, i + 1, RefereeGame.UNCONFIRMED);
+
+				if(!idUsers[i].equals("0")){
+					String idUser = idUsers[i];
+					Optional<?> opt = referees.stream().
+							filter(referee -> ((User)referee).getIdUser().equals(idUser)).findFirst();
+					if(opt.isPresent())
+						refereeGame.setUser((User)opt.get());	
+	
+				}
+				
+				game.getRefereesGame().add(refereeGame);
+			}
+		}
+		service.SaveOrUpdateModelData(game);
+		addActionMessage("Se ha añadido el partido con exito.");
+		setIdGame(game.getIdGame());
 		return SUCCESS;
 	}
 
@@ -171,17 +455,10 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 		
 		if (idGame == null || idGame.equals("")){
 			
-			User user = (User)session.get("user");
-
-			if(user.isAdmin()){
-				addActionError("Por favor, introduce el id del partido que quieres mostrar.");
-				setContextGames();
-				return INPUT;
-			}
-			else{
-				addActionError("No tienes permiso para ver esta página");
-				return ERROR;	
-			}
+			addActionError("Por favor, introduce el id del partido que quieres mostrar.");
+			setContextGames();
+			return INPUT;
+			
 			
 		}
 		else{
@@ -190,7 +467,7 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 
 			game = (Game)service.GetUniqueModelData(Game.class, eqRestrictions);
 			
-			if(game == null){
+			if(game == null || (!((User)session.get("user")).isAdmin() && !game.isGameStatus())){
 				addActionError("El partido que quieres mostrar no existe o ya se ha eliminado.");
 				setContextGames();
 				return INPUT;
@@ -281,12 +558,28 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 			date = null;
 		}
 	}
+	
+	public void setSelectedTime(){
+		
+		dateTimeFormat.setLenient(false);
+
+        try {
+			dateTime = dateTimeFormat.parse(dateStr + " " + timeStr);
+		} catch (ParseException e) {
+			dateTime = null;
+		} catch (NullPointerException e){
+			dateTime = null;
+		}
+	}
 
 	public void setContextGames(){
 		
 		eqRestrictions.clear();
 		allGames = service.GetModelDataList(Game.class, eqRestrictions, "gameDate", false);
 		
+		if(!((User)session.get("user")).isAdmin())
+			allGames.removeIf(game -> !((Game)game).isGameStatus());
+
 		context.setAttribute("allGames", allGames);
 
 		if(allGames != null){
@@ -304,7 +597,28 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 		}
 		
 	}
+
+	public void generateGameForm(){
+		
+		eqRestrictions.clear();
+		teams = service.GetModelDataList(Team.class, eqRestrictions, "teamName", true);
+		leagues = service.GetModelDataList(League.class, eqRestrictions, "leagueName", true);
+		categories = service.GetModelDataList(Category.class, eqRestrictions, "categoryName", true);
+		venues = service.GetModelDataList(Venue.class, eqRestrictions, "venueName", true);
+		
+		eqRestrictions.put("userRole", new FieldCondition(User.REFEREE,1));
+		referees = service.GetModelDataList(User.class, eqRestrictions, "firstName", true);
+	}
 	
+	public String getIdUser() {
+		return idUser;
+	}
+
+
+	public void setIdUser(String idUser) {
+		this.idUser = idUser;
+	}
+
 	public String getIdGame() {
 		return idGame;
 	}
@@ -321,24 +635,8 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 		return games;
 	}
 
-	public List<?> getRefereesGame() {
-		return refereesGame;
-	}
-
-	public void setRefereesGame(List<?> refereesGame) {
-		this.refereesGame = refereesGame;
-	}
-
 	public void setService(GenericService service) {
 		this.service = service;
-	}
-
-	public Date getDate() {
-		return date;
-	}
-
-	public void setDate(Date date) {
-		this.date = date;
 	}
 
 	public String getDateStr() {
@@ -455,4 +753,125 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 	public void setIdAwayTeam(String idAwayTeam) {
 		this.idAwayTeam = idAwayTeam;
 	}
+
+
+	public String getHomeTeamName() {
+		return homeTeamName;
+	}
+
+
+	public void setHomeTeamName(String homeTeamName) {
+		this.homeTeamName = homeTeamName;
+	}
+
+
+	public String getAwayTeamName() {
+		return awayTeamName;
+	}
+
+
+	public void setAwayTeamName(String awayTeamName) {
+		this.awayTeamName = awayTeamName;
+	}
+
+
+	public String getIdCategory() {
+		return idCategory;
+	}
+
+
+	public void setIdCategory(String idCategory) {
+		this.idCategory = idCategory;
+	}
+
+
+	public int getCategoryGender() {
+		return categoryGender;
+	}
+
+
+	public void setCategoryGender(int categoryGender) {
+		this.categoryGender = categoryGender;
+	}
+
+
+	public String getCategoryName() {
+		return categoryName;
+	}
+
+
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
+
+	public String getIdLeague() {
+		return idLeague;
+	}
+
+
+	public void setIdLeague(String idLeague) {
+		this.idLeague = idLeague;
+	}
+
+
+	public String getLeagueName() {
+		return leagueName;
+	}
+
+
+	public void setLeagueName(String leagueName) {
+		this.leagueName = leagueName;
+	}
+
+
+	public String getVenueName() {
+		return venueName;
+	}
+
+
+	public void setVenueName(String venueName) {
+		this.venueName = venueName;
+	}
+
+
+	public String getIdVenue() {
+		return idVenue;
+	}
+
+
+	public void setIdVenue(String idVenue) {
+		this.idVenue = idVenue;
+	}
+
+
+	public Boolean isGameStatus() {
+		return gameStatus;
+	}
+
+
+	public void setGameStatus(Boolean gameStatus) {
+		this.gameStatus = gameStatus;
+	}
+
+
+	public Boolean[] getRefereeTypes() {
+		return refereeTypes;
+	}
+
+
+	public void setRefereeTypes(Boolean[] refereeTypes) {
+		this.refereeTypes = refereeTypes;
+	}
+
+
+	public String[] getIdUsers() {
+		return idUsers;
+	}
+
+
+	public void setIdUsers(String[] idUsers) {
+		this.idUsers = idUsers;
+	}
+
+
 }
