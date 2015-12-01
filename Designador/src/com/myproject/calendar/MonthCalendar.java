@@ -46,8 +46,10 @@ public class MonthCalendar {
 			int monthDays = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
 			int dayOfWeek = (calendar.get(Calendar.DAY_OF_WEEK) + 5) % 7 ;
 			
-			if (monthDays == 28 && dayOfWeek == 1)
+			if (monthDays == 28 && dayOfWeek == 0)
 				monthCalendar = new DayMonthPair[4][7];
+			else if(monthDays == 30 && dayOfWeek == 6 || monthDays == 31 && dayOfWeek >= 5)
+				monthCalendar = new DayMonthPair[6][7];
 			else
 				monthCalendar = new DayMonthPair[5][7];
 
@@ -81,8 +83,10 @@ public class MonthCalendar {
 			int monthDays = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
 			int dayOfWeek = (calendar.get(Calendar.DAY_OF_WEEK) + 5) % 7 ;
 
-			if (monthDays == 28 && dayOfWeek == 1)
+			if (monthDays == 28 && dayOfWeek == 0)
 				monthCalendar = new DayMonthPair[4][7];
+			else if(monthDays == 30 && dayOfWeek == 6 || monthDays == 31 && dayOfWeek >= 5)
+				monthCalendar = new DayMonthPair[6][7];
 			else
 				monthCalendar = new DayMonthPair[5][7];
 

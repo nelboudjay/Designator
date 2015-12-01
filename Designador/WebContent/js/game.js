@@ -108,15 +108,39 @@ $(function() {
 		$(this).removeClass("assign");
 		$(this).addClass("conflicts");
 		$(this).css("position","relative");
+		
+		var gameRow = $(this).closest("tr");
+		
+		var selectDivWidth = 0;
+		var selectDiv = gameRow.find(".select-div:first").show();
+		
+		gameRow.find(".select-div:first").find("option").each(function(){
+			if($(this).width() > selectDivWidth)
+				selectDivWidth = $(this).width();
+		});
+		
+		gameRow.find(".select-div").each(function (i){
+			$(this).prevAll().hide();
+			$(this).show();
+			$(this).css("width",selectDivWidth + 35);
+				
+		});
+		
+		gameRow.children("td:nth-child(2)").children("span").html("<br>vs<br>");
+		gameRow.next().children(":first").remove();
+		gameRow.next().children().attr("colspan","2");
+
+		
+		
 	});
 	
 	$(document).on("mouseover", ".conflicts", function(){
-		$(this).children(".conflicts-types").show();
+		$(this).find(".conflicts-types").show();
 	});
 	
 
 	$(document).on("mouseout", ".conflicts", function(){
-		$(this).children(".conflicts-types").hide();		
+		$(this).find(".conflicts-types").hide();		
 	});
 	
 	$(function () {

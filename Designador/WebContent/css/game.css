@@ -13,7 +13,6 @@
 	height:0;
 	border:0;
 	padding: 0 6px;
-	white-space:nowrap;
 }
 
 .games tr{
@@ -57,12 +56,15 @@
     margin: 5px 0;
 }
 
-.conflicts-types{
+.save-assignment {
+	display:none;
+}
+.conflicts-types {
 	background-color: #000;
     border-radius: 5px;
     color: #fff !important;
-    display: none;
     left: -140px;
+    display:none;
     max-width: 200px !important;
     padding: 5px 10px;
     position: absolute;

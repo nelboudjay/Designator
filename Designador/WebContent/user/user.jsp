@@ -95,13 +95,13 @@
 							<td><s:property value="address.fullAddress"/> </td>
 						</tr>
 					</s:if>
-					<s:if test="homePhone != ''">
+					<s:if test="homePhone != null && homePhone != ''">
 						<tr>
 							<td>Teléfono fijo</td>
 							<td><s:property value="homePhone"/></td>
 						</tr>
 					</s:if>
-					<s:if test="mobilePhone != ''">
+					<s:if test="mobilePhone != null && mobilePhone != ''">
 						<tr>
 							<td>Teléfono móvil</td>
 							<td><s:property value="mobilePhone"/></td>

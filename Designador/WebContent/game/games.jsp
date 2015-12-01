@@ -215,7 +215,6 @@
 													<s:property value="getRefereeGame(#status.index + 1).user.userProfile.firstName"/>
 													<s:property value="getRefereeGame(#status.index + 1).user.userProfile.lastName1"/></a>				
 											</s:else>
-											
 											<s:if test="getRefereeGame(#status.index + 1).isConfirmed()">
 												<img  class="confirmation" title="El árbitro ha confirmado su designación para este partido"
 													src="${pageContext.request.contextPath}/images/check-icon.png">
@@ -233,7 +232,19 @@
 																<s:if test="getRefereeGame(#status.index + 1).user.idUser == idUser">selected</s:if>
 															>
 																${userProfile.firstName}
-																${userProfile.lastName1}
+																${userProfile.lastName1}, 
+																<s:if test="!isAvailable(#referee)">
+																	N/A
+																</s:if>
+																<s:elseif test="!#referee.getUserRefereeType(#status.index + 1)">
+																	H
+																</s:elseif>
+																<s:elseif test="hasOtherGame(#game)">
+																	O.P
+																</s:elseif>
+																<s:else>
+																	OK
+																</s:else>
 															</option>
 														</s:iterator>
 													</select>
@@ -249,12 +260,16 @@
 								<s:if test="#session.user.isAdmin()">
 									<div class="assign">
 										<a class="link-2">Designar</a>
-										<div class="conflicts-types">
-											<div><strong>Tipos de Conflictos</strong></div>
-											<div>OK: No hay conflictos</div>
-											<div>N/A: No disponible</div>
-											<div>O.P: Otro partido</div>
-											<div>H: Habilidad</div>
+										<div class="save-assignment">
+											<div class="conflicts-types">
+												<div><strong>Tipos de Conflictos</strong></div>
+												<div>OK: No hay conflictos</div>
+												<div>N/A: No disponible</div>
+												<div>O.P: Otro partido</div>
+												<div>H: Habilidad</div>
+											</div>
+											<input type="submit" value="Guardar" class="btn">
+											<div><a class="link-2">Cancelar</a></div>
 										</div>
 									</div>
 								</s:if>
