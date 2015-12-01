@@ -103,6 +103,7 @@ $(function() {
 	}
 	
 	$(".assign").click(function(){
+		$(this).children(".save-assignment").show();
 		$(this).nextAll().hide();
 		$(this).children("a").replaceWith("Conflictos");
 		$(this).removeClass("assign");

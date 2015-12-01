@@ -42,9 +42,8 @@ public class DAOImpl implements DAO {
 		try {
 			session.saveOrUpdate(obj);
 			tx.commit();
-
 		} catch (Exception e) {
-			//e.printStackTrace();
+			e.printStackTrace();
 			tx.rollback();
 		}
 

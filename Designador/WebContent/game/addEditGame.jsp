@@ -210,12 +210,12 @@
 				<div>
 					<div>
 						<s:if test="idGame == null || idGame == ''">
-							<input type="submit" class="btn" value="Crear Equipo" name="method:addEditGame"> o 
+							<input type="submit" class="btn" value="Crear Partido" name="method:addEditGame"> o 
 							<a href="games">Cancelar</a>
 						
 						</s:if>
 						<s:else>
-							<input type="submit" class="btn" value="Actualizar Equipo" name="method:addEditGame"> o 
+							<input type="submit" class="btn" value="Actualizar Partido" name="method:addEditGame"> o 
 							<a href="game?idGame=${idGame}">Cancelar</a>
 						</s:else>			
 						

@@ -230,8 +230,10 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 		if(idHomeTeam.equals("0")){
 			eqRestrictions.put("teamName", new FieldCondition(homeTeamName.trim()));
 			homeTeam = (Team) service.GetUniqueModelData(Team.class, eqRestrictions);	
-			if(homeTeam == null)
+			if(homeTeam == null){
 				homeTeam = new Team(homeTeamName.trim());
+				service.SaveOrUpdateModelData(homeTeam);
+			}
 		}
 		else{
 			eqRestrictions.put("idTeam", new FieldCondition(idHomeTeam));
@@ -255,8 +257,10 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 			else{
 				eqRestrictions.put("teamName", new FieldCondition(awayTeamName.trim()));
 				awayTeam = (Team) service.GetUniqueModelData(Team.class, eqRestrictions);
-				if(awayTeam == null)
+				if(awayTeam == null){
 					awayTeam = new Team(awayTeamName.trim());
+					service.SaveOrUpdateModelData(awayTeam);
+				}
 			}
 		}
 		else{
@@ -286,8 +290,10 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 			eqRestrictions.put("categoryGender", new FieldCondition(categoryGender));
 
 			category = (Category) service.GetUniqueModelData(Category.class, eqRestrictions);
-			if(category == null)
+			if(category == null){
 				category = new Category(categoryName.trim(), categoryGender);
+				service.SaveOrUpdateModelData(category);
+			}
 		}
 		else{
 			eqRestrictions.put("idCategory", new FieldCondition(idCategory));
@@ -300,8 +306,10 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 		if(idLeague.equals("0") && leagueName != null && !leagueName.trim().equals("")){
 			eqRestrictions.put("leagueName", new FieldCondition(leagueName.trim()));
 			league = (League) service.GetUniqueModelData(League.class, eqRestrictions);
-			if(league == null)
+			if(league == null){
 				league = new League(leagueName.trim());
+				service.SaveOrUpdateModelData(league);
+			}
 		}
 		else{
 			eqRestrictions.put("idLeague", new FieldCondition(idLeague));
@@ -314,8 +322,10 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 		if(idVenue.equals("0") && venueName != null && !venueName.trim().equals("")){
 			eqRestrictions.put("venueName", new FieldCondition(venueName.trim()));
 			venue = (Venue) service.GetUniqueModelData(Venue.class, eqRestrictions);
-			if(venue == null)
+			if(venue == null){
 				venue = new Venue(venueName.trim());
+				service.SaveOrUpdateModelData(venue);
+			}
 		}
 		else{
 			eqRestrictions.put("idVenue", new FieldCondition(idVenue));
@@ -337,25 +347,15 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 			if(game != null){
 
 				game.setGameDate(new Timestamp(dateTime.getTime()));
-				
-				if(homeTeam.getIdTeam() == null)
-					service.SaveOrUpdateModelData(homeTeam);
+			
 				game.setHomeTeam(homeTeam);
 				
-				if(awayTeam.getIdTeam() == null)
-					service.SaveOrUpdateModelData(awayTeam);
 				game.setAwayTeam(awayTeam);
-				
-				if(category != null && category.getIdCategory() == null)
-					service.SaveOrUpdateModelData(category);
+
 				game.setGameCategory(category);
 				
-				if(league != null && league.getIdLeague() == null)
-					service.SaveOrUpdateModelData(league);
 				game.setGameLeague(league);
 				
-				if(venue != null && venue.getIdVenue() == null)
-					service.SaveOrUpdateModelData(venue);
 				game.setGameVenue(venue);
 				
 				game.setGameStatus(gameStatus);
@@ -444,6 +444,7 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 				game.getRefereesGame().add(refereeGame);
 			}
 		}
+		System.out.println(game.getAwayTeam().getTeamName());
 		service.SaveOrUpdateModelData(game);
 		addActionMessage("Se ha añadido el partido con exito.");
 		setIdGame(game.getIdGame());
