@@ -215,6 +215,15 @@
         	</result>
 		</action>
 		
+		<action name="assignhGame" class="com.myproject.action.game.CRUDGame" method="assignGame">
+			<result name="success" type="redirectAction">games</result>
+			<result name="input" type="redirectAction">games</result>
+			<result name="error" type="redirectAction">
+				<param name="actionName">homePage</param>
+        		<param name="namespace">/</param>
+        	</result>
+		</action>
+		
 		<action name="game" class="com.myproject.action.game.CRUDGame" method="getSelectedGame">
 			<result name="success">game.jsp</result>
 			<result name="input" type="redirectAction">games</result>

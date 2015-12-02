@@ -517,6 +517,51 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 	}
 	
 	@SkipValidation
+	public String assignGme(){
+		
+
+		if (idGame == null || idGame.equals("")){
+			
+			addActionError("Por favor, introduce el id del partido que quieres publicar.");
+			setContextGames();
+			return INPUT;
+		}
+		else{
+			
+			eqRestrictions.put("idGame", new FieldCondition(idGame));
+			game = (Game) service.GetUniqueModelData(Game.class, eqRestrictions);			
+			
+			if(game == null){
+				
+				addActionError("El partido que quieres designar no existe o ya se ha eliminado.");
+				setContextGames();
+				return INPUT;	
+			}
+			else{
+				
+				//eqRestrictions.clear();
+				//eqRestrictions.put("idUser", value)
+				
+				
+				User user = (User)session.get("user");
+				game.setLastUpdaterUser(user);
+		
+				Date date = new Date();
+				game.setLastUpdatedDate(new Timestamp(date.getTime()));
+				
+				game.setGameStatus(true);
+				
+				service.SaveOrUpdateModelData(game);
+				
+				addActionMessage("El partido ha sido publicado con exito.");
+				return SUCCESS;
+			
+			}
+		}
+	}
+	
+	
+	@SkipValidation
 	public String deleteGame(){
 		
 		if (idGame == null || idGame.equals("")){

@@ -165,18 +165,22 @@
 								</div>
 							</td>
 							<td rowspan="2">
+							<div class="table">
 							<s:iterator value="{'Principal','Auxiliar','Anotador','Cronometrador','Operador 30\"','Coche'}"  status="status">
 								
 								<s:if test="#status.index == 3">
 									<td rowspan="2">
+									 <div class="table">
 								</s:if>
 									<div class="row">
-									<div><b><s:property/>:</b></div>
+									<div><b><s:property/>:</b></div>									
 									<div>
 										<s:if test="getRefereeGame(#status.index + 1) == null">
+											<input type="hidden" value="false"  name="refereeTypes">
 											<div class="not-required">No Requerido</div>
 										</s:if>
 										<s:elseif test="getRefereeGame(#status.index + 1).user == null">
+											<input type="hidden" value="true"  name="refereeTypes">
 											<div class="not-assigned">No Designado</div>
 											<s:if test="#session.user.isAdmin()">
 												<div class="select-div" style="display:none">
@@ -257,6 +261,7 @@
 								</div>
 								
 							</s:iterator>
+								</div>
 							</td>
 							<td rowspan="2">
 								<s:if test="#session.user.isAdmin()">

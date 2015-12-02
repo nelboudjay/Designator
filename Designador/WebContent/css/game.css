@@ -37,6 +37,25 @@
 	white-space:normal;
 }
 
+.table{
+	display:table;
+	width:100%;
+}
+.table > .row {
+	text-align:center;
+}
+
+.table > .row > div:first-child {
+	text-align:right;
+}
+.table > .row > div:nth-child(2) {
+	text-align:left;
+	padding-bottom:5px;
+	
+}
+
+
+
 .games tr:nth-child(3n + 2) > td:nth-child(2){
 	color: #5b5b5b;
     font-family: "Open Sans",HelveticaNeue,Helvetica,Arial;
