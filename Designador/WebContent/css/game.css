@@ -15,6 +15,10 @@
 	padding: 0 6px;
 }
 
+.nowrap td{
+	white-space:nowrap;
+}
+
 .games tr{
 	background: #f8f8f8 ;
 }
@@ -23,34 +27,38 @@
 	color:#5b5b5b;
 }
 
-.games tr:nth-child(2n + 2) > td:first-child{
-	max-width:70px;
+.games tr:nth-child(3n + 2) > td:first-child{
 	color:#5b5b5b;
+}
+
+.games tr:nth-child(3n + 2) > td:first-child > *{
+	max-width:70px;
 	font-size:12px;
 	white-space:normal;
 }
 
-.games tr:nth-child(2n + 2) > td:nth-child(2){
+.games tr:nth-child(3n + 2) > td:nth-child(2){
 	color: #5b5b5b;
     font-family: "Open Sans",HelveticaNeue,Helvetica,Arial;
     font-size: 18px;
     font-style: italic;
     font-weight: 400;
     text-align: center;
+    white-space:nowrap;
 }
 
-.games tr:nth-child(2n + 2) > td:nth-child(2) > div{
+.games tr:nth-child(3n + 2) > td:nth-child(2) > div{
 	display:inline;
 }
 
-.games tr:nth-child(2n + 2) > td:nth-child(2) > span{
+.games tr:nth-child(3n + 2) > td:nth-child(2) > span{
     font-size: 10px;
 }
 
-.games tr:nth-child(2n + 2) > td:nth-child(3){
+.games tr:nth-child(3n + 2) > td:nth-child(3){
     text-align: center;
 }
-.games tr:nth-child(2n + 2) > td:nth-child(3) > div{
+.games tr:nth-child(3n + 2) > td:nth-child(3) > div{
     text-align: left;
     display:inline-block;
     margin: 5px 0;
@@ -58,6 +66,20 @@
 
 .save-assignment {
 	display:none;
+}
+.save-assignment > td {
+	text-align:center;
+	padding-bottom:10px;
+	color:#5b5b5b;
+}
+
+.save-assignment input {
+	margin-right:20px;
+}
+
+.conflicts{
+	display:none;
+	position:relative;
 }
 .conflicts-types {
 	background-color: #000;
@@ -86,23 +108,19 @@
 	margin-top: -5px;
 }
 
-.games tr:nth-child(2n + 2) > td:nth-child(6)  > div{
+.games tr:nth-child(3n + 2) > td:nth-child(6)  > div{
 	margin:5px 0;
 	color:#5b5b5b;
 	font-size:12px;
 	max-width:50px;
 }
 
-
-.games tr:nth-child(2n + 3) > td:nth-child(2), .games tr:nth-child(2n + 3) >  td:nth-child(3){
-    text-align: center;
-}
-.games tr:nth-child(2n + 3) > td:nth-child(2) > div, .games tr:nth-child(2n + 3) > td:nth-child(3) > div{
+.games tr:nth-child(3n + 3) > td:nth-child(1) > div, .games tr:nth-child(3n + 3) > td:nth-child(2) > div{
     text-align: left;
     display:inline-block;
 }
 
-.games tr:nth-child(4n + 4), .games tr:nth-child(4n + 5){
+.games tr:nth-child(6n + 5), .games tr:nth-child(6n + 6), .games tr:nth-child(6n + 7){
 	background: #e8e7e6 !important;
 }
 

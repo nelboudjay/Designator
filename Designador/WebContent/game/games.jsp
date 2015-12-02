@@ -205,6 +205,7 @@
 											</s:if>
 										</s:elseif>
 										<s:else>
+											<div style="white-space:nowrap;">
 											<s:if test="!#session.user.isAdmin() && getRefereeGame(#status.index + 1).user.idUser != #session.user.idUser 
 																&& getRefereeGame(#status.index + 1).user.privacy">
 												<s:property value="getRefereeGame(#status.index + 1).user.userProfile.firstName"/>
@@ -223,7 +224,8 @@
 												<img  class="confirmation" title="El árbitro aún no ha confirmado su designación a este partido"
 													src="${pageContext.request.contextPath}/images/warning-icon.png">
 											</s:else>
-												<s:if test="#session.user.isAdmin()">
+											</div>
+											<s:if test="#session.user.isAdmin()">
 												<div class="select-div" style="display:none">
 													<select id="refereeName${status.index + 1}" name="idUsers">
 														<option value="0" selected >Elige un árbitro</option>	
@@ -258,19 +260,18 @@
 							</td>
 							<td rowspan="2">
 								<s:if test="#session.user.isAdmin()">
+									<div class="conflicts">
+										Conflicts
+										<div class="conflicts-types">
+											<div><strong>Tipos de Conflictos</strong></div>
+											<div>OK: No hay conflictos</div>
+											<div>N/A: No disponible</div>
+											<div>O.P: Otro partido</div>
+											<div>H: Habilidad</div>
+										</div>
+									</div>
 									<div class="assign">
 										<a class="link-2">Designar</a>
-										<div class="save-assignment">
-											<div class="conflicts-types">
-												<div><strong>Tipos de Conflictos</strong></div>
-												<div>OK: No hay conflictos</div>
-												<div>N/A: No disponible</div>
-												<div>O.P: Otro partido</div>
-												<div>H: Habilidad</div>
-											</div>
-											<input type="submit" value="Guardar" class="btn">
-											<div><a class="link-2">Cancelar</a></div>
-										</div>
 									</div>
 								</s:if>
 								<div><a href="game?idGame=${idGame}" class="link">Mostrar</a></div>
@@ -289,22 +290,27 @@
 							</td>
 						</tr>
 						<tr>
-							<td></td>
-							<td>
+							<td colspan="2">
 								<div>	
 									<b>Competición:</b> <s:property value="gameLeague.leagueName"/>
 									<br>
 									<b>Localidad:</b> <s:property value="gameVenue.venueAddress.city"/>
 								</div>
 							</td>
-							<td>
+							<td colspan="2">
 								<div>
 									<b>Categoría:</b> <s:property value="gameCategory.categoryName"/> <s:property value="gameCategory.getCategoryGenderShortName()"/>
 									<br>
 									<b>Pista:</b> <s:property value="gameVenue.venueName"/>
 								</div>
 							</td>
+						</tr>
+						<tr class="save-assignment">
 							<td colspan="4"></td>
+							<td colspan="3">
+								<input type="submit" value="Guardar" class="btn save">
+								<span><a class="link-2 cancel">Cancelar</a></span>
+							</td>
 						</tr>
 					</s:iterator>
 					

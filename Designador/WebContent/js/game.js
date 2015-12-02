@@ -103,12 +103,10 @@ $(function() {
 	}
 	
 	$(".assign").click(function(){
-		$(this).children(".save-assignment").show();
+		
+		$(this).prev().show();
 		$(this).nextAll().hide();
-		$(this).children("a").replaceWith("Conflictos");
-		$(this).removeClass("assign");
-		$(this).addClass("conflicts");
-		$(this).css("position","relative");
+		$(this).hide();
 		
 		var gameRow = $(this).closest("tr");
 		
@@ -120,20 +118,99 @@ $(function() {
 				selectDivWidth = $(this).width();
 		});
 		
-		gameRow.find(".select-div").each(function (i){
-			$(this).prevAll().hide();
+		gameRow.find(".select-div").each(function (){
+			$(this).prev().hide();
 			$(this).show();
 			$(this).css("width",selectDivWidth + 35);
 				
 		});
 		
-		gameRow.children("td:nth-child(2)").children("span").html("<br>vs<br>");
-		gameRow.next().children(":first").remove();
-		gameRow.next().children().attr("colspan","2");
-
+		gameRow.nextAll(".save-assignment:first").show();
 		
+		$(".games > tbody").children("tr:nth-child(3n + 2)").each(function(){
+			$(this).children("td:nth-child(2)").children("span").html("<br>vs<br>");
+		});
 		
 	});
+	
+	$(".cancel, .save").click(function(){
+		
+		$(this).closest("tr").hide();
+		var gameRow = $(this).closest("tr").prev().prev();
+				
+		if($(this).hasClass("save")){
+			gameRow.find(".select-div").each(function(){
+				$(this).css("width","");
+				$(this).hide();
+				
+				
+				$(this).prevAll().remove();
+				if($(this).find("option:selected").val() == 0){
+					$(this).before("<div class='not-assigned'>No Designado</div>");
+				}
+				else{
+					$(this).before("<div style='white-space:nowrap;'><a class='link' href='/Designador/user/user?idUser=" + 
+							$(this).find("option:selected").val() + "'>" +
+							$(this).find("option:selected").text().split(",",1) +	"</a>"
+							+ " <img src='/Designator/images/warning-icon.png'"  +
+							"title='El árbitro aún no ha confirmado su designación a este partido' class='confirmation'></div>");
+				}
+
+			});
+		}
+		else{
+			
+			gameRow.find(".select-div").each(function(){	
+				$(this).css("width","");
+				$(this).hide();
+				$(this).prev().show();
+
+			});
+		}
+		
+		
+		var assignDiv = gameRow.find(".conflicts");
+		assignDiv.nextAll().show();
+		assignDiv.hide();
+		
+		if($(".save-assignment:visible").length == 0)
+			$(".games > tbody").children("tr:nth-child(3n + 2)").each(function(){
+				$(this).children("td:nth-child(2)").children("span").html("vs");
+			});
+		
+	});
+	
+	function showAssigned(e){
+		
+		e.closest("tr").hide();
+		var gameRow = e.closest("tr").prev().prev();
+				
+		gameRow.find(".select-div").each(function(){
+			$(this).css("width","");
+			$(this).hide();
+			$(this).prevAll().remove();
+			if($(this).find("option:selected").val() == 0){
+				$(this).before("<div class='not-assigned'>No Designado</div>");
+			}
+			else{
+				$(this).before("<a class='link' href='/Designador/user/user?idUser=" + 
+						$(this).find("option:selected").val() + "'>" +
+						$(this).find("option:selected").text().split(",",1) +	"</a>"
+						+ " <img src='/Designator/images/warning-icon.png'"  +
+						"title='El árbitro aún no ha confirmado su designación a este partido' class='confirmation'>");
+			}
+
+		});
+		
+		var assignDiv = gameRow.find(".conflicts");
+		assignDiv.nextAll().show();
+		assignDiv.hide();
+		
+		if($(".save-assignment:visible").length == 0)
+			$(".games > tbody").children("tr:nth-child(3n + 2)").each(function(){
+				$(this).children("td:nth-child(2)").children("span").html("vs");
+			});
+	}
 	
 	$(document).on("mouseover", ".conflicts", function(){
 		$(this).find(".conflicts-types").show();
