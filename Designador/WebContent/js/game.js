@@ -139,23 +139,54 @@ $(function() {
 		var gameRow = $(this).closest("tr").prev().prev();
 				
 		if($(this).hasClass("save")){
-			gameRow.find(".select-div").each(function(){
-				$(this).css("width","");
-				$(this).hide();
+			var refereeTypes = [];
+			var idUsers = [];
+			var selectDiv;
+			gameRow.find(".row").each(function(i){
 				
-				
-				$(this).prevAll().remove();
-				if($(this).find("option:selected").val() == 0){
-					$(this).before("<div class='not-assigned'>No Designado</div>");
+				selectDiv = $(this).find(".select-div");
+				if(selectDiv.length){
+					
+					refereeTypes[i] = true; 
+					idUsers[i] = $("option:selected",this).val();
+
+					selectDiv.css("width","");
+					selectDiv.hide();
+					
+					selectDiv.prev().remove();
+					if(selectDiv.find("option:selected").val() == 0){
+						selectDiv.before("<div class='not-assigned'>No Designado</div>");
+					}
+					else{
+						selectDiv.before("<div style='white-space:nowrap;'><a class='link' href='/Designador/user/user?idUser=" + 
+								selectDiv.find("option:selected").val() + "'>" +
+								selectDiv.find("option:selected").text().split(",",1) +	"</a>"
+								+ " <img src='/Designator/images/warning-icon.png'"  +
+								"title='El árbitro aún no ha confirmado su designación a este partido' class='confirmation'></div>");
+					}				
 				}
 				else{
-					$(this).before("<div style='white-space:nowrap;'><a class='link' href='/Designador/user/user?idUser=" + 
-							$(this).find("option:selected").val() + "'>" +
-							$(this).find("option:selected").text().split(",",1) +	"</a>"
-							+ " <img src='/Designator/images/warning-icon.png'"  +
-							"title='El árbitro aún no ha confirmado su designación a este partido' class='confirmation'></div>");
+					refereeTypes[i] = false
+					idUsers[i] = 0;
 				}
-
+			});
+			
+			$.ajax({
+				type : "POST",
+				url : "assignGame",
+				data : {
+					idGame:	gameRow.attr("id"),
+					refereeTypes: refereeTypes,
+					idUsers: idUsers
+				},
+			    traditional: true,
+			    success: function(result){
+			    //	console.log(result);
+			    	document.open();
+			    	document.write(result);
+			    	document.close();
+			       // $('.answer').html(result);
+			     }
 			});
 		}
 		else{
@@ -221,7 +252,7 @@ $(function() {
 		$(this).find(".conflicts-types").hide();		
 	});
 	
-	$(function () {
+	/*$(function () {
 		$.datepicker.setDefaults($.datepicker.regional["es"]);
 		
 		$("#datepicker").datepicker();
@@ -230,7 +261,7 @@ $(function() {
 			$('#ui-datepicker-div').css("top",$(this).position().top);
 
 		});
-	});
+	});*/
 	
 	
 });

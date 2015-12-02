@@ -420,7 +420,7 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 		}
 		
 		
-		/*Adding a new user*/
+		/*Adding a new Game*/
 		User user = (User)session.get("user");
 		date = new Date();
 		
@@ -444,7 +444,7 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 				game.getRefereesGame().add(refereeGame);
 			}
 		}
-		System.out.println(game.getAwayTeam().getTeamName());
+		
 		service.SaveOrUpdateModelData(game);
 		addActionMessage("Se ha añadido el partido con exito.");
 		setIdGame(game.getIdGame());
@@ -517,7 +517,7 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 	}
 	
 	@SkipValidation
-	public String assignGme(){
+	public String assignGame(){
 		
 
 		if (idGame == null || idGame.equals("")){
@@ -539,9 +539,36 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 			}
 			else{
 				
-				//eqRestrictions.clear();
-				//eqRestrictions.put("idUser", value)
+				eqRestrictions.clear();
+				eqRestrictions.put("userRole", new FieldCondition(User.REFEREE,1));
+				referees = service.GetModelDataList(User.class, eqRestrictions, "firstName", true);
 				
+				for(int i = 0; i < UserRefereeType.REFEREETYPES; i++){
+					
+					if(game.getRefereeGame(i + 1) != null){
+						
+						if(game.getRefereeGame(i + 1).getUser() != null){
+							if(idUsers[i].equals("0"))
+								game.getRefereeGame(i + 1).setUser(null);
+							else if(!idUsers[i].equals(game.getRefereeGame(i + 1).getUser().getIdUser())){
+								String idUser = idUsers[i];
+								Optional<?> opt = referees.stream().
+										filter(referee -> ((User)referee).getIdUser().equals(idUser)).findFirst();
+								if(opt.isPresent())
+									game.getRefereeGame(i + 1).setUser((User)opt.get());	
+							}
+						}
+						else{
+							if(!idUsers[i].equals("0")){
+								String idUser = idUsers[i];
+								Optional<?> opt = referees.stream().
+										filter(referee -> ((User)referee).getIdUser().equals(idUser)).findFirst();
+								if(opt.isPresent())
+									game.getRefereeGame(i + 1).setUser((User)opt.get());
+							}
+						}			
+					}
+				}
 				
 				User user = (User)session.get("user");
 				game.setLastUpdaterUser(user);
@@ -553,7 +580,7 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 				
 				service.SaveOrUpdateModelData(game);
 				
-				addActionMessage("El partido ha sido publicado con exito.");
+				addActionMessage("El partido ha sido asignado con exito.");
 				return SUCCESS;
 			
 			}

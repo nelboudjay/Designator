@@ -7,11 +7,11 @@
 <head>
 
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/game.css" />
-<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<!-- <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"> -->
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.js"></script>
-<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-<script src="${pageContext.request.contextPath}/js/datepicker-es.js"></script>
+<!-- <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script> 
+<script src="${pageContext.request.contextPath}/js/datepicker-es.js"></script>-->
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/commonScript.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/game.js"></script>
 
@@ -176,11 +176,9 @@
 									<div><b><s:property/>:</b></div>									
 									<div>
 										<s:if test="getRefereeGame(#status.index + 1) == null">
-											<input type="hidden" value="false"  name="refereeTypes">
 											<div class="not-required">No Requerido</div>
 										</s:if>
 										<s:elseif test="getRefereeGame(#status.index + 1).user == null">
-											<input type="hidden" value="true"  name="refereeTypes">
 											<div class="not-assigned">No Designado</div>
 											<s:if test="#session.user.isAdmin()">
 												<div class="select-div" style="display:none">
