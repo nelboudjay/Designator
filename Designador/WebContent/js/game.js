@@ -102,7 +102,7 @@ $(function() {
 		return false;
 	}
 	
-	$(".assign").click(function(){
+	$(document).on("click", ".assign", function(){
 		
 		$(this).prev().show();
 		$(this).nextAll().hide();
@@ -135,7 +135,7 @@ $(function() {
 	
 	$(".cancel, .save").click(function(){
 		
-		$(this).closest("tr").hide();
+		var saveAssigmentRow =  $(this).closest("tr");
 		var gameRow = $(this).closest("tr").prev().prev();
 				
 		if($(this).hasClass("save")){
@@ -149,21 +149,7 @@ $(function() {
 					
 					refereeTypes[i] = true; 
 					idUsers[i] = $("option:selected",this).val();
-
-					selectDiv.css("width","");
-					selectDiv.hide();
-					
-					selectDiv.prev().remove();
-					if(selectDiv.find("option:selected").val() == 0){
-						selectDiv.before("<div class='not-assigned'>No Designado</div>");
-					}
-					else{
-						selectDiv.before("<div style='white-space:nowrap;'><a class='link' href='/Designador/user/user?idUser=" + 
-								selectDiv.find("option:selected").val() + "'>" +
-								selectDiv.find("option:selected").text().split(",",1) +	"</a>"
-								+ " <img src='/Designator/images/warning-icon.png'"  +
-								"title='El árbitro aún no ha confirmado su designación a este partido' class='confirmation'></div>");
-					}				
+	
 				}
 				else{
 					refereeTypes[i] = false
@@ -177,37 +163,46 @@ $(function() {
 				data : {
 					idGame:	gameRow.attr("id"),
 					refereeTypes: refereeTypes,
-					idUsers: idUsers
+					idUsers: idUsers,
+					is: is,
+					dateStr: dateStr,
+					idUser: idUser
 				},
 			    traditional: true,
 			    success: function(result){
-			    //	console.log(result);
-			    	document.open();
-			    	document.write(result);
-			    	document.close();
-			       // $('.answer').html(result);
+			    	
+			    	var newGameRow = $(result).find("#" + gameRow.attr("id")).html();
+			    	gameRow.html(newGameRow);
+			    	var actionMessage =  $(result).find(".errors, .boxMessage");
+			    	if(actionMessage.hasClass("boxMessage"))
+			    		saveAssigmentRow.hide();
+			    	$(".content-title").nextAll(".errors, .boxMessage").remove();
+			    	if(actionMessage.length == 2)
+			    		$(".content-title").after(actionMessage[1]);
+			    	else
+			    		$(".content-title").after(actionMessage);
+			    				  
 			     }
 			});
 		}
 		else{
-			
+			saveAssigmentRow.hide();
 			gameRow.find(".select-div").each(function(){	
 				$(this).css("width","");
 				$(this).hide();
 				$(this).prev().show();
 
 			});
+			
+			var assignDiv = gameRow.find(".conflicts");
+			assignDiv.nextAll().show();
+			assignDiv.hide();
+			
+			if($(".save-assignment:visible").length == 0)
+				$(".games > tbody").children("tr:nth-child(3n + 2)").each(function(){
+					$(this).children("td:nth-child(2)").children("span").html("vs");
+				});
 		}
-		
-		
-		var assignDiv = gameRow.find(".conflicts");
-		assignDiv.nextAll().show();
-		assignDiv.hide();
-		
-		if($(".save-assignment:visible").length == 0)
-			$(".games > tbody").children("tr:nth-child(3n + 2)").each(function(){
-				$(this).children("td:nth-child(2)").children("span").html("vs");
-			});
 		
 	});
 	
@@ -252,7 +247,7 @@ $(function() {
 		$(this).find(".conflicts-types").hide();		
 	});
 	
-	/*$(function () {
+	$(function () {
 		$.datepicker.setDefaults($.datepicker.regional["es"]);
 		
 		$("#datepicker").datepicker();
@@ -261,7 +256,7 @@ $(function() {
 			$('#ui-datepicker-div').css("top",$(this).position().top);
 
 		});
-	});*/
+	});
 	
 	
 });

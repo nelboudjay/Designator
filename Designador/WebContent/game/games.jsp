@@ -7,14 +7,18 @@
 <head>
 
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/game.css" />
-<!-- <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"> -->
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"> 
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.js"></script>
-<!-- <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script> 
-<script src="${pageContext.request.contextPath}/js/datepicker-es.js"></script>-->
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script> 
+<script src="${pageContext.request.contextPath}/js/datepicker-es.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/commonScript.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/game.js"></script>
-
+<script type="text/javascript">
+	var is = "${is}";
+	var dateStr = "${dateStr}";
+	var idUser = "${idUser}";
+</script>
 <title>Partidos</title>
 
 <s:head />

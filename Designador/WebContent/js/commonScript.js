@@ -91,7 +91,7 @@ function validate(){
 
 $(document).ready(function() {
 	
-	$('.close').click(function() {
+	$(document).on("click", ".close", function() {
 		$(".boxMessage, .error, .errors").remove();
 	});
 	

@@ -110,6 +110,7 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 			return NONE;
 			
 		}else{
+			System.out.println("dateStr: " + dateStr);
 	
 			allGames = service.GetModelDataList(Game.class, eqRestrictions, "gameDate", false);
 			
@@ -570,6 +571,8 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 					}
 				}
 				
+				
+				setDateStr(dateStr);
 				User user = (User)session.get("user");
 				game.setLastUpdaterUser(user);
 		
@@ -580,7 +583,7 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 				
 				service.SaveOrUpdateModelData(game);
 				
-				addActionMessage("El partido ha sido asignado con exito.");
+				addActionMessage("El partido ha sido designado con exito.");
 				return SUCCESS;
 			
 			}
