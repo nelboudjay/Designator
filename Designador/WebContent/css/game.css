@@ -80,7 +80,7 @@
     margin: 5px 0;
 }
 
-.save-assignment {
+[class^="save-assignment"] {
 	display:none;
 }
 .save-assignment > td {
@@ -89,7 +89,7 @@
 	color:#5b5b5b;
 }
 
-.save-assignment input {
+[class^="save-assignment"] input {
 	margin-right:20px;
 }
 
@@ -97,6 +97,27 @@
 	display:none;
 	position:relative;
 }
+.conflicts-2{
+	display: inline-block;
+    position: relative;
+    text-align: right;
+    width: 100%;
+}
+
+.conflicts-3{
+	display:none;	
+    margin-left: 145px;
+    position: relative;
+}
+
+.conflicts-2 > .conflicts-types{
+	left:20px;
+}
+
+.conflicts-3 > .conflicts-types{
+	left:-155px;
+}
+
 .conflicts-types {
 	background-color: #000;
     border-radius: 5px;

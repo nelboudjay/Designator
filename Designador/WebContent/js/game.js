@@ -1,5 +1,6 @@
 $(function() {
 	
+	
 	$(".publish-game").click(function(){
 	
 		var unpublishedGame = $(this);
@@ -101,6 +102,30 @@ $(function() {
 		
 		return false;
 	}
+	
+	$(".assign-2").click(function(){
+		$(this).parent().hide();
+		$(".save-assignment-2, .conflicts-3").show();
+		
+		$(".select-div").prevAll().hide();
+		$(".select-div").show();
+		
+		var selectDivWidth = 0;
+		
+		$(".select-div:first").find("option").each(function(){
+			if($(this).width() > selectDivWidth)
+				selectDivWidth = $(this).width();
+		});
+		
+		$(".select-div").css("width",selectDivWidth + 35);
+
+		
+	});
+	
+	$(".cancel-2").click(function(){
+		$(".save-assignment-2").prev().show();
+		$(".save-assignment-2, .conflicts-3").hide();
+	});
 	
 	$(document).on("click", ".assign", function(){
 		
@@ -238,16 +263,16 @@ $(function() {
 			});
 	}
 	
-	$(document).on("mouseover", ".conflicts", function(){
+	$(document).on("mouseover", '[class^="conflicts"]', function(){
 		$(this).find(".conflicts-types").show();
 	});
 	
-
-	$(document).on("mouseout", ".conflicts", function(){
+	$(document).on("mouseout", '[class^="conflicts"]', function(){
 		$(this).find(".conflicts-types").hide();		
 	});
 	
-	$(function () {
+
+	/*$(function () {
 		$.datepicker.setDefaults($.datepicker.regional["es"]);
 		
 		$("#datepicker").datepicker();
@@ -256,7 +281,7 @@ $(function() {
 			$('#ui-datepicker-div').css("top",$(this).position().top);
 
 		});
-	});
+	});*/
 	
 	
 });

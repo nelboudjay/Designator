@@ -291,6 +291,7 @@ public class Game implements Serializable{
 	}
 	
 	public boolean isAvailable(User user){
+	
 		
 		if(user.getUserRole() == User.ADMIN)
 			return false; /*This user is not a referee*/

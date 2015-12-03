@@ -186,6 +186,11 @@
 				<div class="row">
 				<s:iterator value="{'Principal','Auxiliar','Anotador','Cronometrador','Operador 30\"','Coche'}"  
 					status="status">
+					${status.index == 3 ? '<div>
+						</div>
+						</div>
+						<div class="row">' : '' }
+					
 					<div>
 						<label><strong><s:property/></strong></label> 
 						<input id="refereeType${status.index + 1}" type="checkbox" 
@@ -194,18 +199,41 @@
 						<div class="select-div" style="display:${!refereeTypes[status.index] ? 'none' : ''}">
 							<select id="refereeName${status.index + 1}" name="idUsers">
 								<option value="0" selected >Elige un árbitro</option>	
-								<s:iterator value="referees">
+								<s:iterator value="referees" var="referee">
 									<option value="${idUser}" 
 										${idUsers[status.index] == idUser ? 'selected' : ''}>
 										${userProfile.firstName}
-										${userProfile.lastName1}
+										${userProfile.lastName1}, 
+										<s:if test="!game.isAvailable(#referee)">
+											N/A
+										</s:if>
+										<s:elseif test="!#referee.getUserRefereeType(#status.index + 1)">
+											H
+										</s:elseif>
+										<s:elseif test="hasOtherGame(game)">
+											O.P
+										</s:elseif>
+										<s:else>
+											OK
+										</s:else>
 									</option>
 								</s:iterator>
 							</select>
 						</div>						
 					</div>
 				</s:iterator>
-				
+					<div>
+						<div  class="conflicts-2">
+							Conflictos
+							<div class="conflicts-types">
+							<div><strong>Tipos de Conflictos</strong></div>
+							<div>OK: No hay conflictos</div>
+							<div>N/A: No disponible</div>
+							<div>O.P: Otro partido</div>
+							<div>H: Habilidad</div>
+							</div>
+						</div>
+					</div>
 				</div>
 				<div>
 					<div>

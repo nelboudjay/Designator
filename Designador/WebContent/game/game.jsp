@@ -10,6 +10,9 @@
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/commonScript.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/game.js"></script>
+<!--<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script> 
+<script src="${pageContext.request.contextPath}/js/datepicker-es.js"></script>-->
 
 <title><s:property value="game.HomeTeam.TeamName"/> vs <s:property value="game.AwayTeam.TeamName"/></title>
 
@@ -106,35 +109,80 @@
 								<s:if test="game.getRefereeGame(#status.index + 1) == null">
 									<div class="not-required">No Requerido</div>
 								</s:if>
-								<s:elseif test="game.getRefereeGame(#status.index + 1).user== null">
-									<div class="not-assigned">No Designado</div>
-								</s:elseif>
 								<s:else>
-									<s:if test="!#session.user.isAdmin() && game.getRefereeGame(#status.index + 1).user.idUser != #session.user.idUser 
-																&& game.getRefereeGame(#status.index + 1).user.privacy">
-										<s:property value="game.getRefereeGame(#status.index + 1).user.userProfile.firstName"/>
-										<s:property value="game.getRefereeGame(#status.index + 1).user.userProfile.lastName1"/>		
+									<s:if test="game.getRefereeGame(#status.index + 1).user== null">
+										<div class="not-assigned">No Designado</div>
 									</s:if>
 									<s:else>
-										<a class="link" href="${pageContext.request.contextPath}/user/user?idUser=<s:property value="game.getRefereeGame(#status.index + 1).user.idUser"/>"> 
+										<s:if test="!#session.user.isAdmin() && game.getRefereeGame(#status.index + 1).user.idUser != #session.user.idUser 
+																	&& game.getRefereeGame(#status.index + 1).user.privacy">
 											<s:property value="game.getRefereeGame(#status.index + 1).user.userProfile.firstName"/>
-											<s:property value="game.getRefereeGame(#status.index + 1).user.userProfile.lastName1"/></a>
+											<s:property value="game.getRefereeGame(#status.index + 1).user.userProfile.lastName1"/>		
+										</s:if>
+										<s:else>
+											<a class="link" href="${pageContext.request.contextPath}/user/user?idUser=<s:property value="game.getRefereeGame(#status.index + 1).user.idUser"/>"> 
+												<s:property value="game.getRefereeGame(#status.index + 1).user.userProfile.firstName"/>
+												<s:property value="game.getRefereeGame(#status.index + 1).user.userProfile.lastName1"/></a>
+										</s:else>
+										
+										<s:if test="game.getRefereeGame(#status.index + 1).isConfirmed()">
+											<img  class="confirmation" title="El árbitro ha confirmado su designación a este partido"
+												src="${pageContext.request.contextPath}/images/check-icon.png">
+										</s:if>
+										<s:else>
+											<img  class="confirmation" title="El árbitro aún no ha confirmado su designación para este partido"
+												src="${pageContext.request.contextPath}/images/warning-icon.png">
+										</s:else>
 									</s:else>
 									
-									<s:if test="game.getRefereeGame(#status.index + 1).isConfirmed()">
-										<img  class="confirmation" title="El árbitro ha confirmado su designación a este partido"
-											src="${pageContext.request.contextPath}/images/check-icon.png">
+									<s:if test="#session.user.isAdmin()">
+										<div class="select-div" style="display:none">
+											<select id="refereeName${status.index + 1}" name="idUsers">
+												<option value="0" selected >Elige un árbitro</option>	
+												<s:iterator value="referees"  var="referee">
+													<option value="${idUser}" 
+														<s:if test="game.getRefereeGame(#status.index + 1).user.idUser == idUser">selected</s:if>
+													>
+														${userProfile.firstName}
+														${userProfile.lastName1},
+														<s:if test="!game.isAvailable(#referee)">
+															N/A
+														</s:if>
+														<s:elseif test="!#referee.getUserRefereeType(#status.index + 1)">
+															H
+														</s:elseif>
+														<s:elseif test="hasOtherGame(game)">
+															O.P
+														</s:elseif>
+														<s:else>
+															OK
+														</s:else>
+													</option>
+												</s:iterator>
+											</select>
+										</div>	
 									</s:if>
-									<s:else>
-										<img  class="confirmation" title="El árbitro aún no ha confirmado su designación para este partido"
-											src="${pageContext.request.contextPath}/images/warning-icon.png">
-									</s:else>
 								</s:else>
 							</div>
 							</div>
 							
 						</s:iterator>
 					</td>
+					<td>
+						<s:if test="#session.user.isAdmin()">
+							<div class="conflicts-3">
+								Conflictos
+								<div class="conflicts-types">
+									<div><strong>Tipos de Conflictos</strong></div>
+									<div>OK: No hay conflictos</div>
+									<div>N/A: No disponible</div>
+									<div>O.P: Otro partido</div>
+									<div>H: Habilidad</div>
+								</div>
+							</div>
+						</s:if>
+					</td>
+					
 				</tr>
 				<s:if test="#session.user.isAdmin()">
 					<tr>
@@ -152,7 +200,7 @@
 					</tr>
 					<tr>
 						<td>Autor</td>
-						<td>
+						<td colspan="2">
 							<a class="link-2" href="${pageContext.request.contextPath}/user/user?idUser=${game.lastUpdaterUser.idUser}">
 								<s:property value="game.lastUpdaterUser.userProfile.firstName"/>
 								<s:property value="game.lastUpdaterUser.userProfile.lastName1"/>
@@ -167,14 +215,21 @@
 					· <a class="link" href="games?idUser=${session.user.idUser}">Mis Partidos</a>		
 				</s:if>
 				<s:if test="#session.user.isAdmin()">
-					· <a class="link" href="addEditGame?idGame=${idGame}">Editar</a> · 
-					<a class="link delete" href="deleteGame?idGame=${idGame}">Eliminar</a>
+					· <a class="link assign-2">Designar</a> 
+					· <a class="link" href="addEditGame?idGame=${idGame}">Editar</a> 
+					. <a class="link delete" href="deleteGame?idGame=${idGame}">Eliminar</a>
 					<span class="confirm-box">
 						<span class="message">¿Estás seguro que quieres
 							eliminar este partido? </span> <span class="btn yes">Sí</span> 
 							<span class="btn no">No</span>
 					</span>	 
 				</s:if>
+			</p>
+			<p class="save-assignment-2">
+				
+						<input type="submit" value="Guardar" class="btn save">
+						<span><a class="link-2 cancel-2">Cancelar</a></span>
+			
 			</p>
 		</div>
 		<jsp:include page="../footer.jsp"/>

@@ -235,12 +235,12 @@
 												<div class="select-div" style="display:none">
 													<select id="refereeName${status.index + 1}" name="idUsers">
 														<option value="0" selected >Elige un árbitro</option>	
-														<s:iterator value="referees">
+														<s:iterator value="referees"  var="referee">
 															<option value="${idUser}" 
 																<s:if test="getRefereeGame(#status.index + 1).user.idUser == idUser">selected</s:if>
 															>
 																${userProfile.firstName}
-																${userProfile.lastName1}, 
+																${userProfile.lastName1},
 																<s:if test="!isAvailable(#referee)">
 																	N/A
 																</s:if>
@@ -268,7 +268,7 @@
 							<td rowspan="2">
 								<s:if test="#session.user.isAdmin()">
 									<div class="conflicts">
-										Conflicts
+										Conflictos
 										<div class="conflicts-types">
 											<div><strong>Tipos de Conflictos</strong></div>
 											<div>OK: No hay conflictos</div>

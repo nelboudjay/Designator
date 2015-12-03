@@ -110,7 +110,6 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 			return NONE;
 			
 		}else{
-			System.out.println("dateStr: " + dateStr);
 	
 			allGames = service.GetModelDataList(Game.class, eqRestrictions, "gameDate", false);
 			
@@ -474,8 +473,13 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 				setContextGames();
 				return INPUT;
 			}
-			else
+			else{
+				eqRestrictions.clear();
+				eqRestrictions.put("userRole", new FieldCondition(User.REFEREE,1));
+				referees = service.GetModelDataList(User.class, eqRestrictions, "firstName", true);
 				return SUCCESS;
+
+			}
 		}		
 	}
 	

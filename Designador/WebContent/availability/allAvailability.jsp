@@ -83,7 +83,7 @@
 				</tr>
 				<s:iterator value="availableReferees">
 					<tr>
-						<td><s:property value="key.userFullName"/></td>
+						<td><a class="link" href="availability?idUser=${key.idUser}"><s:property value="key.userFullName"/> </a></td>
 						<s:if test="value">
 							<td class="check" title="${key.userFullName} está disponible para esta fecha."></td>
 						</s:if>
