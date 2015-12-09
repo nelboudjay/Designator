@@ -203,19 +203,23 @@
 									<option value="${idUser}" 
 										${idUsers[status.index] == idUser ? 'selected' : ''}>
 										${userProfile.firstName}
-										${userProfile.lastName1}, 
-										<s:if test="!game.isAvailable(#referee)">
-											N/A
+										${userProfile.lastName1} 
+										
+										<s:if test="idGame != null && idGame != ''">
+											,
+											<s:if test="!game.isAvailable(#referee)">
+												N/A
+											</s:if>
+											<s:elseif test="!#referee.getUserRefereeType(#status.index + 1)">
+												H
+											</s:elseif>
+											<s:elseif test="hasOtherGame(game)">
+												O.P
+											</s:elseif>
+											<s:else>
+												*OK*
+											</s:else>
 										</s:if>
-										<s:elseif test="!#referee.getUserRefereeType(#status.index + 1)">
-											H
-										</s:elseif>
-										<s:elseif test="hasOtherGame(game)">
-											O.P
-										</s:elseif>
-										<s:else>
-											*OK*
-										</s:else>
 									</option>
 								</s:iterator>
 							</select>

@@ -120,9 +120,9 @@ $(function() {
 	$(function () {
 		$.datepicker.setDefaults($.datepicker.regional["es"]);
 		
-		$("#datepicker").datepicker();
+		$("[id^=datepicker]").datepicker();
 		
-		$("#datepicker").click(function(){
+		$("[id^=datepicker]").click(function(){
 			$('#ui-datepicker-div').css("top",$(this).position().top);
 
 		})

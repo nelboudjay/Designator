@@ -62,7 +62,6 @@
 								<ul	style="display:none;">
 									<li><a href="${pageContext.request.contextPath}/user/user?idUser=${idUser}">Info</a></li>
 									<li><a href="${pageContext.request.contextPath}/availability/availability?idUser=${idUser}">Disponibilidad</a></li>
-									<li><a href="${pageContext.request.contextPath}/user/user?idUser=${idUser}">Conflictos</a></li>
 								</ul>
 							</div>
 								

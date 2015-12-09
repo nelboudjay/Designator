@@ -32,3 +32,25 @@
 .available-refereesth:first{
 	border-left: 1px solid #ddd;	
 }
+
+.available-referees td{
+	position: relative;
+}
+
+.available-referees a{
+	position: absolute;
+    color: #5b5b5b;
+    font-weight: bold;
+    position: absolute;
+    top: 25%;
+    z-index: 1;
+}   
+
+.available-referees div{
+	position: absolute;
+	left: 0%; 
+	background-color: #5cb85c; 
+	color: transparent; 
+	top: 25%; 
+	z-index: 0;
+}

@@ -67,7 +67,6 @@
 						<ul>
 							<li><a href="${pageContext.request.contextPath}/game/games?idUser=${idUser}">Partidos</a></li>
 							<li><a href="${pageContext.request.contextPath}/availability/availability?idUser=${idUser}">Disponibilidad</a></li>
-							<li><a>Conflictos</a></li>
 						</ul>
 					</s:if>
 				</div>

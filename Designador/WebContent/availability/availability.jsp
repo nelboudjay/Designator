@@ -7,6 +7,7 @@
 <head>
 
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/availability.css" />
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.js"></script>
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
@@ -60,7 +61,6 @@
 				<ul>
 					<li><a href="${pageContext.request.contextPath}/game/games?idUser=${idUser}">Partidos</a></li>
 					<li><a href="availability?idUser=${idUser}">Disponibilidad</a></li>
-					<li><a>Conflictos</a></li>
 				</ul>
 			</div>
 			<div class="user-paginate">
@@ -166,14 +166,33 @@
 
 				<div class="no-dates" style="${availableDates.size() > 0 ? 'display:none' : ''}" >No tienes fechas disponibles este mes.</div>
 				
-				<s:iterator value="#attr.availableDates">
-					<div data-day="<s:date name="startDate" format="d" />" data-date="<s:date name="startDate" format="yyyy-MM-d" />">
+				<s:iterator value="#attr.availableDates" status="status">
+					<div style="display:table-row;" data-day="<s:date name="startDate" format="d" />" data-date="<s:date name="startDate" format="yyyy-MM-d" />">
 						<img src="${pageContext.request.contextPath}/images/garbage-icon.png" class="garbage" title="Eliminar esta fecha">
 						<s:date name="startDate" format="EEEE" var="dayName"/>
 						<s:property value="@com.opensymphony.xwork2.inject.util.Strings@capitalize(#dayName)"/>
 						<s:date name="startDate" format="d" /> de 
 						<s:date name="startDate" format="MMMM" var="monthName"/>
-						<s:property value="@com.opensymphony.xwork2.inject.util.Strings@capitalize(#monthName)"/>
+						<s:property value="@com.opensymphony.xwork2.inject.util.Strings@capitalize(#monthName)"/>,
+						
+						<s:date name="startDate" format="HH:mm" var="startTime"/> 
+						<s:date name="endDate" format="HH:mm" var="endTime"/> 
+						
+						<a class="link editAvailability">
+							<s:if test='#startTime == "00:00" && #endTime == "00:00"'>
+								Todo el día</s:if><s:else>
+								Entre las ${startTime} y las ${endTime}</s:else></a>.
+								
+						
+						<div class="availability-form" style="display:table-cell;">
+							<input type="text" id="datepicker${status.index}" name="dateStr" value="<s:date name="startDate" format="yyyy-MM-dd" />">
+							<label><b>De </b></label>
+							<input type="text" id="startTime" name="startTime" value="${startTime}">
+							<label><b>A </b></label>
+							<input type="text" id="endTime" name="endTime" value="${endTime}">
+							<input type="button" class="btn save" value="Guardar" >
+							<a class="link cancel">Cancelar</a>
+						</div>
 					</div>
 				</s:iterator>	
 				

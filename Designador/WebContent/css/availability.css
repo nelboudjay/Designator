@@ -50,3 +50,17 @@ tr:nth-child(even) {
 #availableDates {
 	display:inline-table; 
 }
+
+.availability-form{
+	display:inline;
+}
+
+.availability-form input[type="text"]{
+	width:50px;
+	text-align:center;
+}
+
+ .availability-form input[id^="datepicker"]{
+	width:80px;
+}
+

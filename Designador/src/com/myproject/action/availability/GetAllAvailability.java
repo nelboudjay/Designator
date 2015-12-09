@@ -4,10 +4,12 @@ package com.myproject.action.availability;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -27,7 +29,7 @@ public class GetAllAvailability extends ActionSupport {
     private Date dayAfter;
 
 	private String dateStr;
-	private Map<User,Boolean> availableReferees = new LinkedHashMap<User, Boolean>();
+	private Map<User,List<AvailabilityPlot>> availableReferees = new LinkedHashMap<User, List<AvailabilityPlot>>();
 	
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
@@ -50,7 +52,7 @@ public class GetAllAvailability extends ActionSupport {
 		
 		if(referees != null){
 			Timestamp startDate = new Timestamp(date.getTime());
-			Timestamp endDate = new Timestamp(dayAfter.getTime());
+			Timestamp endDate = new Timestamp(dayAfter.getTime() - 6000);
 
 			eqRestrictions.clear();
 			Map<Integer,Object> btwDate = new HashMap<Integer, Object>();
@@ -61,28 +63,32 @@ public class GetAllAvailability extends ActionSupport {
 			List<?> allRefereeAvailability = service.GetModelDataList(RefereeAvailability.class, eqRestrictions, "userName", true);
 
 			Calendar calendar = Calendar.getInstance();
-
+			
 			allRefereeAvailability.forEach(ra -> {
+				
 				calendar.setTime(((RefereeAvailability)ra).getStartDate());
-				System.out.println(((double)calendar.get(Calendar.HOUR_OF_DAY) + (double)calendar.get(Calendar.MINUTE)/60.0)/24.0);
-				System.out.println((double)(((RefereeAvailability)ra).getEndDate().getTime() -
-						((RefereeAvailability)ra).getStartDate().getTime())/(1000 * 60 * 60 * 24));
-
-				//((RefereeAvailability)ra).getStartDate();
+				double marginLeftPer = ((double)calendar.get(Calendar.HOUR_OF_DAY) + (double)calendar.get(Calendar.MINUTE)/60.0)*100/24.0;
+				double widthPer = (double)(((RefereeAvailability)ra).getEndDate().getTime() -
+						((RefereeAvailability)ra).getStartDate().getTime())/(10 * 60 * 60 * 24);
+				
+				AvailabilityPlot avPlot = new AvailabilityPlot(marginLeftPer, widthPer);
+				
+				
+				if(availableReferees.get(((RefereeAvailability)ra).getUser()) == null)
+					availableReferees.put(((RefereeAvailability)ra).getUser(), new LinkedList<AvailabilityPlot>(Arrays.asList(avPlot)));
+				else{ 
+					List<AvailabilityPlot> userAvailabilityPlot = availableReferees.get(((RefereeAvailability)ra).getUser());
+					userAvailabilityPlot.add(avPlot);
+					availableReferees.put(((RefereeAvailability)ra).getUser(), userAvailabilityPlot);
+				}
+	
 			});
 			
-			/*if(allRefereeAvailability == null)
-				referees.forEach(referee -> 
-						availableReferees.put((User)referee,false));
-			else{
-				for(Object referee : referees){
-					if(allRefereeAvailability.stream().filter(refereeAvailability -> 
-							((RefereeAvailability)refereeAvailability).getUser().equals((User)referee)).count() == 1)
-						availableReferees.put((User)referee, true);
-					else
-						availableReferees.put((User)referee, false);
-				}
-			}*/
+			availableReferees.forEach((usr,plotList) ->
+			{
+				System.out.println(usr.getUserFullName() + plotList);
+			});
+			
 		}
 
 		return SUCCESS;
@@ -125,11 +131,11 @@ public class GetAllAvailability extends ActionSupport {
 		this.date = date;
 	}
 
-	public Date getDateBefore() {
+	public Date getDayBefore() {
 		return dayBefore;
 	}
 
-	public void setDateBefore(Date dayBefore) {
+	public void setDayBefore(Date dayBefore) {
 		this.dayBefore = dayBefore;
 	}
 
@@ -137,15 +143,15 @@ public class GetAllAvailability extends ActionSupport {
 		return dayAfter;
 	}
 
-	public void setDateAfter(Date dayAfter) {
+	public void setDayAfter(Date dayAfter) {
 		this.dayAfter = dayAfter;
 	}
 
-	public Map<User, Boolean> getAvailableReferees() {
+	public Map<User, List<AvailabilityPlot>> getAvailableReferees() {
 		return availableReferees;
 	}
 
-	public void setAvailableReferees(Map<User, Boolean> availableReferees) {
+	public void setAvailableReferees(Map<User, List<AvailabilityPlot>> availableReferees) {
 		this.availableReferees = availableReferees;
 	}
 
