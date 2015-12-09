@@ -1,15 +1,19 @@
 package com.myproject.model;
 
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -63,6 +67,25 @@ public class User extends ActionSupport{
 
 	}
 	
+	public User(String userName, String email, String password, int userRole,
+			UserProfile userProfile, boolean privacy,
+			List<RefereeAvailability> refereeAvailability,
+			List<RefereeGame> refereeGames,
+			List<UserRefereeType> userRefereeTypes,
+			Set<RefereeGame> refereeGamesRequested) {
+		super();
+		this.userName = userName;
+		this.email = email;
+		this.password = password;
+		this.userRole = userRole;
+		this.userProfile = userProfile;
+		this.privacy = privacy;
+		this.refereeAvailability = refereeAvailability;
+		this.refereeGames = refereeGames;
+		this.userRefereeTypes = userRefereeTypes;
+		this.refereeGamesRequested = refereeGamesRequested;
+	}
+
 	public User(){
 	}
 	
@@ -103,6 +126,11 @@ public class User extends ActionSupport{
 	@LazyCollection(LazyCollectionOption.FALSE)
 	@OneToMany(cascade = CascadeType.ALL, mappedBy="user")
     private List<UserRefereeType> userRefereeTypes;
+	
+	
+	@ManyToMany(fetch = FetchType.EAGER, mappedBy="users")
+	private Set<RefereeGame> refereeGamesRequested = new HashSet<RefereeGame>();
+	
 	
 	public String getIdUser() {
 		return idUser;
@@ -187,6 +215,15 @@ public class User extends ActionSupport{
 		this.userRefereeTypes = userRefereeTypes;
 	}
 
+	@ManyToMany( targetEntity=RefereeGame.class, mappedBy = "users")
+	public Set<RefereeGame> getRefereeGamesRequested() {
+		return refereeGamesRequested;
+	}
+
+	public void setRefereeGamesRequested(Set<RefereeGame> refereeGamesRequested) {
+		this.refereeGamesRequested = refereeGamesRequested;
+	}
+
 	public String getUserFullName(){
 		
 		return WordUtils.capitalize(getUserProfile().getFirstName() + " "
@@ -211,10 +248,10 @@ public class User extends ActionSupport{
 		}
 	}
 	
-	public boolean getUserRefereeType(int idUserRefereeType){
+	public boolean getUserRefereeType(int refereeType){
 		
 		return this.userRefereeTypes.stream().filter(userRefereeType -> 
-				userRefereeType.getRefereeType() == idUserRefereeType).count() == 1 ;
+				userRefereeType.getRefereeType() == refereeType).count() == 1 ;
 	}
 	
 	public boolean hasOtherGame(Game game){
@@ -230,7 +267,6 @@ public class User extends ActionSupport{
 	
 	@Override
 	public boolean equals(Object o){
-		
 		boolean result = false;
 		if(o instanceof User){
 			User usr = (User)o;

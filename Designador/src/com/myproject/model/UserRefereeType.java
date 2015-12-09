@@ -90,6 +90,20 @@ public class UserRefereeType implements Serializable{
 				
 		}
 	}
+	
+	public static String getRefereeTypeName(int refereeType){
+		
+		switch (refereeType){
+		
+			case AUXILIAR:		return "Auxiliar";
+			case ANOTADOR: 		return "Anotador";
+			case CRONOMETRADOR:	return "Cronometrador";
+			case OPERADOR30:	return "Operador 30\"";
+			case COCHE:			return "Coche";
+			default:			return "Principal";
+				
+		}
+	}
 
 }
 

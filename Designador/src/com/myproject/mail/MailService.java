@@ -76,6 +76,37 @@ public class MailService {
 		
 	}
 
+	@Async
+	public void sendMail(String[] to, String subject, String template) {
+
+		MimeMessage mimeMessage = mailSender.createMimeMessage();
+
+		try {
+			MimeMessageHelper helper = new MimeMessageHelper(mimeMessage,
+					true, "UTF-8");
+			
+		
+	        
+		//	mimeMessage.setContent(writer.toString(), "text/html");
+			helper.setText(template,true);
+			helper.addInline("logoImage", new ClassPathResource("/Logo.png"));
+	
+
+			helper.setTo(to);
+			helper.setSubject(subject);
+
+		} catch (MessagingException e) {
+			e.printStackTrace();
+		}
+		
+		mailSender.send(mimeMessage);
+		
+	}
+	
+	
+	
+	
+	
 	public void setMailSender(JavaMailSender mailSender) {
 		this.mailSender = mailSender;
 	}

@@ -215,6 +215,17 @@
         	</result>
 		</action>
 		
+		
+		<action name="confirmGame" class="com.myproject.action.game.CRUDGame" method="confirmGame">
+			<result name="success" type="redirectAction">games</result>
+			<result name="input" type="redirectAction">games</result>
+		</action>
+		
+		<action name="requestGame" class="com.myproject.action.game.CRUDGame" method="requestGame">
+			<result name="success" type="redirectAction">games</result>
+			<result name="input" type="redirectAction">games</result>
+		</action>
+		
 		<action name="assignGame" class="com.myproject.action.game.CRUDGame" method="assignGame">
 			<result name="success" type="redirectAction">
 				<param name="actionName">games</param>

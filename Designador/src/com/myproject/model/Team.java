@@ -136,7 +136,6 @@ public class Team implements Serializable{
 								&& t.getTeamLocation().equalsIgnoreCase(this.teamLocation)));
 		}
 
-		System.out.println(result);
 		return result;
 	}
 

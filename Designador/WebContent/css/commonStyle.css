@@ -174,8 +174,6 @@ ul {
 	color:#e8e7e6;
 }
 
-
-
 .link-2:hover {
 	color:#c1461c !important;
 	text-decoration: none;
@@ -485,6 +483,9 @@ li.active .glow{
 	background-color: #5cb85c;
 }
 
+.alert {
+	background-color: #c1461c;
+}
 /****************Main content***************************/
 
 .container {

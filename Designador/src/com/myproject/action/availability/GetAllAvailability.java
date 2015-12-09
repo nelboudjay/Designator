@@ -23,13 +23,15 @@ public class GetAllAvailability extends ActionSupport {
 
 
     private Date date;
-    private Date dateBefore;
-    private Date dateAfter;
+    private Date dayBefore;
+    private Date dayAfter;
 
 	private String dateStr;
 	private Map<User,Boolean> availableReferees = new LinkedHashMap<User, Boolean>();
 	
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+
 
 	private GenericService service;
 
@@ -38,8 +40,8 @@ public class GetAllAvailability extends ActionSupport {
 		
 		setSelectedDate();
 		
-		dateBefore = new Date(date.getTime() - (1000 * 60 * 60 * 24));
-		dateAfter = new Date(date.getTime() + (1000 * 60 * 60 * 24));
+		dayBefore = new Date(date.getTime() - (1000 * 60 * 60 * 24));
+		dayAfter = new Date(date.getTime() + (1000 * 60 * 60 * 24));
 		dateStr = sdf.format(date);
 
 		Map<String, FieldCondition> eqRestrictions = new HashMap<String, FieldCondition>();	
@@ -48,13 +50,28 @@ public class GetAllAvailability extends ActionSupport {
 		
 		if(referees != null){
 			Timestamp startDate = new Timestamp(date.getTime());
+			Timestamp endDate = new Timestamp(dayAfter.getTime());
+
 			eqRestrictions.clear();
-			eqRestrictions.put("startDate", new FieldCondition(startDate));
+			Map<Integer,Object> btwDate = new HashMap<Integer, Object>();
+			btwDate.put(1, startDate);
+			btwDate.put(-1, endDate);
+			eqRestrictions.put("startDate", new FieldCondition(btwDate));
 
 			List<?> allRefereeAvailability = service.GetModelDataList(RefereeAvailability.class, eqRestrictions, "userName", true);
 
+			Calendar calendar = Calendar.getInstance();
+
+			allRefereeAvailability.forEach(ra -> {
+				calendar.setTime(((RefereeAvailability)ra).getStartDate());
+				System.out.println(((double)calendar.get(Calendar.HOUR_OF_DAY) + (double)calendar.get(Calendar.MINUTE)/60.0)/24.0);
+				System.out.println((double)(((RefereeAvailability)ra).getEndDate().getTime() -
+						((RefereeAvailability)ra).getStartDate().getTime())/(1000 * 60 * 60 * 24));
+
+				//((RefereeAvailability)ra).getStartDate();
+			});
 			
-			if(allRefereeAvailability == null)
+			/*if(allRefereeAvailability == null)
 				referees.forEach(referee -> 
 						availableReferees.put((User)referee,false));
 			else{
@@ -65,7 +82,7 @@ public class GetAllAvailability extends ActionSupport {
 					else
 						availableReferees.put((User)referee, false);
 				}
-			}
+			}*/
 		}
 
 		return SUCCESS;
@@ -109,19 +126,19 @@ public class GetAllAvailability extends ActionSupport {
 	}
 
 	public Date getDateBefore() {
-		return dateBefore;
+		return dayBefore;
 	}
 
-	public void setDateBefore(Date dateBefore) {
-		this.dateBefore = dateBefore;
+	public void setDateBefore(Date dayBefore) {
+		this.dayBefore = dayBefore;
 	}
 
-	public Date getDateAfter() {
-		return dateAfter;
+	public Date getDayAfter() {
+		return dayAfter;
 	}
 
-	public void setDateAfter(Date dateAfter) {
-		this.dateAfter = dateAfter;
+	public void setDateAfter(Date dayAfter) {
+		this.dayAfter = dayAfter;
 	}
 
 	public Map<User, Boolean> getAvailableReferees() {
@@ -138,4 +155,29 @@ public class GetAllAvailability extends ActionSupport {
 
 	
 }
+
+class AvailabilityPlot {
 	
+	private double marginLeftPer;
+	private double widthPer;
+	
+	
+	public AvailabilityPlot(double marginLeftPer, double widthPer) {
+		super();
+		this.marginLeftPer = marginLeftPer;
+		this.widthPer = widthPer;
+	}
+	
+	public double getMarginLeftPer() {
+		return marginLeftPer;
+	}
+	public void setMarginLeftPer(double marginLeftPer) {
+		this.marginLeftPer = marginLeftPer;
+	}
+	public double getWidthPer() {
+		return widthPer;
+	}
+	public void setWidthPer(double widthPer) {
+		this.widthPer = widthPer;
+	}
+}

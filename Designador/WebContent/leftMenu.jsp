@@ -30,14 +30,30 @@
 								<span class="normal"><s:property value="#session.myFutureGames"/></span>
 							</a>
 						</li>
-						<li><a href="${pageContext.request.contextPath}/game/games?idUser=${session.user.idUser}&is=confirmed">Mis Partidos Confirmados
-								<span class="success"><s:property value="#session.myConfirmedGames"/></span>
-							</a>
-						</li>
-						<li><a href="${pageContext.request.contextPath}/game/games?idUser=${session.user.idUser}&is=unconfirmed">Mis Partidos no Confirmados
-								<span class="warning"><s:property value="#session.myUnconfirmedGames"/></span>
-							</a>
-						</li>
+						<s:if test="#session.myConfirmedGames != null && #session.myConfirmedGames > 0">
+							<li><a href="${pageContext.request.contextPath}/game/games?idUser=${session.user.idUser}&is=confirmed">Mis Partidos Confirmados
+									<span class="success"><s:property value="#session.myConfirmedGames"/></span>
+								</a>
+							</li>
+						</s:if>
+						<s:if test="#session.myUnconfirmedGames != null && #session.myUnconfirmedGames > 0">	
+							<li><a href="${pageContext.request.contextPath}/game/games?idUser=${session.user.idUser}&is=unconfirmed">Mis Partidos no Confirmados
+									<span class="warning"><s:property value="#session.myUnconfirmedGames"/></span>
+								</a>
+							</li>
+						</s:if>
+						<s:if test="#session.myDeclinedGames != null && #session.myDeclinedGames > 0">
+							<li><a href="${pageContext.request.contextPath}/game/games?idUser=${session.user.idUser}&is=declined">Mis Partidos Rechazados
+									<span class="alert"><s:property value="#session.myDeclinedGames"/></span>
+								</a>
+							</li>
+						</s:if>
+						<s:if test="#session.myRequestedGames != null && #session.myRequestedGames > 0">
+							<li><a href="${pageContext.request.contextPath}/game/games?idUser=${session.user.idUser}&is=requested">Mis Partidos Solicitados
+									<span class="warning"><s:property value="#session.myRequestedGames"/></span>
+								</a>
+							</li>
+						</s:if>
 					</s:if>
 					<s:if test="#session.unassignedGames != null && #session.unassignedGames > 0">
 						<li><a href="${pageContext.request.contextPath}/game/games?is=unassigned">Partidos No Designados
@@ -60,6 +76,18 @@
 								</a>
 							</li>
 						</s:if>
+						<s:if test="#session.declinedGames != null && #session.declinedGames > 0">
+							<li><a href="${pageContext.request.contextPath}/game/games?is=declined">Partidos Rechazados
+									<span class="alert"><s:property value="#session.declinedGames"/></span>
+								</a>
+							</li>
+						</s:if>
+							<s:if test="#session.requestedGames != null && #session.requestedGames > 0">
+							<li><a href="${pageContext.request.contextPath}/game/games?is=requested">Partidos Solicitados
+									<span  class="warning"><s:property value="#session.requestedGames"/></span>
+								</a>
+							</li>
+						</s:if>
 						<s:if test="#session.unpublishedGames != null 
 											&& #session.futureGames.size() - #session.unpublishedGames > 0">
 							<li class="published-num"><a href="${pageContext.request.contextPath}/game/games?is=published">Partidos Publicados
@@ -72,6 +100,12 @@
 						<s:if test="#session.unpublishedGames != null && #session.unpublishedGames > 0">
 							<li class="unpublished-num"><a href="${pageContext.request.contextPath}/game/games?is=unpublished">Partidos No Publicados
 									<span  class="warning"><s:property value="#session.unpublishedGames"/></span>
+								</a>
+							</li>
+						</s:if>
+						<s:if test="#session.conflictsGames != null && #session.conflictsGames > 0">
+							<li class="conflicts-num"><a href="${pageContext.request.contextPath}/game/games?is=conflict">Partidos Con Conflictos
+									<span  class="alert"><s:property value="#session.conflictsGames"/></span>
 								</a>
 							</li>
 						</s:if>

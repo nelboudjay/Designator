@@ -203,7 +203,7 @@ $(document).ready(function() {
 	else
 		$("#profileImage").hide();
 	
-	$(".delete").click(function(e){
+	$(document).on("click",".delete", function(e){
 		$(".confirm-box").hide();
 		$(".delete").show();
         e.preventDefault();

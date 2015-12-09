@@ -107,25 +107,91 @@ $(function() {
 		$(this).parent().hide();
 		$(".save-assignment-2, .conflicts-3").show();
 		
-		$(".select-div").prevAll().hide();
-		$(".select-div").show();
-		
-		var selectDivWidth = 0;
-		
-		$(".select-div:first").find("option").each(function(){
-			if($(this).width() > selectDivWidth)
-				selectDivWidth = $(this).width();
-		});
-		
-		$(".select-div").css("width",selectDivWidth + 35);
-
+		$("select").prevAll().hide();
+		$("select").show();
 		
 	});
 	
-	$(".cancel-2").click(function(){
+	
+	$(".cancel-2, .save-2").click(function(){
+		
+		if($(this).hasClass("save-2")){
+			var idGame = $(this).attr("id");
+			var refereeTypes = [];
+			var idUsers = [];
+			var select;
+			
+			$(".game-info").find(".row").each(function(i){
+				
+				select = $(this).find("select");
+				if(select.length){
+					
+					refereeTypes[i] = true; 
+					idUsers[i] = $("option:selected",this).val();
+
+				}
+				else{
+					refereeTypes[i] = false
+					idUsers[i] = 0;
+				}
+			});
+			
+			$.ajax({
+				type : "POST",
+				url : "assignGame",
+				data : {
+					idGame:	idGame,
+					refereeTypes: refereeTypes,
+					idUsers: idUsers,
+					dateStr:  $(".game-menu").data("date")
+				},
+			    traditional: true,
+			    success: function(result){
+			 
+			    	$("#leftMenu").replaceWith($(result).filter("div#leftMenu"));
+
+			    	$(".content-title").nextAll(".errors, .boxMessage").remove();
+
+			    	var actionMessage =  $(result).find(".errors, .boxMessage");
+			    	
+			    	if(actionMessage.hasClass("boxMessage")){
+			    		$(".content-title").after(actionMessage[1]);	
+						$(".game-info").find(".row").each(function(i){
+							
+							select = $(this).find("select");
+							
+							select.prevAll().remove();
+							if(select.length){
+								
+								if($("option:selected",this).val() == 0)
+									select.before("<div class='not-assigned'>No Designado</div>");			
+								else
+									select.replaceWith($(result).find("#" + idGame).find("td:nth-child(5) > div:nth(" + i + ")").children());
+								
+							}
+							select.prevAll().show();
+							
+						});
+			    	}
+			    	else{
+			    		$(".content-title").after(actionMessage);			  
+			    		$("select").prevAll().show();
+			    	}
+					$("select").hide();
+			    }	
+			});
+		}
+		else{
+			$("select").prevAll().show();
+			$("select").hide();
+		}
+
 		$(".save-assignment-2").prev().show();
 		$(".save-assignment-2, .conflicts-3").hide();
+		
+		
 	});
+	
 	
 	$(document).on("click", ".assign", function(){
 		
@@ -135,30 +201,17 @@ $(function() {
 		
 		var gameRow = $(this).closest("tr");
 		
-		var selectDivWidth = 0;
-		var selectDiv = gameRow.find(".select-div:first").show();
-		
-		gameRow.find(".select-div:first").find("option").each(function(){
-			if($(this).width() > selectDivWidth)
-				selectDivWidth = $(this).width();
-		});
-		
-		gameRow.find(".select-div").each(function (){
-			$(this).prev().hide();
+		gameRow.find("select").each(function (){
+			$(this).prevAll().hide();
 			$(this).show();
-			$(this).css("width",selectDivWidth + 35);
 				
 		});
 		
 		gameRow.nextAll(".save-assignment:first").show();
 		
-		$(".games > tbody").children("tr:nth-child(3n + 2)").each(function(){
-			$(this).children("td:nth-child(2)").children("span").html("<br>vs<br>");
-		});
-		
 	});
 	
-	$(".cancel, .save").click(function(){
+	$(document).on("click", ".cancel, .save", function(){
 		
 		var saveAssigmentRow =  $(this).closest("tr");
 		var gameRow = $(this).closest("tr").prev().prev();
@@ -167,10 +220,10 @@ $(function() {
 			var refereeTypes = [];
 			var idUsers = [];
 			var selectDiv;
-			gameRow.find(".row").each(function(i){
+			gameRow.find("td:nth-child(5) > div").each(function(i){
 				
-				selectDiv = $(this).find(".select-div");
-				if(selectDiv.length){
+				select = $(this).find("select");
+				if(select.length){
 					
 					refereeTypes[i] = true; 
 					idUsers[i] = $("option:selected",this).val();
@@ -196,72 +249,38 @@ $(function() {
 			    traditional: true,
 			    success: function(result){
 			    	
-			    	var newGameRow = $(result).find("#" + gameRow.attr("id")).html();
-			    	gameRow.html(newGameRow);
-			    	var actionMessage =  $(result).find(".errors, .boxMessage");
-			    	if(actionMessage.hasClass("boxMessage"))
-			    		saveAssigmentRow.hide();
 			    	$(".content-title").nextAll(".errors, .boxMessage").remove();
-			    	if(actionMessage.length == 2)
-			    		$(".content-title").after(actionMessage[1]);
+
+			    	$(".container").replaceWith($(result).filter("div.main-content").children(".container"));
+			    	$("#leftMenu").replaceWith($(result).filter("div#leftMenu"));
+			    	
+			    	 var actionMessage =  $(result).find(".errors, .boxMessage");
+			    	
+			    	if(actionMessage.hasClass("boxMessage"))
+			    		$(".content-title").after(actionMessage[1]);	
 			    	else
 			    		$(".content-title").after(actionMessage);
-			    				  
+			    	
 			     }
 			});
+			
 		}
 		else{
 			saveAssigmentRow.hide();
-			gameRow.find(".select-div").each(function(){	
-				$(this).css("width","");
+			gameRow.find("select").each(function(){	
 				$(this).hide();
-				$(this).prev().show();
-
+				$(this).prevAll().show();
 			});
 			
 			var assignDiv = gameRow.find(".conflicts");
 			assignDiv.nextAll().show();
 			assignDiv.hide();
 			
-			if($(".save-assignment:visible").length == 0)
-				$(".games > tbody").children("tr:nth-child(3n + 2)").each(function(){
-					$(this).children("td:nth-child(2)").children("span").html("vs");
-				});
 		}
+		
 		
 	});
 	
-	function showAssigned(e){
-		
-		e.closest("tr").hide();
-		var gameRow = e.closest("tr").prev().prev();
-				
-		gameRow.find(".select-div").each(function(){
-			$(this).css("width","");
-			$(this).hide();
-			$(this).prevAll().remove();
-			if($(this).find("option:selected").val() == 0){
-				$(this).before("<div class='not-assigned'>No Designado</div>");
-			}
-			else{
-				$(this).before("<a class='link' href='/Designador/user/user?idUser=" + 
-						$(this).find("option:selected").val() + "'>" +
-						$(this).find("option:selected").text().split(",",1) +	"</a>"
-						+ " <img src='/Designator/images/warning-icon.png'"  +
-						"title='El árbitro aún no ha confirmado su designación a este partido' class='confirmation'>");
-			}
-
-		});
-		
-		var assignDiv = gameRow.find(".conflicts");
-		assignDiv.nextAll().show();
-		assignDiv.hide();
-		
-		if($(".save-assignment:visible").length == 0)
-			$(".games > tbody").children("tr:nth-child(3n + 2)").each(function(){
-				$(this).children("td:nth-child(2)").children("span").html("vs");
-			});
-	}
 	
 	$(document).on("mouseover", '[class^="conflicts"]', function(){
 		$(this).find(".conflicts-types").show();
@@ -271,8 +290,106 @@ $(function() {
 		$(this).find(".conflicts-types").hide();		
 	});
 	
+	
+	$(document).on("click", ".confirm, .decline", function(){
 
-	/*$(function () {
+		var idGame = $(this).closest("tr").attr("id");
+		if(!idGame)
+			idGame = $(this).closest("table").attr("id");
+		
+		var refereeType = $(this).parent().parent().index() + 1;
+		var confirmed = $(this).hasClass("confirm") ? true : false;
+			
+		$.ajax({
+			type : "POST",
+			url : "confirmGame",
+			data : {
+				idGame:	idGame,
+				refereeType: refereeType,
+				confirmed: confirmed
+			},
+			success: function(result){
+		    	$("#leftMenu").replaceWith($(result).filter("div#leftMenu"));
+
+		    	$(".content-title").nextAll(".errors, .boxMessage").remove();
+		    	
+		    	 var actionMessage =  $(result).find(".errors, .boxMessage");
+		    	
+		    	if(actionMessage.hasClass("boxMessage"))
+		    		$(".content-title").after(actionMessage[1]);	
+		    	else
+		    		$(".content-title").after(actionMessage);
+		     }
+		});
+		
+		
+		if($(this).hasClass("confirm")){
+			if($(this).prev().hasClass("declined")){
+				$(this).prev().replaceWith("<span class='confirmed' title='Has confirmado tu designación'>✓ </span>");
+				$(this).replaceWith("<span title='Rechazar tu designación' class='btn decline'>✖︎</span>");
+			}
+			else
+				$(this).replaceWith( "<span class='confirmed' title='Has confirmado tu designación'>✓ </span>");
+		}else{
+			if($(this).prev().hasClass("confirmed")){
+				$(this).prev().replaceWith("<span class='declined' title='Has rechazado tu designación'>✖︎ </span>");
+				$(this).replaceWith("<span title='Confirmar tu designación' class='btn confirm'>✓</span>");
+			}
+			else{
+				$(this).prev().before( "<span class='declined' title='Has rechazado tu designación'>✖︎ </span>");
+				$(this).remove();
+			}
+			
+		}
+		
+	});
+	
+	$(document).on("click",".request, .cancel-request", function(){
+		var clickedButton = $(this);
+		var idGame = $(this).closest("tr").attr("id");
+		if(!idGame)
+			idGame = $(this).closest("table").attr("id");
+		
+		var refereeType =  $(this).closest(".row").index() + 1 ;
+		var requested = $(this).hasClass("request") ? true : false;
+		
+		console.log(refereeType);
+		$.ajax({
+			type : "POST",
+			url : "requestGame",
+			data : {
+				idGame:	idGame,
+				refereeType: refereeType,
+				requested: requested
+			},
+			success: function(result){
+		    	
+		    	$("#leftMenu").replaceWith($(result).filter("div#leftMenu"));
+
+		    	$(".content-title").nextAll(".errors, .boxMessage").remove();
+		    	
+	    		var newData = $(result).filter("div.main-content").find("#" + idGame).
+    			find("td:nth-child(5) > div:nth(" + (refereeType - 1) + ")");
+	    		if(clickedButton.hasClass("request"))
+	    			clickedButton.parent().parent().replaceWith(newData);
+	    		else
+	    			clickedButton.parent().replaceWith(newData);
+
+		    	var actionMessage =  $(result).find(".errors, .boxMessage");
+		    	
+		    	if(actionMessage.hasClass("boxMessage"))
+		    		$(".content-title").after(actionMessage[1]);	
+		    	else
+		    		$(".content-title").after(actionMessage);
+		    	
+		     }
+		});
+				
+	});
+
+
+	
+	$(function () {
 		$.datepicker.setDefaults($.datepicker.regional["es"]);
 		
 		$("#datepicker").datepicker();
@@ -281,7 +398,7 @@ $(function() {
 			$('#ui-datepicker-div').css("top",$(this).position().top);
 
 		});
-	});*/
+	});
 	
 	
 });

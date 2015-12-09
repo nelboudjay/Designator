@@ -97,7 +97,12 @@ public class AddAvailability extends ActionSupport implements SessionAware, Serv
 				if(refereeAvailability == null){
 					endTime = new Timestamp(date.getTime() + (1000 * 60 * 60 * 24));
 					refereeAvailability = new RefereeAvailability(user,startDate,endTime);
-					service.SaveOrUpdateModelData(refereeAvailability);			
+					service.SaveOrUpdateModelData(refereeAvailability);	
+					
+					if(user.getIdUser().equals(((User)session.get("user")).getIdUser())){
+						user.getRefereeAvailability().add(refereeAvailability);
+						session.put("user", user);
+					}
 				}
 			}
 			else{

@@ -6,6 +6,7 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -189,6 +190,13 @@ public class Game implements Serializable{
 		this.refereesGame = refereesGame;
 	}
 	
+	public List<RefereeGame> getRefereesGameByUser(User user) {
+				
+		return refereesGame.stream().filter(refereeGame 
+				-> refereeGame.getUser() != null && 
+				refereeGame.getUser().getIdUser().equals(user.getIdUser())).collect(Collectors.toList());		
+	}
+	
 	public Timestamp getGameEndDate(){
 		
 		Calendar cal = Calendar.getInstance();
@@ -239,17 +247,28 @@ public class Game implements Serializable{
 		
 		boolean result = false;
 		
-		if(!isUnassigned()){
-			for(RefereeGame refereeGame : refereesGame){
-				if(!refereeGame.isConfirmed()){
-					result = true;
-					break;
-				}
+		for(RefereeGame refereeGame : refereesGame){
+			if(refereeGame.getUser() != null && refereeGame.isConfirmed() == null){
+				result = true;
+				break;
 			}
 		}
-		else
-			result = false;
+
+		return result;
+	}
+	
+	public boolean isDeclined(){
 		
+		boolean result = false;
+		
+		for(RefereeGame refereeGame : refereesGame){
+			if(refereeGame.getUser() != null && 
+					 refereeGame.isConfirmed() != null && !refereeGame.isConfirmed()){
+				result = true;
+				break;
+			}
+		}
+
 		return result;
 	}
 	
@@ -259,7 +278,8 @@ public class Game implements Serializable{
 
 		if(!isUnassigned()){
 			for(RefereeGame refereeGame : refereesGame){
-				if(!refereeGame.isConfirmed()){
+				if(refereeGame.getUser() != null && 
+						(refereeGame.isConfirmed() == null || !refereeGame.isConfirmed())){
 					result = false;
 					break;
 				}
@@ -271,18 +291,83 @@ public class Game implements Serializable{
 		return result;
 	}
 	
+	public boolean isRequested(){
+		
+		boolean result = false;
+
+			for(RefereeGame refereeGame : refereesGame){
+				if(refereeGame.getUser() == null && refereeGame.getUsers().size() > 0){ 
+					result = true;
+					break;
+				}
+			}
+		
+		return result;
+	}
+	
 	public boolean isConfirmedByReferee(String idUser){
 		
 		boolean result = true;
 
-		for(RefereeGame refereeGame : refereesGame){
-			if(refereeGame.getUser() != null && refereeGame.getUser().getIdUser().equals(idUser)){
-				if(!refereeGame.isConfirmed()){
-					result = false;
+			for(RefereeGame refereeGame : refereesGame){
+				if(refereeGame.getUser() != null && refereeGame.getUser().getIdUser().equals(idUser)){
+					if(refereeGame.isConfirmed() == null ||  !refereeGame.isConfirmed()){
+						result = false;
+						break;
+					}
+				}
+			}
+		
+		return result;
+	}
+	
+	public boolean isUnConfirmedByReferee(String idUser){
+		
+		boolean result = false;
+
+			for(RefereeGame refereeGame : refereesGame){
+				if(refereeGame.getUser() != null && refereeGame.getUser().getIdUser().equals(idUser)
+						&& refereeGame.isConfirmed() == null){
+			
+					result = true;
+					break;
+					
+				}
+			}
+		
+		return result;
+	}
+	
+	public boolean isDeclinedByReferee(String idUser){
+		
+		boolean result = false;
+
+			for(RefereeGame refereeGame : refereesGame){
+				if(refereeGame.getUser() != null && refereeGame.getUser().getIdUser().equals(idUser)
+						&& refereeGame.isConfirmed() != null && !refereeGame.isConfirmed()){
+			
+					result = true;
+					break;
+					
+				}
+			}
+		
+		return result;
+	}
+	
+	
+	public boolean isRequestedByReferee(String idUser){
+		
+		boolean result = false;
+
+			for(RefereeGame refereeGame : refereesGame){
+				if(refereeGame.getUser() == null && 
+						refereeGame.getUsers().stream().filter(user -> user.getIdUser().equals(idUser)).count() == 1){ 
+					result = true;
 					break;
 				}
 			}
-		}
+		
 		return result;
 	}
 	
@@ -303,6 +388,24 @@ public class Game implements Serializable{
 	}
 	
 
+	public boolean hasConflict(){
+		
+		boolean result = false;
+		
+		for(RefereeGame refereeGame : refereesGame){
+			
+			if(refereeGame.getUser() != null){
+				if(!this.isAvailable(refereeGame.getUser()) 
+					|| !refereeGame.getUser().getUserRefereeType(refereeGame.getRefereeType())
+					|| refereeGame.getUser().hasOtherGame(this)){
+					result = true;
+					break;
+				}
+			}
+		}
+		
+		return result; 
+	}
 	
 }
 

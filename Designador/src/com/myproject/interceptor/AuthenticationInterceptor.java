@@ -171,19 +171,38 @@ public class AuthenticationInterceptor implements Interceptor {
 			
 			List<?> myFutureGames = myFutureGamesStream.collect(Collectors.toList());
 			
-			session.put("myFutureGames",myFutureGames.size());
+			if(user.getUserRole() > User.ADMIN){
+				session.put("myFutureGames",myFutureGames.size());
+				
+				session.put("myConfirmedGames",myFutureGames.stream().filter(game -> ((Game)game).isConfirmedByReferee(user.getIdUser())).count());
+
+				session.put("myUnconfirmedGames",myFutureGames.stream().filter(game -> ((Game)game).isUnConfirmedByReferee(user.getIdUser())).count());
+
+				session.put("myDeclinedGames",myFutureGames.stream().filter(game -> ((Game)game).isDeclinedByReferee(user.getIdUser())).count());
+
+				session.put("myRequestedGames",allGames.stream().filter(game -> ((Game)game).isRequestedByReferee(user.getIdUser())).count());
+			}
 			
-			session.put("myConfirmedGames",myFutureGames.stream().filter(game -> ((Game)game).isConfirmedByReferee(user.getIdUser())).count());
-
-			session.put("myUnconfirmedGames",myFutureGames.stream().filter(game -> !((Game)game).isConfirmedByReferee(user.getIdUser())).count());
-
 			session.put("unassignedGames",allGames.stream().filter(game -> ((Game)game).isUnassigned()).count());
 
-			session.put("unpublishedGames",allGames.stream().filter(game -> !((Game)game).isGameStatus()).count());
-			
-			session.put("confirmedGames",allGames.stream().filter(game -> ((Game)game).isConfirmed()).count());
+			if(user.isAdmin() ){
+				session.put("unpublishedGames",allGames.stream().filter(game -> !((Game)game).isGameStatus()).count());
+				
+				session.put("confirmedGames",allGames.stream().filter(game -> ((Game)game).isConfirmed()).count());
 
-			session.put("unconfirmedGames",allGames.stream().filter(game -> ((Game)game).isUnconfirmed()).count());
+				session.put("unconfirmedGames",allGames.stream().filter(game -> ((Game)game).isUnconfirmed()).count());
+				
+				session.put("declinedGames",allGames.stream().filter(game -> ((Game)game).isDeclined()).count());
+				
+				session.put("requestedGames",allGames.stream().filter(game -> ((Game)game).isRequested()).count());
+
+				session.put("conflictsGames",allGames.stream().filter(game -> ((Game)game).hasConflict()).count());
+				
+
+			}
+			
+			
+			
 
 		}
 		

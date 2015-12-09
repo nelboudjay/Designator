@@ -108,7 +108,7 @@ public class DAOImpl implements DAO {
 			tx.commit();
 
 		} catch (Exception e) {
-			//e.printStackTrace();
+			e.printStackTrace();
 			tx.rollback();
 		}
 
@@ -186,7 +186,7 @@ public class DAOImpl implements DAO {
 			tx.commit();
 
 		} catch (Exception e) {
-			//e.printStackTrace();
+			e.printStackTrace();
 			tx.rollback();
 		}
 		

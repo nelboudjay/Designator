@@ -3,11 +3,13 @@ package com.myproject.action.game;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -15,10 +17,13 @@ import java.util.stream.Stream;
 
 import javax.servlet.ServletContext;
 
+import org.apache.commons.lang.SerializationUtils;
+import org.apache.commons.lang.WordUtils;
 import org.apache.struts2.interceptor.SessionAware;
 import org.apache.struts2.interceptor.validation.SkipValidation;
 import org.apache.struts2.util.ServletContextAware;
 
+import com.myproject.mail.MailService;
 import com.myproject.model.Category;
 import com.myproject.model.Game;
 import com.myproject.model.League;
@@ -29,6 +34,7 @@ import com.myproject.model.UserRefereeType;
 import com.myproject.model.Venue;
 import com.myproject.service.GenericService;
 import com.myproject.tools.FieldCondition;
+import com.myproject.tools.VelocityTemplate;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -49,7 +55,8 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 	private List<Game> games;
 	private Boolean[] refereeTypes = {false, false, false, false, false, false};
 	private String[] idUsers = {"0", "0", "0", "0", "0", "0"};
-
+	private int refereeType;
+	private Boolean confirmed, requested;
 	private List<?> teams, leagues, categories, venues, referees;
 	
     private Date date, dateTime;
@@ -68,6 +75,9 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
     private ServletContext context;
 
 	private Map<String, FieldCondition> eqRestrictions = new HashMap<String, FieldCondition>();	
+
+	private Map<String, String> templateData = new HashMap<String, String>();
+	private MailService mailService;
 
 	@Override
 	@SkipValidation
@@ -122,7 +132,6 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 					referees = service.GetModelDataList(User.class, eqRestrictions, "firstName", true);
 				}
 
-				
 				if(idUser != null){
 					
 					if(idUser.equals(((User)session.get("user")).getIdUser())){
@@ -159,7 +168,6 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 					}	
 				}
 
-				
 				if(is != null){
 					
 					if(is.equalsIgnoreCase("unassigned"))
@@ -168,17 +176,27 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 						allGames.removeIf(game -> !((Game)game).isGameStatus());
 					else if(is.equalsIgnoreCase("unpublished"))
 						allGames.removeIf(game -> ((Game)game).isGameStatus());
+					else if(is.equalsIgnoreCase("conflict"))
+						allGames.removeIf(game -> !((Game)game).hasConflict());
 					else if(idUser != null){
 						if(is.equalsIgnoreCase("confirmed"))
 							allGames.removeIf(game -> !((Game)game).isConfirmedByReferee(idUser));
 						else if(is.equalsIgnoreCase("unconfirmed"))
-							allGames.removeIf(game -> ((Game)game).isConfirmedByReferee(idUser));
+							allGames.removeIf(game -> !((Game)game).isUnConfirmedByReferee(idUser));
+						else if(is.equalsIgnoreCase("declined"))
+							allGames.removeIf(game -> !((Game)game).isDeclinedByReferee(idUser));
+						else if(is.equalsIgnoreCase("requested"))
+							allGames.removeIf(game -> !((Game)game).isRequestedByReferee(idUser));
 					}
 					else{
 						if(is.equalsIgnoreCase("confirmed"))
 							allGames.removeIf(game -> !((Game)game).isConfirmed());
 						else if(is.equalsIgnoreCase("unconfirmed"))
 							allGames.removeIf(game -> !((Game)game).isUnconfirmed());
+						else if(is.equalsIgnoreCase("declined"))
+							allGames.removeIf(game -> !((Game)game).isDeclined());
+						else if(is.equalsIgnoreCase("requested"))
+							allGames.removeIf(game -> !((Game)game).isRequested());
 					}
 
 				}
@@ -186,7 +204,6 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 				games = new LinkedList<Game>();
 	
 				setSelectedDate();
-
 		
 				if(date == null || date.equals(new Date(Long.MIN_VALUE))){
 					
@@ -345,7 +362,7 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 			game = (Game) service.GetUniqueModelData(Game.class, eqRestrictions);			
 			
 			if(game != null){
-
+				
 				game.setGameDate(new Timestamp(dateTime.getTime()));
 			
 				game.setHomeTeam(homeTeam);
@@ -358,24 +375,36 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 				
 				game.setGameVenue(venue);
 				
-				game.setGameStatus(gameStatus);
+				Game oldGame = (Game)SerializationUtils.clone(game);
+				oldGame.setRefereesGame(new LinkedList<RefereeGame>());
+				Game currentGame = (Game)SerializationUtils.clone(game);
+				Game newGame = (Game)SerializationUtils.clone(game);
+				newGame.setRefereesGame(new LinkedList<RefereeGame>());
 				
 				for(int i = 0; i < UserRefereeType.REFEREETYPES; i++){
 					
 					if(game.getRefereeGame(i + 1) != null){
 						if(!refereeTypes[i]){
+							
 							service.DeleteModelData(game.getRefereeGame(i + 1));
+							if(game.getRefereeGame(i + 1).getUser() != null)
+								oldGame.getRefereesGame().add((RefereeGame)SerializationUtils.clone(game.getRefereeGame(i + 1)));
 							game.getRefereesGame().remove(game.getRefereeGame(i + 1));
+
 						}else{
 							if(game.getRefereeGame(i + 1).getUser() != null){
-								if(idUsers[i].equals("0"))
+								if(idUsers[i].equals("0")){
+									oldGame.getRefereesGame().add((RefereeGame)SerializationUtils.clone(game.getRefereeGame(i + 1)));
 									game.getRefereeGame(i + 1).setUser(null);
-								else if(!idUsers[i].equals(game.getRefereeGame(i + 1).getUser().getIdUser())){
+								}else if(!idUsers[i].equals(game.getRefereeGame(i + 1).getUser().getIdUser())){
 									String idUser = idUsers[i];
 									Optional<?> opt = referees.stream().
 											filter(referee -> ((User)referee).getIdUser().equals(idUser)).findFirst();
-									if(opt.isPresent())
-										game.getRefereeGame(i + 1).setUser((User)opt.get());	
+									if(opt.isPresent()){
+										oldGame.getRefereesGame().add((RefereeGame)SerializationUtils.clone(game.getRefereeGame(i + 1)));
+										game.getRefereeGame(i + 1).setUser((User)opt.get());
+										newGame.getRefereesGame().add((RefereeGame)SerializationUtils.clone(game.getRefereeGame(i + 1)));
+									}
 								}
 							}
 							else{
@@ -383,8 +412,10 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 									String idUser = idUsers[i];
 									Optional<?> opt = referees.stream().
 											filter(referee -> ((User)referee).getIdUser().equals(idUser)).findFirst();
-									if(opt.isPresent())
+									if(opt.isPresent()){
 										game.getRefereeGame(i + 1).setUser((User)opt.get());
+										newGame.getRefereesGame().add((RefereeGame)SerializationUtils.clone(game.getRefereeGame(i + 1)));
+									}
 								}
 							}						
 						}
@@ -397,8 +428,10 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 								String idUser = idUsers[i];
 								Optional<?> opt = referees.stream().
 										filter(referee -> ((User)referee).getIdUser().equals(idUser)).findFirst();
-								if(opt.isPresent())
-									refereeGame.setUser((User)opt.get());	
+								if(opt.isPresent()){
+									refereeGame.setUser((User)opt.get());
+									newGame.getRefereesGame().add((RefereeGame)SerializationUtils.clone(refereeGame));
+								}
 							}
 							service.SaveOrUpdateModelData(refereeGame);
 							game.getRefereesGame().add(refereeGame);
@@ -412,6 +445,17 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 		
 				date = new Date();
 				game.setLastUpdatedDate(new Timestamp(date.getTime()));
+				
+				if(gameStatus && game.isGameStatus()){
+					notifyReferees(oldGame,false);
+					notifyReferees(newGame,true);
+				}
+				else if(gameStatus && !game.isGameStatus())
+					notifyReferees(game,true);
+				else if(!gameStatus && game.isGameStatus())
+					notifyReferees(currentGame,false);
+				
+				game.setGameStatus(gameStatus);
 				
 				service.SaveOrUpdateModelData(game);
 				addActionMessage("Se ha actualizado el partido con exito.");
@@ -444,6 +488,9 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 				game.getRefereesGame().add(refereeGame);
 			}
 		}
+		
+		if(gameStatus)
+			notifyReferees(game,true);
 		
 		service.SaveOrUpdateModelData(game);
 		addActionMessage("Se ha añadido el partido con exito.");
@@ -510,15 +557,136 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 				Date date = new Date();
 				game.setLastUpdatedDate(new Timestamp(date.getTime()));
 				
-				game.setGameStatus(true);
+				game.setGameStatus(Game.PUBLISHED);
 				
 				service.SaveOrUpdateModelData(game);
+				
+				notifyReferees(game,true);
 				
 				addActionMessage("El partido ha sido publicado con exito.");
 				return SUCCESS;
 			
 			}
 		}
+	}
+	
+	
+	@SkipValidation
+	public String confirmGame(){
+		
+		User user = (User)session.get("user");
+
+		if(user.getUserRole() == User.ADMIN){
+			addActionError("No tienes perfil de árbitro para confirmar o rechazar este partido.");
+			setContextGames();
+			return INPUT;
+		}
+		else if (idGame == null || idGame.equals("")){
+			
+			addActionError("Por favor, introduce el id del partido que quieres confirmar o rechazar.");
+			setContextGames();
+			return INPUT;
+		}
+		else{
+			
+			eqRestrictions.put("idGame", new FieldCondition(idGame));
+			game = (Game) service.GetUniqueModelData(Game.class, eqRestrictions);			
+			
+			if(game == null || (user.getUserRole() == User.REFEREE && !game.isGameStatus())){
+				
+				addActionError("El partido que quieres confirmar o rechazar no existe o ya se ha eliminado.");
+				setContextGames();
+				return INPUT;	
+			}
+			else{
+				
+				if( refereeType >= 1 && refereeType <= 6 && game.getRefereeGame(refereeType) != null 
+						 && game.getRefereeGame(refereeType).getUser().getIdUser().equals(user.getIdUser())){
+					
+					if(confirmed == null)
+						game.getRefereeGame(refereeType).setConfirmed(RefereeGame.UNCONFIRMED);
+					else
+					{	
+						if(confirmed){
+							game.getRefereeGame(refereeType).setConfirmed(RefereeGame.CONFIRMED);
+							addActionMessage("Tu designación para este partido ha sido confirmada con exito.");
+						}else{
+							game.getRefereeGame(refereeType).setConfirmed(RefereeGame.DECLINED);
+							addActionMessage("Tu designación para este partido ha sido rechzada con exito.");
+						}
+						
+						notifyAdmins(game, refereeType, confirmed);
+					}
+
+					service.SaveOrUpdateModelData(game);
+				}
+				
+				return SUCCESS;
+			
+			}
+		}
+	}
+	
+	@SkipValidation
+	public String requestGame(){
+		
+		User user = (User)session.get("user");
+
+		if(user.getUserRole() == User.ADMIN){
+			addActionError("No tienes perfil de árbitro para solicitar o cancelar la solicitud de este partido.");
+			setContextGames();
+			return INPUT;
+		}
+		else if (idGame == null || idGame.equals("")){
+			
+			addActionError("Por favor, introduce el id del partido que quieres solicitar o cancelar la solicitud.");
+			setContextGames();
+			return INPUT;
+		}
+		else{
+			
+			eqRestrictions.put("idGame", new FieldCondition(idGame));
+			game = (Game) service.GetUniqueModelData(Game.class, eqRestrictions);			
+			
+			if(game == null || (user.getUserRole() == User.REFEREE && !game.isGameStatus())){
+				
+				addActionError("El partido que quieres solicitar o cancelar la solicitudno no existe o ya se ha eliminado.");
+				setContextGames();
+				return INPUT;	
+			}
+			else{
+
+				if( refereeType >= 1 && refereeType <= 6 && game.getRefereeGame(refereeType) != null 
+						&& game.getRefereeGame(refereeType).getUser() == null
+						&& game.isAvailable(user) && user.getUserRefereeType(refereeType)
+								&& !user.hasOtherGame(game) ){
+					if(requested != null){
+						
+						if(requested){
+							
+							if(game.getRefereeGame(refereeType).getUsers().stream().filter(
+									usr -> usr.equals(user)).count() == 0){
+								game.getRefereeGame(refereeType).getUsers().add(user);
+								service.SaveOrUpdateModelData(game);
+							}		
+						}
+						else{
+
+							if(game.getRefereeGame(refereeType).getUsers().stream().filter(
+									usr -> usr.equals(user)).count() == 1){
+			
+								game.getRefereeGame(refereeType).getUsers().removeIf(usr -> usr.equals(user));
+								service.SaveOrUpdateModelData(game);
+							}
+						}
+					}
+				}
+
+				addActionMessage("Tu solicitud para este partido ha sido confirmada con exito.");
+				return SUCCESS;
+			
+			}
+		}	
 	}
 	
 	@SkipValidation
@@ -544,6 +712,12 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 			}
 			else{
 				
+
+				Game oldGame = (Game)SerializationUtils.clone(game);
+				oldGame.setRefereesGame(new LinkedList<RefereeGame>());
+				Game newGame = (Game)SerializationUtils.clone(game);
+				newGame.setRefereesGame(new LinkedList<RefereeGame>());
+				
 				eqRestrictions.clear();
 				eqRestrictions.put("userRole", new FieldCondition(User.REFEREE,1));
 				referees = service.GetModelDataList(User.class, eqRestrictions, "firstName", true);
@@ -553,14 +727,19 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 					if(game.getRefereeGame(i + 1) != null){
 						
 						if(game.getRefereeGame(i + 1).getUser() != null){
-							if(idUsers[i].equals("0"))
+							if(idUsers[i].equals("0")){
+								oldGame.getRefereesGame().add((RefereeGame)SerializationUtils.clone(game.getRefereeGame(i + 1)));
 								game.getRefereeGame(i + 1).setUser(null);
+							}
 							else if(!idUsers[i].equals(game.getRefereeGame(i + 1).getUser().getIdUser())){
 								String idUser = idUsers[i];
 								Optional<?> opt = referees.stream().
 										filter(referee -> ((User)referee).getIdUser().equals(idUser)).findFirst();
-								if(opt.isPresent())
-									game.getRefereeGame(i + 1).setUser((User)opt.get());	
+								if(opt.isPresent()){
+										oldGame.getRefereesGame().add((RefereeGame)SerializationUtils.clone(game.getRefereeGame(i + 1)));
+										game.getRefereeGame(i + 1).setUser((User)opt.get());
+										newGame.getRefereesGame().add((RefereeGame)SerializationUtils.clone(game.getRefereeGame(i + 1)));
+								}
 							}
 						}
 						else{
@@ -568,13 +747,19 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 								String idUser = idUsers[i];
 								Optional<?> opt = referees.stream().
 										filter(referee -> ((User)referee).getIdUser().equals(idUser)).findFirst();
-								if(opt.isPresent())
+								if(opt.isPresent()){
 									game.getRefereeGame(i + 1).setUser((User)opt.get());
+									newGame.getRefereesGame().add((RefereeGame)SerializationUtils.clone(game.getRefereeGame(i + 1)));
+								}
 							}
 						}			
 					}
 				}
 				
+				if(game.isGameStatus()){
+					notifyReferees(oldGame, false);
+					notifyReferees(newGame, true);
+				}
 				
 				setDateStr(dateStr);
 				User user = (User)session.get("user");
@@ -615,6 +800,8 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 				return INPUT;	
 			}
 			else{
+				if(game.isGameStatus())
+					notifyReferees(game, false);
 				service.DeleteModelData(game);
 				addActionMessage("El partido ha sido eliminado con exito.");
 				return SUCCESS;
@@ -688,6 +875,91 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 		
 		eqRestrictions.put("userRole", new FieldCondition(User.REFEREE,1));
 		referees = service.GetModelDataList(User.class, eqRestrictions, "firstName", true);
+	}
+	
+	
+	public void notifyAdmins(Game game, int refereeType, boolean confirmed){
+		setTemplateGameInfo(game);
+		
+		templateData.put("fullName", ((User)session.get("user")).getUserFullName());
+		
+		templateData.put("action", confirmed ? "confirmado" : "rechazado");
+
+		templateData.put("refereeType", UserRefereeType.getRefereeTypeName(refereeType));
+
+		eqRestrictions.clear();
+		List<?> users =  service.GetModelDataList(User.class, eqRestrictions, null, null);
+
+		List<String> emailAddressesList = new  ArrayList<String>();
+		users.stream().filter(user -> ((User)user).isAdmin()).
+			forEach(user ->   emailAddressesList.add(((User)user).getEmail()));
+		
+		if(emailAddressesList.size() > 0){
+			
+			String[] emailAddressesArray = new String[ emailAddressesList.size() ];
+			emailAddressesList.toArray( emailAddressesArray );
+			
+			VelocityTemplate  velocityTemplate = new VelocityTemplate("confirmNotification.vm", templateData);
+			mailService.sendMail(emailAddressesArray,
+					((User)session.get("user")).getUserFullName() + " ha "  + (confirmed ? "Confirmado" : "Rechazado") +
+					 " su Designación", velocityTemplate.getTemplate());
+		}
+
+	}
+	
+	public void notifyReferees(Game game, boolean assign){
+		
+		setTemplateGameInfo(game);
+
+		templateData.put("adminFirstName", ((User)session.get("user")).getUserProfile().getFirstName());
+
+		
+		Map<String,List<RefereeGame>> usersInfo = new  HashMap<String,List<RefereeGame>>();
+		game.getRefereesGame().stream().filter(refereeGame -> refereeGame.getUser() != null)
+					.forEach(refereeGame -> 
+						usersInfo.put(refereeGame.getUser().getEmail(), game.getRefereesGameByUser(refereeGame.getUser()))
+					);
+		
+		usersInfo.forEach((emailAddress, refereesGame) -> {
+			templateData.put("firstName", refereesGame.get(0).getUser().getUserProfile().getFirstName());					
+			String refereeTypes = "";
+			for(RefereeGame refereeGame : refereesGame)
+				refereeTypes += UserRefereeType.getRefereeTypeName(refereeGame.getRefereeType()) + ", ";
+				
+			refereeTypes = refereeTypes.substring(0, refereeTypes.length() - 2) + ".";
+			templateData.put("refereeTypes",refereeTypes);
+			
+			if(assign){
+				VelocityTemplate  velocityTemplate = new VelocityTemplate("assignmentNotification.vm", templateData);
+				mailService.sendMail(new String[]{emailAddress}, "Tienes una Nueva Designación", velocityTemplate.getTemplate());
+			}
+			else{
+				VelocityTemplate  velocityTemplate = new VelocityTemplate("unassignmentNotification.vm", templateData);
+				mailService.sendMail(new String[]{emailAddress}, "Designación Eliminada", velocityTemplate.getTemplate());
+			}
+			
+		});
+	}
+	
+	public void setTemplateGameInfo(Game game){
+
+		SimpleDateFormat dayNameFormat = new SimpleDateFormat("EEE",new Locale("es","ES"));
+		SimpleDateFormat dateFormat = new SimpleDateFormat("d");
+		SimpleDateFormat monthNameFormat = new SimpleDateFormat("MMM",new Locale("es","ES"));
+		SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy");
+		SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+
+		templateData.put("gameInfo", game.getHomeTeam().getTeamName() + " vs " + game.getAwayTeam().getTeamName() +
+				", " + WordUtils.capitalize(dayNameFormat.format(game.getGameDate())) + " " + dateFormat.format(game.getGameDate())
+				+ " de " + monthNameFormat.format(game.getGameDate()) + " de " + yearFormat.format(game.getGameDate())
+				+ " a las " + timeFormat.format(game.getGameDate()));
+		templateData.put("gameLeague", game.getGameLeague() != null ? game.getGameLeague().getLeagueName() : "");
+		templateData.put("gameCategory", game.getGameCategory() != null ? 
+			game.getGameCategory().getCategoryName() + " " + game.getGameCategory().getCategoryGenderName() : "");
+		templateData.put("gameCity", game.getGameVenue() != null && game.getGameVenue().getVenueAddress() != null ? 
+			game.getGameVenue().getVenueAddress().getCity() : "");
+		templateData.put("gameVenue", game.getGameVenue() != null ? game.getGameVenue().getVenueName() : "");
+		
 	}
 	
 	public String getIdUser() {
@@ -953,5 +1225,38 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 		this.idUsers = idUsers;
 	}
 
+
+	public int getRefereeType() {
+		return refereeType;
+	}
+
+
+	public void setRefereeType(int refereeType) {
+		this.refereeType = refereeType;
+	}
+
+
+	public Boolean getConfirmed() {
+		return confirmed;
+	}
+
+
+	public void setConfirmed(Boolean confirmed) {
+		this.confirmed = confirmed;
+	}
+
+
+	public Boolean getRequested() {
+		return requested;
+	}
+
+
+	public void setRequested(Boolean requested) {
+		this.requested = requested;
+	}
+
+	public void setMailService(MailService mailService) {
+		this.mailService = mailService;
+	}
 
 }

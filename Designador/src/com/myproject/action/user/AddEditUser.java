@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -264,6 +265,7 @@ public class AddEditUser extends ActionSupport implements SessionAware, ServletC
 					eqRestrictions.put("user", new FieldCondition(user));
 
 					List<?> userRefereeTypes = service.GetModelDataList(UserRefereeType.class, eqRestrictions, null, null);	
+					List<UserRefereeType> newUserRefereeTypes = new LinkedList<UserRefereeType>();
 					boolean urtAlreadyExist;
 					for(int i= 0; i < UserRefereeType.REFEREETYPES; i++){
 						urtAlreadyExist = false;
@@ -272,14 +274,18 @@ public class AddEditUser extends ActionSupport implements SessionAware, ServletC
 							if(((UserRefereeType)userRefereeType).getRefereeType() == i + 1){
 								if(!refereeTypes[i])
 									service.DeleteModelData(userRefereeType);
+								else
+									newUserRefereeTypes.add((UserRefereeType)userRefereeType);
 								urtAlreadyExist = true;
 								break;
 							}
 							
 						}
 						if(!urtAlreadyExist && refereeTypes[i])
-								service.SaveOrUpdateModelData(new UserRefereeType(user, i + 1));	
+							newUserRefereeTypes.add(new UserRefereeType(user, i + 1));
+						
 					}
+					user.setUserRefereeTypes(newUserRefereeTypes);
 				}			
 			}
 			

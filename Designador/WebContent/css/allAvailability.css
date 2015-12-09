@@ -18,3 +18,17 @@
 .show-all-referees {
 	display:none;
 }
+
+.available-referees{
+	width:100%;
+}
+
+.available-referees th{
+	width:0.041666%;
+	border:none;
+	padding: 8px 0;
+}
+
+.available-refereesth:first{
+	border-left: 1px solid #ddd;	
+}

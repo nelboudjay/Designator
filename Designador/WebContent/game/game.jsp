@@ -11,8 +11,8 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/commonScript.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/game.js"></script>
-<!--<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script> 
-<script src="${pageContext.request.contextPath}/js/datepicker-es.js"></script>-->
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script> 
+<script src="${pageContext.request.contextPath}/js/datepicker-es.js"></script>
 
 <title><s:property value="game.HomeTeam.TeamName"/> vs <s:property value="game.AwayTeam.TeamName"/></title>
 
@@ -39,7 +39,7 @@
 		<div class="container">
 				
 
-			<div class="game-menu">
+			<div class="game-menu" data-date="<s:date name="game.GameDate" format="yyyy-MM-dd"/>">
 				<s:date name="game.GameDate" format="EEEE" var="gameDay"/>
 				<s:property value="@com.opensymphony.xwork2.inject.util.Strings@capitalize(#gameDay)"/>, 
 				<s:date name="game.GameDate" format="d"/> de 
@@ -52,13 +52,21 @@
 			
 			<br/>
 			
-			<table class="game-info">
+			<table id="${idGame}" class="game-info">
 				<tr>
 					<th colspan="3">
-						<a href="${pageContext.request.contextPath}/team/addEditTeam?idTeam=${game.homeTeam.idTeam}"><b class="title-2"><s:property value="game.HomeTeam.TeamName"/></b></a>
-						 vs 
-						<a href="${pageContext.request.contextPath}/team/addEditTeam?idTeam=${game.awayTeam.idTeam}"><b class="title-2"><s:property value="game.AwayTeam.TeamName"/></b></a>
-					</th>
+						<s:if test="#session.user.isAdmin()">
+							<a href="${pageContext.request.contextPath}/team/addEditTeam?idTeam=${game.homeTeam.idTeam}"><b class="title-2"><s:property value="game.HomeTeam.TeamName"/></b></a>
+							 vs 
+							<a href="${pageContext.request.contextPath}/team/addEditTeam?idTeam=${game.awayTeam.idTeam}"><b class="title-2"><s:property value="game.AwayTeam.TeamName"/></b></a>
+						
+						</s:if>
+						<s:else>
+							<b class="title-2"><s:property value="game.HomeTeam.TeamName"/></b>
+						 	vs 
+							<b class="title-2"><s:property value="game.AwayTeam.TeamName"/></b>
+						</s:else>
+				</th>
 				</tr>
 				<s:if test="#session.user.isAdmin()">
 					<tr>
@@ -111,7 +119,30 @@
 								</s:if>
 								<s:else>
 									<s:if test="game.getRefereeGame(#status.index + 1).user== null">
-										<div class="not-assigned">No Designado</div>
+										
+										<s:if test="#session.user in game.getRefereeGame(#status.index + 1).users">
+											<div class="requested">
+												Solicitado
+											</div>
+											<span class="btn cancel-request" title="Anular tu solicitud">✖︎</span>
+										</s:if>
+										<s:else>
+											<div class="not-assigned">											
+												<s:if test="#session.user.userRole > 1 &&  game.isAvailable(#session.user)
+													&&  #session.user.getUserRefereeType(#status.index + 1) 
+													&& !#session.user.hasOtherGame(game) ">
+													<a class="link request">Solicitar</a>
+												</s:if>
+												<s:else>
+													No Designado
+												</s:else>							
+											</div>
+										</s:else>
+										
+										<s:if test="#session.user.isAdmin() && game.getRefereeGame(#status.index + 1).users.size() > 0">
+											<img  class="request-icon" title="Tiene solicitudes pendientes"
+											src="${pageContext.request.contextPath}/images/request-icon.png">
+										</s:if>
 									</s:if>
 									<s:else>
 										<s:if test="!#session.user.isAdmin() && game.getRefereeGame(#status.index + 1).user.idUser != #session.user.idUser 
@@ -125,19 +156,57 @@
 												<s:property value="game.getRefereeGame(#status.index + 1).user.userProfile.lastName1"/></a>
 										</s:else>
 										
-										<s:if test="game.getRefereeGame(#status.index + 1).isConfirmed()">
-											<img  class="confirmation" title="El árbitro ha confirmado su designación a este partido"
-												src="${pageContext.request.contextPath}/images/check-icon.png">
+										<s:if test="game.getRefereeGame(#status.index + 1).isConfirmed() == null">
+										
+											<s:if test="#session.user.idUser == game.getRefereeGame(#status.index + 1).user.idUser ">
+												<span class="btn confirm" title="Confirmar tu designación">✓</span> 
+												<span class="btn decline" title="Rechazar tu designación">✖︎</span>
+											</s:if>
+											<s:else>
+												<img  class="confirmation" title="El árbitro aún no ha confirmado su designación para este partido"
+													src="${pageContext.request.contextPath}/images/question-icon.png">
+											</s:else>
+				
 										</s:if>
+										<s:elseif test="game.getRefereeGame(#status.index + 1).isConfirmed()">
+											
+											<s:if test="#session.user.idUser == game.getRefereeGame(#status.index + 1).user.idUser ">
+												<span class="confirmed" title="Has confirmado tu designación">✓</span> 	
+												<span class="btn decline" title="Rechazar tu designación">✖︎</span>
+											</s:if>
+											<s:else>
+													<span class="confirmed" title="El árbitro ha confirmado su designación a este partido">✓</span> 
+											</s:else>
+										</s:elseif>
 										<s:else>
-											<img  class="confirmation" title="El árbitro aún no ha confirmado su designación para este partido"
-												src="${pageContext.request.contextPath}/images/warning-icon.png">
+											<s:if test="#session.user.idUser == game.getRefereeGame(#status.index + 1).user.idUser ">
+												<span class="declined" title="Has rechazado tu designación">✖</span> 
+												<span class="btn confirm" title="Confirmar tu designación">✓</span> 
+											</s:if>
+											<s:else>
+													<span class="declined" title="El árbitro ha rechazado su designación para este partido">✖</span> 
+											</s:else>
 										</s:else>
+										
+										<s:if test="#session.user.isAdmin()">
+											<s:if test="!game.isAvailable(game.getRefereeGame(#status.index + 1).user)">
+												<img  class="confirmation" title="El árbitro tiene el siguiente conflicto para este partido: No está Disponible"
+													src="${pageContext.request.contextPath}/images/warning-icon.png">
+											</s:if>
+											<s:elseif test="!game.getRefereeGame(#status.index + 1).user.getUserRefereeType(#status.index + 1)">
+												<img  class="confirmation" title="El árbitro tiene el siguiente conflicto para este partido: No tiene habilidad para este tipo de árbitro"
+													src="${pageContext.request.contextPath}/images/warning-icon.png">
+											</s:elseif>
+											<s:elseif test="game.getRefereeGame(#status.index + 1).user.hasOtherGame(game)">
+												<img  class="confirmation" title="El árbitro tiene el siguiente conflicto para este partido: Tiene designado otro partido"
+													src="${pageContext.request.contextPath}/images/warning-icon.png">
+											</s:elseif>
+										</s:if>
+								
 									</s:else>
 									
 									<s:if test="#session.user.isAdmin()">
-										<div class="select-div" style="display:none">
-											<select id="refereeName${status.index + 1}" name="idUsers">
+											<select id="refereeName${status.index + 1}" name="idUsers" style="display:none;">
 												<option value="0" selected >Elige un árbitro</option>	
 												<s:iterator value="referees"  var="referee">
 													<option value="${idUser}" 
@@ -145,6 +214,7 @@
 													>
 														${userProfile.firstName}
 														${userProfile.lastName1},
+														
 														<s:if test="!game.isAvailable(#referee)">
 															N/A
 														</s:if>
@@ -155,12 +225,11 @@
 															O.P
 														</s:elseif>
 														<s:else>
-															OK
+															*OK*
 														</s:else>
 													</option>
 												</s:iterator>
 											</select>
-										</div>	
 									</s:if>
 								</s:else>
 							</div>
@@ -174,7 +243,7 @@
 								Conflictos
 								<div class="conflicts-types">
 									<div><strong>Tipos de Conflictos</strong></div>
-									<div>OK: No hay conflictos</div>
+									<div>*OK*: No hay conflictos</div>
 									<div>N/A: No disponible</div>
 									<div>O.P: Otro partido</div>
 									<div>H: Habilidad</div>
@@ -226,10 +295,8 @@
 				</s:if>
 			</p>
 			<p class="save-assignment-2">
-				
-						<input type="submit" value="Guardar" class="btn save">
-						<span><a class="link-2 cancel-2">Cancelar</a></span>
-			
+				<input id="${idGame}" type="submit" value="Guardar" class="btn save-2">
+				<span><a class="link-2 cancel-2">Cancelar</a></span>
 			</p>
 		</div>
 		<jsp:include page="../footer.jsp"/>

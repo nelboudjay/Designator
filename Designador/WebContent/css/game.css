@@ -12,7 +12,6 @@
 .games td {
 	height:0;
 	border:0;
-	padding: 0 6px;
 }
 
 .nowrap td{
@@ -29,6 +28,8 @@
 
 .games tr:nth-child(3n + 2) > td:first-child{
 	color:#5b5b5b;
+	padding-top: 5px;
+    vertical-align: top;
 }
 
 .games tr:nth-child(3n + 2) > td:first-child > *{
@@ -40,6 +41,7 @@
 .table{
 	display:table;
 	width:100%;
+	margin: 5px 0;
 }
 .table > .row {
 	text-align:center;
@@ -74,10 +76,15 @@
 .games tr:nth-child(3n + 2) > td:nth-child(3){
     text-align: center;
 }
+
 .games tr:nth-child(3n + 2) > td:nth-child(3) > div{
     text-align: left;
     display:inline-block;
     margin: 5px 0;
+}
+
+.game-info .row > div{
+	padding-bottom:5px;
 }
 
 [class^="save-assignment"] {
@@ -111,18 +118,18 @@
 }
 
 .conflicts-2 > .conflicts-types{
-	left:20px;
+	left:15px;
 }
 
 .conflicts-3 > .conflicts-types{
-	left:-155px;
+	left:-160px;
 }
 
 .conflicts-types {
 	background-color: #000;
     border-radius: 5px;
     color: #fff !important;
-    left: -140px;
+    left: -155px;
     display:none;
     max-width: 200px !important;
     padding: 5px 10px;
@@ -144,6 +151,12 @@
 	border-width: 5px;
 	margin-top: -5px;
 }
+
+.games tr:nth-child(3n + 2) > td:nth-child(4)  > div, .games tr:nth-child(3n + 2) > td:nth-child(5)  > div{
+	padding:2px 0;
+	height:20px;
+}
+
 
 .games tr:nth-child(3n + 2) > td:nth-child(6)  > div{
 	margin:5px 0;
@@ -176,7 +189,11 @@
 	background-color: #f0ad4e;
 }
 
-.not-assigned, .not-required{
+.requested {
+	background-color:#428bca;
+}
+
+.not-assigned, .not-required, .requested{
     border-radius: 0.25em;
     color: #fff;
     text-align: center;
@@ -201,7 +218,7 @@
 	padding: 0 2px;
 }
 
-.confirmation {
+.confirmation, .request-icon {
 	width:14px;
 	vertical-align:text-top;
 }
@@ -267,5 +284,26 @@
 
 #gameForm .row > div {
 	padding-right:20px;
+}
+
+.btn {
+	padding:0 8px;
+}
+
+.btn.confirm, .confirmed {
+	color:#5cb85c;
+	line-height:normal;
+}
+
+.btn.decline, .declined, .btn.cancel-request{
+	color:#c1461c;
+	line-height:normal;
+}
+
+.cancel-request, .request-icon{
+	margin-left: 5px;
+}
+.declined, .confirmed {
+	cursor:default;
 }
 

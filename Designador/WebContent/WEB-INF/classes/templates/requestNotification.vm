@@ -1,0 +1,50 @@
+<html>
+<head>
+</head>
+<body style="background-color: #e8e7e6;">
+	<div>
+		<div style="margin-left: 12px;">
+			<img src="cid:logoImage">
+		</div>
+		<table  style="background-color:#ffffff;margin:0 auto;padding:20px 10px; width:95%;">
+			<tr>
+				<td><h2>Hola,</h2></td>
+			</tr>
+			<tr>
+				<td><h2 style="color: #ffffff; padding: 20px; background-color: #c1461c;">
+					$fullName ha $action su designación </h2></td>
+			</tr>
+			<tr>
+				<td style="padding-bottom: 25px;"><b>$fullName</b> ha $action su designación para el siguiente partido:</td>
+			</tr>
+			<tr>
+				<td style="padding-bottom: 15px;"><b>$gameInfo</b></td>
+			</tr>
+			<tr>
+				<td style="padding-bottom: 15px;">Tipo de árbitro designado: <b>$refereeType.</b></td>
+			</tr>
+			<tr>
+				<td style="padding-bottom: 15px;">
+					Competición: <b>$gameLeague</b> 
+					<span style="margin-left:10px;">Categoría: <b>$gameCategory</b></span>
+				</td>
+			</tr>
+			<tr>
+				<td style="padding-bottom: 15px;">
+					Localidad: <b>$gameCity</b>
+					<span style="margin-left:10px;">  Pista: <b>$gameVenue</b></span>
+				</td>
+			</tr>
+			<tr>
+				<td style="padding-bottom: 10px;">Para consultar y/o gestionar las designaciones para este partido, inicia tu sesión en <a style="color: #c1461c;"
+					href="http://localhost:8080/Designator">Designator</a>.</td>
+			</tr>
+			<tr>
+				<td>Gracias por utilizar <a style="color: #c1461c;"
+					href="http://localhost:8080/Designator">Designator</a></td>
+			</tr>
+		</table>
+		<div style="color: #e8e7e6">end</div>
+	</div>
+</body>
+</html>

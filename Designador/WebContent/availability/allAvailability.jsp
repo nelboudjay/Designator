@@ -78,18 +78,24 @@
 			</form>
 			<table class="available-referees">
 				<tr>
-					<th>Árbitro</th>
-					<th>Disponibilidad</th>
+					<s:iterator value="{'00:00','01:00','02:00','03:00','04:00','05:00','06:00','07:00',
+					'08:00','09:00','10:00','11:00','12:00','13:00','14:00','15:00'
+					,'16:00','17:00','18:00','19:00','20:00','21:00','22:00','23:00'}" status="status">
+						<th <s:if test="#status.index == 0">style="border-left:1px solid #ddd; padding-left:2px;" </s:if>><s:property/></th>
+					</s:iterator>
 				</tr>
 				<s:iterator value="availableReferees">
 					<tr>
-						<td><a class="link" href="availability?idUser=${key.idUser}"><s:property value="key.userFullName"/> </a></td>
+						<td colspan="24"><a class="link" href="availability?idUser=${key.idUser}"><s:property value="key.userFullName"/> </a></td>
+						<!--
+						<div style="position: absolute; min-width: 50%; left: 0%; background-color: green; color: transparent; top: 0px; z-index: 0;">saddsad</div>
+						
 						<s:if test="value">
 							<td class="check" title="${key.userFullName} está disponible para esta fecha."></td>
 						</s:if>
 						<s:else>
 							<td class="cross" title="${key.userFullName} no está disponible para esta fecha."></td>
-						</s:else>
+						</s:else>-->
 					</tr>
 				</s:iterator>
 			</table>

@@ -61,16 +61,32 @@ $(function() {
 	
 	
 	$(document).on("click",".garbage", function(){
-		$(this).parent().remove();
 		
-		var calendarCell = $(".month-calendar").find("[data-day='" + $(this).parent().data("day") + "']");
-		calendarCell.text("Activar");
-		calendarCell.attr("data-available",0);
-		calendarCell.prev().removeClass("check");
-		calendarCell.prev().addClass("cross");
+		var  availableDate = $(this).parent();
+		$.ajax({
+			type : "POST",
+			url : "deleteAvailability",
+			data : {
+				idUser	: $(".user-menu").attr("id"),
+				dateStr : availableDate.data("date")
+			},
+			success : function(result) {
+
+				availableDate.remove();
+				
+				var calendarCell = $(".month-calendar").find("[data-day='" + availableDate.data("day") + "']");
+				calendarCell.text("Activar");
+				calendarCell.attr("data-available",0);
+				calendarCell.prev().removeClass("check");
+				calendarCell.prev().addClass("cross");
+				
+				if($("#availableDates").children().length == 2)
+					$("#availableDates .no-dates").show();
+			}
+		});
 		
-		if($("#availableDates").children().length == 2)
-			$("#availableDates .no-dates").show();
+		
+		
 	});
 	
 	

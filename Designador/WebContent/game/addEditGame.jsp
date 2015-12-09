@@ -214,7 +214,7 @@
 											O.P
 										</s:elseif>
 										<s:else>
-											OK
+											*OK*
 										</s:else>
 									</option>
 								</s:iterator>
@@ -227,7 +227,7 @@
 							Conflictos
 							<div class="conflicts-types">
 							<div><strong>Tipos de Conflictos</strong></div>
-							<div>OK: No hay conflictos</div>
+							<div>*OK*: No hay conflictos</div>
 							<div>N/A: No disponible</div>
 							<div>O.P: Otro partido</div>
 							<div>H: Habilidad</div>

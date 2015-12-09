@@ -96,6 +96,12 @@ public class DeleteAvailability extends ActionSupport implements SessionAware, S
 				refereeAvailability = (RefereeAvailability)service.GetUniqueModelData(RefereeAvailability.class, eqRestrictions);
 				if(refereeAvailability != null)
 					service.DeleteModelData(refereeAvailability);	
+				
+				if(user.getIdUser().equals(((User)session.get("user")).getIdUser())){
+					user.getRefereeAvailability().removeIf(ra 
+								-> ra.getRefereeAvailabilityId().equals(refereeAvailability.getRefereeAvailabilityId()));
+					session.put("user", user);
+				}
 			}
 			else
 				addActionError("Por favor, la fecha que quieres desactivar debe ser superior a la fecha de hoy");

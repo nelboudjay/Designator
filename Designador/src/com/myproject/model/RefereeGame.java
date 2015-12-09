@@ -1,12 +1,17 @@
 package com.myproject.model;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -20,13 +25,12 @@ public class RefereeGame implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
-	public static final boolean CONFIRMED = true;
-	public static final boolean UNCONFIRMED = false;
-
-	
+	public static final Boolean CONFIRMED = true;
+	public static final Boolean UNCONFIRMED = null;
+	public static final Boolean DECLINED = false;
 	
 	public RefereeGame(Game game, User user,
-			int refereeType, boolean confirmed) {
+			int refereeType, Boolean confirmed) {
 		super();
 		this.game = game;
 		this.user = user;
@@ -35,7 +39,7 @@ public class RefereeGame implements Serializable{
 	}
 
 	public RefereeGame(Game game, User user,
-			boolean confirmed) {
+			Boolean confirmed) {
 		super();
 		this.game = game;
 		this.user = user;
@@ -67,14 +71,33 @@ public class RefereeGame implements Serializable{
 
 	
 	@Type(type = "org.hibernate.type.NumericBooleanType")
-	@Column(name = "CONFIRMED", nullable = false)
-	private boolean confirmed;
+	@Column(name = "CONFIRMED")
+	private Boolean confirmed;
 
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "REFEREE_GAME_REQUEST", 
+				joinColumns = { @JoinColumn( name = "idREFEREE_GAME")},
+				inverseJoinColumns = { @JoinColumn(name = "idUSER") })
+	
+	private Set<User> users = new HashSet<User>();
 
+	
+	public RefereeGame(Set<User> users, Game game, User user, int refereeType, Boolean confirmed) {
+		
+		super();
+		this.game = game;
+		this.user = user;
+		this.refereeType = refereeType;
+		this.confirmed = confirmed;
+		this.users = users;
+
+	}
+	
+	
+	
 	public String getIdRefereeGame() {
 		return idRefereeGame;
 	}
-
 
 	public void setIdRefereeGame(String idRefereeGame) {
 		this.idRefereeGame = idRefereeGame;
@@ -106,14 +129,23 @@ public class RefereeGame implements Serializable{
 		this.refereeType = refereeType;
 	}
 
-	public boolean isConfirmed() {
+	public Boolean isConfirmed() {
 		return confirmed;
 	}
 
 
-	public void setConfirmed(boolean confirmed) {
+	public void setConfirmed(Boolean confirmed) {
 		this.confirmed = confirmed;
 	}
+
+	public Set<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(Set<User> users) {
+		this.users = users;
+	}
+	
 	
 }
 

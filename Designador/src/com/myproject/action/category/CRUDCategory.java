@@ -113,9 +113,6 @@ public class CRUDCategory  extends ActionSupport implements ServletContextAware{
 		else{
 			eqRestrictions.put("idCategory", new FieldCondition(idCategory));
 			category = (Category) service.GetUniqueModelData(Category.class, eqRestrictions);			
-			
-			//(System.out.println("hello " + idCategory);
-			//System.out.println("hi " + category);
 
 			if(category != null){
 				service.DeleteModelData(category);
