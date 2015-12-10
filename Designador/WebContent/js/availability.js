@@ -29,6 +29,7 @@ $(function() {
 				type : "POST",
 				url : "deleteAvailability",
 				data : {
+					refereeAvailabilityId : "",
 					idUser	: $(".user-menu").attr("id"),
 					dateStr : $(this).data("date")
 				},
@@ -49,6 +50,7 @@ $(function() {
 			type : "POST",
 			url : "deleteAvailability",
 			data : {
+				refereeAvailabilityId : availableDate.data("id"),
 				idUser	: $(".user-menu").attr("id"),
 				dateStr : availableDate.data("date")
 			},
@@ -112,7 +114,9 @@ $(function() {
 		var  dateStr = $(this).prevAll("[id^=datepicker]");
 		var  startTime = $(this).prevAll("#startTime").val();
 		var  endTime = $(this).prevAll("#endTime").val();
+		var  refereeAvailabilityId =  $(this).parent().parent().attr("data-id");
 		
+	
 		if(dateStr.val() == ""){
 			if($(this).nextAll(".error-field").length)
 				$(this).nextAll(".error-field").show();
@@ -128,6 +132,7 @@ $(function() {
 				type : "POST",
 				url : "addAvailability",
 				data : {
+					refereeAvailabilityId : refereeAvailabilityId,
 					idUser	: $(".user-menu").attr("id"),
 					dateStr : dateStr.val(),
 					startTime : startTime,
@@ -153,7 +158,6 @@ $(function() {
 		
 		
 		$(document).on("click", "[id^=datepicker]", function(){
-			console.log("hi");
 			$('#ui-datepicker-div').css("top",$(this).position().top);
 
 		})

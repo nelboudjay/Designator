@@ -33,6 +33,7 @@ public class DeleteAvailability extends ActionSupport implements SessionAware, S
 
     private String idUser;
 	private String dateStr;
+	private String refereeAvailabilityId;
 	
 	private User user;
 	private Map<String, FieldCondition> eqRestrictions ;
@@ -72,53 +73,101 @@ public class DeleteAvailability extends ActionSupport implements SessionAware, S
 		
 		RefereeAvailability refereeAvailability;
 
-		Date date;
-		Timestamp startDate; 
 
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-d");
-		sdf.setLenient(false);
-		
 		Calendar calendar = Calendar.getInstance();
 		calendar.set(Calendar.HOUR_OF_DAY, 0);
 		calendar.set(Calendar.MINUTE, 0);
 		calendar.set(Calendar.SECOND, 0);
 		calendar.set(Calendar.MILLISECOND, 0);
 		
-		try {
-			
-			date = sdf.parse(dateStr);
-			
-			if(calendar.getTime().compareTo(date) <= 0){
-				startDate =  new Timestamp(date.getTime());
-				eqRestrictions.clear();
-				eqRestrictions.put("user", new FieldCondition(user));
-				eqRestrictions.put("startDate", new FieldCondition(startDate));
-				refereeAvailability = (RefereeAvailability)service.GetUniqueModelData(RefereeAvailability.class, eqRestrictions);
-				if(refereeAvailability != null)
-					service.DeleteModelData(refereeAvailability);	
-				
-				if(user.getIdUser().equals(((User)session.get("user")).getIdUser())){
-					user.getRefereeAvailability().removeIf(ra 
-								-> ra.getRefereeAvailabilityId().equals(refereeAvailability.getRefereeAvailabilityId()));
-					session.put("user", user);
-				}
-			}
-			else
-				addActionError("Por favor, la fecha que quieres desactivar debe ser superior a la fecha de hoy");
-			
-			
-		} catch (ParseException e) {
-			
-			setAttributeVariables(calendar);
-			addActionError("Por favor, introduce la fecha exacta que quieres desactivar.");
-			return SUCCESS;	
+		eqRestrictions.clear();
 
-		} catch (NullPointerException e){
+		if(refereeAvailabilityId != null && !refereeAvailabilityId.equals("")){
 			
-			setAttributeVariables(calendar);
-			addActionError("Por favor, introduce la fecha exacta que quieres desactivar.");
-			return SUCCESS;
+			eqRestrictions.put("user", new FieldCondition(user));
+			eqRestrictions.put("refereeAvailabilityId", new FieldCondition(refereeAvailabilityId));
+			
+			refereeAvailability = (RefereeAvailability)service.GetUniqueModelData(RefereeAvailability.class, eqRestrictions);
+			
+			if(refereeAvailability != null){
+				
+				if(calendar.getTime().compareTo(refereeAvailability.getStartDate()) <= 0)
+					service.DeleteModelData(refereeAvailability);
+				else
+					addActionError("Por favor, la fecha que quieres desactivar debe ser inferior a la fecha de hoy");
+			}
 		}
+		else{
+			
+			Date date;
+
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-d");
+			sdf.setLenient(false);
+			
+		
+			try {
+				
+				date = sdf.parse(dateStr);
+				
+				if(calendar.getTime().compareTo(date) <= 0){
+					
+					
+					eqRestrictions.put("user", new FieldCondition(user));
+					
+					calendar.setTime(date);
+					calendar.set(Calendar.HOUR_OF_DAY, 0);
+					calendar.set(Calendar.MINUTE, 0);
+					calendar.set(Calendar.SECOND, 0);
+					calendar.set(Calendar.MILLISECOND, 0);
+					
+					Map<Integer,Object> btwDate = new HashMap<Integer, Object>();
+					btwDate.put(1, new Timestamp(calendar.getTime().getTime()));
+					calendar.set(Calendar.HOUR_OF_DAY, 23);
+					calendar.set(Calendar.MINUTE, 59);
+					btwDate.put(-1, new Timestamp(calendar.getTime().getTime()));
+					
+					eqRestrictions.put("startDate", new FieldCondition(btwDate));
+					
+					List<?> refereeAvailabilityList = service.GetModelDataList(RefereeAvailability.class, eqRestrictions, "startDate", true);
+					
+					
+					if(user.getIdUser().equals(((User)session.get("user")).getIdUser())){
+						
+						refereeAvailabilityList.forEach(ra -> { 
+							
+							user.getRefereeAvailability().removeIf(userRa 
+									-> userRa.getRefereeAvailabilityId().equals(((RefereeAvailability)ra).getRefereeAvailabilityId()));
+							
+							service.DeleteModelData(ra);
+							
+						});
+						
+						session.put("user", user);
+					}
+					else
+						refereeAvailabilityList.forEach(ra -> service.DeleteModelData(ra));
+					
+				}
+				else
+					addActionError("Por favor, la fecha que quieres desactivar debe ser inferior a la fecha de hoy");
+				
+				
+			} catch (ParseException e) {
+				
+				setAttributeVariables(calendar);
+				addActionError("Por favor, introduce la fecha exacta que quieres desactivar.");
+				return SUCCESS;	
+
+			} catch (NullPointerException e){
+				
+				setAttributeVariables(calendar);
+				addActionError("Por favor, introduce la fecha exacta que quieres desactivar.");
+				return SUCCESS;
+			}
+		}
+		
+		
+		
 		
 		setAttributeVariables(calendar);
 		return SUCCESS;
@@ -202,6 +251,18 @@ public class DeleteAvailability extends ActionSupport implements SessionAware, S
 	@Override
 	public void setServletContext(ServletContext context) {
 		this.context = context;
+	}
+
+
+
+	public String getRefereeAvailabilityId() {
+		return refereeAvailabilityId;
+	}
+
+
+
+	public void setRefereeAvailabilityId(String refereeAvailabilityId) {
+		this.refereeAvailabilityId = refereeAvailabilityId;
 	}
 	
 

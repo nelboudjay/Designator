@@ -117,30 +117,41 @@ public class AddAvailability extends ActionSupport implements SessionAware, Serv
 			if(calendar.getTime().compareTo(startDate) <= 0){
 				
 				eqRestrictions.clear();
+				
+				
+				RefereeAvailability refereeAvailability = null;
+
+				if(refereeAvailabilityId != null && !refereeAvailabilityId.equals("")){
+					
+					eqRestrictions.put("refereeAvailabilityId", new FieldCondition(refereeAvailabilityId));
+					
+					refereeAvailability = (RefereeAvailability)service.GetUniqueModelData(RefereeAvailability.class, eqRestrictions);
+
+				}
+				
+				eqRestrictions.clear();
 				eqRestrictions.put("user", new FieldCondition(user));
-				calendar.setTime(startTimestamp);
-				calendar.set(Calendar.HOUR_OF_DAY, 0);
-				calendar.set(Calendar.MINUTE, 0);
-				calendar.set(Calendar.SECOND, 0);
-				calendar.set(Calendar.MILLISECOND, 0);
-				
-				
-				Map<Integer,Object> btwDate = new HashMap<Integer, Object>();
-				btwDate.put(1, new Timestamp(calendar.getTime().getTime()));
-				calendar.set(Calendar.HOUR_OF_DAY, 23);
-				calendar.set(Calendar.MINUTE, 59);
-				btwDate.put(-1, new Timestamp(calendar.getTime().getTime()));
-				eqRestrictions.put("startDate", new FieldCondition(btwDate));
 				
 				List<?> refereeAvailabilityList = service.GetModelDataList(RefereeAvailability.class, eqRestrictions, "startDate", true);
 				
-				RefereeAvailability refereeAvailability = null;
 				if(refereeAvailabilityList == null){
 
-					refereeAvailability = new RefereeAvailability(user,startTimestamp,endTimestamp);
+					if(refereeAvailability != null){	
+						refereeAvailability.setStartDate(startTimestamp);
+						refereeAvailability.setEndDate(endTimestamp);
+					}
+					else					
+						refereeAvailability = new RefereeAvailability(user,startTimestamp,endTimestamp);
+					
 					service.SaveOrUpdateModelData(new RefereeAvailability(user,startTimestamp,endTimestamp));
 				}
 				else{
+					
+					if(refereeAvailability != null){	
+						RefereeAvailability refereeAvailabilityAux = refereeAvailability;
+						refereeAvailabilityList.removeIf(ra -> ((RefereeAvailability)ra).getRefereeAvailabilityId().equals(refereeAvailabilityAux.getRefereeAvailabilityId()));
+					}
+					
 					 for(Object ra :  refereeAvailabilityList){
 				
 						 if(((RefereeAvailability)ra).getStartDate().compareTo(endTimestamp) <= 0 &&
@@ -173,8 +184,14 @@ public class AddAvailability extends ActionSupport implements SessionAware, Serv
 					 if(refereeAvailabilityList.stream().filter(ra -> ((RefereeAvailability)ra).getStartDate().equals(sts) &&
 							 ((RefereeAvailability)ra).getEndDate().equals(ets)).count() == 0){
 
+						 if(refereeAvailability != null){	
+							 refereeAvailability.setStartDate(startTimestamp);
+							 refereeAvailability.setEndDate(endTimestamp);
+						 }
+						 else
 							refereeAvailability = new RefereeAvailability(user,startTimestamp,endTimestamp);
-							service.SaveOrUpdateModelData(new RefereeAvailability(user,startTimestamp,endTimestamp));
+						 
+						service.SaveOrUpdateModelData(refereeAvailability);
 					 }
 						 
 					 
