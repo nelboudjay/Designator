@@ -294,6 +294,7 @@
 			<result name="success" type="redirectAction">
 				<param name="actionName">availability</param>
 			    <param name="idUser">${idUser}</param>
+			    <param name="dateStr">${dateStr}</param>
 			</result>
 			<result name="not found" type="redirectAction">
 				<param name="actionName">users</param>
@@ -309,6 +310,7 @@
 			<result name="success" type="redirectAction">
 				<param name="actionName">availability</param>
 			    <param name="idUser">${idUser}</param>
+			    <param name="dateStr">${dateStr}</param>
 			</result>
 			<result name="not found" type="redirectAction">
 				<param name="actionName">users</param>

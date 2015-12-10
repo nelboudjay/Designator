@@ -35,16 +35,17 @@
 
 .available-referees td{
 	position: relative;
+	color: #5b5b5b;
+	
 }
 
 .available-referees a{
 	position: absolute;
-    color: #5b5b5b;
-    font-weight: bold;
     position: absolute;
     top: 25%;
     z-index: 1;
 }   
+
 
 .available-referees div{
 	position: absolute;

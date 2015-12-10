@@ -1,6 +1,6 @@
 $(function() {
 	
-	$(".month-calendar .link-2").click(function(){
+	$(document).on("click",".month-calendar .link-2", function(){
 		
 		var calendarCell = $(this);
 
@@ -11,23 +11,13 @@ $(function() {
 				url : "addAvailability",
 				data : {
 					idUser	: $(".user-menu").attr("id"),
-					dateStr : $(this).data("date")
+					dateStr : $(this).data("date"),
+					startTime : "",
+					endTime : ""
 				},
 				success : function(result) {
-					
-					if($("#availableDates .no-dates").length)
-						$("#availableDates .no-dates").hide();
-					
-					calendarCell.text("Desactivar");
-					calendarCell.prev().removeClass("cross");
-					calendarCell.prev().addClass("check");
-					calendarCell.attr("data-available",1);
-					$("#availableDates .no-dates").after("<div data-day='" + calendarCell.data("day") + "' data-date='" + calendarCell.data("date") + 
-							"'><img title='Eliminar esta fecha' class='garbage' src='../images/garbage-icon.png'>"
-							+ calendarCell.data("dayname") + " " + calendarCell.data("day")
-							 				+ " de " + calendarCell.data("month") + "</div>");
-					
-					sortAvailableDates();
+					$(".month-calendar").replaceWith($(result).filter("div.main-content").find(".month-calendar"));
+					$("#availableDates").replaceWith($(result).filter("div.main-content").find("#availableDates"));
 					
 				}
 			});
@@ -44,16 +34,8 @@ $(function() {
 				},
 				success : function(result) {
 
-					calendarCell.text("Activar");
-					calendarCell.prev().removeClass("check");
-					calendarCell.prev().addClass("cross")
-					calendarCell.attr("data-available",0);
-					$("#availableDates div[data-day='" + calendarCell.attr("data-day") + "']").remove();
-					
-					if($("#availableDates").children().length == 2)
-						$("#availableDates .no-dates").show();
-					else
-						sortAvailableDates();
+					$(".month-calendar").replaceWith($(result).filter("div.main-content").find(".month-calendar"));
+					$("#availableDates").replaceWith($(result).filter("div.main-content").find("#availableDates"));
 				}
 			});
 		}
@@ -72,25 +54,15 @@ $(function() {
 			},
 			success : function(result) {
 
-				availableDate.remove();
-				
-				var calendarCell = $(".month-calendar").find("[data-day='" + availableDate.data("day") + "']");
-				calendarCell.text("Activar");
-				calendarCell.attr("data-available",0);
-				calendarCell.prev().removeClass("check");
-				calendarCell.prev().addClass("cross");
-				
-				if($("#availableDates").children().length == 2)
-					$("#availableDates .no-dates").show();
+				$(".month-calendar").replaceWith($(result).filter("div.main-content").find(".month-calendar"));
+				$("#availableDates").replaceWith($(result).filter("div.main-content").find("#availableDates"));
 			}
 		});
-		
-		
 		
 	});
 	
 	
-	$(".show-available-referees").click(function(){
+	$(document).on("click",".show-available-referees",function(){
 		$(this).hide();
 		$(".show-all-referees").show();
 		
@@ -104,7 +76,7 @@ $(function() {
 		$(".available-referees > tbody  tr:visible").filter(":even").css("background","#e8e7e6 none repeat scroll 0 0");
 	});
 	
-	$(".show-all-referees").click(function(){
+	$(document).on("click",".show-all-referees",function(){
 		$(this).hide();
 		$(".show-available-referees").show();
 
@@ -117,30 +89,74 @@ $(function() {
 		$(".available-referees > tbody  tr").filter(":even").css("background","#e8e7e6 none repeat scroll 0 0");
 	});
 	
+	$(document).on("click",".editAvailability > .link, .add-availability > a",function(){
+		$(this).parent().next().css("display","inline-block");
+		$(this).parent().hide();
+	});
+	
+	$(document).on("click",".availability-form > .cancel",function(){
+		$(this).parent().prev().show();
+		$(this).parent().hide();
+		
+		$(this).prevAll("[id^=datepicker]").css({"border-color" : "", "border-style" : ""});
+		if($(this).nextAll(".error-field").length)
+			$(this).nextAll(".error-field").hide();
+		else
+			$(this).parent().nextAll(".error-field").hide();
+
+	});
+	
+	
+	$(document).on("click",".availability-form > .save",function(){
+		
+		var  dateStr = $(this).prevAll("[id^=datepicker]");
+		var  startTime = $(this).prevAll("#startTime").val();
+		var  endTime = $(this).prevAll("#endTime").val();
+		
+		if(dateStr.val() == ""){
+			if($(this).nextAll(".error-field").length)
+				$(this).nextAll(".error-field").show();
+			else
+				$(this).parent().nextAll(".error-field").show();
+
+			dateStr.css({"border-color" : "#b94a48", "border-style" : "solid"});	
+
+		}
+		else{
+			
+			$.ajax({
+				type : "POST",
+				url : "addAvailability",
+				data : {
+					idUser	: $(".user-menu").attr("id"),
+					dateStr : dateStr.val(),
+					startTime : startTime,
+					endTime : endTime
+				},
+				success : function(result) {
+					$(".month-calendar").replaceWith($(result).filter("div.main-content").find(".month-calendar"));
+					$("#availableDates").replaceWith($(result).filter("div.main-content").find("#availableDates"));
+					
+				}
+			});
+		}
+	
+	});
+	
+	
 	$(function () {
 		$.datepicker.setDefaults($.datepicker.regional["es"]);
 		
-		$("[id^=datepicker]").datepicker();
+		$(document).on("focus","[id^=datepicker]",function(){
+			$(this).datepicker();
+		});
 		
-		$("[id^=datepicker]").click(function(){
+		
+		$(document).on("click", "[id^=datepicker]", function(){
+			console.log("hi");
 			$('#ui-datepicker-div').css("top",$(this).position().top);
 
 		})
 	});
-	
-	function sortAvailableDates(){
-		
-		var availableDatesList = $("#availableDates").children('*[data-day]');
-		availableDatesList.sort(function(a,b){
-		
-			if( parseInt(a.dataset.day) < parseInt(b.dataset.day) )
-				return -1;
-			else
-				return 1;
-		}); 
-		
-		$("#availableDates").children('*[data-day]').remove();
-		$("#availableDates .no-dates").after(availableDatesList);
-	}
 	
 });

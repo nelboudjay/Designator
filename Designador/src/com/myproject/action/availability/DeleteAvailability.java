@@ -186,6 +186,10 @@ public class DeleteAvailability extends ActionSupport implements SessionAware, S
 		this.dateStr = dateStr;
 	}
 
+	public String getDateStr() {
+		return dateStr;
+	}
+
 	@Override
 	public void setSession(Map<String, Object> session) {
 		this.session = session;

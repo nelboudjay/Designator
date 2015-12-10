@@ -100,7 +100,7 @@ public class GetAvailability extends ActionSupport implements SessionAware, Serv
 
 			availableDates = service.GetModelDataList(RefereeAvailability.class, eqRestrictions, "startDate", true);
 			
-			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-d");
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-M-d");
 			availableStartDates = new LinkedList<String>();
 			availableDates.forEach(ad ->  availableStartDates.add(dateFormat.format(((RefereeAvailability)ad).getStartDate())));
 			

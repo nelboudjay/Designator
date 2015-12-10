@@ -32,7 +32,9 @@ public class AddAvailability extends ActionSupport implements SessionAware, Serv
     private ServletContext context;
 
     private String idUser;
-	private String dateStr;
+	private String dateStr, startTime, endTime;
+	
+	private String refereeAvailabilityId;
 	
 	private User user;
 	private Map<String, FieldCondition> eqRestrictions ;
@@ -70,12 +72,10 @@ public class AddAvailability extends ActionSupport implements SessionAware, Serv
 		}
 		
 		
-		RefereeAvailability refereeAvailability;
+		Date startDate, endDate;
+		Timestamp startTimestamp, endTimestamp; 
 
-		Date date;
-		Timestamp startDate, endTime; 
-
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-d");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-d HH:mm");
 		sdf.setLenient(false);
 		
 		Calendar calendar = Calendar.getInstance();
@@ -84,35 +84,116 @@ public class AddAvailability extends ActionSupport implements SessionAware, Serv
 		calendar.set(Calendar.SECOND, 0);
 		calendar.set(Calendar.MILLISECOND, 0);
 		
+		if(startTime == null || startTime.trim().equals(""))
+			startTime = "00:00";
+		
 		try {
+
+			startDate = sdf.parse(dateStr + " " + startTime);
+			startTimestamp =  new Timestamp(startDate.getTime());
+
+
+			if(endTime == null || endTime.trim().equals("")){
+				Calendar cal2 = Calendar.getInstance();
+				cal2.setTime(startDate);
+				cal2.set(Calendar.HOUR_OF_DAY, 23);
+				cal2.set(Calendar.MINUTE, 59);
+				cal2.set(Calendar.SECOND, 0);
+				cal2.set(Calendar.MILLISECOND, 0);
+				endDate = cal2.getTime();
+			}
+			else{
+				endDate = sdf.parse(dateStr + " " + endTime);
+
+				if(endDate.compareTo(startDate) < 0){
+					setAttributeVariables(calendar);
+					addActionError("La hora del fin de tu disponiblidad no puede ser menor que la hora del inicio.");
+					return SUCCESS;
+				}
+			}
 			
-			date = sdf.parse(dateStr);
+			endTimestamp = new Timestamp(endDate.getTime());
 			
-			if(calendar.getTime().compareTo(date) <= 0){
-				startDate =  new Timestamp(date.getTime());
+			if(calendar.getTime().compareTo(startDate) <= 0){
+				
 				eqRestrictions.clear();
 				eqRestrictions.put("user", new FieldCondition(user));
-				eqRestrictions.put("startDate", new FieldCondition(startDate));
-				refereeAvailability = (RefereeAvailability)service.GetUniqueModelData(RefereeAvailability.class, eqRestrictions);
-				if(refereeAvailability == null){
-					endTime = new Timestamp(date.getTime() + (1000 * 60 * 60 * 24));
-					refereeAvailability = new RefereeAvailability(user,startDate,endTime);
-					service.SaveOrUpdateModelData(refereeAvailability);	
-					
-					if(user.getIdUser().equals(((User)session.get("user")).getIdUser())){
-						user.getRefereeAvailability().add(refereeAvailability);
-						session.put("user", user);
-					}
+				calendar.setTime(startTimestamp);
+				calendar.set(Calendar.HOUR_OF_DAY, 0);
+				calendar.set(Calendar.MINUTE, 0);
+				calendar.set(Calendar.SECOND, 0);
+				calendar.set(Calendar.MILLISECOND, 0);
+				
+				
+				Map<Integer,Object> btwDate = new HashMap<Integer, Object>();
+				btwDate.put(1, new Timestamp(calendar.getTime().getTime()));
+				calendar.set(Calendar.HOUR_OF_DAY, 23);
+				calendar.set(Calendar.MINUTE, 59);
+				btwDate.put(-1, new Timestamp(calendar.getTime().getTime()));
+				eqRestrictions.put("startDate", new FieldCondition(btwDate));
+				
+				List<?> refereeAvailabilityList = service.GetModelDataList(RefereeAvailability.class, eqRestrictions, "startDate", true);
+				
+				RefereeAvailability refereeAvailability = null;
+				if(refereeAvailabilityList == null){
+
+					refereeAvailability = new RefereeAvailability(user,startTimestamp,endTimestamp);
+					service.SaveOrUpdateModelData(new RefereeAvailability(user,startTimestamp,endTimestamp));
+				}
+				else{
+					 for(Object ra :  refereeAvailabilityList){
+				
+						 if(((RefereeAvailability)ra).getStartDate().compareTo(endTimestamp) <= 0 &&
+								 ((RefereeAvailability)ra).getEndDate().compareTo(startTimestamp) >= 0 ){
+							 
+							if(((RefereeAvailability)ra).getStartDate().compareTo(startTimestamp) <= 0){
+								
+								startTimestamp = ((RefereeAvailability)ra).getStartDate();
+								
+								if(((RefereeAvailability)ra).getEndDate().compareTo(endTimestamp) < 0)
+									service.DeleteModelData(ra);	
+								else
+									endTimestamp = ((RefereeAvailability)ra).getEndDate();
+								
+							}		
+							else {
+								
+								if(((RefereeAvailability)ra).getEndDate().compareTo(endTimestamp) >= 0) {
+									endTimestamp = ((RefereeAvailability)ra).getEndDate();
+								}
+								
+								service.DeleteModelData(ra);	
+							} 
+						 }
+					 }
+					 
+					 Timestamp ets = endTimestamp;
+					 Timestamp sts = startTimestamp;
+
+					 if(refereeAvailabilityList.stream().filter(ra -> ((RefereeAvailability)ra).getStartDate().equals(sts) &&
+							 ((RefereeAvailability)ra).getEndDate().equals(ets)).count() == 0){
+
+							refereeAvailability = new RefereeAvailability(user,startTimestamp,endTimestamp);
+							service.SaveOrUpdateModelData(new RefereeAvailability(user,startTimestamp,endTimestamp));
+					 }
+						 
+					 
+				}
+				
+				
+				if(user.getIdUser().equals(((User)session.get("user")).getIdUser())
+						&& refereeAvailability != null){
+					user.getRefereeAvailability().add(refereeAvailability);
+					session.put("user", user);
 				}
 			}
 			else{
 				setAttributeVariables(calendar);
 				addActionError("Por favor, introduce una fecha superior a la fecha de hoy.");
-				return "no date";
+				return INPUT;
 			}
 			
 		} catch (ParseException e) {
-			
 			setAttributeVariables(calendar);
 			addActionError("Por favor, introduce la fecha exacta que quieres activar.");
 			return SUCCESS;	
@@ -190,6 +271,10 @@ public class AddAvailability extends ActionSupport implements SessionAware, Serv
 		this.dateStr = dateStr;
 	}
 
+	public String getDateStr() {
+		return dateStr;
+	}
+
 	@Override
 	public void setSession(Map<String, Object> session) {
 		this.session = session;
@@ -202,6 +287,42 @@ public class AddAvailability extends ActionSupport implements SessionAware, Serv
 	@Override
 	public void setServletContext(ServletContext context) {
 		this.context = context;
+	}
+
+
+
+	public String getEndTime() {
+		return endTime;
+	}
+
+
+
+	public void setEndTime(String endTime) {
+		this.endTime = endTime;
+	}
+
+
+
+	public String getStartTime() {
+		return startTime;
+	}
+
+
+
+	public void setStartTime(String startTime) {
+		this.startTime = startTime;
+	}
+
+
+
+	public String getRefereeAvailabilityId() {
+		return refereeAvailabilityId;
+	}
+
+
+
+	public void setRefereeAvailabilityId(String refereeAvailabilityId) {
+		this.refereeAvailabilityId = refereeAvailabilityId;
 	}
 	
 

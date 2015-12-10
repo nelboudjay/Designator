@@ -48,19 +48,28 @@ tr:nth-child(even) {
 }
 
 #availableDates {
-	display:inline-table; 
+	display:block; 
+}
+
+#availableDates > div{
+	margin-bottom:3px;
 }
 
 .availability-form{
-	display:inline;
+	display:none;
 }
 
 .availability-form input[type="text"]{
-	width:50px;
-	text-align:center;
+	width:56px;
+	color:#8c8b8b;
+	height:28px;
+	padding: 0 6px;
 }
 
  .availability-form input[id^="datepicker"]{
-	width:80px;
+	width:86px;
 }
 
+.add-availability {
+	margin-top:10px;
+}

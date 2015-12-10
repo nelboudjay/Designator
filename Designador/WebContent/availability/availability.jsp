@@ -115,7 +115,7 @@
 						<c:forEach var="column" items="${week}" varStatus="columnStatus">
 							<td>
 							<c:if test="${column != null}">
-								<s:set var="dataDate" >${selectedYear}-${column.month}-${column.day}</s:set>								
+								<s:set var="dataDate" >${selectedYear}-${column.month}-${column.day}</s:set>
 								<div class="${column.today == 0 ? 'bold' : ''}
 									<s:if test="%{#dataDate  in #attr.availableStartDates}">
 											check
@@ -167,7 +167,7 @@
 				<div class="no-dates" style="${availableDates.size() > 0 ? 'display:none' : ''}" >No tienes fechas disponibles este mes.</div>
 				
 				<s:iterator value="#attr.availableDates" status="status">
-					<div style="display:table-row;" data-day="<s:date name="startDate" format="d" />" data-date="<s:date name="startDate" format="yyyy-MM-d" />">
+					<div data-id="${refereeAvailabilityId}" data-day="<s:date name="startDate" format="d" />" data-date="<s:date name="startDate" format="yyyy-MM-d" />">
 						<img src="${pageContext.request.contextPath}/images/garbage-icon.png" class="garbage" title="Eliminar esta fecha">
 						<s:date name="startDate" format="EEEE" var="dayName"/>
 						<s:property value="@com.opensymphony.xwork2.inject.util.Strings@capitalize(#dayName)"/>
@@ -177,40 +177,48 @@
 						
 						<s:date name="startDate" format="HH:mm" var="startTime"/> 
 						<s:date name="endDate" format="HH:mm" var="endTime"/> 
-						
-						<a class="link editAvailability">
-							<s:if test='#startTime == "00:00" && #endTime == "00:00"'>
+						<span class="editAvailability">
+						<a class="link">
+							<s:if test='#startTime == "00:00" && #endTime == "23:59"'>
 								Todo el día</s:if><s:else>
-								Entre las ${startTime} y las ${endTime}</s:else></a>.
+								Entre las ${startTime} y las ${endTime}</s:else></a>.</span>
 								
 						
-						<div class="availability-form" style="display:table-cell;">
-							<input type="text" id="datepicker${status.index}" name="dateStr" value="<s:date name="startDate" format="yyyy-MM-dd" />">
+						<div class="availability-form" >
+							<input type="text" id="datepicker${status.index + 1}" name="dateStr" class="required-field"
+							value="<s:date name="startDate" format="yyyy-MM-dd" />" placeholder="yyyy-mm-dd" maxlength="10">
 							<label><b>De </b></label>
-							<input type="text" id="startTime" name="startTime" value="${startTime}">
+							<input type="text" id="startTime" name="startTime" value="${startTime}" 
+								placeholder="HH:mm" maxlength="5">
 							<label><b>A </b></label>
-							<input type="text" id="endTime" name="endTime" value="${endTime}">
+							<input type="text" id="endTime" name="endTime" 
+								value="${endTime}" placeholder="HH:mm" maxlength="5">
 							<input type="button" class="btn save" value="Guardar" >
 							<a class="link cancel">Cancelar</a>
 						</div>
+						<div class="error-field">La fecha no puede estar en blanco.</div>
+						
 					</div>
 				</s:iterator>	
-				
-			</div>
-							
-		<!--<div class="box" id="addDates">
-				<h3 class="title-2">Añadir Fechas (Una o más)</h3>
-				
-				<p>Añade tu disponibilidad para un rango de fechas, o añade un rango de tiempo para un día.</p>
-				
-				<div>
-					<label><b>Estoy disponible</b></label>
-					<select>
-						<option value="el">El</option>
-						<option value="cada">Cada</option>
-					</select>
+
+				<h4 class="add-availability new-record">
+					<a>
+						<img src="${pageContext.request.contextPath}/images/add-icon.png" class="small-icon">
+						Añadir más fechas
+					</a>
+				</h4>
+				<div class="availability-form" >
+					<input type="text" id="datepicker0" name="dateStr" value="" 
+						placeholder="yyyy-mm-dd" maxlength="10" class="required-field">
+					<label><b>De </b></label>
+					<input type="text" id="startTime" name="startTime" value="" placeholder="HH:mm" maxlength="5">
+					<label><b>A </b></label>
+					<input type="text" id="endTime" name="endTime" value="" placeholder="HH:mm" maxlength="5">
+					<input type="button" class="btn save" value="Guardar" >
+					<a class="link cancel">Cancelar</a>
+					<div class="error-field">La fecha no puede estar en blanco.</div>
 				</div>
-			</div>-->
+			</div>
 											
 		</div>
 		
