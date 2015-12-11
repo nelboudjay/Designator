@@ -114,8 +114,11 @@ public class CRUDTeam  extends ActionSupport implements ServletContextAware{
 			addFieldError("teamShortName","El nombre corto del equipo ya existe. Por favor, elige otro.");
 			return INPUT;
 		}
-			
+		
+
+
 		team = new Team(teamName, teamShortName, teamLocation);
+		
 		service.SaveOrUpdateModelData(team);
 		addActionMessage("Se ha sido añadido un nuevo equipo con exito.");
 		return SUCCESS;

@@ -45,10 +45,10 @@ public class Team implements Serializable{
 		this.teamLocation = teamLocation;
 	}*/
 	
-	public Team(String idTeam, String teamName, String teamLocation) {
+	public Team(String teamName, String teamShortName, String teamLocation) {
 		super();
-		this.idTeam = idTeam;
 		this.teamName = teamName;
+		this.teamShortName = teamShortName;
 		this.teamLocation = teamLocation;
 	}
 
@@ -61,10 +61,10 @@ public class Team implements Serializable{
 		this.teamLocation = teamLocation;
 	}
 
-	public Team(String teamName, String teamLocation) {
+	public Team(String teamName, String teamShortName) {
 		super();
 		this.teamName = teamName;
-		this.teamLocation = teamLocation;
+		this.teamShortName = teamShortName;
 
 	}
 	

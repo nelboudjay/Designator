@@ -17,8 +17,7 @@
 			<li class="userName">
 				<span>
 					<img class="profile-icon" src="getImage?idUser=${session.user.idUser}">
-					 ${session.user.userFullName}
-					(${session.user.userName}) <span class="arrow"></span> 
+					 ${session.user.userFullName} <span class="arrow"></span> 
 				</span>
 			</li>
 			<li id="profile" class="dropdown-menu"><a href="${pageContext.request.contextPath}/user/user?idUser=${session.user.idUser}"><img class="small-icon" src="${pageContext.request.contextPath}/images/profile-icon.png"><span>Perfil</span></a></li>

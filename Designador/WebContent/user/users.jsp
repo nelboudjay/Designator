@@ -54,7 +54,9 @@
 						<td><a class="link" href="user?idUser=${idUser}"><s:property value="userFullName"/></a></td>
 						<s:if test="#session.user.isAdmin()">
 							<td>
-							<div class="btn-group"><a class="btn btn-link" href="${pageContext.request.contextPath}/game/games?idUser=${idUser}">Partidos</a>
+							<div class="btn-group">
+							<s:if test="userRole > 1">
+								<a class="btn btn-link" href="${pageContext.request.contextPath}/game/games?idUser=${idUser}">Partidos</a>
 								<button class="btn">
 									<img class="small-icon" src="${pageContext.request.contextPath}/images/settings-dropdown-icon.png">
 									<img class="very-small-icon" src="${pageContext.request.contextPath}/images/arrowhead-icon.png">
@@ -63,11 +65,16 @@
 									<li><a href="${pageContext.request.contextPath}/user/user?idUser=${idUser}">Info</a></li>
 									<li><a href="${pageContext.request.contextPath}/availability/availability?idUser=${idUser}">Disponibilidad</a></li>
 								</ul>
+							</s:if>
+							<s:else>
+								<a class="btn btn-link" style="width:96px; border-radius:3px;" href="${pageContext.request.contextPath}/user/user?idUser=${idUser}">Info</a>
+							</s:else>
+								
 							</div>
 								
 							</td>
 						</s:if>
-						<td><s:property value="userProfile.homePhone"/></td>
+						<td> <s:property value="userProfile.homePhone"/></td>
 						<td><s:property value="userProfile.mobilePhone"/></td>
 						<td>
 							<s:if test="password == ''">

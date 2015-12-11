@@ -653,6 +653,8 @@ form > div {
 .footer{
 	margin: 20px;
     text-align: right;
+    bottom:0;
+    right:0;
 }
 
 .footer > h3{

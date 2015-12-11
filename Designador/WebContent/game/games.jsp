@@ -106,7 +106,8 @@
 				<form action="games" method="get" >
 					<div>
 						<label><b>Fecha: </b></label>
-						<input type="text" id="datepicker" name="dateStr" value="${dateStr != 'all' ? dateStr : ''}">
+						<input type="text" id="datepicker" name="dateStr" 
+							value="${dateStr == null || dateStr == 'all' || dateStr.length() < 9 ? '' : dateStr }">
 						<input type="hidden" name="is" value="${is}">
 						<s:if test="idUser != null">
 							<input type="hidden" name="idUser" value="${idUser}">

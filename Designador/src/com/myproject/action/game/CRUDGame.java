@@ -204,7 +204,7 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 				games = new LinkedList<Game>();
 	
 				setSelectedDate();
-		
+
 				if(date == null || date.equals(new Date(Long.MIN_VALUE))){
 					
 					calendar.set(Calendar.HOUR_OF_DAY, 0);
@@ -219,6 +219,7 @@ public class CRUDGame  extends ActionSupport implements SessionAware, ServletCon
 					allGames.stream().filter(game -> ((Game)game).getGameDate().after(date) 
 								&& ((Game)game).getGameDate().before(new Timestamp(date.getTime() + (1000 * 60 * 60 * 24)))).
 								forEach(game -> games.add((Game)game));
+				
 			}
 			
 			return SUCCESS;
