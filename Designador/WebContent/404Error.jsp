@@ -14,28 +14,21 @@
 </head>
 <body>
 	<jsp:include page="header.jsp" />
-	<div class="error-404">
-		<h1>Lo sentimos</h1>
 	
-		<h3>La página que has solicitado no existe.</h3>
+	<jsp:include page="leftMenu.jsp"/>
 	
-		<p>Puede ser que hayas usado un enlace antiguo o hayas introducido mal la dirección.</p>
+	<div class="main-content">
+		<div class="error-404">
+			<h1>Lo sentimos</h1>
 		
-		<div >
-			<h3 class="title-1">Enlaces principales</h3>
-			<ul class="main-links">
-				<li>
-					<s:if test="#session.user != null">
-						<a href="homePage">Inicio</a>
-					</s:if>
-					<s:else>
-						<a href="login">Iniciar sesión</a>
-					</s:else>
-				</li>
-				<li><a href="homePage">Perfil</a></li>
-				<li><a href="homePage">Mensajes</a></li>
-			</ul>
+			<h3>La página que has solicitado no existe.</h3>
+		
+			<p>Puede ser que hayas usado un enlace antiguo o hayas introducido mal la dirección.</p>
 		</div>
+				
 	</div>
+	
+	<jsp:include page="footer.jsp"/>
+	
 </body>
 </html>

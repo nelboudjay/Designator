@@ -53,9 +53,8 @@
 				value="Actualizar contraseña y Iniciar sesión"
 				name="method:changePassword">
 		</form>
+	</div>	
 	</div>
 	<jsp:include page="../footer.jsp"/>
-	
-	</div>
 </body>
 </html>

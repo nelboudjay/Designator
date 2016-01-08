@@ -161,10 +161,9 @@
 			</p>
 			
 			
-		</div>
-		<jsp:include page="../footer.jsp"/>
-		
+		</div>		
 	</div>
+	<jsp:include page="../footer.jsp"/>
 
 </body>
 </html>

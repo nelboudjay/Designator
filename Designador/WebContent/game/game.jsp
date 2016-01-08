@@ -298,10 +298,10 @@
 				<input id="${idGame}" type="submit" value="Guardar" class="btn save-2">
 				<span><a class="link-2 cancel-2">Cancelar</a></span>
 			</p>
-		</div>
-		<jsp:include page="../footer.jsp"/>
-		
+		</div>		
 	</div>
+	<jsp:include page="../footer.jsp"/>
+
 
 </body>
 </html>

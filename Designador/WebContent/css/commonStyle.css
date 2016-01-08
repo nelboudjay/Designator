@@ -1,5 +1,8 @@
 @include all-flags-sprites;
 
+body {
+	height:100%;
+}
 body, table, p {
 	font: 13px/20px Arial,Helvetica,sans-serif;
 	margin: 0;
@@ -81,7 +84,11 @@ h3, h4, h5 {
 }
 
 .main-content {
-	margin-left:227px;	
+	display:inline-block;
+	width:82%;
+	padding-bottom:50px;
+	min-height:calc(100% - 223px);
+	
 }
 
 .content-title {
@@ -389,13 +396,13 @@ ul {
     left: 0;
     position: fixed;
     top: 0;
-    width: 227px;
+    width: 18%;
     z-index: -1;
 }
 
 #leftMenu {
 	float:left;
-	width:227px;
+	width:18%;
 }
 
 
@@ -651,18 +658,12 @@ form > div {
 	color:#5b5b5b;
 }
 .footer{
-	margin: 20px;
+	background-color: #252528;
+	padding: 20px;
     text-align: right;
     bottom:0;
     right:0;
-}
-
-.footer > h3{
-	display:inline;
-}
-.footer > div{
-	color:#aeaeae;
-	margin: 5px 0;
+    margin-left:18%;
 }
 
 #datePicker {
@@ -686,4 +687,39 @@ form > div {
 .ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight{
 	border: 1px solid #c1461c !important;
 	background: #fbf9ee url("../images/ui-bg_glass_55_da9077_1x400.png") repeat-x scroll 50% 50% !important;
+}
+
+.site-map{
+	float:left;
+}
+
+.site-map > ul{
+	display:inline-table;
+	padding:0 20px;	
+}
+
+.site-map > ul > li:first-child{
+	color:#aeaeae;
+	font-weight:bold;
+	font-size:13px;
+}
+
+.site-map  li{
+	text-align:left;
+	font-size:12px;
+}
+
+.developer{
+	display:inline;
+}
+
+.developer > img {
+	vertical-align:bottom;
+}
+
+.developer > div{
+	color:#aeaeae;
+	margin: 5px 0;
+	font-size:12px;
+	padding-bottom:20px;
 }
