@@ -55,6 +55,8 @@
 		</form>
 	</div>	
 	</div>
-	<jsp:include page="../footer.jsp"/>
+	<s:if test="#session.user != null">
+		<jsp:include page="../footer.jsp"/>
+	</s:if>
 </body>
 </html>
