@@ -67,8 +67,10 @@
 									<s:set var="counter" value="0"/>
 									<s:set var="currentDate" >${column.year}-${column.month}-${column.day}</s:set>
 									<s:iterator value="#session.futureGames">
-										<s:set var="gameDate"><s:date name="gameDate" format="yyyy-MM-d" /></s:set>
-										<s:if test='#currentDate == #gameDate'>			
+								
+										<s:set var="gameDate"><s:date name="gameDate" format="yyyy-M-d" /></s:set>
+										<s:if test='#currentDate == #gameDate'>		
+												
 											<s:if test="#counter < 2">
 												<div>
 													<a class="link-${column.today == 0 ? '4' : '3' }" 

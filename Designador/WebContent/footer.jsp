@@ -51,7 +51,7 @@
 		</ul>
 	</div>
 	<div class="developer">
-		<img src="${pageContext.request.contextPath}/images/Logo.png" width="10%">  © <s:date name="%{new java.util.Date()}" format="yyyy"/> by Nabil El Boudjay
+		<img src="${pageContext.request.contextPath}/images/Logo.png" width="10%"> <span style="vertical-align:super;">  © <s:date name="%{new java.util.Date()}" format="yyyy"/> by Nabil El Boudjay </span>
 		<div> <s:date name="%{new java.util.Date()}" format="EEEE" var="todayDay"/>
 			<s:property value="@com.opensymphony.xwork2.inject.util.Strings@capitalize(#todayDay)"/>,
 			<s:date name="%{new java.util.Date()}" format="d"/> de 
