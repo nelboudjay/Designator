@@ -63,13 +63,13 @@
 				
 			</div>
 			
-			<s:if test="availableReferees.size() > 0">
+			<!-- <s:if test="availableReferees.size() > 0">
 			
 				<p>
 					<b class="link-2 dark show-available-referees"> Mostrar Sólo Los Árbitros Disponibles </b>
 					<b class="link-2 dark show-all-referees"> Mostrar Todos Los Árbitros Disponibles </b>
 				</p>
-			</s:if>
+			</s:if> -->
 			
 			<form action="allAvailability" method="get" >
 			

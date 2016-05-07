@@ -113,7 +113,6 @@
 				</ul>
 			</li>
 		
-		<s:if test="#session.user.userRole == 3">
 			<li class="dark-nav 
 				<s:if test="#context['struts.actionMapping'].name in {'availability','allAvailability'}">active dark-nav-active
 				</s:if>
@@ -126,27 +125,16 @@
 					<s:if test="#context['struts.actionMapping'].name in {'availability','allAvailability'}">block</s:if>
 					<s:else>none</s:else>
 				">
-					<li><a href="${pageContext.request.contextPath}/availability/allAvailability">Toda La Disponibilidad</a></li>
-					<li><a href="${pageContext.request.contextPath}/availability/availability?idUser=${session.user.idUser}">Mi Disponibilidad</a></li>
+					<s:if test="#session.user.isAdmin()">
+						<li><a href="${pageContext.request.contextPath}/availability/allAvailability">Toda La Disponibilidad</a></li>
+					</s:if>
+					<s:if test="#session.user.userRole > 1">
+					
+						<li><a href="${pageContext.request.contextPath}/availability/availability?idUser=${session.user.idUser}">Mi Disponibilidad</a></li>
+					</s:if>
 				</ul>
 			</li>
-		</s:if>
-		<s:elseif test="#session.user.userRole == 1">
-			<li class="${context['struts.actionMapping'].name == 'allAvailability' ? 'active' : '' }">
-				<span class="glow"></span>
-				<a href="${pageContext.request.contextPath}/availability/allAvailability"><img class="left-menu-icon"
-				src="${pageContext.request.contextPath}/images/calendar-icon.png">Disponibilidad
-				</a>
-			</li>
-		</s:elseif>
-		<s:else>
-			<li class="${context['struts.actionMapping'].name == 'availability' ? 'active' : '' }">
-				<span class="glow"></span>
-				<a href="${pageContext.request.contextPath}/availability/availability?idUser=${session.user.idUser}"><img class="left-menu-icon"
-				src="${pageContext.request.contextPath}/images/calendar-icon.png">Disponibilidad
-				</a>
-			</li>
-		</s:else>
+	
 			<li class="
 				<s:if test="#context['struts.actionMapping'].name in  {'users','user','editUser','addUser'}">
 						active
